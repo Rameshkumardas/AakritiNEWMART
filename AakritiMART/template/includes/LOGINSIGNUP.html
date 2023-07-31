@@ -1,0 +1,267 @@
+{% load static %}
+   <!-- signup-modal -->
+   <div class="modal fade rounded" id="signup-modal" tabindex="-1" aria-hidden="true">
+    <div class="modal-dialog ">
+       <div class="modal-content">
+          <div class="modal-header">
+               <h4 class="modal-title text-secondary font-weight-600">Create New Account</h4>
+               <button type="button" class="close" data-bs-dismiss="modal" aria-label="Close">
+                  <span aria-hidden="true">&times;</span>
+               </button>
+          </div>
+          <div class="modal-body p-3 p-sm-4">
+                <div class="row">
+                   <div class="form-group mb-20 col-6">
+                      <label class="text-secondary h6 mb-2" for="fname">First Name*</label>
+                      <input class="fname form-control shadow-none rounded-sm" type="text" placeholder="First Name" id="fname" required>
+                   </div>
+                   <div class="form-group mb-20 col-6">
+                      <label class="text-secondary h6 mb-2" for="lname">Last Name*</label>
+                      <input class="lname form-control shadow-none rounded-sm" type="text" placeholder="Last Name" id="lname" required>
+                   </div>
+                
+                   <div class="form-group mb-20 col-12">
+                      <label class="text-secondary h6 mb-2" for="pnumber">Phone Number*</label>
+                      <input class="contact form-control shadow-none rounded-sm" type="text" placeholder="Phone Number" id="pnumber" required>
+                   </div>
+                   <div class="form-group mb-20 col-12">
+                      <label class="text-secondary h6 mb-2" for="email2">Email Address*</label>
+                      <input class="email form-control shadow-none rounded-sm" type="email" placeholder="Enter Email Id" id="email2" required>
+                   </div>
+                   <div class="form-group mb-20 col-12">
+                      <label class="text-secondary h6 mb-2 d-block">Gender*</label>
+                      <div class="d-flex custom-radio-group rounded-sm">
+                         <div class="custom-control custom-radio">
+                            <input type="radio" id="customRadio1" name="customRadio" class="radioBtnClass custom-control-input" value="Male">
+                            <label class="custom-control-label" for="customRadio1">Male</label>
+                         </div>
+                         <div class="custom-control custom-radio">
+                            <input type="radio" id="customRadio2" name="customRadio" class="radioBtnClass custom-control-input" value="Female">
+                            <label class="custom-control-label" for="customRadio2">Female</label>
+                         </div>
+                      </div>
+                   </div>
+                   <div class="form-group mb-20 col-12">
+                      <label class="text-secondary h6 mb-2" for="email2">Qualifcation*</label>
+                      <input class="Qualifcation form-control shadow-none rounded-sm" type="text" placeholder="Enter Qualifcation" id="Qualifcation" required>
+                   </div>
+                   <div class="form-group mb-20 col-12">
+                      <label class="text-secondary h6 mb-2" for="email2">Country*</label>
+                      <input class="Country form-control shadow-none rounded-sm" type="text" placeholder="Enter Country" id="Country" required>
+                   </div>
+
+                   <style>
+                      h1{
+                         margin: 15px 0 25px;
+                         text-align: center;
+                         font-size: 30px;
+                      }
+                      input{
+                         color:#022255 !important;
+                      }
+                      input[type=email]:focus,
+                      input[type=password]:focus,
+                      input[type=text]:focus{
+                         box-shadow: 0 0 5px #7AD2F6;
+                         border: 1px solid #7AD2F6;
+                      }
+
+
+                      .control-label {
+                         text-align: left !important;
+                         padding-bottom: 4px;
+                      }
+                      .progress {
+                         height: 3px !important;
+                      }
+                      .form-group {
+                         margin-bottom: 10px;
+                      }
+                      .show-pass{
+                         position: absolute;
+                         top:5%;
+                         right: 8%;
+                      }
+                      .progress-bar-danger {
+                         background-color: #e90f10;
+                      }
+                      .progress-bar-warning{
+                         background-color: #ffad00;
+                      }
+                      .progress-bar-success{
+                         background-color: #02b502;
+                      }
+                      .login-btn{
+                         width: 180px !important;
+                         background-image: linear-gradient(to right, #f6086e , #ff133a) !important;
+                         font-size: 18px;
+                         color: #fff;
+                         margin: 0 auto 5px;
+                         padding: 8px 0; 
+                      }
+                      .login-btn:hover{
+                         background-image: linear-gradient(to right, rgba(255, 0, 111, 0.8) , rgba(247, 2, 43, 0.8)) !important;
+                         color: #fff !important;
+                      }
+                      .fa-eye{
+                         color: #022255;
+                         cursor: pointer;
+                      }
+                      .ex-account p a{
+                         color: #7AD2F6;
+                         text-decoration: underline;
+                      }
+                      .fa-circle{
+                         font-size: 6px;  
+                      }
+                      .fa-check{
+                         color: #02b502;
+                      }
+                   </style>
+
+
+                   <div class="form-group mb-20 col-12">
+                      <label class="text-secondary h6 mb-2" for="password">Password*</label>
+                      <input class="password form-control shadow-none rounded-sm" placeholder="Enter Password" type="password" id="password" required>
+                      <hr>                                 
+                      <div class="form-group">
+                         <div id="popover-password">
+                            <p><span id="result"></span></p>
+                            <div class="progress">
+                               <div id="password-strength" class="progress-bar" role="progressbar" aria-valuenow="40"  aria-valuemin="0" aria-valuemax="100" style="width:0%">
+                               </div>
+                            </div>
+                            <ul class="list-unstyled">
+                                  <li class="">
+                                     <span class="low-upper-case">
+                                        <i class="fas fa-circle" aria-hidden="true"></i>
+                                        &nbsp;Lowercase &amp; Uppercase
+                                     </span>
+                                  </li>
+                                  <li class="">
+                                     <span class="one-number">
+                                        <i class="fas fa-circle" aria-hidden="true"></i>
+                                        &nbsp;Number (0-9)
+                                     </span> 
+                                  </li>
+                                  <li class="">
+                                     <span class="one-special-char">
+                                        <i class="fas fa-circle" aria-hidden="true"></i>
+                                        &nbsp;Special Character (!@#$%^&*)
+                                     </span>
+                                  </li>
+                                  <li class="">
+                                     <span class="eight-character">
+                                        <i class="fas fa-circle" aria-hidden="true"></i>
+                                        &nbsp;Atleast 8 Character
+                                     </span>
+                                  </li>
+                            </ul>
+                         </div>
+                      </div>
+                   </div>
+                   <div class="form-group mb-20 col-12">
+                      <label class="text-secondary h6 mb-2" for="repassword">Retype Password*</label>
+                      <input class="confirmpassword form-control shadow-none rounded-sm" placeholder="Confirm Password" type="password" id="repassword" required>
+                   </div>
+                   <div class="form-group mb-20 col-12">
+                         <div class="checkbox">
+                         <label>  
+                            <input type="checkbox" name="" class="TermCondition" id="" value="agree" required> I'm Agree. <a href="" target="_blank">Terms & Condition </a> <br>
+                            <a href="javascript:void();" class="" data-bs-dismiss="modal" onclick="getRegistrationModel()" data-bs-toggle="modal" data-bs-target="#signin-modal" >Already Registered User Login to Continue.</a>
+                            <!-- <a href="javascript:void();" class="getPrice btn btn-lg btn-primary clearfix" SubscriptionPrice="{{subscription.srp}}" Subscription_Id="{{subscription.pk}}"  {% if request.user.is_user %} data-bs-target="#ReadTermCondition" {% else %}   {% endif %} >Subscribe Now</a> -->
+                         </label>
+                         </div>
+                   </div>
+                   <div class="form-group col-12">
+                      <button onclick="USERRegstrationRequest();" class="btn btn-primary w-100 rounded-sm" type="submit">Sign Up</button>
+                   </div>
+                </div>
+          </div>
+       </div>
+    </div>
+ </div>
+
+ <!-- signin-modal -->
+ <div class="modal fade rounded" id="signin-modal" tabindex="-1" aria-hidden="true">
+    <div class="modal-dialog modal-dialog-centered mx-auto" style="max-width:400px">
+       <div class="modal-content">
+          <div class="modal-header">
+                <h4 class="modal-title text-secondary font-weight-600">Welcome back</h4>
+                <button type="button" class="close" data-bs-dismiss="modal" aria-label="Close">
+                <span aria-hidden="true">&times;</span>
+                </button>
+          </div>
+          <div class="modal-body p-3 p-sm-4">
+             <ul class="nav nav-pills nav-justified tab-nav" id="myTab" role="tablist">
+                <li class="nav-item" role="presentation">
+                   <a class="nav-link active" id="guardian-tab" data-bs-toggle="tab" href="#user" role="tab" aria-controls="guardian" aria-selected="true">Login With Password</a>
+                </li>
+                <li class="nav-item" role="presentation">
+                   <a class="nav-link" id="tutor-tab" data-bs-toggle="tab" href="#LoginWithOTP" role="tab" aria-controls="tutor" aria-selected="false"> Login With OTP</a>
+                </li>
+             </ul>
+             <div class="tab-content" id="myTabContent">
+                <div class="tab-pane fade show active" id="user" role="tabpanel" aria-labelledby="guardian-tab">
+                         <div class="form-group mb-20 col-12">
+                            <label class="text-secondary h6 font-weight-600 mb-2" for="email">Email Address*</label>
+                            <input class="LoginEmail form-control shadow-none rounded-sm" type="email" id="email" placeholder="Enter Email Id" required>
+                         </div>
+                         <div class="form-group mb-20 col-12">
+                            <label class="text-secondary h6 font-weight-600 mb-2" for="passwordSignIn">Password*</label>
+                            <input class="LoginPssword form-control shadow-none rounded-sm" type="password" id="passwordSignIn" placeholder="Enter Password" required>
+                         </div>
+                         <section class="PasswordAreaBOX text-success" style="text-align: center;">                           
+                           <h4 class="text-success text-title">Congrats Login Success</h4>
+                        </section>
+                         <div class="form-group col-12">
+                            <button class="btn btn-primary w-100 rounded-sm" onclick="USERLOGINRequest();" type="submit">Sign In</button>
+                         </div>
+                      <hr>
+                      <!-- <div class="form-group col-12">
+                         <a class="btn btn-primary w-100 rounded-sm" href=""><img src="https://upload.wikimedia.org/wikipedia/commons/5/53/Google_%22G%22_Logo.svg" style="width:30px;">Login With Google</a>
+                      </div>
+                      <hr>
+                      <div class="form-group col-12">
+                         <a class="btn btn-primary w-100 rounded-sm" href=""><img src="https://upload.wikimedia.org/wikipedia/commons/8/82/Telegram_logo.svg" style="width:30px;">  Login With Telegram</a>
+                      </div> -->
+                      <!-- <div class="form-group col-12">
+                         <button class="btn btn-primary w-100 rounded-sm" data-bs-dismiss="modal" onclick="getRegistrationModel()">Create New Account</button>
+                      </div> -->
+                </div>
+                <div class="tab-pane fade" id="LoginWithOTP" role="tabpanel" aria-labelledby="tutor-tab">                           
+                         <section class="GetVerificationCodeBOX">                           
+                            <div class="form-group mb-20 col-12">
+                               <label class="text-secondary h6 font-weight-600 mb-2" for="email">Enter Email Id</label>
+                               <input class="getVCodeMail form-control shadow-none rounded-sm" type="text" id="email" placeholder="Get Verification Code On Email" required>
+                            </div>
+                            <span>No Need to SignUp.</span> 
+                            <span>Just Login With OTP. <br> Change & Add Password From Dashboard. </span>
+
+                            <br>
+                            <br>
+                            <div class="form-group col-12">
+                               <button class="GetVerificationCode btn btn-primary w-100 rounded-sm" type="submit" onclick="GetVerificationCode();">Get Verification Code</button>
+                            </div>
+                         </section>
+
+                    <section class="EnterVerificationCodeBOX" >                           
+                        <div class="form-group mb-20 col-12">
+                            <label class="text-secondary h6 font-weight-600 mb-2" for="email">Enter Onetime Verification Code</label>
+                            <input class="VerifyOneTimeVerificationCode form-control shadow-none rounded-sm" type="text" id="email" placeholder="Enter Onetime Verification Code" required>
+                        </div>
+                        <div class="form-group col-12">
+                            <button class="VerifiyCode btn btn-primary w-100 rounded-sm" type="submit" onclick="VerifyOneTimeVerificationCode();">Verifiy Code</button>
+                        </div>
+                    </section>
+
+                    <section class="PasswordAreaBOX text-success" style="text-align: center;">                           
+                       <h4 class="text-success text-title">Congrats Login Success</h4>
+                    </section>
+                </div>
+             </div>
+          </div>
+       </div>
+    </div>
+ </div>
+

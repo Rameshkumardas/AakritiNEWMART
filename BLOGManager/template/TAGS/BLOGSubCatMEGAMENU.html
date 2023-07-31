@@ -1,0 +1,8 @@
+{% load static %}
+
+<ul>
+    {% for row in BLOGSUBCATMenuList %}
+        <li><a href="{% url 'ALLSUBCATBLOGS' row.mainCat.slug row.slug %}">{{row.name | title }}</a></li>
+    {% endfor %}
+</ul>
+

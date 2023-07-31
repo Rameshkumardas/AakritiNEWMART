@@ -1,0 +1,284 @@
+
+
+
+
+
+
+
+
+
+
+
+
+{% load static %}
+{% load ForntedTAGS %}
+
+<!doctype html>
+<html lang="eng">
+   <head>
+      <meta charset="utf-8">
+      <meta htaakriticm-equiv="x-ua-compatible" content="ie=edge">
+      <title>Home | {{project.title | safe | title }} || AakritiMART</title>
+      <link rel="icon" type="image/png" href="{% if project.favicon %}{{project.favicon.url}}{% else %}{% static 'adminAAKRITICMS/img/default/mrdas.jpg' %}{% endif %}">
+      <meta name="viewport" content="width=device-width, initial-scale=1">
+      <meta name="keywords" content="{{project.meta_keywords | safe }}">
+      <meta name="description" content="{{project.meta_description | safe }}">
+      <meta property="og:locale" content="en_US">
+      <meta property="og:type" content="website">
+      <meta property="og:title" content="{{ project.meta_title | safe }}">
+      <meta property="og:description" content="{{project.meta_description | safe }}">
+      <meta property="og:url" content="{{project.baseURL}}">
+      <meta property="og:site_name" content="{{project.name}}">
+      <link rel="canonical" href="{{project.baseURL}}">
+      <!-- CSS here -->
+      <link rel="stylesheet" href="{% static 'aakritimart/css/bootstrap.css' %}">
+      <link rel="stylesheet" href="{% static 'aakritimart/css/animate.css' %}">
+      <link rel="stylesheet" href="{% static 'aakritimart/css/swiper-bundle.css' %}">
+      <link rel="stylesheet" href="{% static 'aakritimart/css/slick.css' %}">
+      <link rel="stylesheet" href="{% static 'aakritimart/css/magnific-popup.css' %}">
+      <link rel="stylesheet" href="{% static 'aakritimart/css/font-awesome-pro.css' %}">
+      <link rel="stylesheet" href="{% static 'aakritimart/css/flaticon_shofy.css' %}">
+      <link rel="stylesheet" href="{% static 'aakritimart/css/spacing.css' %}">
+      <link rel="stylesheet" href="{% static 'aakritimart/css/main.css' %}">
+      <!-- SweetAlert2 -->
+      <link rel="stylesheet" href="{% static 'adminAAKRITICMS/plugins/sweetalert2-theme-bootstrap-4/bootstrap-4.min.css' %}">
+      <link rel="stylesheet" href="{% static 'adminAAKRITICMS/plugins/toastr/toastr.min.css' %}">
+      {% include "template/includes/COMMONHEADERTags.html" %}
+
+    </head>
+<body>   
+   {% include "template/includes/MAINHeader.html" %}
+    {% if not request.user.is_user %}
+    {% include "template/includes/LOGINSIGNUP.html" %}
+    {% endif %}
+    <main>
+        <!-- section title area start -->
+        <section class="aakriticm-section-title-area pt-20 pb-20">
+        <div class="container">
+            <div class="row">
+                <div class="col-xl-8">
+                    <div class="aakriticm-section-title-wrapper-7">
+                    <span class="aakriticm-section-title-pre-7">Standard Blogs</span>
+                    </div>
+                </div>
+            </div>
+        </div>
+        </section>
+        <!-- section title area end -->
+
+
+        <!-- blog grid area start -->
+        <section class="aakriticm-blog-grid-area pb-120">
+            <div class="container">
+                <div class="row">
+                    <div class="col-xl-9 col-lg-8">
+                            <!-- blog list wrapper -->
+                            <div class="aakriticm-blog-list-item-wrapper">
+                            {% for blog in BLOGList %}
+                                <div class="aakriticm-blog-list-item d-md-flex d-lg-block d-xl-flex">
+                                <div class="aakriticm-blog-list-thumb">
+                                    <a href="{% url 'BLOGVIEW' blog.slug %}">
+                                        <img src="{% if blog.img %}{{blog.img.url}}{% endif %}" alt="">
+                                    </a>
+                                </div>
+                                <div class="aakriticm-blog-list-content">
+                                    <div class="aakriticm-blog-grid-content">
+                                        <div class="aakriticm-blog-grid-meta">
+                                            <span>
+                                            <span>
+                                                <svg width="16" height="17" viewBox="0 0 16 17" fill="none" xmlns="http://www.w3.org/2000/svg">
+                                                    <path d="M15 8.5C15 12.364 11.864 15.5 8 15.5C4.136 15.5 1 12.364 1 8.5C1 4.636 4.136 1.5 8 1.5C11.864 1.5 15 4.636 15 8.5Z" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"></path>
+                                                    <path d="M10.5972 10.7259L8.42715 9.43093C8.04915 9.20693 7.74115 8.66793 7.74115 8.22693V5.35693" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"></path>
+                                                </svg>
+                                            </span>
+                                            {{blog.last_update }}
+                                            </span>
+                                            <span>
+                                            <span>
+                                                <svg width="16" height="17" viewBox="0 0 16 17" fill="none" xmlns="http://www.w3.org/2000/svg">
+                                                    <path d="M12.5289 11.881L12.8019 14.093C12.8719 14.674 12.2489 15.08 11.7519 14.779L8.81888 13.036C8.49688 13.036 8.18189 13.015 7.87389 12.973C8.39189 12.364 8.69988 11.594 8.69988 10.761C8.69988 8.77299 6.97788 7.16302 4.84988 7.16302C4.03788 7.16302 3.28888 7.394 2.66588 7.8C2.64488 7.625 2.63788 7.44999 2.63788 7.26799C2.63788 4.08299 5.40288 1.5 8.81888 1.5C12.2349 1.5 14.9999 4.08299 14.9999 7.26799C14.9999 9.15799 14.0269 10.831 12.5289 11.881Z" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"></path>
+                                                    <path d="M8.7 10.7611C8.7 11.5941 8.39201 12.3641 7.87401 12.9731C7.18101 13.8131 6.082 14.3521 4.85 14.3521L3.023 15.437C2.715 15.626 2.323 15.3671 2.365 15.0101L2.54 13.6311C1.602 12.9801 1 11.9371 1 10.7611C1 9.52905 1.658 8.44407 2.666 7.80007C3.289 7.39407 4.038 7.16309 4.85 7.16309C6.978 7.16309 8.7 8.77305 8.7 10.7611Z" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"></path>
+                                                </svg>
+                                            </span>
+                                            Comments (0)
+                                            </span>
+                                        </div>
+                                        <h3 class="aakriticm-blog-grid-title">
+                                            {% if request.GET.q %}
+                                            <a href="{% url 'BLOGVIEW' blog.slug %}">{{blog.name | safe | title | highlight:request.GET.q }}</a>
+                                            {% else %}
+                                            <a href="{% url 'BLOGVIEW' blog.slug %}">{{blog.name | safe | title}}</a>
+                                            {% endif %}
+                                        </h3>
+                                        <p>{{blog.intro | safe | truncatechars:255}}</p>
+
+                                        <div class="aakriticm-blog-grid-btn">
+                                            <a href="{% url 'BLOGVIEW' blog.slug %}" class="aakriticm-link-btn-3">
+                                            Read More
+                                            <span>
+                                                <svg width="17" height="15" viewBox="0 0 17 15" fill="none" xmlns="http://www.w3.org/2000/svg">
+                                                    <path d="M16 7.5L1 7.5" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"></path>
+                                                    <path d="M9.9502 1.47541L16.0002 7.49941L9.9502 13.5244" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"></path>
+                                                </svg>
+                                            </span>
+                                            </a>
+                                        </div>
+                                    </div>
+                                </div>
+                                </div>
+                                {% endfor %}
+
+
+                            </div>
+
+                            <div class="row">
+                                <div class="col-xl-12">
+                                    <div class="aakriticm-blog-pagination mt-30">
+                                    <div class="aakriticm-pagination">
+
+
+                                        {% if BLOGList.has_other_pages %}
+                                        <nav>
+                                            <ul>
+                                                {% if BLOGList.has_previous %}
+
+                                                <li>
+                                                    <a href="?page={{ BLOGList.previous_page_number }}" class="aakriticm-pagination-prev prev page-numbers">
+                                                        <svg width="15" height="13" viewBox="0 0 15 13" fill="none" xmlns="http://www.w3.org/2000/svg">
+                                                            <path d="M1.00017 6.77879L14 6.77879" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"></path>
+                                                            <path d="M6.24316 11.9999L0.999899 6.77922L6.24316 1.55762" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"></path>
+                                                        </svg>
+                                                    </a>
+                                                </li>
+                                                {% else %}
+                                                <li class="page-item disabled">
+                                                    <span class="page-link" aria-hidden="true">&laquo;</span>
+                                                </li>
+                                                {% endif %}
+
+                                                {% for p in BLOGList.paginator.page_range %}
+                                                    {% if BLOGList.number == p %}
+                                                    <li> <a href="#" style="color: red;">{{ p }}</a> </li>
+
+                                                    {% elif p > BLOGList.number|add:'-5' and p < BLOGList.number|add:'5' %}
+                                                    <li> <a href="?page={{ p }}">{{ p }}</a> </li>        
+                                                    {% endif %}
+                                                {% endfor %}
+                                                                                      
+                                                {% if BLOGList.has_next %}
+                                                <li>
+                                                    <a href="?page={{ BLOGList.next_page_number }}" class="next page-numbers">
+                                                        <svg width="15" height="13" viewBox="0 0 15 13" fill="none" xmlns="http://www.w3.org/2000/svg">
+                                                            <path d="M13.9998 6.77883L1 6.77883" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"></path>
+                                                            <path d="M8.75684 1.55767L14.0001 6.7784L8.75684 12" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"></path>
+                                                        </svg>                                     
+                                                    </a>
+                                                </li>
+                                                {% else %}
+                                                    <li class="page-item disabled">
+                                                        <span class="page-link" aria-hidden="true">&raquo;</span>
+                                                    </li>
+                                                {% endif %}
+
+                                               
+                                            </ul>
+                                        </nav>
+                                        {% endif %}
+                                    </div>
+                                    </div>
+                                </div>
+                            </div>
+                    </div>
+                    <div class="col-xl-3 col-lg-4">
+                        <div class="aakriticm-sidebar-wrapper aakriticm-sidebar-ml--24">
+                        <div class="aakriticm-sidebar-widget mb-35">
+                            <div class="aakriticm-sidebar-search">
+                                <form action="" method="get">
+                                    <div class="aakriticm-sidebar-search-input">
+                                    <input type="text" placeholder="Blog Search..." name="q">
+                                    <button type="submit">
+                                        <svg width="18" height="18" viewBox="0 0 18 18" fill="none" xmlns="http://www.w3.org/2000/svg">
+                                            <path d="M8.11111 15.2222C12.0385 15.2222 15.2222 12.0385 15.2222 8.11111C15.2222 4.18375 12.0385 1 8.11111 1C4.18375 1 1 4.18375 1 8.11111C1 12.0385 4.18375 15.2222 8.11111 15.2222Z" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"></path>
+                                            <path d="M16.9995 17L13.1328 13.1333" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"></path>
+                                        </svg>
+                                    </button>
+                                    </div>
+                                </form>
+                            </div>
+                        </div>
+
+                        <!-- Popular post start -->
+                        <div class="aakriticm-sidebar-widget mb-35">
+                            <h3 class="aakriticm-sidebar-widget-title">Popular Posts</h3>
+                            <div class="aakriticm-sidebar-widget-content">
+                                <div class="aakriticm-sidebar-blog-item-wrapper">
+                                {% for blog in popularBLOGS %}
+                                    <div class="aakriticm-sidebar-blog-item d-flex align-items-center">
+                                        <div class="aakriticm-sidebar-blog-thumb">
+                                            <a href="{% url 'BLOGVIEW' blog.slug %}">
+                                                <img src="{{blog.img.url}}" alt="">
+                                            </a>
+                                        </div>
+                                        <div class="aakriticm-sidebar-blog-content">
+                                            <div class="aakriticm-sidebar-blog-meta">
+                                                <span>{{blog.last_update | timesince }}</span>
+                                            </div>
+                                            <h3 class="aakriticm-sidebar-blog-title">
+                                                <a href="{% url 'BLOGVIEW' blog.slug %}">{{blog.name | safe | title}}</a>
+                                            </h3>
+                                        </div>
+                                    </div>
+                                    {% endfor %}
+                                </div>
+                            </div>
+                        </div>
+                        <!-- latest post end -->
+
+                        <!-- categories start -->
+                        <div class="aakriticm-sidebar-widget widget_categories mb-35">
+                            <h3 class="aakriticm-sidebar-widget-title">Categories</h3>
+                            <div class="aakriticm-sidebar-widget-content">
+                                <ul>
+                                    {% for mainCat in BLOGmainCatList%}
+                                    <li><a href="{% url 'ALLMAINCATBLOGS' mainCat.slug %}">{{mainCat.name | safe }} <span>({{mainCat.mainCatBLOGCOUNT}})</span></a></li>
+                                    {% endfor %}
+                                </ul>
+                            </div>
+                        </div>
+                        <!-- categories end -->                 
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </section>
+        <!-- blog grid area end -->
+    </main>
+
+    
+ {% include '../includes/MAINFooter.html' %}
+ <!-- JS here -->
+ <script src="{% static 'aakritimart/js/vendor/jquery.js' %}"></script>
+ <script src="{% static 'aakritimart/js/vendor/waypoints.js' %}"></script>
+ <script src="{% static 'aakritimart/js/bootstrap-bundle.js' %}"></script>
+ <script src="{% static 'aakritimart/js/meanmenu.js' %}"></script>
+ <script src="{% static 'aakritimart/js/swiper-bundle.js' %}"></script>
+ <script src="{% static 'aakritimart/js/slick.js' %}"></script>
+ <script src="{% static 'aakritimart/js/range-slider.js' %}"></script>
+ <script src="{% static 'aakritimart/js/magnific-popup.js' %}"></script>
+ <script src="{% static 'aakritimart/js/nice-select.js' %}"></script>
+ <script src="{% static 'aakritimart/js/purecounter.js' %}"></script>
+ <script src="{% static 'aakritimart/js/countdown.js' %}"></script>
+ <script src="{% static 'aakritimart/js/wow.js' %}"></script>
+ <script src="{% static 'aakritimart/js/isotope-pkgd.js' %}"></script>
+ <script src="{% static 'aakritimart/js/imagesloaded-pkgd.js' %}"></script>
+ <script src="{% static 'aakritimart/js/ajax-form.js' %}"></script>
+ <script src="{% static 'aakritimart/js/main.js' %}"></script>
+ {% include "template/includes/JSCOMMON.html" %}
+ <!-- SweetAlert2 -->
+ <script src="{% static 'adminAAKRITICMS/plugins/sweetalert2/sweetalert2.min.js'%}"></script>
+ <!-- <script src="{% static 'adminAAKRITICMS/plugins/toastr/toastr.min.js'%}"></script> -->
+ <!-- Toastr -->
+ <script src="{% static 'adminAAKRITICMS/plugins/toastr/toastr.min.js'%}"></script>
+ {% include "template/includes/USERToster.html" %}
+</body>
+</html>

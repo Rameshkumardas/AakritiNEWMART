@@ -1,0 +1,15 @@
+{% load static %}
+{% load PAGETAG %}
+
+{% if PAGEMenuList %}
+<ul>
+    {% for page in PAGEMenuList %}
+        <li><a href="" style="font-size: 16px;"> {{page.name | safe | title }}</a></li>
+    {% endfor %}
+</ul>
+{% endif %}
+{% comment %}
+<!-- <i class="fa fa-angle-double-right" ></i> -->
+{% endcomment %}
+
+

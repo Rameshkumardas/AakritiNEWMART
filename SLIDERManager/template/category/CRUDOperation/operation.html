@@ -1,0 +1,178 @@
+
+{% load static %}
+
+<div class="modal fade" id="ACTIVATE">
+    <div class="modal-dialog modal-md">
+        <div class="modal-content">
+        <div class="modal-header">
+            <h4 class="modal-title text-center text-uppercase"><b> Attribute Activate Alert</b></h4>
+            <button type="button" class="close" data-dismiss="modal" aria-label="Close"><span aria-hidden="true">&times;</span></button>
+        </div>
+        <div class="modal-body ">
+            <div class="row justify-content-center">
+                <i class='fas fa-check-circle' style='font-size:68px;color:rgb(43, 146, 65)'></i>
+            </div>
+            <input type="text" style="display:none" class="targetVAL form-control" id="input-field" onkeyup="NameStringCount()">
+        </div>
+        <div class="modal-footer justify-content-center ">
+            <button type="button"  class="btn btn-outline-dark" data-dismiss="modal">Cancel</button>
+            <button type="button" id="activateREQUESTFORTHISBANNERCAT" onclick="activateREQUESTFORTHISBANNERCAT()" class="activateREQUESTFORTHISBANNERCAT btn btn-outline-success">Confirm </button>
+        </div>
+        </div>
+    </div>
+</div>
+
+<div class="modal fade" id="DEACTIVATE">
+    <div class="modal-dialog modal-md">
+        <div class="modal-content">
+        <div class="modal-header">
+            <h4 class="modal-title text-center text-uppercase"><b> Attribute Deactivate Alert</b></h4>
+            <button type="button" class="close" data-dismiss="modal" aria-label="Close"><span aria-hidden="true">&times;</span></button>
+        </div>
+        <div class="modal-body ">
+            <div class="row justify-content-center">
+                <i class='fas fa-exclamation-triangle text-danger' style='font-size:68px;'></i>
+            </div>
+            <input type="text" style="display:none"  class="targetVAL form-control" id="input-field" onkeyup="NameStringCount()">
+
+        </div>
+        <div class="modal-footer justify-content-center ">
+            <button type="button"  class="btn btn-outline-dark" data-dismiss="modal">Cancel</button>
+            <button type="button" id="deactivateREQUESTFORTHISBANNERCAT" onclick="deactivateREQUESTFORTHISBANNERCAT()" class="deactivateREQUESTFORTHISBANNERCAT btn btn-outline-danger">Confirm </button>
+        </div>
+        </div>
+    </div>
+</div>
+
+<div class="modal fade" id="DELETE">
+    <div class="modal-dialog modal-md">
+        <div class="modal-content">
+        <div class="modal-header justify-content-center">
+            <h4 class="modal-title text-center text-justify"><b>Attribute Permanently Delete Alert</b></h4>
+            <button type="button" class="close" data-dismiss="modal" aria-label="Close"><span aria-hidden="true">&times;</span></button>
+        </div>
+        <div class="modal-body ">
+            <div class="row justify-content-center">
+                <i class='fas fa-trash-alt' style='font-size:48px;color:red'></i>
+            </div>
+            <input type="text" style="display:none" class="targetVAL form-control" id="input-field" onkeyup="NameStringCount()">
+        </div>
+        <div class="modal-footer justify-content-center ">
+            <button type="button"  class="btn btn-outline-dark" data-dismiss="modal">Cancel</button>
+            <button type="button" id="deleteREQUESTFORTHISBANNERCAT" onclick="deleteREQUESTFORTHISBANNERCAT()" class="deleteREQUESTFORTHISBANNERCAT btn btn-outline-danger">Confirm </button>
+        </div>
+        </div>
+    </div>
+</div>
+
+<script>
+    function activateREQUESTFORTHISBANNERCAT(){
+        const targetPRODCUT = $(".targetVAL").val()
+        if (targetPRODCUT == ""){
+            Toast.fire({
+                icon: 'error',
+                title: '<p id="messages" style="margin-top:12px !important; margin-left:8px !important;"><b> Target Not Define </b></p>'
+                }) 
+        }else{
+            $.ajax({                      
+                type: "POST",                   
+                url: "{% url 'activatedBANNERCAT' %}",                    
+                data: {
+                csrfmiddlewaretoken: "{{ csrf_token }}",
+                'target': targetPRODCUT,
+                },
+                success: function(data) {   
+                    if (data.status == 1){
+                        $('#ACTIVATE').modal('hide');
+
+                        Toast.fire({
+                            icon: 'success',
+                            title: '<p id="messages" style="margin-top: 12px !important; margin-left:8px !important;"><b>'+ data.message +'</b></p>'
+                        }) 
+                    }
+                    else if (data.status == 0){
+                        Toast.fire({
+                        icon: 'error',
+                        title: '<p id="messages" style="margin-top: 12px !important; margin-left:8px !important;"><b>'+ data.message +'</b></p>'
+                        }) 
+                    }       
+                },
+            });
+        }
+     }
+</script>
+
+
+
+<script>
+    function deactivateREQUESTFORTHISBANNERCAT(){
+        const targetPRODCUT = $(".targetVAL").val()
+        if (targetPRODCUT == ""){
+            Toast.fire({
+                icon: 'error',
+                title: '<p id="messages" style="margin-top:12px !important; margin-left:8px !important;"><b> Target Not Define </b></p>'
+                }) 
+        }else{
+            $.ajax({                      
+                type: "POST",                   
+                url: "{% url 'deactivatedBANNERCAT' %}",                    
+                data: {
+                csrfmiddlewaretoken: "{{ csrf_token }}",
+                'target': targetPRODCUT,
+                },
+                success: function(data) {   
+                    if (data.status == 1){
+                        $('#DEACTIVATE').modal('hide');
+                        Toast.fire({
+                            icon: 'success',
+                            title: '<p id="messages" style="margin-top: 12px !important; margin-left:8px !important;"><b>'+ data.message +'</b></p>'
+                        }) 
+                    }
+                    else if (data.status == 0){
+                        Toast.fire({
+                        icon: 'error',
+                        title: '<p id="messages" style="margin-top: 12px !important; margin-left:8px !important;"><b>'+ data.message +'</b></p>'
+                        }) 
+                    }       
+                },
+            });
+        }
+    }
+</script>
+
+<script>
+    function deleteREQUESTFORTHISBANNERCAT(){
+        const targetPRODCUT = $(".targetVAL").val()
+        if (targetPRODCUT == ""){
+            Toast.fire({
+                icon: 'error',
+                title: '<p id="messages" style="margin-top:12px !important; margin-left:8px !important;"><b> Target Not Define </b></p>'
+                }) 
+        }else{
+            $.ajax({                      
+                type: "POST",                   
+                url: "{% url 'deleteBANNERCAT' %}",                    
+                data: {
+                csrfmiddlewaretoken: "{{ csrf_token }}",
+                'target': targetPRODCUT,
+                },
+                success: function(data) {   
+                    if (data.status == 1){
+                        $('#DELETE').modal('hide');
+                        Toast.fire({
+                            icon: 'success',
+                            title: '<p id="messages" style="margin-top: 12px !important; margin-left:8px !important;"><b>'+ data.message +'</b></p>'
+                        }) 
+                    }
+                    else if (data.status == 0){
+                        Toast.fire({
+                        icon: 'error',
+                        title: '<p id="messages" style="margin-top: 12px !important; margin-left:8px !important;"><b>'+ data.message +'</b></p>'
+                        }) 
+                    }       
+                },
+            });
+        }
+}
+</script>
+

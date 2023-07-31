@@ -1,0 +1,537 @@
+
+
+
+
+{% load static %}
+{% load homeBLOGTAG %}
+{% load social_share %}
+
+<!doctype html>
+<html lang="eng">
+   <head>
+      <meta charset="utf-8">
+      <meta htaakriticm-equiv="x-ua-compatible" content="ie=edge">
+      {% if blog.meta_title %}
+      <title>Home | {{blog.meta_title | safe  }}</title>
+      {% else %}
+      <title>Blog | {{blog.name | safe | title }} || AakritiMART</title>
+      {% endif %}
+      <link rel="icon" type="image/png" href="{% if project.favicon %}{{project.favicon.url}}{% else %}{% static 'adminAAKRITICMS/img/default/mrdas.jpg' %}{% endif %}">
+      <meta name="viewport" content="width=device-width, initial-scale=1">
+      <meta name="keywords" content="{{blog.meta_keywords | safe }}">
+      <meta name="description" content="{{blog.meta_description | safe }}">
+      <meta property="og:locale" content="en_US">
+      <meta property="og:type" content="website">
+      <meta property="og:title" content="{{ blog.meta_title | safe }}">
+      <meta property="og:description" content="{{blog.meta_description | safe }}">
+      <meta property="og:url" content="{{project.baseURL}}">
+      <meta property="og:site_name" content="{{blog.name}}">
+      <link rel="canonical" href="{{project.baseURL}}/blog/{{blog.slug}}/">
+
+      <!-- CSS here -->
+      <link rel="stylesheet" href="{% static 'aakritimart/css/bootstrap.css' %}">
+      <link rel="stylesheet" href="{% static 'aakritimart/css/animate.css' %}">
+      <link rel="stylesheet" href="{% static 'aakritimart/css/swiper-bundle.css' %}">
+      <link rel="stylesheet" href="{% static 'aakritimart/css/slick.css' %}">
+      <link rel="stylesheet" href="{% static 'aakritimart/css/magnific-popup.css' %}">
+      <link rel="stylesheet" href="{% static 'aakritimart/css/font-awesome-pro.css' %}">
+      <link rel="stylesheet" href="{% static 'aakritimart/css/flaticon_shofy.css' %}">
+      <link rel="stylesheet" href="{% static 'aakritimart/css/spacing.css' %}">
+      <link rel="stylesheet" href="{% static 'aakritimart/css/main.css' %}">
+      <!-- SweetAlert2 -->
+      <link rel="stylesheet" href="{% static 'adminAAKRITICMS/plugins/sweetalert2-theme-bootstrap-4/bootstrap-4.min.css' %}">
+      <link rel="stylesheet" href="{% static 'adminAAKRITICMS/plugins/toastr/toastr.min.css' %}">
+      {% include "template/includes/COMMONHEADERTags.html" %}
+   </head>
+<body>   
+   {% include "template/includes/MAINHeader.html" %}
+   {% include "template/includes/LOGINSIGNUP.html" %}
+   <main>
+
+
+<section class="aakriticm-postbox-details-area pb-120 pt-95">
+    <div class="container">
+       <div class="row">
+          <div class="col-xl-9">
+             <div class="aakriticm-postbox-details-top">
+          
+                <h3 class="aakriticm-postbox-details-title">{{blog.name | safe}}</h3>
+                <div class="aakriticm-postbox-details-meta mb-50">
+                   <span data-meta="author">
+                      <svg width="15" height="16" viewBox="0 0 15 16" fill="none" xmlns="http://www.w3.org/2000/svg">
+                         <path d="M7.4104 8C9.33922 8 10.9028 6.433 10.9028 4.5C10.9028 2.567 9.33922 1 7.4104 1C5.48159 1 3.91797 2.567 3.91797 4.5C3.91797 6.433 5.48159 8 7.4104 8Z" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"></path>
+                         <path d="M13.4102 15.0001C13.4102 12.2911 10.721 10.1001 7.41016 10.1001C4.09933 10.1001 1.41016 12.2911 1.41016 15.0001" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"></path>
+                      </svg>
+                      By <a href="#">{{blog.author.name }}</a>
+                   </span>
+                   <span>
+                      <svg width="16" height="17" viewBox="0 0 16 17" fill="none" xmlns="http://www.w3.org/2000/svg">
+                         <path d="M15 8.5C15 12.364 11.864 15.5 8 15.5C4.136 15.5 1 12.364 1 8.5C1 4.636 4.136 1.5 8 1.5C11.864 1.5 15 4.636 15 8.5Z" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"></path>
+                         <path d="M10.5972 10.7259L8.42721 9.43093C8.04921 9.20693 7.74121 8.66793 7.74121 8.22693V5.35693" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"></path>
+                      </svg>
+                      {{blog.date}}
+                   </span>
+                   <span>
+                      <svg width="16" height="17" viewBox="0 0 16 17" fill="none" xmlns="http://www.w3.org/2000/svg">
+                         <path d="M12.5287 11.881L12.8017 14.093C12.8717 14.674 12.2487 15.08 11.7517 14.779L8.8187 13.036C8.4967 13.036 8.1817 13.015 7.8737 12.973C8.3917 12.364 8.6997 11.594 8.6997 10.761C8.6997 8.77299 6.9777 7.16302 4.8497 7.16302C4.0377 7.16302 3.2887 7.394 2.6657 7.8C2.6447 7.625 2.6377 7.44999 2.6377 7.26799C2.6377 4.08299 5.4027 1.5 8.8187 1.5C12.2347 1.5 14.9997 4.08299 14.9997 7.26799C14.9997 9.15799 14.0267 10.831 12.5287 11.881Z" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"></path>
+                         <path d="M8.7 10.7611C8.7 11.5941 8.39201 12.3641 7.87401 12.9731C7.18101 13.8131 6.082 14.3521 4.85 14.3521L3.023 15.437C2.715 15.626 2.323 15.3671 2.365 15.0101L2.54 13.6311C1.602 12.9801 1 11.9371 1 10.7611C1 9.52905 1.658 8.44407 2.666 7.80007C3.289 7.39407 4.038 7.16309 4.85 7.16309C6.978 7.16309 8.7 8.77305 8.7 10.7611Z" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"></path>
+                      </svg>
+                      <a href="#">Comments ({{blog.comment}})</a>
+                   </span>
+                </div>
+             </div>
+          </div>
+          <div class="col-xl-12">
+             <div class="aakriticm-postbox-details-thumb">
+                <img style="width: 100% !important; height:350px; background-size:contain;background-repeat:no-repeat;" src="{{blog.img.url}}" alt="">
+             </div>
+          </div>
+       </div>
+       <div class="row">
+          <div class="col-xl-2 col-lg-2 col-md-2">
+             <div class="aakriticm-postbox-details-share-2">
+                <span>Share Now</span>
+                <ul>
+                  <li>{% post_to_facebook "{{product.description}}" "" %}</li>
+                  <li>{% post_to_twitter "Product: {{product.description}}. Check it out!" object_or_url "" %}</li>
+                  <li>{% post_to_telegram "Product: {{product.description}}. Check it out!" object_or_url "" %}</li>
+                  <li>{% save_to_pinterest "Product: {{product.description}}. Check it out!" object_or_url "" %}</li>
+                  <li>{% post_to_whatsapp "Product: {{product.description}}. Check it out!" object_or_url "" %}</li>
+                </ul>
+             </div>
+          </div>
+          <div class="col-xl-8 col-lg-8 col-md-10">
+             <div class="aakriticm-postbox-details-main-wrapper aakriticm-postbox-style2">
+                <div class="aakriticm-postbox-details-content">
+                   {{blog.description | safe }}
+              
+
+                   <div class="aakriticm-postbox-details-navigation d-none d-md-flex justify-content-between align-items-center">
+                      <div class="aakriticm-postbox-details-navigation-item d-flex align-items-center">
+                         <div class="aakriticm-postbox-details-navigation-icon mr-15">
+                            <span>
+                               <a href="{% url 'BLOGVIEW' blog.slug %}">
+                                  <svg width="17" height="14" viewBox="0 0 17 14" fill="none" xmlns="http://www.w3.org/2000/svg">
+                                     <path d="M0.999965 7.04891L15.939 7.04891" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"></path>
+                                     <path d="M7.02588 1.04883L1.00048 7.04833L7.02588 13.0488" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"></path>
+                                  </svg>
+                               </a>
+                            </span>
+                         </div>
+                         {% if prevBLOG %}
+                           {% for blog in prevBLOG %}
+                           <div class="aakriticm-postbox-details-navigation-content">
+                              <span>Previous Post</span>
+                              <h3 class="aakriticm-postbox-details-navigation-title">
+                                 <a href="{% url 'BLOGVIEW' blog.slug %}">{{blog.name | title}}</a>
+                              </h3>
+                           </div>
+                           {% endfor %}      
+                         {% endif %}                   
+                      </div>
+                      <div class="aakriticm-postbox-details-navigation-item d-flex align-items-center text-end">
+                        {% if nextBLOG %}
+                           {% for blog in nextBLOG %}
+                              <div class="aakriticm-postbox-details-navigation-content">
+                                 <span>Next Post</span>
+                                 <h3 class="aakriticm-postbox-details-navigation-title">
+                                    <a href="{% url 'BLOGVIEW' blog.slug %}">{{blog.name | title | safe }}</a>
+                                 </h3>
+                              </div>
+                           {% endfor %}
+                        {% endif %}
+                         <div class="aakriticm-postbox-details-navigation-icon ml-15">
+                            <span>
+                               <a href="{% url 'BLOGVIEW' blog.slug %}">
+                                  <svg width="17" height="14" viewBox="0 0 17 14" fill="none" xmlns="http://www.w3.org/2000/svg">
+                                     <path d="M15.939 7.00008L1 7.00008" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"></path>
+                                     <path d="M9.91211 1L15.9375 6.9995L9.91211 13" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"></path>
+                                  </svg>
+                               </a>
+                            </span>
+                         </div>
+                      </div>
+                   </div>
+
+                   <div class="aakriticm-postbox-details-author d-sm-flex align-items-start" data-bg-color="#F4F7F9" style="background-color: rgb(244, 247, 249);">
+                      <div class="aakriticm-postbox-details-author-thumb">
+                         <a href="#">
+                            <img src="{{blog.author.img.url}}" alt="">
+                         </a>
+                      </div>
+                      <div class="aakriticm-postbox-details-author-content">
+                         <span>Written by</span>
+                         <h5 class="aakriticm-postbox-details-author-title">
+                            <a href="#">{{blog.author.name}}</a>
+                         </h5>
+                         <p>{{blog.author.intro | safe}}</p>
+                         <div class="aakriticm-postbox-details-author-social">
+                            <a href="{{blog.author.facebook}}"><i class="fa-brands fa-facebook-f"></i></a>
+                            <a href="{{blog.author.twitter}}"><i class="fa-brands fa-twitter"></i></a>
+                            <a href="{{blog.author.linkedin}}"><i class="fa-brands fa-linkedin-in"></i></a>
+                            <a href="{{blog.author.youtube}}"><i class="fa-brands fa-youtube"></i></a>
+                            <a href="{{blog.author.instagram}}"><i class="fa-brands fa-instagram"></i></a> 
+                        </div>
+                      </div>
+                   </div>
+                </div>
+             </div>
+          </div>
+       </div>
+    </div>
+
+   
+    <div class="container">
+       <div class="row justify-content-center">
+          <div class="col-lg-8">
+             <div class="aakriticm-postbox-details-comment-wrapper">
+                <h3 class="aakriticm-postbox-details-comment-title">Comments ({{allCOMMENTS.count}})</h3>
+                <div class="aakriticm-postbox-details-comment-inner">
+                   <ul>
+                     {% for comment in allCOMMENTS %}
+                      <li>
+                         <div class="aakriticm-postbox-details-comment-box d-sm-flex align-items-start">
+                            <div class="aakriticm-postbox-details-comment-thumb">
+                               <img src="{{comment.user.img.url}}" alt="">
+                            </div>
+                            <div class="aakriticm-postbox-details-comment-content">
+                               <div class="aakriticm-postbox-details-comment-top d-flex justify-content-between align-items-start">
+                                  <div class="aakriticm-postbox-details-comment-avater">
+                                     <h4 class="aakriticm-postbox-details-comment-avater-title">{{comment.user.fname | title}}</h4>
+                                     <span class="aakriticm-postbox-details-avater-meta">{{comment.date}}</span>
+                                  </div>
+                                  <div class="aakriticm-postbox-details-comment-reply">
+                                    {% if request.user.pk == comment.user.pk  %}
+                                    <a href="javascript:void(0);" class="deleteCOMMENT" commentFOR="parents" commentVAL="{{comment.pk}}" onclick=""> Delete </a>
+                                    {% endif %}
+
+                                    {% if request.user.is_user %}
+                                     <a href="javascript:void(0);" class="targetCOMMENT" commentFOR="parents" commentVAL="{{comment.pk}}" data-bs-toggle="modal" data-bs-target="#ReplyComment">Reply</a>
+                                     {% else %}
+                                     <a href="javascript:void(0);" data-bs-toggle="modal" data-bs-target="#signin-modal">Reply</a>
+                                     {% endif %}
+                                  </div>
+                               </div>
+                               <p>{{comment.description | safe }}</p>
+                            </div>
+                         </div>
+                       
+                         <ul class="children">
+                           {% replyCOMMENTList comment.pk 10 %}
+                         </ul>
+                      </li>
+                      {% endfor %}
+                      
+                   </ul>
+                </div>
+             </div>
+
+            <form action="" method="POST">
+            {% csrf_token %} 
+             <div class="aakriticm-postbox-details-form">
+                <h3 class="aakriticm-postbox-details-form-title">Leave a Reply</h3>
+                <p>Your email address will not be published. Required fields are marked *</p>
+                <div class="aakriticm-postbox-details-form-wrapper">
+                   <div class="aakriticm-postbox-details-form-inner">
+                     {% if not request.user.is_user %} 
+                     <div class="row">
+                        <div class="col-lg-6">
+                           <div class="aakriticm-postbox-details-input-box">
+                              <div class="aakriticm-contact-input">
+                                 <input name="fname" id="name" type="text" placeholder="Enter Your First Name" required>
+                              </div>
+                              <div class="aakriticm-postbox-details-input-title">
+                                 <label for="name">Your First Name</label>
+                              </div>
+                           </div>
+                        </div>
+                        <div class="col-lg-6">
+                           <div class="aakriticm-postbox-details-input-box">
+                              <div class="aakriticm-contact-input">
+                                 <input name="lname" id="name" type="text" placeholder="Enter Your Last Name" required>
+                              </div>
+                              <div class="aakriticm-postbox-details-input-title">
+                                 <label for="name">Your Last Name</label>
+                              </div>
+                           </div>
+                        </div>
+                     </div>
+
+                    <br>
+                     <div class="aakriticm-postbox-details-input-box">
+                         <div class="aakriticm-contact-input">
+                            <input name="email" id="email" type="email" placeholder="{{project.mail}}" required>
+                         </div>
+                         <div class="aakriticm-postbox-details-input-title">
+                            <label for="email">Your Email</label>
+                         </div>
+                      </div>
+                     {% endif %}
+
+                      <div class="aakriticm-postbox-details-input-box">
+                         <div class="aakriticm-contact-input">
+                            <textarea id="msg" name="comment" placeholder="Write your message here..."></textarea>
+                         </div>
+                         <div class="aakriticm-postbox-details-input-title">
+                            <label for="msg">Your Message</label>
+                         </div>
+                      </div>
+                   </div>
+                   {% if not request.user.is_user %} 
+                   <div class="aakriticm-postbox-details-suggetions mb-20">
+                      <div class="aakriticm-postbox-details-remeber">
+                         <input id="remeber" type="checkbox" required>
+                         <label for="remeber">Save my name, email, and website in this browser for the next time I comment.</label>
+                      </div>
+                   </div>
+                   {% endif %}
+                   <div class="aakriticm-postbox-details-input-box">
+                      <button class="aakriticm-postbox-details-input-btn" type="submit">Post Comment</button>
+                   </div>
+               </div>
+             </div>
+             </form>
+          </div>
+       </div>
+    </div>
+
+
+
+    {% if allRELATEDBLOGS %}
+    <div class="aakriticm-postbox-related-area pt-90 mt-110" data-bg-color="#F4F7F9" style="background-color: rgb(244, 247, 249);">
+       <div class="container">
+          <div class="row">
+             <div class="col-xl-12">
+                <div class="aakriticm-postbox-related">
+                   <h3 class="aakriticm-postbox-related-title">Related Articles</h3>
+                   <div class="row">
+                     {% for blog in allRELATEDBLOGS %}
+                      <div class="col-lg-4 col-md-6">
+                         <div class="aakriticm-blog-grid-item aakriticm-blog-grid-style2 p-relative mb-30">
+                            <div class="aakriticm-blog-grid-thumb w-img fix mb-30">
+                               <a href="{% url 'BLOGVIEW' blog.slug %}">
+                                 {% if blog.img %} 
+                                 <img style="height: 300px;" src="{{blog.img.url}}" alt="{{blog.slug}}">
+                                 {% endif %}
+                               </a>
+                            </div>
+                            <div class="aakriticm-blog-grid-content">
+                               <div class="aakriticm-blog-grid-meta">
+                                  <span>
+                                     <span>
+                                        <svg width="16" height="17" viewBox="0 0 16 17" fill="none" xmlns="http://www.w3.org/2000/svg">
+                                           <path d="M15 8.5C15 12.364 11.864 15.5 8 15.5C4.136 15.5 1 12.364 1 8.5C1 4.636 4.136 1.5 8 1.5C11.864 1.5 15 4.636 15 8.5Z" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"></path>
+                                           <path d="M10.5972 10.7259L8.42715 9.43093C8.04915 9.20693 7.74115 8.66793 7.74115 8.22693V5.35693" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"></path>
+                                        </svg>
+                                     </span>
+                                     {{blog.date}}
+                                  </span>
+                                  <span>
+                                     <span>
+                                        <svg width="16" height="17" viewBox="0 0 16 17" fill="none" xmlns="http://www.w3.org/2000/svg">
+                                           <path d="M12.5289 11.881L12.8019 14.093C12.8719 14.674 12.2489 15.08 11.7519 14.779L8.81888 13.036C8.49688 13.036 8.18189 13.015 7.87389 12.973C8.39189 12.364 8.69988 11.594 8.69988 10.761C8.69988 8.77299 6.97788 7.16302 4.84988 7.16302C4.03788 7.16302 3.28888 7.394 2.66588 7.8C2.64488 7.625 2.63788 7.44999 2.63788 7.26799C2.63788 4.08299 5.40288 1.5 8.81888 1.5C12.2349 1.5 14.9999 4.08299 14.9999 7.26799C14.9999 9.15799 14.0269 10.831 12.5289 11.881Z" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"></path>
+                                           <path d="M8.7 10.7611C8.7 11.5941 8.39201 12.3641 7.87401 12.9731C7.18101 13.8131 6.082 14.3521 4.85 14.3521L3.023 15.437C2.715 15.626 2.323 15.3671 2.365 15.0101L2.54 13.6311C1.602 12.9801 1 11.9371 1 10.7611C1 9.52905 1.658 8.44407 2.666 7.80007C3.289 7.39407 4.038 7.16309 4.85 7.16309C6.978 7.16309 8.7 8.77305 8.7 10.7611Z" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"></path>
+                                        </svg>
+                                     </span>
+                                     Comments ( {{blog.comment}} )
+                                  </span>
+                               </div>
+                               <h3 class="aakriticm-blog-grid-title">
+                                  <a href="{% url 'BLOGVIEW' blog.slug %}">{{blog.name}}</a>
+                               </h3>
+                               <p>{{blog.intro | safe | truncatechars:150}}</p>
+
+                               <div class="aakriticm-blog-grid-btn">
+                                  <a href="{% url 'BLOGVIEW' blog.slug %}" class="aakriticm-link-btn-3">
+                                     Read More
+                                     <span>
+                                        <svg width="17" height="15" viewBox="0 0 17 15" fill="none" xmlns="http://www.w3.org/2000/svg">
+                                           <path d="M16 7.5L1 7.5" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"></path>
+                                           <path d="M9.9502 1.47541L16.0002 7.49941L9.9502 13.5244" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"></path>
+                                        </svg>
+                                     </span>
+                                  </a>
+                               </div>
+                            </div>
+                         </div>
+                      </div>
+                     {% endfor %}
+                   </div>
+                </div>
+             </div>
+          </div>
+       </div>
+    </div>
+    {% endif %}
+ </section>
+</main>
+
+
+
+<div class="modal fade rounded" id="ReplyComment" tabindex="-1" aria-hidden="true">
+   <div class="modal-dialog mx-auto" style="max-width:400px">
+      <div class="modal-content">
+         <div class="modal-header">
+               <h4 class="modal-title text-secondary font-weight-600">Write Reply Comment</h4>
+               <button type="button" class="close" data-bs-dismiss="modal" aria-label="Close">
+                  <span aria-hidden="true">&times;</span>
+               </button>
+         </div>
+         <div class="modal-body p-0">
+            <input type="text" class="targetVAL" style="display: none;">
+            <input type="text" class="comment_for" style="display: none;">
+
+            <textarea name="replyComment" class="replyComment form-control shadow-none rounded-sm" style="height: 200px;" id="" cols="30" rows="15" placeholder="Write Reply Comment.."></textarea>
+         </div>
+         <div class="model-footer p-3">
+               <button class="btn btn-primary w-100 rounded-sm" onclick="ReplyCommentRequest();" type="submit">Reply Comment</button>
+         </div>
+      </div>
+   </div>
+</div>
+
+
+{% include '../includes/MAINFooter.html' %}
+<!-- JS here -->
+<script src="{% static 'aakritimart/js/vendor/jquery.js' %}"></script>
+<script src="{% static 'aakritimart/js/vendor/waypoints.js' %}"></script>
+<script src="{% static 'aakritimart/js/bootstrap-bundle.js' %}"></script>
+<script src="{% static 'aakritimart/js/meanmenu.js' %}"></script>
+<script src="{% static 'aakritimart/js/swiper-bundle.js' %}"></script>
+<script src="{% static 'aakritimart/js/slick.js' %}"></script>
+<script src="{% static 'aakritimart/js/range-slider.js' %}"></script>
+<script src="{% static 'aakritimart/js/magnific-popup.js' %}"></script>
+<script src="{% static 'aakritimart/js/nice-select.js' %}"></script>
+<script src="{% static 'aakritimart/js/purecounter.js' %}"></script>
+<script src="{% static 'aakritimart/js/countdown.js' %}"></script>
+<script src="{% static 'aakritimart/js/wow.js' %}"></script>
+<script src="{% static 'aakritimart/js/isotope-pkgd.js' %}"></script>
+<script src="{% static 'aakritimart/js/imagesloaded-pkgd.js' %}"></script>
+<script src="{% static 'aakritimart/js/ajax-form.js' %}"></script>
+<script src="{% static 'aakritimart/js/main.js' %}"></script>
+{% include "template/includes/JSCOMMON.html" %}
+
+
+
+<script>
+   $(".targetCOMMENT").click(function() {
+      $('.targetVAL').val($(this).attr('commentVAL'))   
+      $('.comment_for').val($(this).attr('commentFOR'))   
+   });
+</script>
+
+<script>
+   $(".deleteCOMMENT").click(function() {
+      const targetVAL = $(this).attr('commentVAL');
+      const comment_for = $(this).attr('commentFOR');
+      if (targetVAL == ""){
+            Toast.fire({
+               icon: 'error',
+               title: '<p id="messages" style="margin-top:0px !important; margin-left:8px !important;"><b> Error Occured</b></p>'
+            })
+      }else if (comment_for == ""){
+            Toast.fire({
+               icon: 'error',
+               title: '<p id="messages" style="margin-top:0px !important; margin-left:8px !important;"><b> Error Occured </b></p>'
+            })
+      }
+      else{
+         const data = new FormData();
+         data.append('comment_for', comment_for );
+         data.append('targetVAL', targetVAL );
+
+         $.ajax({                      
+               type: "POST",                   
+               url: "{% url 'DELETECommentRequest' %}",                    
+               data: data,
+               cache: false,
+               processData: false,
+               contentType: false,
+               enctype: 'multipart/form-data',
+               headers: {'X-CSRFToken': "{{ csrf_token }}"},
+               success: function(data) {                         
+                  if (data.status == 1){
+                     Toast.fire({
+                           icon: 'success',
+                           title: '<p id="messages" style="margin-top: 0px !important; margin-left:8px !important;"><b>'+ data.message +'</b></p>'
+                     }) 
+                     setTimeout(function () {
+                           window.location.href =data.AFTERTask;
+                     }, 2000); 
+
+                  }else if (data.status == 0){
+                     Toast.fire({
+                     icon: 'error',
+                     title: '<p id="messages" style="margin-top: 0px !important; margin-left:8px !important;"><b>'+ data.message +'</b></p>'
+                     }) 
+                  }       
+               },
+         });
+      }
+   });
+</script>
+
+<script>
+   function ReplyCommentRequest(){
+           const targetVAL = $('.targetVAL').val();
+           const replyComment = $('.replyComment').val();
+           const comment_for = $('.comment_for').val();
+
+           if (targetVAL == ""){
+               Toast.fire({
+                   icon: 'error',
+                   title: '<p id="messages" style="margin-top:0px !important; margin-left:8px !important;"><b> Target Required* </b></p>'
+               })
+           }else if (replyComment == ""){
+               Toast.fire({
+                   icon: 'error',
+                   title: '<p id="messages" style="margin-top:0px !important; margin-left:8px !important;"><b> Reply Comment Required* </b></p>'
+               })
+           }
+           else{
+               const data = new FormData();
+               data.append('comment_for', comment_for );
+               data.append('targetVAL', targetVAL );
+               data.append('replyComment', replyComment );
+               $.ajax({                      
+                   type: "POST",                   
+                   url: "{% url 'ReplyCommentRequest' %}",                    
+                   data: data,
+                   cache: false,
+                   processData: false,
+                   contentType: false,
+                   enctype: 'multipart/form-data',
+                   headers: {'X-CSRFToken': "{{ csrf_token }}"},
+                   success: function(data) {                         
+                       if (data.status == 1){
+                           $('#ReplyComment').modal('hide');
+                           $('#ReplyComment').hide();
+                           Toast.fire({
+                               icon: 'success',
+                               title: '<p id="messages" style="margin-top: 0px !important; margin-left:8px !important;"><b>'+ data.message +'</b></p>'
+                           }) 
+                           setTimeout(function () {
+                               window.location.href =data.AFTERTask;
+                           }, 2000); 
+
+                       }else if (data.status == 0){
+                           Toast.fire({
+                           icon: 'error',
+                           title: '<p id="messages" style="margin-top: 0px !important; margin-left:8px !important;"><b>'+ data.message +'</b></p>'
+                           }) 
+                       }       
+                   },
+               });
+           }
+       }
+</script>
+
+
+<!-- SweetAlert2 -->
+<script src="{% static 'adminAAKRITICMS/plugins/sweetalert2/sweetalert2.min.js'%}"></script>
+<!-- <script src="{% static 'adminAAKRITICMS/plugins/toastr/toastr.min.js'%}"></script> -->
+<!-- Toastr -->
+<script src="{% static 'adminAAKRITICMS/plugins/toastr/toastr.min.js'%}"></script>
+{% include "template/includes/USERToster.html" %}
+</body>
+</html>

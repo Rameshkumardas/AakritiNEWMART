@@ -1,0 +1,343 @@
+
+{% load static %}
+{% load SHIPPINGTags %}
+
+<div class="modal fade" id="ACTIVATE">
+    <div class="modal-dialog modal-md">
+        <div class="modal-content">
+        <div class="modal-header">
+            <h4 class="modal-title text-center text-uppercase"><b> SHIPPING Activate Alert</b></h4>
+            <button type="button" class="close" data-dismiss="modal" aria-label="Close"><span aria-hidden="true">&times;</span></button>
+        </div>
+        <div class="modal-body ">
+            <div class="row justify-content-center">
+                <i class='fas fa-check-circle' style='font-size:68px;color:rgb(43, 146, 65)'></i>
+            </div>
+            <input type="text" style="display:none" class="targetVAL form-control" id="input-field" onkeyup="NameStringCount()">
+
+        </div>
+        <div class="modal-footer justify-content-center ">
+            <button type="button"  class="btn btn-outline-dark" data-dismiss="modal">Cancel</button>
+            <button type="button" id="activateREQUESTFORTHISSHIPPING" onclick="activateREQUESTFORTHISSHIPPING()" class="activateREQUESTFORTHISSHIPPING btn btn-outline-success">Confirm </button>
+        </div>
+        </div>
+    </div>
+</div>
+
+<div class="modal fade" id="DEACTIVATE">
+    <div class="modal-dialog modal-md">
+        <div class="modal-content">
+        <div class="modal-header">
+            <h4 class="modal-title text-center text-uppercase"><b> SHIPPING Deactivate Alert</b></h4>
+            <button type="button" class="close" data-dismiss="modal" aria-label="Close"><span aria-hidden="true">&times;</span></button>
+        </div>
+        <div class="modal-body ">
+            <div class="row justify-content-center">
+                <i class='fas fa-exclamation-triangle text-danger' style='font-size:68px;'></i>
+            </div>
+            <input type="text" style="display:none"  class="targetVAL form-control" id="input-field" onkeyup="NameStringCount()">
+
+        </div>
+        <div class="modal-footer justify-content-center ">
+            <button type="button"  class="btn btn-outline-dark" data-dismiss="modal">Cancel</button>
+            <button type="button" id="deactivateREQUESTFORTHISSHIPPING" onclick="deactivateREQUESTFORTHISSHIPPING()" class="deactivateREQUESTFORTHISSHIPPING btn btn-outline-danger">Confirm </button>
+        </div>
+        </div>
+    </div>
+</div>
+
+<div class="modal fade" id="DELETE">
+    <div class="modal-dialog modal-md">
+        <div class="modal-content">
+        <div class="modal-header justify-content-center">
+            <h4 class="modal-title text-center text-justify"><b>SHIPPING Permanently Delete Alert</b></h4>
+            <button type="button" class="close" data-dismiss="modal" aria-label="Close"><span aria-hidden="true">&times;</span></button>
+        </div>
+        <div class="modal-body ">
+            <div class="row justify-content-center">
+                <i class='fas fa-trash-alt' style='font-size:48px;color:red'></i>
+            </div>
+            <input type="text" style="display:none" class="targetVAL form-control" id="input-field" onkeyup="NameStringCount()">
+        </div>
+        <div class="modal-footer justify-content-center ">
+            <button type="button"  class="btn btn-outline-dark" data-dismiss="modal">Cancel</button>
+            <button type="button" id="deleteREQUESTFORTHISSHIPPING" onclick="deleteREQUESTFORTHISSHIPPING()" class="deleteREQUESTFORTHISSHIPPING btn btn-outline-danger">Confirm </button>
+        </div>
+        </div>
+    </div>
+</div>
+
+
+<div class="modal fade" id="UPDATE">
+    <div class="modal-dialog modal-md">
+        <div class="modal-content">
+        <div class="modal-header bg-dark">
+            <h4 class="modal-title"><b>Update Shipping Management</b></h4>
+            <button type="button" class="close" data-dismiss="modal" aria-label="Close"><span aria-hidden="true">&times;</span></button>
+        </div>
+        <div class="modal-body">
+            <div class="form-group">
+                <label> Shipping Type</label>
+                <select class="type form-control select2" style="width: 100%;" name="type" id="discountType" required>
+                    <option value="Dimensions">Dimensions</option>
+                    <option value="Weight">Weight</option>
+                </select>
+            </div>
+            <div class="input-group remove-skills mt-2" style="cursor:pointer;">
+                <div class="input-group-prepend remove_skill" >
+                    <span class="input-group-text"> 
+                        <i class="fas fa-shipping-fast nav-icon" style='font-size:22px;'></i> 
+                    </span>
+                </div>
+                <input type="text" class="kg_min_range form-control" id="input-field" placeholder="Min Kg" name="kg_min_range">
+                <input type="text" class="kg_max_range form-control" id="input-field" placeholder="Max Kg" name="kg_max_range">
+                <div class="input-group-prepend">
+                    <span class="input-group-text"> 
+                        <a href="JavaScript:void(0);" class="AddPrice">
+                            <i class="fas fa-plus"></i>
+                        </a>
+                    </span>
+                </div>
+                <input type="text" style="display:none" class="targetVAL form-control" id="input-field" onkeyup="NameStringCount()">
+
+            </div>
+            <div class="form-group">
+                <label for="main-category">Local Shipping Charge* </label>
+                <div class="input-group">
+                  <div class="input-group-prepend">
+                    <span class="input-group-text"><i class="fas fa-rupee-sign "></i> </span>                                  
+                  </div>
+                    <input type="text" value="" class="local form-control" id="input-field" onkeyup="NameStringCount()" placeholder="Local Shipping Charge" name="name">
+                </div>
+            </div>
+            <div class="form-group">
+                <label for="main-category">Regional Shipping Charge* </label>
+                <div class="input-group">
+                  <div class="input-group-prepend">
+                    <span class="input-group-text"><i class="fas fa-rupee-sign "></i> </span>
+                  </div>
+                    <input type="text" value="" class="regional form-control" id="input-field" onkeyup="NameStringCount()" placeholder="Regional Shipping Charge" name="name" >
+                </div>
+            </div>
+            <div class="form-group">
+                <label for="main-category">National Shipping Charge* </label>
+                <div class="input-group">
+                  <div class="input-group-prepend">
+                    <span class="input-group-text"><i class="fas fa-rupee-sign "></i> </span>
+                  </div>
+                    <input type="text" value="" class="national form-control" id="input-field" onkeyup="NameStringCount()" placeholder="National Shipping Charge" name="name" >
+                </div>
+            </div>
+            <div class="form-group">
+                <label for="main-category">Special Shipping Charge* </label>
+                <div class="input-group">
+                  <div class="input-group-prepend">
+                    <span class="input-group-text"><i class="fas fa-rupee-sign "></i> </span>
+                  </div>
+                    <input type="text" value="" class="special form-control" id="input-field" onkeyup="NameStringCount()" placeholder="Special Shipping Charge" name="name">
+                </div>
+            </div>
+        </div>
+        <div class="card-footer bg-primary">
+            <div class="container">
+              <div class="row">
+                <div class="col text-center">
+                  <button type="submit" onclick="updateREQUESTFORTHISSHIPPING()" class=" btn btn-light" data-toggle="tooltip" data-placement="top" title="Create Shipping Charge">Update Shipping</button>
+                </div>
+              </div>
+            </div>
+          </div>
+        </div>
+    </div>
+</div>
+
+
+
+
+
+
+<script>
+    function activateREQUESTFORTHISSHIPPING(){
+        const targetPRODCUT = $(".targetVAL").val()
+        if (targetPRODCUT == ""){
+            Toast.fire({
+                icon: 'error',
+                title: '<p id="messages" style="margin-top:12px !important; margin-left:8px !important;"><b> Target Not Define </b></p>'
+                }) 
+        }else{
+            $.ajax({                      
+                type: "POST",                   
+                url: "{% url 'activatedSHIPPING' %}",                    
+                data: {
+                csrfmiddlewaretoken: "{{ csrf_token }}",
+                'target': targetPRODCUT,
+                },
+                success: function(data) {   
+                    if (data.status == 1){
+                        $('#ACTIVATE').modal('hide');
+
+                        Toast.fire({
+                            icon: 'success',
+                            title: '<p id="messages" style="margin-top: 12px !important; margin-left:8px !important;"><b>'+ data.message +'</b></p>'
+                        }) 
+
+                        setTimeout(function () {
+                            window.location.href =data.AFTERTask;
+                        }, 3000); 
+
+                    }
+                    else if (data.status == 0){
+                        Toast.fire({
+                        icon: 'error',
+                        title: '<p id="messages" style="margin-top: 12px !important; margin-left:8px !important;"><b>'+ data.message +'</b></p>'
+                        }) 
+                    }       
+                },
+            });
+        }
+     }
+</script>
+
+
+
+
+
+<script>
+    function deactivateREQUESTFORTHISSHIPPING(){
+        const targetPRODCUT = $(".targetVAL").val()
+        if (targetPRODCUT == ""){
+            Toast.fire({
+                icon: 'error',
+                title: '<p id="messages" style="margin-top:12px !important; margin-left:8px !important;"><b> Target Not Define </b></p>'
+                }) 
+        }else{
+            $.ajax({                      
+                type: "POST",                   
+                url: "{% url 'deactivatedSHIPPING' %}",                    
+                data: {
+                csrfmiddlewaretoken: "{{ csrf_token }}",
+                'target': targetPRODCUT,
+                },
+                success: function(data) {   
+                    if (data.status == 1){
+                        $('#DEACTIVATE').modal('hide');
+                        Toast.fire({
+                            icon: 'success',
+                            title: '<p id="messages" style="margin-top: 12px !important; margin-left:8px !important;"><b>'+ data.message +'</b></p>'
+                        }) 
+                        setTimeout(function () {
+                            window.location.href =data.AFTERTask;
+                        }, 3000); 
+
+                    }
+                    else if (data.status == 0){
+                        Toast.fire({
+                        icon: 'error',
+                        title: '<p id="messages" style="margin-top: 12px !important; margin-left:8px !important;"><b>'+ data.message +'</b></p>'
+                        }) 
+                    }       
+                },
+            });
+        }
+    }
+</script>
+
+<script>
+    function deleteREQUESTFORTHISSHIPPING(){
+        const targetPRODCUT = $(".targetVAL").val()
+        if (targetPRODCUT == ""){
+            Toast.fire({
+                icon: 'error',
+                title: '<p id="messages" style="margin-top:12px !important; margin-left:8px !important;"><b> Target Not Define </b></p>'
+                }) 
+        }else{
+            $.ajax({                      
+                type: "POST",                   
+                url: "{% url 'deleteSHIPPING' %}",                    
+                data: {
+                csrfmiddlewaretoken: "{{ csrf_token }}",
+                'target': targetPRODCUT,
+                },
+                success: function(data) {   
+                    if (data.status == 1){
+                        $('#DELETE').modal('hide');
+                        Toast.fire({
+                            icon: 'success',
+                            title: '<p id="messages" style="margin-top: 12px !important; margin-left:8px !important;"><b>'+ data.message +'</b></p>'
+                        }) 
+                        setTimeout(function () {
+                            window.location.href =data.AFTERTask;
+                        }, 3000); 
+
+                    }
+                    else if (data.status == 0){
+                        Toast.fire({
+                        icon: 'error',
+                        title: '<p id="messages" style="margin-top: 12px !important; margin-left:8px !important;"><b>'+ data.message +'</b></p>'
+                        }) 
+                    }       
+                },
+            });
+        }
+}
+</script>
+
+<script>
+
+    function updateREQUESTFORTHISSHIPPING(){
+        const targetPRODCUT = $(".targetVAL").val()
+        if (targetPRODCUT == ""){
+            Toast.fire({
+                icon: 'error',
+                title: '<p id="messages" style="margin-top:12px !important; margin-left:8px !important;"><b> Target Not Define </b></p>'
+                }) 
+        }else{
+            const data = new FormData();
+            data.append('target', $('.targetVAL').val());
+            data.append('type', $('.type').val());
+            data.append('kg_min_range', $('.kg_min_range').val());
+            data.append('kg_max_range', $('.kg_max_range').val());
+            data.append('local', $('.local').val());
+            data.append('code', $('.code').val());
+            data.append('regional', $('.regional').val());
+            data.append('national', $('.national').val());
+            data.append('special', $('.special').val());
+
+            $.ajax({   
+                
+                type: "POST",                   
+                url: "{% url 'updateSHIPPINGAJAX' %}",    
+                data: data,
+                cache: false,
+                processData: false,
+                contentType: false,
+                headers: {'X-CSRFToken': "{{ csrf_token }}"},
+           
+                success: function(data) {   
+                    if (data.status == 1){
+                        $('#UPDATE').modal('hide');
+                        $(".targetVAL").val(''),
+                        $(".type").val(''),
+                        $(".kg_min_range").val(''),       
+                        $(".kg_max_range").val(''),               
+                        $(".local").val(''), 
+                        $(".regional").val(''), 
+                        $(".national").val(''), 
+                        $(".special").val(''), 
+                        Toast.fire({
+                            icon: 'success',
+                            title: '<p id="messages" style="margin-top: 12px !important; margin-left:8px !important;"><b>'+ data.message +'</b></p>'
+                        }) 
+                    }
+                    else if (data.status == 0){
+                        Toast.fire({
+                        icon: 'error',
+                        title: '<p id="messages" style="margin-top: 12px !important; margin-left:8px !important;"><b>'+ data.message +'</b></p>'
+                        }) 
+                    }       
+                },
+            });
+        }
+}
+</script>
+

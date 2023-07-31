@@ -1,0 +1,8 @@
+{% if colors %}
+    {% for id, name  in colors %}
+        {% if name %}
+            <a href="javascript:void();" class="btn p-3 m-2 bg-dark" style="background-color: {{name}}; width:8px; height:8px;" title="Hit For Select Color"></a>
+        {% endif %}
+    {% endfor %}
+{% endif %}
+

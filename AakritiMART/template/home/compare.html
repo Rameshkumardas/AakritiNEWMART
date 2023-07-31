@@ -1,0 +1,204 @@
+{% load static %}
+<!doctype html>
+<html lang="eng">
+   <head>
+    <meta charset="utf-8">
+    <meta htaakriticm-equiv="x-ua-compatible" content="ie=edge">
+    <title>Compare | {{project.title | safe | title }} || AakritiMART</title>
+    <link rel="icon" type="image/png" href="{% if project.favicon %}{{project.favicon.url}}{% else %}{% static 'adminAAKRITICMS/img/default/mrdas.jpg' %}{% endif %}">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <meta name="keywords" content="{{project.meta_keywords | safe }}">
+    <meta name="description" content="{{project.meta_description | safe }}">
+    <meta property="og:locale" content="en_US">
+    <meta property="og:type" content="website">
+    <meta property="og:title" content="{{ project.meta_title | safe }}">
+    <meta property="og:description" content="{{project.meta_description | safe }}">
+    <meta property="og:url" content="{{project.baseURL}}">
+    <meta property="og:site_name" content="{{project.name}}">
+    <link rel="canonical" href="{{project.baseURL}}">
+
+    <!-- CSS here -->
+    <link rel="stylesheet" href="{% static 'aakritimart/css/bootstrap.css' %}">
+    <link rel="stylesheet" href="{% static 'aakritimart/css/animate.css' %}">
+    <link rel="stylesheet" href="{% static 'aakritimart/css/swiper-bundle.css' %}">
+    <link rel="stylesheet" href="{% static 'aakritimart/css/slick.css' %}">
+    <link rel="stylesheet" href="{% static 'aakritimart/css/magnific-popup.css' %}">
+    <link rel="stylesheet" href="{% static 'aakritimart/css/font-awesome-pro.css' %}">
+    <link rel="stylesheet" href="{% static 'aakritimart/css/flaticon_shofy.css' %}">
+    <link rel="stylesheet" href="{% static 'aakritimart/css/spacing.css' %}">
+    <link rel="stylesheet" href="{% static 'aakritimart/css/main.css' %}">
+    <!-- SweetAlert2 -->
+    <link rel="stylesheet" href="{% static 'adminAAKRITICMS/plugins/sweetalert2-theme-bootstrap-4/bootstrap-4.min.css' %}">
+    <link rel="stylesheet" href="{% static 'adminAAKRITICMS/plugins/toastr/toastr.min.css' %}">
+    {% include "template/includes/COMMONHEADERTags.html" %}
+
+   </head>
+<body>
+   {% include "template/includes/MAINHeader.html" %}
+   {% if not request.user.is_user %}
+    {% include "template/includes/LOGINSIGNUP.html" %}
+    {% endif %}
+    <main> 
+        <section class="breadcrumb__area include-bg pt-10 pb-50">
+            <div class="container">
+               <div class="row">
+                  <div class="col-xxl-12">
+                     <div class="breadcrumb__content p-relative z-index-1">
+                        <h3 class="breadcrumb__title">Compare</h3>
+                        <div class="breadcrumb__list">
+                           <span><a href="{{project.baseURL}}">Home</a></span>
+                           <span>Compare</span>
+                        </div>
+                     </div>
+                  </div>
+               </div>
+            </div>
+         </section>
+         {% if allCOMPAREProducts %}
+         <section class="aakriticm-compare-area pb-120">
+            <div class="container">
+                <div class="row">
+                    <div class="col-xl-12">
+                        <div class="aakriticm-compare-table table-responsive text-center">
+                            <table class="table">
+                                <tbody>
+                                  <tr>
+                                    <th>Product</th>
+                                    {% for row in allCOMPAREProducts %}
+                                    <td>
+                                        <div class="aakriticm-compare-thumb">
+                                            <img src="{% if row.product.img %}{{row.product.img.url}}{% endif %}" alt="{{row.product.slug}}">
+                                            <h4 class="aakriticm-compare-product-title">
+                                                <a href="product-details.html">{{row.product.name}}</a>
+                                            </h4>
+                                        </div>
+                                    </td>
+                                    {% endfor %}
+                                    
+                                  </tr>
+
+                                  <tr>
+                                    <th>Description</th>
+                                    {% for row in allCOMPAREProducts %}
+                                    <td>
+                                        <div class="aakriticm-compare-desc">
+                                            <p>{{row.product.description | safe | truncatechars:150 }}</p>
+                                        </div>
+                                    </td>
+                                    {% endfor %}
+                                  </tr>
+                                  <tr>
+                                    <th>Price</th>
+                                    {% for row in allCOMPAREProducts %}
+                                    <td>
+                                        <div class="aakriticm-compare-price">
+                                            <span>${{row.product.sp}}</span>
+                                            <span class="old-price">${{row.product.mrp}}</span>
+                                        </div>
+                                    </td>
+                                    {% endfor %}
+                                  </tr>
+                                  <tr>
+                                    <th>Add to cart</th>
+                                    {% for row in allCOMPAREProducts %}
+                                    <td>
+                                        <div class="aakriticm-compare-add-to-cart">
+                                            <button type="submit"  class="addToCart aakriticm-btn" getProduct="{{row.product.pk}}">Add to Cart</button>
+                                        </div>
+                                    </td>
+                                    {% endfor %}
+                                
+                                  </tr>
+                                  <tr>
+                                    <th>Rating</th>
+                                    {% for row in allCOMPAREProducts %}
+                                    <td>
+                                        <div class="aakriticm-compare-rating">
+                                            <span><i class="fas fa-star"></i></span>
+                                            <span><i class="fas fa-star"></i></span>
+                                            <span><i class="fas fa-star"></i></span>
+                                            <span><i class="fas fa-star"></i></span>
+                                            <span><i class="fas fa-star"></i></span>
+                                        </div>
+                                    </td>
+                                    {% endfor %}
+                                  </tr>
+                                  <tr>
+                                    <th>Remove</th>
+                                    {% for row in allCOMPAREProducts %}
+                                    <td>
+                                        <div class="aakriticm-compare-remove">
+                                            <button class="deleteCOMPARE" getCompareId="{{row.pk}}" getProduct="{{row.product.pk}}"><i class="fal fa-trash-alt"></i></button>
+                                        </div>
+                                    </td>
+                                    {% endfor %}
+                                  </tr>
+                                </tbody>
+                              </table>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </section>
+        {% endif %}
+          
+      </main>
+   
+   {% include "template/includes/MAINFooter.html" %}
+   <!-- JS here -->
+   <script src="{% static 'aakritimart/js/vendor/jquery.js' %}"></script>
+   <script src="{% static 'aakritimart/js/vendor/waypoints.js' %}"></script>
+   <script src="{% static 'aakritimart/js/bootstrap-bundle.js' %}"></script>
+   <script src="{% static 'aakritimart/js/meanmenu.js' %}"></script>
+   <script src="{% static 'aakritimart/js/swiper-bundle.js' %}"></script>
+   <script src="{% static 'aakritimart/js/slick.js' %}"></script>
+   <script src="{% static 'aakritimart/js/range-slider.js' %}"></script>
+   <script src="{% static 'aakritimart/js/magnific-popup.js' %}"></script>
+   <script src="{% static 'aakritimart/js/nice-select.js' %}"></script>
+   <script src="{% static 'aakritimart/js/purecounter.js' %}"></script>
+   <script src="{% static 'aakritimart/js/countdown.js' %}"></script>
+   <script src="{% static 'aakritimart/js/wow.js' %}"></script>
+   <script src="{% static 'aakritimart/js/isotope-pkgd.js' %}"></script>
+   <script src="{% static 'aakritimart/js/imagesloaded-pkgd.js' %}"></script>
+   <script src="{% static 'aakritimart/js/ajax-form.js' %}"></script>
+   <script src="{% static 'aakritimart/js/main.js' %}"></script>
+   {% include "template/includes/JSCOMMON.html" %}
+       
+ <script>
+    $(".deleteCOMPARE").click(function () {
+       const targetVAL = $(this).attr('getProduct'); 
+       const getCompareId = $(this).attr('getCompareId'); 
+
+       $.ajax({                      
+           type: "POST",                   
+           url: "{% url 'deleteCOMPAREProduct' %}",                    
+           data: {
+             csrfmiddlewaretoken: "{{ csrf_token }}",
+             'targetVAL': targetVAL,    
+             'pk': getCompareId,   
+            },
+           success: function (data) {  
+            if (data.status == 1){
+
+                toastr.success(data.message);
+
+                setTimeout(function () {
+                    window.location.href =data.AFTERTask;
+                }, 2000); 
+
+            }else if (data.status == 0){
+                toastr.info(data.message);
+
+            } 
+          }
+       });
+     });
+ </script>
+<!-- SweetAlert2 -->
+<script src="{% static 'adminAAKRITICMS/plugins/sweetalert2/sweetalert2.min.js'%}"></script>
+<!-- <script src="{% static 'adminAAKRITICMS/plugins/toastr/toastr.min.js'%}"></script> -->
+<!-- Toastr -->
+<script src="{% static 'adminAAKRITICMS/plugins/toastr/toastr.min.js'%}"></script>
+{% include "template/includes/USERToster.html" %}
+</body>
+</html>

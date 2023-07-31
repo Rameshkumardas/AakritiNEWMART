@@ -1,0 +1,66 @@
+{% load static %}
+{% load BLOGTAGS %}
+
+<section class="content">
+    <div class="container-fluid">
+      <!-- Small boxes (Stat box) -->
+      <div class="row">
+        <div class="col-lg-3 col-6">
+          <!-- small box -->
+          <div class="small-box bg-info">
+            <div class="inner">
+              <h3>{% draftBLOG %}</h3>
+              <p><b>Draft Blogs</b></p>
+            </div>
+            <div class="icon">
+              <i class="fab fa-blogger-b"></i>
+            </div>
+            <a href="{% url 'BLOGList' %}?is_draft=True" class="small-box-footer">More info <i class="fas fa-arrow-circle-right"></i></a>
+          </div>
+        </div>
+        <div class="col-lg-3 col-6">
+          <!-- small box -->
+          <div class="small-box bg-success">
+            <div class="inner">
+              <h3>{{BLOGList.draftBLOG}}{% activeBLOG %}</h3>
+              <p><b>Active Blogs</b></p>
+            </div>
+            <div class="icon">
+              <i class="fab fa-blogger-b"></i>
+            </div>
+            <a href="{% url 'BLOGList' %}?is_verified=True" class="small-box-footer">More info <i class="fas fa-arrow-circle-right"></i></a>
+          </div>
+        </div>
+
+        <div class="col-lg-3 col-6">
+          <!-- small box -->
+          <div class="small-box bg-warning">
+            <div class="inner">
+              <h3>{% deactivateBLOG %}</h3>
+              <p><b>Deactive Blogs</b></p>
+            </div>
+            <div class="icon">
+              <i class="fab fa-blogger-b nav-icon"></i>
+            </div>
+            <a href="{% url 'BLOGList' %}?is_active=False" class="small-box-footer">More info <i class="fas fa-arrow-circle-right"></i></a>
+          </div>
+        </div>
+        <div class="col-lg-3 col-6">
+          <!-- small box -->
+          <div class="small-box bg-danger">
+            <div class="inner">
+              <h3>{% deletedBLOG %}</h3>
+              <p><b>Deleted Blogs</b></p>
+            </div>
+            <div class="icon">
+              <i class="fa fa-trash-alt nav-icon"></i>
+            </div>
+            <a href="{% url 'BLOGList' %}?is_deleted=True" class="small-box-footer">More info <i class="fas fa-arrow-circle-right"></i></a>
+          </div>
+        </div>           
+        <!-- ./col -->
+    </div>
+    <!-- /.row -->
+  </div>
+  </section>
+ 

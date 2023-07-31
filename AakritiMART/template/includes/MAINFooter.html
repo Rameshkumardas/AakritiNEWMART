@@ -1,0 +1,397 @@
+{% load static %}
+{% load PAGETAG %}
+{% load social_share %}
+
+  <!-- footer area start -->
+  <div class="modal fade aakriticm-product-modal" id="producQuickViewModal" tabindex="-1" aria-labelledby="producQuickViewModal" aria-hidden="true">
+   <div class="modal-dialog modal-dialog-centered">
+      <div class="modal-content " >
+         <div class=" aakriticm-product-modal-content d-lg-flex align-items-start">
+            <button type="button" class="aakriticm-product-modal-close-btn" data-bs-toggle="modal" data-bs-target="#producQuickViewModal"><i class="fa-regular fa-xmark"></i></button>
+            <section class="QuickView" id="QuickView">
+            </section>
+         </div>                  
+      </div>
+   </div>
+</div>
+
+
+   <!-- offcanvas area start -->
+   <div class="offcanvas__area offcanvas__radius">
+      <div class="offcanvas__wrapper">
+         <div class="offcanvas__close">
+            <button class="offcanvas__close-btn offcanvas-close-btn">
+               <svg width="12" height="12" viewBox="0 0 12 12" fill="none" xmlns="http://www.w3.org/2000/svg">
+                  <path d="M11 1L1 11" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"/>
+                  <path d="M1 1L11 11" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"/>
+              </svg>
+            </button>
+         </div>
+         <div class="offcanvas__content">
+            <div class="offcanvas__top mb-70 d-flex justify-content-between align-items-center">
+               <div class="offcanvas__logo logo">
+                  <a href="{{project.baseURL}}">
+                     <img src="{% if project.headerLogo %}{{project.headerLogo.url}}{% endif %}" alt="logo">
+                  </a>
+               </div>
+            </div>
+            <div class="offcanvas__category pb-40">
+               <button class="aakriticm-offcanvas-category-toggle">
+                  <i class="fa-solid fa-bars"></i>
+                  All Categories
+               </button>
+               <div class="aakriticm-category-mobile-menu">
+                  
+               </div>
+            </div>
+            <div class="aakriticm-main-menu-mobile fix d-lg-none mb-40"></div>
+
+            <div class="offcanvas__contact align-items-center d-none">
+               <div class="offcanvas__contact-icon mr-20">
+                  <span>
+                     <img src="{% static 'aakritimart/img/icon/contact.png' %}" alt="">
+                  </span>
+               </div>
+               <div class="offcanvas__contact-content">
+                  <h3 class="offcanvas__contact-title">
+                     <a href="tel:{{project.contact}}">{{project.contact}}</a>
+                  </h3>
+               </div>
+            </div>
+            <div class="offcanvas__btn">
+               <a href="{% url 'ContactUs' %}" class="aakriticm-btn-2 aakriticm-btn-border-2">Contact Us</a>
+            </div>
+         </div>
+         <div class="offcanvas__bottom">
+            <div class="offcanvas__footer d-flex align-items-center justify-content-between">
+               <div class="offcanvas__currency-wrapper currency">
+                  <span class="offcanvas__currency-selected-currency aakriticm-currency-toggle" id="aakriticm-offcanvas-currency-toggle">Currency : USD</span>
+                  <ul class="offcanvas__currency-list aakriticm-currency-list">
+                     <li>USD</li>
+                     <li>ERU</li>
+                     <li>BDT </li>
+                     <li>INR</li>
+                  </ul>
+               </div>
+               <div class="offcanvas__select language">
+                  <div class="offcanvas__lang d-flex align-items-center justify-content-md-end">
+                     <div class="offcanvas__lang-img mr-15">
+                        <img src="{% static 'aakritimart/img/icon/language-flag.png' %}" alt="">
+                     </div>
+                     <div class="offcanvas__lang-wrapper">
+                        <span class="offcanvas__lang-selected-lang aakriticm-lang-toggle" id="aakriticm-offcanvas-lang-toggle">English</span>
+                        <ul class="offcanvas__lang-list aakriticm-lang-list">
+                           <!-- <li>Spanish</li>
+                           <li>Portugese</li>
+                           <li>American</li>
+                           <li>Canada</li> -->
+                        </ul>
+                     </div>
+                  </div>
+               </div>
+            </div>
+         </div>
+      </div>
+   </div>
+   <div class="body-overlay"></div>
+   <!-- offcanvas area end -->
+
+
+
+  <!-- cart mini area start -->
+  <div class="cartmini__area aakriticm-all-font-roboto">
+   <div class="cartmini__wrapper d-flex justify-content-between flex-column">
+       <div class="cartmini__top-wrapper">
+           <div class="cartmini__top p-relative">
+               <div class="cartmini__top-title">
+                   <h4>Shopping cart</h4>
+               </div>
+               <div class="cartmini__close">
+                   <button type="button" class="cartmini__close-btn cartmini-close-btn"><i class="fal fa-times"></i></button>
+               </div>
+           </div>
+            {% if allCART %}
+               <div class="cartmini__shipping">
+                  <p> Free Shipping for all orders over <span>$50</span></p>
+                  <div class="progress">
+                     <div class="progress-bar progress-bar-striped progress-bar-animated" role="progressbar" data-width="70%" aria-valuenow="70" aria-valuemin="0" aria-valuemax="100"></div>
+                  </div>                   
+               </div>
+               {% for cart in allCART %}
+               <div class="cartmini__widget">
+                     <div class="cartmini__widget-item">
+                        <div class="cartmini__thumb">
+                           <a href="product-details.html">
+                              <img src="{% if cart.product.img %}{{cart.product.img.url}}{% endif %}" alt="">
+                           </a>
+                        </div>
+                        <div class="cartmini__content">
+                           <h5 class="cartmini__title"><a href="product-details.html">Level Bolt Smart Lock</a></h5>
+                           <div class="cartmini__price-wrapper">
+                              <span class="cartmini__price">$ {{cart.product.sp}}</span>
+                              <span class="cartmini__quantity">x{{cart.qty}}</span>
+                           </div>
+                        </div>
+                        <a href="#" class="cartmini__del"><i class="fa-regular fa-xmark"></i></a>
+                     </div>
+               </div>
+               {% endfor %}
+            {% else %}
+           <!-- if no item in cart -->
+           <div class="cartmini__empty text-center d-none">
+               <img src="{% static 'aakritimart/img/product/cartmini/empty-cart.png' %}" alt="">
+               <p>Your Cart is empty</p>
+               <a href="{{project.baseURL}}" class="aakriticm-btn">Go to Shop</a>
+           </div>
+           {% endif %}
+
+       </div>
+       {% if allCART %}
+       <div class="cartmini__checkout">
+           <div class="cartmini__checkout-title mb-30">
+               <h4>Subtotal:</h4>
+               <span>$113.00</span>
+           </div>
+           <div class="cartmini__checkout-btn">
+               <a href="{% url 'MYCart' %}" class="aakriticm-btn mb-10 w-100"> view cart</a>
+               <a href="{% url 'CheckOut' %}?checkoutFor=myCartList" class="aakriticm-btn aakriticm-btn-border w-100"> checkout</a>
+           </div>
+       </div>
+       {% else %}
+       <div class="cartmini__checkout">
+         <div class="cartmini__checkout-btn">
+             <a href="{% url 'MYCart' %}" class="aakriticm-btn mb-10 w-100"> Quick Login</a>
+             <a href="{% url 'CheckOut' %}?checkoutFor=myCartList" class="aakriticm-btn aakriticm-btn-border w-100"> checkout</a>
+         </div>
+     </div>
+     {% endif %}
+
+   </div>
+</div>
+<!-- cart mini area end -->
+
+  <footer>
+    <div class="aakriticm-footer-area" data-bg-color="footer-bg-grey">
+       <div class="aakriticm-footer-top pt-95 pb-40">
+          <div class="container">
+             <div class="row">
+                <div class="col-xl-3 col-lg-3 col-md-4 col-sm-6">
+                   <div class="aakriticm-footer-widget footer-col-1 mb-50">
+                      <div class="aakriticm-footer-widget-content">
+                         <div class="aakriticm-footer-logo">
+                            <a href="{{project.baseURL}}">
+                               <img src="{% if project.footerLogo %}{{project.footerLogo.url}}{% endif %}" alt="{{project.title}}">
+                            </a>
+                         </div>
+                         <p class="aakriticm-footer-desc">{{project.title}}</p>
+                         <div class="aakriticm-footer-social">
+
+                           {% post_to_facebook "{{project.description}}" "" %}
+                           {% post_to_twitter "Product: {{project.description}}." object_or_url "" %}
+                           {% post_to_telegram "Product: {{project.description}}." object_or_url "" %}
+                           {% save_to_pinterest "Product: {{project.description}}." object_or_url "" %}
+                           {% post_to_whatsapp "Product: {{project.description}}." object_or_url "" %}
+  
+                            <!-- <a href="{{project.facebook}}"><i class="fa-brands fa-facebook-f"></i></a>
+                            <a href="{{project.facebook}}"><i class="fa-brands fa-instagram"></i></a>
+                            <a href="{{project.twitter}}"><i class="fa-brands fa-twitter"></i></a>
+                            <a href="{{project.linkedin}}"><i class="fa-brands fa-linkedin-in"></i></a>
+                            <a href="{{project.whatsapp}}"><i class="fa-brands fa-whatsapp"></i></a>
+                            <a href="{{project.vimeo}}"><i class="fa-brands fa-vimeo-v"></i></a> -->
+
+                           </div>
+                      </div>
+                   </div>
+                </div>
+                {% if FOOTERSECTIONList %}
+                  {% for section in FOOTERSECTIONList %}
+                  <div class="col-xl-2 col-lg-2 col-md-3 col-sm-6">
+                     <div class="aakriticm-footer-widget footer-col-2 mb-50">
+                        <h4 class="aakriticm-footer-widget-title">{{section.name}}</h4>
+                        <div class="aakriticm-footer-widget-content">
+                           <ul>
+                              {% allPAGEList section.pk 10 %}
+                           </ul>
+                        </div>
+                     </div>
+                  </div>
+                  {% endfor %}
+                {% endif %}
+                <div class="col-xl-3 col-lg-3 col-md-3 col-sm-6">
+                   <div class="aakriticm-footer-widget footer-col-4 mb-50">
+                      <h4 class="aakriticm-footer-widget-title">Talk To Us</h4>
+                      <div class="aakriticm-footer-widget-content">
+                         <div class="aakriticm-footer-talk mb-20">
+                            <span>Got Questions? Call us</span>
+                            <h4><a href="tel:{{project.contact}}">{{project.contact}}</a></h4>
+                         </div>
+                         <div class="aakriticm-footer-contact">
+                            <div class="aakriticm-footer-contact-item d-flex align-items-start">
+                               <div class="aakriticm-footer-contact-icon">
+                                  <span>
+                                     <svg width="18" height="16" viewBox="0 0 18 16" fill="none" xmlns="http://www.w3.org/2000/svg">
+                                        <path d="M1 5C1 2.2 2.6 1 5 1H13C15.4 1 17 2.2 17 5V10.6C17 13.4 15.4 14.6 13 14.6H5" stroke="currentColor" stroke-width="1.5" stroke-miterlimit="10" stroke-linecap="round" stroke-linejoin="round"/>
+                                        <path d="M13 5.40039L10.496 7.40039C9.672 8.05639 8.32 8.05639 7.496 7.40039L5 5.40039" stroke="currentColor" stroke-width="1.5" stroke-miterlimit="10" stroke-linecap="round" stroke-linejoin="round"/>
+                                        <path d="M1 11.4004H5.8" stroke="currentColor" stroke-width="1.5" stroke-miterlimit="10" stroke-linecap="round" stroke-linejoin="round"/>
+                                        <path d="M1 8.19922H3.4" stroke="currentColor" stroke-width="1.5" stroke-miterlimit="10" stroke-linecap="round" stroke-linejoin="round"/>
+                                     </svg>
+                                  </span>
+                               </div>
+                               <div class="aakriticm-footer-contact-content">
+                                  <p><a href="mailto:{{project.mail}}">{{project.mail}}</a></p>
+                               </div>
+                            </div>
+                            <div class="aakriticm-footer-contact-item d-flex align-items-start">
+                               <div class="aakriticm-footer-contact-icon">
+                                  <span>
+                                     <svg width="17" height="20" viewBox="0 0 17 20" fill="none" xmlns="http://www.w3.org/2000/svg">
+                                        <path d="M8.50001 10.9417C9.99877 10.9417 11.2138 9.72668 11.2138 8.22791C11.2138 6.72915 9.99877 5.51416 8.50001 5.51416C7.00124 5.51416 5.78625 6.72915 5.78625 8.22791C5.78625 9.72668 7.00124 10.9417 8.50001 10.9417Z" stroke="currentColor" stroke-width="1.5"/>
+                                        <path d="M1.21115 6.64496C2.92464 -0.887449 14.0841 -0.878751 15.7889 6.65366C16.7891 11.0722 14.0406 14.8123 11.6313 17.126C9.88298 18.8134 7.11704 18.8134 5.36006 17.126C2.95943 14.8123 0.210885 11.0635 1.21115 6.64496Z" stroke="currentColor" stroke-width="1.5"/>
+                                     </svg>
+                                  </span>
+                               </div>
+                               <div class="aakriticm-footer-contact-content">
+                                  <p><a href="https://www.google.com/maps/place/Sleepy+Hollow+Rd,+Gouverneur,+NY+13642,+USA/@44.3304966,-75.4552367,17z/data=!3m1!4b1!4m6!3m5!1s0x4cccddac8972c5eb:0x56286024afff537a!8m2!3d44.3304928!4d-75.453048!16s%2Fg%2F1tdsjdj4" target="_blank">{{project.address}}</a></p>
+                               </div>
+                            </div>
+                         </div>
+                      </div>
+                   </div>
+                </div>
+             </div>
+          </div>
+       </div>
+       <div class="aakriticm-footer-bottom">
+          <div class="container">
+             <div class="aakriticm-footer-bottom-wrapper">
+                <div class="row align-items-center">
+                   <div class="col-md-6">
+                      <div class="aakriticm-footer-copyright">
+                         <p>Copyright &copy; {% now "Y" %} <strong><a href="{{project.baseURL}}" target="_blank">{{project.name}}</a></strong> All Rights Reserved  .</p>
+                      </div>
+                   </div>
+                   <div class="col-md-6">
+                      <div class="aakriticm-footer-payment text-md-end">
+                         <p>
+                            <img src="{% static 'aakritimart/img/footer/footer-pay.png' %}" alt="">
+                         </p>
+                      </div>
+                   </div>
+                </div>
+             </div>
+          </div>
+       </div>
+    </div>
+ </footer>
+ <!-- footer area end -->
+ <!-- mobile menu area start -->
+ <div id="aakriticm-bottom-menu-sticky" class="aakriticm-mobile-menu d-lg-none">
+   <div class="container">
+      <div class="row row-cols-5">
+         <div class="col">
+            <div class="aakriticm-mobile-item text-center">
+               <a href="{{project.baseURL}}" class="aakriticm-mobile-item-btn">
+                  <i class="fas fa-home"></i>
+                  <span>Store</span>
+               </a>
+            </div>
+         </div>
+         <div class="col">
+            <div class="aakriticm-mobile-item text-center">
+               <button class="aakriticm-mobile-item-btn aakriticm-search-open-btn">
+                  <i class="fas fa-search"></i>
+                  <span>Search</span>
+               </button>
+            </div>
+         </div>
+         <div class="col">
+            <div class="aakriticm-mobile-item text-center">
+               <a {% if request.user.is_user %}href="{% url 'WishlistMART' %}"{% else %} href="#" data-bs-toggle="modal" data-bs-target="#signin-modal" {% endif %} class="aakriticm-mobile-item-btn">
+                  <svg width="22" height="20" viewBox="0 0 22 20" fill="none" xmlns="http://www.w3.org/2000/svg">
+                     <path fill-rule="evenodd" clip-rule="evenodd" d="M11.239 18.8538C13.4096 17.5179 15.4289 15.9456 17.2607 14.1652C18.5486 12.8829 19.529 11.3198 20.1269 9.59539C21.2029 6.25031 19.9461 2.42083 16.4289 1.28752C14.5804 0.692435 12.5616 1.03255 11.0039 2.20148C9.44567 1.03398 7.42754 0.693978 5.57894 1.28752C2.06175 2.42083 0.795919 6.25031 1.87187 9.59539C2.46978 11.3198 3.45021 12.8829 4.73806 14.1652C6.56988 15.9456 8.58917 17.5179 10.7598 18.8538L10.9949 19L11.239 18.8538Z" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"></path>
+                     <path d="M7.26062 5.05302C6.19531 5.39332 5.43839 6.34973 5.3438 7.47501" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"></path>
+                  </svg>
+                  <span>Wishlist</span>
+               </a>
+            </div>
+         </div>
+         <div class="col">
+            <div class="aakriticm-mobile-item text-center">
+               <a {% if request.user.is_user %}href="{% url 'Dashboard' %}"{% else %} href="#" data-bs-toggle="modal" data-bs-target="#signin-modal" {% endif %} class="aakriticm-mobile-item-btn">
+                  <i class="fas fa-user"></i>
+                  <span>Account</span>
+               </a>
+            </div>
+         </div>
+         <div class="col">
+            <div class="aakriticm-mobile-item text-center">
+               <button class="aakriticm-mobile-item-btn aakriticm-offcanvas-open-btn">
+                  <i class="fas fa-bars"></i>
+                  <span>Menu</span>
+               </button>
+            </div>
+         </div>
+      </div>
+   </div>
+</div>
+<!-- mobile menu area end -->
+
+<div class="modal fade rounded" id="CheckShipping" tabindex="-1" aria-hidden="true">
+   <div class="modal-dialog mx-auto" style="max-width:400px">
+      <div class="modal-content">
+         <div class="modal-header">
+            <h4 class="modal-title text-secondary font-weight-600"><i class="fas fa-shipping-fast " style='font-size:25px;color:green;'></i> Check Shipping Avaliable.</h4>
+            <button type="button" class="close" data-bs-dismiss="modal" aria-label="Close">
+               <span aria-hidden="true">&times;</span>
+            </button>
+         </div>
+         <div class="modal-body p-0 " style="height: 200px;">
+            <input type="text" name="pinCode" class="pinCode" placeholder="Enter Your Zip/Pin Code & Check Shipping" value=""/>
+            <br>
+            <section class="d-flex justify-content-center p-3">
+               <br>
+               <i class="fas fa-check-circle d-flex justify-content-center" style='font-size:48px;color:green;'></i>
+               <br>
+            </section>
+            <section class="d-flex justify-content-center p-3">
+               Enter Your Zip/Pin Code to Check Order Shipping Avaliable.
+               <br>
+            </section>
+         </div>
+         <div class="model-footer p-3">
+               <button class="CheckShipping btn btn-primary w-100 rounded-sm" onclick="CheckShipping();">Verify Zip/Pin Code & Check Shipping</button>
+         </div>
+      </div>
+   </div>
+</div>
+
+
+
+<div class="modal fade rounded" id="CODVerification" tabindex="-1" aria-hidden="true">
+   <div class="modal-dialog mx-auto" style="max-width:400px">
+      <div class="modal-content">
+         <div class="modal-header">
+            <h4 class="modal-title text-secondary font-weight-600"><i class="fas fa-shipping-fast " style='font-size:25px;color:green;'></i> Verify & Confirm Order.</h4>
+            <button type="button" class="close" data-bs-dismiss="modal" aria-label="Close">
+               <span aria-hidden="true">&times;</span>
+            </button>
+         </div>
+         <div class="modal-body p-0 " style="height: 200px;">
+            <input type="text" name="onetime_verification_code" class="onetime_verification_code" placeholder="Enter Your Onetime Verification Code" value="{{request.session.OneTimeVerificationCode}}"/>
+            <br>
+            <section class="d-flex justify-content-center p-3">
+               <br>
+               <i class="fas fa-check-circle d-flex justify-content-center" style='font-size:48px;color:green;'></i>
+               <br>
+            </section>
+            <section class="d-flex justify-content-center p-3">
+               You Will Get Onetime Verification Code From Your Email Inbox.
+               <br>
+            </section>
+         </div>
+         <div class="model-footer p-3">
+               <button class="btn btn-primary w-100 rounded-sm" onclick="COD_ORDER_CONFIRM_AND_VERIFY();">Verify With OTP</button>
+         </div>
+      </div>
+   </div>
+</div>

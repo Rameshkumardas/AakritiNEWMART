@@ -1,0 +1,29 @@
+
+{% load static %}
+
+    {% if memberList %}
+    <div class="row">
+
+    {% for member in memberList %}
+        <div class="col-xl-3 col-lg-6 col-md-6 mb-30 wow fadeInUp animated" data-wow-delay='.2s'>
+            <div class="teams white-bg mb-30">
+                <div class="teams__thumb pos-rel mb-30">
+                    <a href=""> <div class="teams__thumb--img pos-rel"> <img src="{% if member.img %}{{member.img.url }}{% else %}{% static 'WACFoundation/img/team/05.jpg' %}{% endif %}" alt=""></div>
+                    </a>
+                    <div class="teams__thumb--social">
+                        <a href="{{member.facebook}}"><i class="fab fa-facebook-f"></i> <i class="fab fa-facebook-f"></i> </a>
+                        <a href="{{member.pintrest}}"><i class="fab fa-twitter"></i><i class="fab fa-twitter"></i> </a>
+                        <a href="{{member.youtube}}"><i class="fab fa-youtube"></i><i class="fab fa-youtube"></i> </a>
+                        <a href="{{member.linkedin}}"><i class="fab fa-linkedin"></i><i class="fab fa-linkedin"></i> </a>
+                    </div>
+                </div>
+                <div class="teams__content text-center">
+                    <h3 class="semi-02-title"><a href="">{{member.name}}</a></h3>
+                    <p>{{member.role}}</p>
+                </div>
+            </div>
+        </div>
+        {% endfor %}
+    </div>
+
+    {% endif %}

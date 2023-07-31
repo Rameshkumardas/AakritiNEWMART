@@ -1,0 +1,492 @@
+{% load static %}
+{% load MEGAMENUTAG %}
+{% load BLOGTAGS %}
+{% load PAGETAG %}
+
+
+<!-- <div class="widgetplus widgetplus-block slider-0" id="widgetplus-block-2582196409">
+   <a class="row no-gutters promo-top text-center" title="Sale2020" rel="noopener">
+         
+      <span class="col-12 col-lg-12 col-md-12 col-sm-12">
+         <img style="width: 100% !important; height: 100px !important;" class="img-fluid" src="https://img.freepik.com/free-psd/healthy-life-concept-banner-design_23-2148583499.jpg" alt="Promo 2">
+      </span>
+      
+   </a>
+</div> -->
+
+   <!-- back to top start -->
+   <div class="back-to-top-wrapper">
+      <button id="back_to_top" type="button" class="back-to-top-btn">
+         <svg width="12" height="7" viewBox="0 0 12 7" fill="none" xmlns="http://www.w3.org/2000/svg">
+            <path d="M11 6L6 1L1 6" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"/>
+         </svg>               
+      </button>
+   </div>
+   <!-- back to top end -->
+   
+      
+
+     <!-- search area start -->
+     <section class="aakriticm-search-area">
+        <div class="container">
+           <div class="row">
+              <div class="col-xl-12">
+                 <div class="aakriticm-search-form">
+                    <div class="aakriticm-search-close text-center mb-20">
+                       <button class="aakriticm-search-close-btn aakriticm-search-close-btn"></button>
+                    </div>
+                    <form action="{% url 'allProducts' %}">
+                       <div class="aakriticm-search-input mb-10">
+                          <input type="text" placeholder="Search for product..." name="q" value="{{request.GET.q}}">
+                          <button type="submit"><i class="flaticon-search-1"></i></button>
+                       </div>
+                       <div class="aakriticm-search-category">
+                          <span>Search by : </span>
+                          {% for mainCat in mainCatList %}
+                           <a href="{% url 'mainCatProductList' mainCat.slug  %}">{{mainCat.name}}, </a>
+                           {% endfor %}
+                       </div>
+                    </form>
+                 </div>
+              </div>
+           </div>
+        </div>
+     </section>
+     <!-- search area end -->
+
+      <!-- header area start -->
+      <header>
+         <div class="aakriticm-header-area p-relative z-index-11">
+           <div class="aakriticm-header-top-2 p-relative z-index-11 aakriticm-header-top-border d-none d-md-block">
+            <div class="container">
+                <div class="row align-items-center">
+                <div class="col-md-6">
+                    <div class="aakriticm-header-info d-flex align-items-center">
+                        <div class="aakriticm-header-info-item">
+                            <a href="javascript:void();" data-bs-toggle="modal" data-bs-target="#CheckShipping">
+                              <span>
+                                 <i class="fas fa-shipping-fast"></i>                                 
+                              </span> 
+                              {% if request.session.PinCode and request.session.city %}
+                                 {{request.session.city | safe | title}}
+                              {% else %}
+                                 Check Shipping 
+                              {% endif %}
+                            </a>
+                        </div>
+                        <div class="aakriticm-header-info-item">
+                            <a href="tel:{{project.contact}}">
+                            <span>
+                                <svg width="16" height="16" viewBox="0 0 16 16" fill="none" xmlns="http://www.w3.org/2000/svg">
+                                    <path fill-rule="evenodd" clip-rule="evenodd" d="M1.359 2.73916C1.59079 2.35465 2.86862 0.958795 3.7792 1.00093C4.05162 1.02426 4.29244 1.1883 4.4881 1.37943H4.48885C4.93737 1.81888 6.22423 3.47735 6.29648 3.8265C6.47483 4.68282 5.45362 5.17645 5.76593 6.03954C6.56213 7.98771 7.93402 9.35948 9.88313 10.1549C10.7455 10.4679 11.2392 9.44752 12.0956 9.62511C12.4448 9.6981 14.1042 10.9841 14.5429 11.4333V11.4333C14.7333 11.6282 14.8989 11.8698 14.9214 12.1422C14.9553 13.1016 13.4728 14.3966 13.1838 14.5621C12.502 15.0505 11.6125 15.0415 10.5281 14.5373C7.50206 13.2784 2.66618 8.53401 1.38384 5.39391C0.893174 4.31561 0.860062 3.42016 1.359 2.73916Z" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"/>
+                                    <path d="M9.84082 1.18318C12.5534 1.48434 14.6952 3.62393 15 6.3358" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"/>
+                                    <path d="M9.84082 3.77927C11.1378 4.03207 12.1511 5.04544 12.4039 6.34239" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"/>
+                                </svg>                                   
+                            </span> ( +91 ) {{project.contact}}
+                            </a>
+                        </div>
+                        
+                        
+                        <div class="aakriticm-footer-contact-icon">
+                            <span>
+                               <svg width="18" height="16" viewBox="0 0 18 16" fill="none" xmlns="http://www.w3.org/2000/svg">
+                                  <path d="M1 5C1 2.2 2.6 1 5 1H13C15.4 1 17 2.2 17 5V10.6C17 13.4 15.4 14.6 13 14.6H5" stroke="currentColor" stroke-width="1.5" stroke-miterlimit="10" stroke-linecap="round" stroke-linejoin="round"/>
+                                  <path d="M13 5.40039L10.496 7.40039C9.672 8.05639 8.32 8.05639 7.496 7.40039L5 5.40039" stroke="currentColor" stroke-width="1.5" stroke-miterlimit="10" stroke-linecap="round" stroke-linejoin="round"/>
+                                  <path d="M1 11.4004H5.8" stroke="currentColor" stroke-width="1.5" stroke-miterlimit="10" stroke-linecap="round" stroke-linejoin="round"/>
+                                  <path d="M1 8.19922H3.4" stroke="currentColor" stroke-width="1.5" stroke-miterlimit="10" stroke-linecap="round" stroke-linejoin="round"/>
+                               </svg>
+                            </span>
+                         </div>
+    
+                         <div class="aakriticm-footer-contact-content"><b>{{project.mail}}</b>
+                         </div>
+                    </div>
+                </div>
+                <div class="col-md-6">
+                            
+                            
+                            
+                            
+
+                    <div class="aakriticm-header-top-right aakriticm-header-top-black d-flex align-items-center justify-content-end">
+                        <div class="aakriticm-header-top-menu d-flex align-items-center justify-content-end">
+                         
+                            <div class="p-2">
+                               <a href="{{project.facebook}}"><i class="fa-brands fa-facebook-f"></i></a>
+                            </div>
+                            <div class="p-2">
+                              <a href="{{project.facebook}}"><i class="fa-brands fa-instagram"></i></a>
+                           </div>
+                           <div class="p-2">
+                              <a href="{{project.twitter}}"><i class="fa-brands fa-twitter"></i></a>
+                           </div>
+                           <div class="p-2">
+                              <a href="{{project.linkedin}}"><i class="fa-brands fa-linkedin-in"></i></a>
+                           </div>
+                        
+                            {% if request.user.is_user %}
+                            <div class="aakriticm-header-top-menu-item aakriticm-header-setting">
+                            <span class="aakriticm-header-setting-toggle" id="aakriticm-header-setting-toggle">Setting</span>
+                            <ul>
+                                <li>
+                                    <a href="{% url 'Dashboard' %}">My Profile</a>
+                                 </li>
+                                 <li>
+                                    <a href="{% url 'WishlistMART' %}">Wishlist</a>
+                                 </li>
+                                 <li>
+                                  <a href="{% url 'CompareMART' %}">Compare</a>
+                                 </li>
+                                 <li>
+                                    <a href="{% url 'WishlistMART' %}">Cart</a>
+                                 </li>
+                                 <li>
+                                    <a href="{% url 'LOGOUTUSER' %}">Logout</a>
+                                 </li>
+                            </ul>
+                            </div>
+                            {% endif %}
+                        </div>
+                    </div>
+                </div>
+                </div>
+            </div>
+            </div>
+           <!-- header main start -->
+           <div class="aakriticm-header-main aakriticm-header-sticky py-2">
+              <div class="container">
+                 <div class="row align-items-center">
+                    <div class="col-xl-2 col-lg-2 col-md-4 col-6">
+                       <div class="logo">
+                          <a href="{{project.baseURL}}">
+                             <img src="{% if project.footerLogo %}{{project.footerLogo.url}}{% endif %}" alt="logo">
+                          </a>
+                       </div>
+                    </div>
+                    <div class="col-xl-6 col-lg-7 d-none d-lg-block">
+                       <div class="aakriticm-header-search pl-70">
+                          <form action="{% url 'allProducts' %}">
+                             <div class="aakriticm-header-search-wrapper d-flex align-items-center">
+                                <div class="aakriticm-header-search-box">
+                                   <input type="text" placeholder="Search for Products..." name="q" value="{{request.GET.q}}">
+                                </div>
+                                
+                                <div class="aakriticm-header-search-category">
+                                   <select name="mainCat">
+                                      <option value="{{request.GET.mainCat}}">All Categories</option>
+                                      {% for mainCat in mainCatList %}
+                                      <option value="{{mainCat.pk}}">{{mainCat.name}}</option>
+                                      {% endfor %}
+                                   </select>
+                                </div>
+                                <div class="aakriticm-header-search-btn">
+                                   <button type="submit">
+                                      <svg width="20" height="20" viewBox="0 0 20 20" fill="none" xmlns="http://www.w3.org/2000/svg">
+                                         <path d="M9 17C13.4183 17 17 13.4183 17 9C17 4.58172 13.4183 1 9 1C4.58172 1 1 4.58172 1 9C1 13.4183 4.58172 17 9 17Z" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/>
+                                         <path d="M19 19L14.65 14.65" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/>
+                                      </svg>                                          
+                                   </button>
+                                </div>
+                             </div>
+                          </form>
+                       </div>
+                    </div>
+
+                    <div class="col-xl-4 col-lg-3 col-md-8 col-6">
+                       <div class="aakriticm-header-main-right d-flex align-items-center justify-content-end">
+                          <div class="aakriticm-header-login d-none d-lg-block" >
+                              
+                           
+                           {% if request.user.is_user %} 
+                           <style>
+                              .dropdown-toggle::after {
+                                  content: none;
+                              }
+                          </style>
+                           <a href="javascript:void(0);" class="dropdown-toggle d-flex align-items-center" data-bs-toggle="dropdown" aria-expanded="false" id="Account">
+                           {% else %}
+                           <a href="javascript:void(0);"  type="button" class="d-flex align-items-center" data-bs-toggle="modal" data-bs-target="#signin-modal">
+                           {% endif %}  
+                              <div class="aakriticm-header-login-icon">
+                                   {% if request.user.img %}
+                                    <img style="width:40px; height:40px;" src="{{request.user.img.url}}" alt="">
+                                   {% else %}
+                                    <span>
+                                      <svg width="17" height="21" viewBox="0 0 17 21" fill="none" xmlns="http://www.w3.org/2000/svg">
+                                         <circle cx="8.57894" cy="5.77803" r="4.77803" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"/>
+                                         <path fill-rule="evenodd" clip-rule="evenodd" d="M1.00002 17.2014C0.998732 16.8655 1.07385 16.5337 1.2197 16.2311C1.67736 15.3158 2.96798 14.8307 4.03892 14.611C4.81128 14.4462 5.59431 14.336 6.38217 14.2815C7.84084 14.1533 9.30793 14.1533 10.7666 14.2815C11.5544 14.3367 12.3374 14.4468 13.1099 14.611C14.1808 14.8307 15.4714 15.27 15.9291 16.2311C16.2224 16.8479 16.2224 17.564 15.9291 18.1808C15.4714 19.1419 14.1808 19.5812 13.1099 19.7918C12.3384 19.9634 11.5551 20.0766 10.7666 20.1304C9.57937 20.2311 8.38659 20.2494 7.19681 20.1854C6.92221 20.1854 6.65677 20.1854 6.38217 20.1304C5.59663 20.0773 4.81632 19.9641 4.04807 19.7918C2.96798 19.5812 1.68652 19.1419 1.2197 18.1808C1.0746 17.8747 0.999552 17.5401 1.00002 17.2014Z" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"/>
+                                      </svg>                                       
+                                   </span>
+                                   {% endif %}
+                                </div>
+                                <div class="aakriticm-header-login-content d-none d-xl-block">
+                                   <span>Hi, {% if request.user.is_user %} {{request.user.fname}}{% else %}User Sign In{% endif %}</span>
+                                   <h5 class="aakriticm-header-login-title" >{% if request.user.is_user %}Dashboard{% else %}Your Account{% endif %}</h5>
+                                </div>
+                                {% if request.user.is_user %}
+                                <ul class="dropdown-menu" aria-labelledby="Account">
+                                    <li><a class="dropdown-item" href="{% url 'Dashboard' %}"><i class="fa fa-dashboard"> </i> &nbsp;Dashboard</a></li>
+                                    <li><hr class="dropdown-divider"></li>
+                                    <li><a class="dropdown-item" href="#"><i class="fas fa-cog"> </i> &nbsp;Settings</a></li>
+                                    <li><hr class="dropdown-divider"></li>
+                                    <li><a class="dropdown-item" href="#"><i class="fas fa-home-alt"> </i> &nbsp;My Address</a></li>
+                                    <li><hr class="dropdown-divider"></li>
+                                    <li><a class="dropdown-item" href="#"><i class="fas fa-shipping-fast"> </i> &nbsp;My Orders</a></li>
+                                    <li><hr class="dropdown-divider"></li>
+                                    <li><a class="dropdown-item " href="{% url 'LOGOUTUSER' %}"> <i class="fas fa-sign-out-alt"> </i>  &nbsp;<b class="">Logout</b></a></li>
+                                 </ul>
+                                 {% endif %}
+                              </a>
+                              
+                          </div>
+                          <div class="aakriticm-header-action d-flex align-items-center ml-50">
+                             <div class="aakriticm-header-action-item d-none d-lg-block">
+                                <a href="{% url 'CompareMART' %}"  class="aakriticm-header-action-btn">
+                                   <svg width="20" height="19" viewBox="0 0 20 19" fill="none" xmlns="http://www.w3.org/2000/svg">
+                                      <path d="M14.8396 17.3319V3.71411" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"/>
+                                      <path d="M19.1556 13L15.0778 17.0967L11 13" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"/>
+                                      <path d="M4.91115 1.00056V14.6183" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"/>
+                                      <path d="M0.833496 5.09667L4.91127 1L8.98905 5.09667" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"/>
+                                   </svg>                                       
+                                </a>
+                             </div>
+                             <div class="aakriticm-header-action-item d-none d-lg-block">
+                                <a href="{% url 'WishlistMART' %}" class="aakriticm-header-action-btn">
+                                   <svg width="22" height="20" viewBox="0 0 22 20" fill="none" xmlns="http://www.w3.org/2000/svg">
+                                      <path fill-rule="evenodd" clip-rule="evenodd" d="M11.239 18.8538C13.4096 17.5179 15.4289 15.9456 17.2607 14.1652C18.5486 12.8829 19.529 11.3198 20.1269 9.59539C21.2029 6.25031 19.9461 2.42083 16.4289 1.28752C14.5804 0.692435 12.5616 1.03255 11.0039 2.20148C9.44567 1.03398 7.42754 0.693978 5.57894 1.28752C2.06175 2.42083 0.795919 6.25031 1.87187 9.59539C2.46978 11.3198 3.45021 12.8829 4.73806 14.1652C6.56988 15.9456 8.58917 17.5179 10.7598 18.8538L10.9949 19L11.239 18.8538Z" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"/>
+                                      <path d="M7.26062 5.05302C6.19531 5.39332 5.43839 6.34973 5.3438 7.47501" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"/>
+                                   </svg> 
+                                   <span class="aakriticm-header-action-badge bg-primary">{{allWISHCOUNT}}</span>                          
+                                </a>
+                             </div>
+                             <div class="aakriticm-header-action-item">
+                                <button type="button" class="aakriticm-header-action-btn cartmini-open-btn">
+                                   <svg width="21" height="22" viewBox="0 0 21 22" fill="none" xmlns="http://www.w3.org/2000/svg">
+                                      <path fill-rule="evenodd" clip-rule="evenodd" d="M6.48626 20.5H14.8341C17.9004 20.5 20.2528 19.3924 19.5847 14.9348L18.8066 8.89359C18.3947 6.66934 16.976 5.81808 15.7311 5.81808H5.55262C4.28946 5.81808 2.95308 6.73341 2.4771 8.89359L1.69907 14.9348C1.13157 18.889 3.4199 20.5 6.48626 20.5Z" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"/>
+                                      <path d="M6.34902 5.5984C6.34902 3.21232 8.28331 1.27803 10.6694 1.27803V1.27803C11.8184 1.27316 12.922 1.72619 13.7362 2.53695C14.5504 3.3477 15.0081 4.44939 15.0081 5.5984V5.5984" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"/>
+                                      <path d="M7.70365 10.1018H7.74942" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"/>
+                                      <path d="M13.5343 10.1018H13.5801" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"/>
+                                   </svg>    
+                                   <span class="aakriticm-header-action-badge bg-primary">{{allCARTCOUNT}}</span>                                                                          
+                                </button>
+                             </div>
+                             <div class="aakriticm-header-action-item d-lg-none">
+                                <button type="button" class="aakriticm-header-action-btn aakriticm-offcanvas-open-btn">
+                                   <svg xmlns="http://www.w3.org/2000/svg" width="30" height="16" viewBox="0 0 30 16">
+                                      <rect x="10" width="20" height="2" fill="currentColor"/>
+                                      <rect x="5" y="7" width="25" height="2" fill="currentColor"/>
+                                      <rect x="10" y="14" width="20" height="2" fill="currentColor"/>
+                                   </svg>
+                                </button>
+                             </div>
+                             
+                          </div>
+                       </div>
+                    </div>
+                 </div>
+              </div>
+           </div>
+           <!-- header bottom start -->
+           <div class="aakriticm-header-bottom aakriticm-header-bottom-border d-none d-lg-block">
+              <div class="container">
+                 <div class="aakriticm-mega-menu-wrapper p-relative">
+                    <div class="row align-items-center">
+                       <div class="col-xl-8 col-lg-8">
+                          <div class="main-menu menu-style-1">
+                             <nav class="aakriticm-main-menu-content">
+                                <ul>
+                                    {% for mainCat in mainCatList %}
+                                       {% if mainCat.is_header %}
+                                       <li class="has-dropdown has-mega-menu ">
+                                          <a href="{% url 'mainCatProductList' mainCat.slug  %}">{{mainCat.name}}</a>
+                                          <ul class="aakriticm-submenu aakriticm-mega-menu mega-menu-style-2">
+                                             {% SubCatMenuList mainCat.pk 8 %}
+                                          </ul>
+                                       </li>
+                                       {% endif %}
+                                    {% endfor %}
+
+                                    <li class="has-dropdown has-mega-menu ">
+                                       <a href="{% url 'ALLBLOGS' %}">Blogs</a>
+                                       <ul class="aakriticm-submenu aakriticm-mega-menu mega-menu-style-2">
+                                          {% if BLOGmainCatList %}
+                                             {% for BLOGMainCat in BLOGmainCatList %}
+                                             <li class="has-dropdown">
+                                                <a href="{% url 'ALLMAINCATBLOGS' BLOGMainCat.slug %}" class="mega-menu-title">{{BLOGMainCat.name}}</a>
+                                                <ul class="aakriticm-submenu">
+                                                   {% BLOGSUBCATMenuList BLOGMainCat.pk 5 %}
+                                                </ul>
+                                             </li>
+                                             {% endfor%}
+                                          {% endif %}
+                                       </ul>
+                                    </li>                                    
+                                    <li><a href="{% url 'ContactUs' %}">Contact</a></li>
+                                </ul>
+                             </nav>
+                          </div>
+                       </div>
+
+                       <div class="col-xl-3 col-lg-3">
+                          <div class="aakriticm-header-contact d-flex align-items-center justify-content-end">
+                             <div class="aakriticm-header-contact-icon">
+                                <span>
+                                   <svg width="21" height="20" viewBox="0 0 21 20" fill="none" xmlns="http://www.w3.org/2000/svg">
+                                      <path fill-rule="evenodd" clip-rule="evenodd" d="M1.96977 3.24859C2.26945 2.75144 3.92158 0.946726 5.09889 1.00121C5.45111 1.03137 5.76246 1.24346 6.01544 1.49057H6.01641C6.59631 2.05874 8.26011 4.203 8.35352 4.65442C8.58411 5.76158 7.26378 6.39979 7.66756 7.5157C8.69698 10.0345 10.4707 11.8081 12.9908 12.8365C14.1058 13.2412 14.7441 11.9219 15.8513 12.1515C16.3028 12.2459 18.4482 13.9086 19.0155 14.4894V14.4894C19.2616 14.7414 19.4757 15.0537 19.5049 15.4059C19.5487 16.6463 17.6319 18.3207 17.2583 18.5347C16.3767 19.1661 15.2267 19.1544 13.8246 18.5026C9.91224 16.8749 3.65985 10.7408 2.00188 6.68096C1.3675 5.2868 1.32469 4.12906 1.96977 3.24859Z" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/>
+                                      <path d="M12.936 1.23685C16.4432 1.62622 19.2124 4.39253 19.6065 7.89874" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/>
+                                      <path d="M12.936 4.59337C14.6129 4.92021 15.9231 6.23042 16.2499 7.90726" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/>
+                                   </svg>                                    
+                                </span>
+                             </div>
+                             <div class="aakriticm-header-contact-content">
+                                <h5>Call 24*7:</h5>
+                                <p><a href="tel:402-763-282-46">{{project.contact}}</a></p>
+                             </div>
+                          </div>
+                       </div>
+                    </div>
+                 </div>
+              </div>
+           </div>
+         </div>
+      </header>
+      <!-- header area end -->
+
+     <div id="header-sticky-2" class="aakriticm-header-sticky-area">
+         <div class="container">
+            <div class="aakriticm-mega-menu-wrapper p-relative">
+               <div class="row align-items-center">
+                  <div class="col-xl-2 col-lg-5 col-md-5 col-sm-4 col-6">
+                        <div class="logo">
+                           <a href="{{project.baseURL}}">
+                           <img src="{% if project.headerLogo%}{{project.headerLogo.url}}{% endif %}" alt="logo">
+                           </a>
+                        </div>
+                  </div>
+                  <div class="col-xl-5 d-none d-xl-block">
+                        <div class="main-menu menu-style-2">
+                           <nav class="aakriticm-main-menu-content">
+                           <ul>
+                              {% for mainCat in mainCatList %}
+                                 {% if mainCat.is_header %}
+                                 <li class="has-dropdown has-mega-menu ">
+                                    <a href="{% url 'mainCatProductList' mainCat.slug  %}">{{mainCat.name}}</a>
+                                    <ul class="aakriticm-submenu aakriticm-mega-menu mega-menu-style-2">
+                                       {% SubCatMenuList mainCat.pk 8 %}
+                                    </ul>
+                                 </li>
+                                 {% endif %}
+                              {% endfor %}
+
+                              <li class="has-dropdown has-mega-menu ">
+                                    <a href="{% url 'ALLBLOGS' %}">Blogs</a>
+                                    <ul class="aakriticm-submenu aakriticm-mega-menu mega-menu-style-2">
+                                       {% if BLOGmainCatList %}
+                                          {% for BLOGMainCat in BLOGmainCatList %}
+                                          <li class="has-dropdown">
+                                             <a href="{% url 'ALLMAINCATBLOGS' BLOGMainCat.slug %};" class="mega-menu-title">{{BLOGMainCat.name}}</a>
+                                             <ul class="aakriticm-submenu">
+                                                   {% BLOGSUBCATMenuList BLOGMainCat.pk 5 %}
+                                             </ul>
+                                          </li>
+                                          {% endfor%}
+                                       {% endif %}
+                                    </ul>
+                              </li>    
+                              <!-- <li><a href="{% url 'ContactUs' %}">Contact</a></li> -->
+                           </ul>
+                           </nav>
+                        </div>
+                  </div>
+                  <div class="col-xl-5 col-lg-7 col-md-7 col-sm-8 col-6">
+                        <div class="aakriticm-header-bottom-right d-flex align-items-center justify-content-end pl-30">
+                           <div class="aakriticm-header-search-2 d-none d-sm-block">
+                           <form action="{% url 'allProducts' %}">
+                              <input type="text" placeholder="Search for Products..." name="q" value="{{request.GET.q}}">
+                              <button type="submit">
+                                    <svg width="20" height="20" viewBox="0 0 20 20" fill="none" xmlns="http://www.w3.org/2000/svg">
+                                       <path d="M9 17C13.4183 17 17 13.4183 17 9C17 4.58172 13.4183 1 9 1C4.58172 1 1 4.58172 1 9C1 13.4183 4.58172 17 9 17Z" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/>
+                                       <path d="M18.9999 19L14.6499 14.65" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/>
+                                    </svg>                                       
+                              </button>
+                           </form>
+                           </div>
+                           <div class="aakriticm-header-action d-flex align-items-center ml-30">
+                           <div class="aakriticm-header-action-item d-none d-lg-block">
+                              <a href="{% url 'CompareMART' %}"  class="aakriticm-header-action-btn">
+                                    <svg width="20" height="19" viewBox="0 0 20 19" fill="none" xmlns="http://www.w3.org/2000/svg">
+                                       <path d="M14.8396 17.3319V3.71411" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"/>
+                                       <path d="M19.1556 13L15.0778 17.0967L11 13" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"/>
+                                       <path d="M4.91115 1.00056V14.6183" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"/>
+                                       <path d="M0.833496 5.09667L4.91127 1L8.98905 5.09667" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"/>
+                                    </svg>                                       
+                              </a>
+                           </div>
+                           <div class="aakriticm-header-action-item d-none d-lg-block">
+                              <a href="{% url 'WishlistMART' %}" class="aakriticm-header-action-btn">
+                                    <svg width="22" height="20" viewBox="0 0 22 20" fill="none" xmlns="http://www.w3.org/2000/svg">
+                                       <path fill-rule="evenodd" clip-rule="evenodd" d="M11.239 18.8538C13.4096 17.5179 15.4289 15.9456 17.2607 14.1652C18.5486 12.8829 19.529 11.3198 20.1269 9.59539C21.2029 6.25031 19.9461 2.42083 16.4289 1.28752C14.5804 0.692435 12.5616 1.03255 11.0039 2.20148C9.44567 1.03398 7.42754 0.693978 5.57894 1.28752C2.06175 2.42083 0.795919 6.25031 1.87187 9.59539C2.46978 11.3198 3.45021 12.8829 4.73806 14.1652C6.56988 15.9456 8.58917 17.5179 10.7598 18.8538L10.9949 19L11.239 18.8538Z" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"/>
+                                       <path d="M7.26062 5.05302C6.19531 5.39332 5.43839 6.34973 5.3438 7.47501" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"/>
+                                    </svg> 
+                                    <span class="aakriticm-header-action-badge bg-primary">{{allWISHCOUNT}}</span>                          
+                              </a>
+                           </div>
+                           <div class="aakriticm-header-action-item">
+                                    <button class="aakriticm-header-action-btn cartmini-open-btn" >
+                                    <svg width="21" height="22" viewBox="0 0 21 22" fill="none" xmlns="http://www.w3.org/2000/svg">
+                                       <path fill-rule="evenodd" clip-rule="evenodd" d="M6.48626 20.5H14.8341C17.9004 20.5 20.2528 19.3924 19.5847 14.9348L18.8066 8.89359C18.3947 6.66934 16.976 5.81808 15.7311 5.81808H5.55262C4.28946 5.81808 2.95308 6.73341 2.4771 8.89359L1.69907 14.9348C1.13157 18.889 3.4199 20.5 6.48626 20.5Z" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"/>
+                                       <path d="M6.34902 5.5984C6.34902 3.21232 8.28331 1.27803 10.6694 1.27803V1.27803C11.8184 1.27316 12.922 1.72619 13.7362 2.53695C14.5504 3.3477 15.0081 4.44939 15.0081 5.5984V5.5984" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"/>
+                                       <path d="M7.70365 10.1018H7.74942" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"/>
+                                       <path d="M13.5343 10.1018H13.5801" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"/>
+                                    </svg>    
+                                    <span class="aakriticm-header-action-badge bg-primary">{{allCARTCOUNT}}</span>                                                                          
+                              </button>
+                           </div>
+                           <div class="aakriticm-header-action-item aakriticm-header-hamburger mr-20 d-xl-none">
+                              <button type="button" class="aakriticm-offcanvas-open-btn">
+                                    <svg xmlns="http://www.w3.org/2000/svg" width="30" height="16" viewBox="0 0 30 16">
+                                       <rect x="10" width="20" height="2" fill="currentColor"/>
+                                       <rect x="5" y="7" width="25" height="2" fill="currentColor"/>
+                                       <rect x="10" y="14" width="20" height="2" fill="currentColor"/>
+                                    </svg>
+                              </button>
+                           </div>
+                           </div>
+                        </div>
+                  </div>
+               </div>
+            </div>
+         </div>
+      </div>
+
+
+   {% comment %}
+     <div class="modal fade rounded" id="CheckShipping" tabindex="-1" aria-hidden="true">
+      <div class="modal-dialog mx-auto" style="max-width:400px">
+         <div class="modal-content">
+            <div class="modal-header">
+                  <h4 class="modal-title text-secondary font-weight-600"><i class="fas fa-shipping-fast " style='font-size:25px;color:green;'></i> Check Shipping Avaliable.</h4>
+                  <button type="button" class="close" data-bs-dismiss="modal" aria-label="Close">
+                     <span aria-hidden="true">&times;</span>
+                  </button>
+            </div>
+            <div class="modal-body p-0 " style="height: 200px;">
+               <input type="text" name="pinCode" class="pinCode" placeholder="Enter Your Zip/Pin Code & Check Shipping" value="[ {{request.session.city}} - {{request.session.PinCode}} ]"/>
+               <br>
+               <section class="d-flex justify-content-center p-3">
+                  <br>
+                  <i class="fas fa-check-circle d-flex justify-content-center" style='font-size:48px;color:green;'></i>
+                  <br>
+               </section>
+               <section class="d-flex justify-content-center p-3">
+                  Enter Your Zip/Pin Code to Check Order Shipping Avaliable.
+                  <br>
+               </section>
+            </div>
+            <div class="model-footer p-3">
+                  <button class="CheckShipping btn btn-primary w-100 rounded-sm" onclick="CheckShipping();">Verify Zip/Pin Code & Check Shipping</button>
+            </div>
+         </div>
+      </div>
+   </div>
+   {% endcomment %}

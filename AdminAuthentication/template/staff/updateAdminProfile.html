@@ -1,0 +1,207 @@
+<!DOCTYPE html>
+<html lang="en">
+  {% load static%}
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>update Staff | {{project.title | safe | title }} || {{project.name}} </title>
+  <link rel="icon" type="image/png" href="{% if project.favicon %}{{project.favicon.url}}{% else %}{% static 'adminAAKRITICMS/img/default/mrdas.jpg' %}{% endif %}">    
+  <!-- Select2 -->
+  <link rel="stylesheet" href="{% static 'adminAAKRITICMS/plugins/select2/css/select2.min.css'%}">
+  <link rel="stylesheet" href="{% static 'adminAAKRITICMS/plugins/select2-bootstrap4-theme/select2-bootstrap4.min.css'%}">
+  <!-- Font Awesome -->
+  <link rel="stylesheet" href="{% static 'adminAAKRITICMS/plugins/fontawesome-free/css/all.min.css'%}">
+  <!-- SweetAlert2 -->
+  <link rel="stylesheet" href="{% static 'adminAAKRITICMS/plugins/sweetalert2-theme-bootstrap-4/bootstrap-4.min.css' %}">
+  <!-- adminAAKRITICMS Theme style -->
+  <link rel="stylesheet" href="{% static 'adminAAKRITICMS/css/aakriticms.min.css'%}">
+  <link rel="stylesheet" href="{% static 'adminAAKRITICMS/css/aakriti.ui.css'%}">
+  <!-- iCheck for checkboxes and radio inputs -->
+  <link rel="stylesheet" href="{% static 'adminAAKRITICMS/plugins/icheck-bootstrap/icheck-bootstrap.min.css'%}">
+  <link rel="stylesheet" href="{% static 'adminAAKRITICMS/plugins/overlayScrollbars/css/OverlayScrollbars.min.css' %}">
+</head>
+<body class="hold-transition sidebar-mini layout-fixed">
+<div class="wrapper">
+
+  {% include 'includes/adminNavBar.html' %} 
+  {% include 'includes/adminSideBar.html' %} 
+
+  <!-- Content Wrapper. Contains page content -->
+  <div class="content-wrapper">
+    <!-- Content Header (Page header) -->
+    <section class="content-header">
+      <div class="container-fluid">
+        <div class="row mb-2">
+          <div class="col-sm-6">
+            <h1>Manage Staffs</h1>
+            <!-- <a href="./Create-Blog" class="btn btn-info m-1 right" data-toggle="tooltip" title="Create Blog" ><i class="fas fa-edit"></i> Create Blog</a> -->
+
+          </div>
+          <div class="col-sm-6">
+            <ol class="breadcrumb float-sm-right">
+              <li class="breadcrumb-item"><a href="{% url 'DefaultDashboard' %}">Home</a></li>
+              <li class="breadcrumb-item active">Staffs</li>
+            </ol>
+          </div>
+        </div>
+      </div><!-- /.container-fluid -->
+    </section>
+    
+    <!-- Main content -->
+    <section class="content">
+      <div class="container-fluid">
+        <div class="row">
+          <div class="col-md-12" id="EMPTYAREA">
+
+            <div class="card card-primary">
+              <div class="card-header ">
+                    <h1 class="card-title text-center text-bold text-uppercase">  Update &nbsp; {{Admin.name}}</h1>
+                    <a  href="{% url 'AllStaffs' %}" class="btn btn-dark float-right mr-1" title="Back To Previus" ><i class="fas fa-step-backward"></i>&nbsp; Back </a>
+                </div>
+              <!-- /.card-header -->
+            <div class="card-body" >
+                <form action="" method="POST" enctype="multipart/form-data">
+                    {% csrf_token %}
+                    {% if admin.reference %}
+                    <div class="form-group">
+                      <label>Admin Referance Email</label>
+                      <div class="input-group">
+                        <div class="input-group-prepend">
+                          <span class="input-group-text"><i class="fas fa-plus"></i></span>
+                        </div>
+                          <input type="email" class="form-control" value="{{admin.reference}}" name="Referance" autocomplete="OFF" placeholder="Admin Referance Email">
+                        <div class="input-group-prepend">
+                          <span class="input-group-text"><i class="fas fa-plus"></i></span>
+                        </div>
+                      </div>
+                    </div>
+                    {% endif %}
+                    <div class="form-group">
+                      <label for="label">Allow Admin Role</label>
+                      <select class="form-control select2" id="label" name="role" data-toggle="tooltip" data-placement="top" title="Sellect Main Category" autocomplete="off" required>
+                          <option value="{% if admin.is_superadmin %}is_superadmin{% elif admin.is_admin %}is_admin{% elif admin.is_manager %}is_manager{% elif admin.is_accountant %}is_accountant{% endif %}">{% if admin.is_superadmin %} SUPERADMIN{% elif admin.is_admin %} ADMIN  {% elif admin.is_manager %} MANAGER {% elif admin.is_accountant %} ACCOUNTANT {% endif %} SELECTED </option>
+                          <option value="is_admin"> Admin</option>
+                          {% if request.user.is_superadmin %}
+                          <option value="is_superadmin"> Superadmin </option>
+                          {% endif %}
+                          <option value="is_manager"> Mamnager</option>
+                          <option value="is_accountant"> Accountant </option>
+                          <option value="is_user"> Content User</option>
+                      </select>
+                    </div>
+        
+                    <div class="form-group">
+                      <label>Staff Name</label>
+                      <div class="input-group">
+                        <div class="input-group-prepend">
+                          <span class="input-group-text"><i class="fas fa-plus"></i></span>
+                        </div>
+                          <input type="text" class="form-control" value="{{admin.name}}" name="name" autocomplete="OFF" placeholder="Admin Name">
+                        <div class="input-group-prepend">
+                          <span class="input-group-text"><i class="fas fa-plus"></i></span>
+                        </div>
+                      </div>
+                    </div>
+                <div class="form-group">
+                  <label>Staff Email</label>
+                  <div class="input-group">
+                    <div class="input-group-prepend">
+                      <span class="input-group-text"><i class="fas fa-plus"></i></span>
+                    </div>
+                      <input type="email" class="form-control" value="{{admin.email}}" name="email" autocomplete="OFF" placeholder="Email Address">
+                    <div class="input-group-prepend">
+                      <span class="input-group-text"><i class="fas fa-plus"></i></span>
+                    </div>
+                  </div>
+                </div>
+                
+                <div class="form-group">
+                  <label>Staff Phone No.</label>
+                  <div class="input-group">
+                    <div class="input-group-prepend">
+                      <span class="input-group-text"><i class="fas fa-plus"></i></span>
+                    </div>
+                      <input type="number" class="form-control" value="{{admin.phone}}" name="phone" autocomplete="OFF" placeholder="Phone Number">
+                    <div class="input-group-prepend">
+                      <span class="input-group-text"><i class="fas fa-plus"></i></span>
+                    </div>
+                  </div>
+                </div>
+                <div class="form-group">
+                  <label>Staff IMG*</label>
+                  <div class="input-group">
+                    <div class="input-group-prepend">
+                      <span class="input-group-text"><i class="fas fa-plus"></i></span>
+                    </div>
+                      <input type="file" class="form-control" name="img" autocomplete="OFF" placeholder="Staff IMG">
+                    <div class="input-group-prepend">
+                      <span class="input-group-text"><i class="fas fa-plus"></i></span>
+                    </div>
+                  </div>
+                </div>
+                <div class="form-group">
+                  <label>Password.</label>
+                  <div class="input-group">
+                    <div class="input-group-prepend">
+                      <span class="input-group-text"><i class="fas fa-plus"></i></span>
+                    </div>
+                      <input type="password" class="form-control" value="" name="password" autocomplete="OFF" placeholder="Password">
+                    <div class="input-group-prepend">
+                      <span class="input-group-text"><i class="fas fa-plus"></i></span>
+                    </div>
+                  </div>
+                </div>
+                </div>
+                <div class="card-footer bg-primary">
+                    <button type="button" class="btn btn-dark float-right mr-2"  data-dismiss="modal" aria-label="Close">Cancel</button>
+                    <button type="submit" class="btn btn-light float-right mr-2" ><i class="fas fa-upload"></i> Update Staff</button>
+                </div>
+             </form>
+
+              <!-- /.card-body -->
+            </div>
+            </div>
+            <!-- /.card -->
+          </div>
+          <!-- /.col -->
+        </div>
+        <!-- /.row -->
+      </div>
+      <!-- /.container-fluid -->
+    </section>
+    <!-- /.content -->
+  </div>
+  <!-- /.content-wrapper -->
+ 
+<!-- ======================================================================== -->
+{% include 'includes/adminFooter.html' %} 
+</div>
+<!-- ./wrapper -->
+<!-- jQuery -->
+<script src="{% static 'adminAAKRITICMS/plugins/aakritiCMS/4IMGDisplay.js' %}"></script>
+<script src="{% static 'adminAAKRITICMS/plugins/jquery/jquery.min.js'%}"></script>
+<!-- Bootstrap 4 -->
+<script src="{% static 'adminAAKRITICMS/plugins/bootstrap/js/bootstrap.bundle.min.js'%}"></script>
+<!-- Select2 -->
+<script src="{% static 'adminAAKRITICMS/plugins/select2/js/select2.full.min.js'%}"></script>
+<!-- SweetAlert2 -->
+<script src="{% static 'adminAAKRITICMS/plugins/sweetalert2/sweetalert2.min.js'%}"></script>
+<!-- Toastr -->
+<script src="{% static 'adminAAKRITICMS/plugins/toastr/toastr.min.js'%}"></script>
+<!-- AakritiCMS Plugins Themes Events-->
+<!-- <script src="{% static 'adminAAKRITICMS/plugins/aakriticms/js/functions.js'%}"></script> -->
+<!-- AakritiCMS JavaScript -->
+<script src="{% static 'adminAAKRITICMS/js/aakritiCMS.min.js'%}"></script>
+<!-- AakritiCMS Prism JS -->
+<script src="{% static 'adminAAKRITICMS/plugins/prism/prism.js'%}" data-manual></script>
+<script src="{% static 'adminAAKRITICMS/plugins/overlayScrollbars/js/jquery.overlayScrollbars.min.js' %}"></script>
+<script>
+
+$(function () {
+  $('[data-toggle="tooltip"]').tooltip()
+})
+</script>
+<!-- ===================END============================= -->
+{% include 'includes/adminToster.html' %} 
+</body>
+</html>

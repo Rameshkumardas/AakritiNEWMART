@@ -1,0 +1,83 @@
+
+====================================================
+sudo nano /etc/systemd/system/maxfordcosmetics.socket
+====================================================
+[Unit]
+Description=gunicorn socket
+
+[Socket]
+ListenStream=/run/maxfordcosmetics.sock
+
+[Install]
+WantedBy=sockets.target
+====================================================
+====================================================
+====================================================
+
+====================================================
+====================================================
+====================================================
+sudo nano /etc/systemd/system/maxfordcosmetics.service
+====================================================
+====================================================
+[Unit]
+Description=gunicorn daemon
+Requires=maxfordcosmetics.socket
+After=network.target
+
+[Service]
+User=wwwma1044
+Group=www-data
+WorkingDirectory=/home/www.maxfordcosmetics.com/public_html
+ExecStart=/home/www.maxfordcosmetics.com/public_html/env/bin/gunicorn \
+          --access-logfile - \
+          --workers 3 \
+          --bind unix:/run/AakritiMART.sock \
+          AakritiCMS.wsgi:application
+
+[Install]
+WantedBy=multi-user.target
+====================================================
+====================================================
+sudo systemctl start maxfordcosmetics.socket
+sudo systemctl enable maxfordcosmetics.socket
+sudo systemctl status maxfordcosmetics.socket
+sudo systemctl restart maxfordcosmetics.socket
+====================================================
+====================================================
+SETUP TO NGINX SERVER 
+====================================================
+====================================================
+    server {
+        listen 80;
+        server_name maxfordcosmetics.com www.maxfordcosmetics.com;
+
+        location = /favicon.ico { access_log off; log_not_found off; }
+        location /static/ {
+            root /home/www.maxfordcosmetics.com/public_html;
+        }
+
+        location / {
+            include proxy_params;
+            proxy_pass http://unix:/run/maxfordcosmetics.sock;
+        }
+    }
+====================================================
+====================================================
+89.116.230.31 maxfordcosmetics.com
+89.116.230.31 www.maxfordcosmetics.com
+====================================================
+
+sudo systemctl daemon-reload
+sudo systemctl restart BulkEmail
+
+sudo systemctl start nginx
+sudo systemctl restart nginx
+sudo systemctl stop nginx
+sudo systemctl reload nginx
+sudo systemctl enable nginx
+
+
+
+89.116.230.31 maxfordcosmetics.com
+89.116.230.31 www.maxfordcosmetics.com

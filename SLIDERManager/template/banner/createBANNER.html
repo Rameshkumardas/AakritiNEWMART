@@ -1,0 +1,325 @@
+<!DOCTYPE html>
+<html lang="en">
+  {% load static %}  
+<head>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <title>Create Banner - {% if data %} {% endif %}  | {{project.title | safe | title }} || {{project.name}} </title>
+    <link rel="icon" type="image/png" href="{% if project.favicon %}{{project.favicon.url}}{% else %}{% static 'adminAAKRITICMS/img/default/mrdas.jpg' %}{% endif %}">
+    <!-- iCheck for checkboxes and radio inputs -->
+    <link rel="stylesheet" href="{% static 'adminAAKRITICMS/plugins/icheck-bootstrap/icheck-bootstrap.min.css'%}">
+    <!-- Select2 -->
+    <link rel="stylesheet" href="{% static 'adminAAKRITICMS/plugins/select2/css/select2.min.css'%}">
+    <link rel="stylesheet" href="{% static 'adminAAKRITICMS/plugins/select2-bootstrap4-theme/select2-bootstrap4.min.css'%}">
+
+    <!-- Font Awesome -->
+    <link rel="stylesheet" href="{% static 'adminAAKRITICMS/plugins/fontawesome-free/css/all.min.css'%}">
+    <!-- SweetAlert2 -->
+    <link rel="stylesheet" href="{% static 'adminAAKRITICMS/plugins/sweetalert2-theme-bootstrap-4/bootstrap-4.min.css' %}">
+    <!-- webreakFree Theme style -->
+    <link rel="stylesheet" href="{% static 'adminAAKRITICMS/css/aakriticms.min.css'%}">
+    <link rel="stylesheet" href="{% static 'adminAAKRITICMS/css/aakriti.ui.css'%}">
+
+ 
+</head>
+<body class="hold-transition sidebar-mini layout-fixed">
+  <div class="wrapper">
+  {% include 'includes/adminNavBar.html' %} <!--Add this-->
+  {% include 'includes/adminSideBar.html' %} <!--Add this-->
+
+  <!-- Content Wrapper. Contains page content -->
+  <div class="content-wrapper">
+    <!-- Content Header (Page header) -->
+    <section class="content-header">
+      <div class="container-fluid">
+        <div class="row mb-2">
+          <div class="col-sm-6">
+            <h1>Create New Banner</h1>
+
+          </div>
+          <div class="col-sm-6">
+            <ol class="breadcrumb float-sm-right">
+              <li class="breadcrumb-item"><a href="{% url 'DefaultDashboard' %}">Home</a></li>
+              <li class="breadcrumb-item active">Create </li>
+            </ol>
+          </div>
+        </div>
+      </div><!-- /.container-fluid -->
+    </section>
+    
+    <!-- Main content -->
+    <section class="content">
+      <div class="container-fluid">
+        <div class="row">
+          <div class="col-md-12">
+            <div class="card card-primary">
+              <div class="card-header ">
+                  <h3 class="card-title"></h3>
+              </div>
+              <!-- /.card-header -->
+              <div class="card-body">
+                <form action="" method="POST" enctype="multipart/form-data" id="FormData">
+                    {% csrf_token %}
+                <div class="row">
+                    <div class="col-md-4">
+                      <div class="form-group">
+                        <label>Banner Category List ( Optional ):</label>
+                        <select class="BANNERCat form-control select2" style="width: 100%;" name="BANNERCat" id="BANNERCat">
+                            <option value="">Select [ {{project.name}} ] BANNERCat</option>
+                            {% if ALLBANNERList %}
+                              {% for BANNERCat in ALLBANNERList %}
+                                <option value="{{BANNERCat.id}}"> {{BANNERCat.name}} </option>
+                              {% endfor %}
+                            {% else %}
+                            <option>[ {{project.name}} ] Has No Banner Category</option>
+                          {% endif %}
+                        </select>
+                      </div>
+
+                      <div class="form-group">
+                        <label>Page List ( Optional ):</label>
+                        <select class="PAGEList form-control select2" style="width: 100%;" name="PAGEList" id="PAGEList">
+                            <option value="">Select [ {{project.name}} ] Pages</option>
+                            {% if ALLPAGEList %}
+                              {% for page in ALLPAGEList %}
+                                <option value="{{page.id}}"> {{page.name}} </option>
+                              {% endfor %}
+                            {% else %}
+                            <option>[ {{project.name}} ] Has No Pages.</option>
+                          {% endif %}
+                        </select>
+                      </div>
+
+                      <div class="form-group">
+                        <label>Banner Type:</label>
+                        <select class="BANNER_TYPE form-control select2" style="width: 100%;" name="BANNER_TYPE" id="BANNER_TYPE" required>
+                          <option value="">Select Banner TYPE</option>
+                          <option value="is_img"> Image Banner</option>
+                          <option value="is_video"> Video Banner </option>
+                        </select>
+                      </div>
+                      <div class="form-group">
+                        <label for="main-category">Redirect URL</label>
+                        <div class="input-group">
+                            <div class="input-group-prepend">
+                            <span class="input-group-text"><i class="fas fa-laptop"></i></span>
+                            </div>
+                            <input type="text" name="target" class="form-control" id="input-field" placeholder="Redirect to URL" onkeyup="NameStringCount()"  value="" autocomplete="off" required>
+                            <div class="input-group-prepend">
+                              <span class="input-group-text" for="input-field" id="NameStringCount"></span>
+                            </div>
+                        </div>
+                      </div>
+
+                    </div>
+                    <div class="col-md-4">     
+                        <div class="form-group">
+                          <label for="main-category">Banner Name ( Optional ):</label>
+                          <div class="input-group">
+                              <div class="input-group-prepend">
+                              <span class="input-group-text"><i class="fas fa-laptop"></i></span>
+                              </div>
+                              <input type="text" name="name" class="form-control" placeholder="Add BANNER Headline Name " id="input-field" onkeyup="NameStringCount()"  value="" autocomplete="off" >
+                              <div class="input-group-prepend">
+                                <span class="input-group-text" for="input-field" id="NameStringCount"></span>
+                              </div>
+                          </div>
+                        </div>
+                        <div class="form-group">
+                          <label for="BANNER_TITLE">Banner Title ( Optional ):</label>
+                          <div class="input-group">
+                              <div class="input-group-prepend">
+                              <span class="input-group-text"><i class="fas fa-laptop"></i></span>
+                              </div>
+                              <input type="text" name="title" class="form-control" placeholder="Add BANNER Title" id="input-field" onkeyup="NameStringCount()"  value="" autocomplete="off" >
+                              <div class="input-group-prepend">
+                                <span class="input-group-text" for="input-field" id="NameStringCount"></span>
+                              </div>
+                          </div>
+                        </div>
+                        <div class="form-group">
+                          <label for="use-code">User Code ( Optional ): </label>
+                          <div class="input-group">
+                              <div class="input-group-prepend">
+                              <span class="input-group-text"><i class="fas fa-laptop"></i></span>
+                              </div>
+                              <input type="text" name="code" class="form-control" placeholder="Add Code For User" id="input-field" onkeyup="NameStringCount()"  value="" autocomplete="off" >
+                              <div class="input-group-prepend">
+                                <span class="input-group-text" for="input-field" id="NameStringCount"></span>
+                              </div>
+                          </div>
+                        </div>
+
+
+                        
+                        <section class="IMGSECTION" style="display: none;">
+                          <label for="exampleInputFile">Select Banner Image </label>
+                          <div class="card card-outline card-info">
+                            <div class="card-body"> 
+                              <div id="display_image" style="height:150px; width:100% !important; border-radius: 10px; border: 2px solid rgb(9, 135, 238); display: none; visibility: hidden; background-size:contain; background-repeat:no-repeat;"></div>
+                              <img src="{% static 'adminAAKRITICMS/img/default/AakritiLiteWebDeveloper.jpg'%}" class="img_display img-thumbnail" id="NoObject" style="height:150px; width:100% !important; border-radius: 10px; border: 2px solid rgb(9, 135, 238);" data-toggle="tooltip" data-placement="top" title="Select Banner IMG"/>
+                            </div>
+                            <div class="card-footer">
+                                <span class="btn btn-primary col fileinput-button " data-toggle="tooltip" data-placement="top" title="Hit For Select IMG Thumbnail">
+                                    <input type="file" value="" accept="image/png, image/jpg , image/jpeg" name="img" multiple  id="image_input"  style="display: none;" class="img_input"/>
+                                    <label for="image_input" style="cursor: pointer;" ><i class="fas fa-plus"></i><span>Add Thumbnail </span></label>
+                                </span>
+                            </div>
+                          </div>
+                        </section>
+
+                        <section class="VIDEOSECTION" style="display: none;">
+                          <div class="form-group">
+                            <label>Select Video Type</label>
+                            <select class="VIDEO_TYPE form-control select2 " id="VIDEO_TYPE" name="VIDEO_TYPE" style="width: 100%;">
+                                <option selected>Select {{project.name}} Video Type</option>
+                                <!-- <option value="is_local">Local Video From System</option> -->
+                                <option value="youtube">YouTube</option>
+                                <option value="vimeo">Vimeo</option>
+                            </select>
+                          </div> 
+
+                          <div class="LOCALVIDEOBOX form-group d-none">
+                            <div class="input-group">
+                                <div class="input-group-prepend">
+                                  <span class="input-group-text"><i class="fab fa-video-square text-danger"></i></span>
+                                </div>
+                                <input type="file" class="local_video form-control" accept="video/MOV, video/avi , video/mp4 , video/webm , video/mkv" id="input-field" placeholder="Local Video Link" name="local_video">
+                            </div>
+                          </div>
+
+                          <div class="YOUTUBEBOX form-group d-none">
+                            <div class="input-group">
+                                <div class="input-group-prepend">
+                                  <span class="input-group-text"><i class="fab fa-youtube-square text-danger"></i></span>
+                                </div>
+                                <input type="text" class="youtube form-control" id="input-field" placeholder="Past YouTube Link" name="youtube">
+                            </div>
+                          </div>
+                          <div class="VIMEOBOX form-group d-none">
+                            <div class="input-group">
+                                <div class="input-group-prepend">
+                                  <span class="input-group-text"><i class="fa fas fa-bars"></i></span>
+                                </div>
+                                <input type="text" class="form-control Topic" id="input-field" placeholder="Past Vimeo Link" name="vimeo">
+                            </div>
+                          </div>
+                        </section>
+
+
+
+
+                        <div class="card-footer bg-primary">
+                            <div class="col text-center">
+                                <button type="submit" id="publisher" class="btn btn-light  ml-3" title="Hit For: Create Banner" data-toggle="tooltip"><i class="fas fa-upload"></i>&nbsp;&nbsp; Create Banner Now</button>
+                            </div>
+                        </div>
+               
+                    </div>
+
+                    <!-- ------------------------------------------------------- -->
+                  
+                    <!-- end col-md-8 -->
+                    <div class="col-md-4">
+                        <!-- /.card-body -->
+                    </div>
+                    <!-- end col-md-8 -->
+                </div>
+                
+              </div>
+              <div class="card-footer bg-primary">
+
+              </div> 
+              <!-- /.card-body And Default Form-->
+            </form>
+
+            </div>
+            </div>
+            <!-- /.card -->
+          </div>
+          <!-- /.col -->
+        </div>
+        <!-- /.row -->
+      </div>
+      <!-- /.container-fluid -->
+    </section>
+    <!-- /.content -->
+  </div>
+  <!-- /.content-wrapper -->
+
+  {% include 'includes/adminFooter.html' %} <!--Add this-->
+
+<!-- jQuery -->
+<script src="{% static 'adminAAKRITICMS/plugins/jquery/jquery.min.js'%}"></script>
+<!-- Bootstrap 4 -->
+<script src="{% static 'adminAAKRITICMS/plugins/bootstrap/js/bootstrap.bundle.min.js'%}"></script>
+<!-- Select2 -->
+<script src="{% static 'adminAAKRITICMS/plugins/select2/js/select2.full.min.js'%}"></script>
+
+<!-- AakritiCMS JavaScript -->
+<script src="{% static 'adminAAKRITICMS/js/aakritiCMS.min.js'%}"></script>
+<!-- SweetAlert2 -->
+<script src="{% static 'adminAAKRITICMS/plugins/sweetalert2/sweetalert2.min.js'%}"></script>
+<!-- Toastr -->
+<script src="{% static 'adminAAKRITICMS/plugins/toastr/toastr.min.js'%}"></script>
+<script src="{% static 'adminAAKRITICMS/plugins/aakritiCMS/js/additional-operations.js' %}"></script>
+
+<script> 
+
+  $(function () {
+    //Initialize Select2 Elements
+    $('.select2').select2()
+
+    //Initialize Select2 Elements
+    $('.select2bs4').select2({
+      theme: 'bootstrap4'
+    })
+  })
+ 
+  
+$(function () {
+  $('[data-toggle="tooltip"]').tooltip()
+})
+
+
+
+$(".BANNER_TYPE").change(function(){
+  var page_type = $(this).val();
+  if (page_type == 'is_video'){
+    $('.VIDEOSECTION').show();
+    $('.IMGSECTION').hide();
+
+  }else{
+    $('.IMGSECTION').show();
+    $('.VIDEOSECTION').hide();
+  }
+});
+
+  $(document).ready(function() {
+      $('.VIDEO_TYPE').change(function(){
+          var target = $(this).val();
+          if (target == 'youtube'){
+            $(".YOUTUBEBOX").removeClass("d-none");
+            $(".VIMEOBOX").addClass("d-none");
+            $(".LOCALVIDEOBOX").addClass("d-none");
+            
+            console.log("target:", target);
+          }else if(target == 'vimeo'){
+            $(".VIMEOBOX").removeClass("d-none");
+            $(".YOUTUBEBOX").addClass("d-none");
+            $(".LOCALVIDEOBOX").addClass("d-none");
+
+          }
+          else if(target == 'is_local'){
+            $(".LOCALVIDEOBOX").removeClass("d-none");
+            $(".YOUTUBEBOX").addClass("d-none");
+            $(".VIMEOBOX").addClass("d-none");
+
+          }
+      });
+  });
+</script>
+<!-- ==============END=============== -->
+{% include 'includes/adminToster.html' %}
+</body>
+</html>

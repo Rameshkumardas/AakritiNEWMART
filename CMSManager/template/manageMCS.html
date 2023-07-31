@@ -1,0 +1,315 @@
+<!DOCTYPE html>
+{% load static%}
+<html lang="en">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>General Settings | {{project.title | safe | title }} || {{project.name}} </title>
+  <link rel="icon" type="image/png" href="{% if project.favicon %}{{project.favicon.url}}{% else %}{% static 'adminAAKRITICMS/img/default/mrdas.jpg' %}{% endif %}">
+  <!-- Font Awesome -->
+  <link rel="stylesheet" href="{% static 'adminAAKRITICMS/plugins/fontawesome-free/css/all.min.css'%}">
+  <!-- SweetAlert2 -->
+  <link rel="stylesheet" href="{% static 'adminAAKRITICMS/plugins/sweetalert2-theme-bootstrap-4/bootstrap-4.min.css' %}">
+  <!-- adminAAKRITICMS Theme style -->
+  <link rel="stylesheet" href="{% static 'adminAAKRITICMS/css/aakriticms.min.css'%}">
+  <link rel="stylesheet" href="{% static 'adminAAKRITICMS/css/aakriti.ui.css'%}">
+  <link rel="stylesheet" href="{% static 'adminAAKRITICMS/plugins/overlayScrollbars/css/OverlayScrollbars.min.css' %}">
+  <link rel="stylesheet" href="{% static 'adminAAKRITICMS/plugins/sweetalert2-theme-bootstrap-4/bootstrap-4.min.css' %}">
+  <!-- adminAAKRITICMS Theme style -->
+  <!-- iCheck for checkboxes and radio inputs -->
+  <link rel="stylesheet" href="{% static 'adminAAKRITICMS/plugins/icheck-bootstrap/icheck-bootstrap.min.css'%}">
+  <!-- summernote -->
+  <link rel="stylesheet" href="{% static 'adminAAKRITICMS/plugins/summernote/summernote-bs4.min.css' %}">
+  <link rel="stylesheet" href="{% static 'adminAAKRITICMS/plugins/bootstrap/bootstrap-tagsinput.css' %}"/>
+  <link rel="stylesheet" href="{% static 'adminAAKRITICMS/plugins/tags/tagsinput.css' %}"/>
+  <link rel="stylesheet" href="{% static 'adminAAKRITICMS/plugins/summernote/prettify.css' %}"/>
+  <link rel="stylesheet" href="{% static 'adminAAKRITICMS/plugins/prism/prism.css' %}">
+  <link rel="stylesheet" href="{% static 'adminAAKRITICMS/plugins/overlayScrollbars/css/OverlayScrollbars.min.css' %}">
+  <link rel="stylesheet" href="{% static 'adminAAKRITICMS/plugins/daterangepicker/daterangepicker.css'%}">
+</head>
+<body class="sidebar-mini layout-fixed">
+  <div class="wrapper">
+  {% include 'includes/adminNavBar.html' %} <!--Add this-->
+  {% include 'includes/adminSideBar.html' %} <!--Add this-->
+  <!-- Content Wrapper. Contains page content -->
+  <div class="content-wrapper">
+    <!-- Content Header (Page header) -->
+    <section class="content-header">
+      <div class="container-fluid">
+        <div class="row mb-2">
+          <div class="col-sm-6">
+            <h1>CMS Manager</h1>
+          </div>
+          <div class="col-sm-6">
+            <ol class="breadcrumb float-sm-right">
+              <li class="breadcrumb-item"><a href="{% url 'DefaultDashboard' %}">Home</a></li>
+              <li class="breadcrumb-item active">CMS Manager</li>
+            </ol>
+          </div>
+        </div>
+      </div><!-- /.container-fluid -->
+    </section>
+
+    <!-- Main content -->
+    <section class="content">
+      <div class="container-fluid">
+        <div class="row">
+            <div class="col-md-3">
+                <div class="card card-widget widget-user">
+                    <div class="card-body p-1">
+                      <a href="{% url 'CMSSettings' %}" class="btn btn-success btn-block " style="text-align: left !important;"><i class="fas fa-home"></i>&nbsp;&nbsp; &nbsp;<b>CMS Manager</b></a>
+                      {% comment %}
+                      <a href="{% url 'HowitWorks' %}" class="btn btn-light btn-block " style="text-align: left !important;"><i class="fas fa-tasks"></i>&nbsp;&nbsp; &nbsp;<b>How it Works</b></a>
+                      <a href="{% url 'AboutUsSettings' %}" class="btn btn-light btn-block " style="text-align: left !important;"><i class="far fa-user-circle"></i>&nbsp;&nbsp; &nbsp;<b>About Us</b></a>
+                      <a href="{% url 'TermsConditionSettings' %}" class="btn btn-light btn-block " style="text-align: left !important;"><i class="fas fa-gavel"></i>&nbsp;&nbsp; &nbsp;<b>Terms & Condition</b></a>
+                      <a href="{% url 'PrivacyPolicySettings' %}" class="btn btn-light btn-block " style="text-align: left !important;"><i class="fas fa-shield-alt"></i>&nbsp;&nbsp; &nbsp;<b>Privacy Policy</b></a>
+                      <a href="{% url 'CopyrightPolicy' %}" class="btn btn-light btn-block " style="text-align: left !important;"><i class="far fa-copyright"></i>&nbsp;&nbsp; &nbsp;<b>Copyright Policy</b></a>                    
+                      <a href="{% url 'CookiesPolicy' %}" class="btn btn-light btn-block " style="text-align: left !important;"><i class="fas fas fa-gavel"></i>&nbsp;&nbsp; &nbsp;<b>Cookies Policy</b></a>
+                      <a href="{% url 'RCRPolicy' %}" class="btn btn-light btn-block " style="text-align: left !important;"><i class="fas fas fa-gavel"></i>&nbsp;&nbsp; &nbsp;<b>RCR Policy</b></a>
+                      <a href="{% url 'Maintenance' %}" class="btn btn-light btn-block " style="text-align: left !important;"><i class="fas fa-tasks"></i>&nbsp;&nbsp; &nbsp;<b>Maintenance</b></a>
+                      <a href="{% url 'Security' %}" class="btn btn-light btn-block " style="text-align: left !important;"><i class="fas fa-lock" aria-hidden="true"></i>&nbsp;&nbsp; &nbsp;<b>Security</b></a>
+                      <a href="{% url 'Disclaimer' %}" class="btn btn-light btn-block " style="text-align: left !important;"><i class="fas fa-exclamation-triangle "></i>&nbsp;&nbsp; &nbsp;<b>Disclaimer</b></a>
+
+                      <a href="{% url 'HowToShopOnlineSettings' %}" class="btn btn-light btn-block " style="text-align: left !important;"><i class="fas fa-tasks "></i>&nbsp;&nbsp; &nbsp;<b>How To Shop Online</b></a>
+                      <a href="{% url 'OurFabricsSettings' %}" class="btn btn-light btn-block " style="text-align: left !important;"><i class="fas fa-tasks "></i>&nbsp;&nbsp; &nbsp;<b>Our Fabrics</b></a>
+                      <a href="{% url 'OurGarmentQualitySettings' %}" class="btn btn-light btn-block " style="text-align: left !important;"><i class="fas fa-tasks "></i>&nbsp;&nbsp; &nbsp;<b>Our Garment Quality</b></a>
+                      <a href="{% url 'PerfectFitGuaranteeSettings' %}" class="btn btn-light btn-block " style="text-align: left !important;"><i class="fas fa-tasks "></i>&nbsp;&nbsp; &nbsp;<b>Perfect Fit Guarantee</b></a>
+                      <a href="{% url 'WeddingsSettings' %}" class="btn btn-light btn-block " style="text-align: left !important;"><i class="fas fa-tasks "></i>&nbsp;&nbsp; &nbsp;<b>Weddings</b></a>
+                      {% endcomment %}
+                    </div>    
+                </div>
+            </div>
+            <div class="col-md-9 ">
+              <!-- ==================== -->
+                <!-- Main content -->
+                <section class="content">
+                  <div class="container-fluid">
+                    <div class="row">
+                        <div class="col-md-12 ">
+                          <!-- ==================== -->
+                          <div class="card card-outline card-primary">
+                            <div class="card-header">
+                              <h3 class="card-title"><b><strong>{{project.name}} >>>> CMS </strong></b></h3>
+                            </div>
+                            <div class="card-bodyp-0">
+                              <div class="p-0">
+                                <div class="card">
+                                  <div class="card-header p-2">
+                                    <ul class="nav nav-pills">
+                                      <li class="nav-item"><a class="nav-link active" href="#HOMEMeta" data-toggle="tab">Home Meta Maanger</a></li>
+                                   
+                                      <!-- <li class="nav-item"><a class="nav-link" href="#PaymentSettings" data-toggle="tab">Payment Settings</a></li>
+                                      <li class="nav-item"><a class="nav-link" href="#SMTP" data-toggle="tab">SMTP Setting</a></li>
+                                      <li class="nav-item"><a class="nav-link" href="#Media" data-toggle="tab">Media Setting</a></li> -->
+                                    </ul>
+                                  </div>
+                                  <div class="card-body">
+                                    <div class="tab-content">
+                                      <div class="tab-pane active" id="HOMEMeta">
+                                        <div class="form-group row">
+                                          <label for="inputName2" class="col-sm-3 col-form-label">Meta Title</label>
+                                          <div class="col-sm-9">
+                                            <input type="text" class="meta_title form-control" value="{{project.meta_title}}" id="inputName2" placeholder="Enter Meta Title">
+                                          </div>
+                                        </div>
+
+                                        <div class="form-group row">
+                                          <label for="inputExperience" class="col-sm-3 col-form-label">KEYWORDS</label>
+                                          <div class="col-sm-9">
+                                            <input type="text" data-role="tagsinput" id="inputExperience" value="{{project.meta_keywords}}" placeholder="Add Meta keyword" data-role="tagsinput" name="meta_keywords" class="meta_keywords form-control"> 
+                                          </div>
+                                        </div>
+                                        <div class="form-group row">
+                                          <label for="inputDescription" class="col-sm-3 col-form-label">Meta Description</label>
+                                          <div class="col-sm-9">
+                                            <textarea class="meta_description inputDescription " id="inputDescription"  width="100%" height="100 px" name="meta_description">{{project.meta_description}}</textarea>
+                                          </div>
+                                        </div>
+
+                                        <div class="form-group row">
+                                          <div class="offset-sm-2 col-sm-10">
+                                            <button type="submit" class="btn btn-success" onclick="updateHOMEMeta()">Save & Change <b>Meta Settings</b></button>
+                                        </div>
+                                      </div>
+                                      </div>  
+
+                                  
+                                  </div>
+                                  </div>
+                                  <!-- <div class="card-footer card-outline">
+                                    <a href="javascript:void(0);" class="btn btn-success" data-toggle="tooltip" data-placement="top" title="" data-original-title="Hit For Live Preview">Live Preview <i class="fas fa-eye"></i></a>
+                                  </div> -->
+                                </div>
+                              </div>                  
+                              
+                            </div>
+                            <div class="card-footer card-outline bg-primary">
+                            </div>
+                          </div>
+                        <!-- ==================== -->
+                        </div>
+                      </div>
+                    <!-- /.row -->
+                  </div><!-- /.container-fluid -->
+                </section>
+                <!-- /.content -->
+              </div>
+            <!-- ==================== -->
+            </div>
+          </div>
+        <!-- /.row -->
+      </div><!-- /.container-fluid -->
+    </section>
+    <!-- /.content -->
+  </div>
+  <!-- /.content-wrapper -->
+  <!-- ======================================================================== -->
+  {% include 'includes/adminFooter.html' %} <!--Add this-->
+</div>
+<!-- ./wrapper -->
+<!-- jQuery -->
+<script src="{% static 'adminAAKRITICMS/plugins/jquery/jquery.min.js'%}"></script>
+<!-- Bootstrap 4 -->
+<script src="{% static 'adminAAKRITICMS/plugins/bootstrap/js/bootstrap.bundle.min.js'%}"></script>
+<!-- AakritiCMS JavaScript -->
+<script src="{% static 'adminAAKRITICMS/js/aakritiCMS.min.js'%}"></script>
+<!-- SweetAlert2 -->
+<script src="{% static 'adminAAKRITICMS/plugins/sweetalert2/sweetalert2.min.js'%}"></script>
+<!-- Toastr -->
+<script src="{% static 'adminAAKRITICMS/plugins/toastr/toastr.min.js'%}"></script>
+<script src="{% static 'adminAAKRITICMS/plugins/overlayScrollbars/js/jquery.overlayScrollbars.min.js' %}"></script>
+<!-- AakritiCMS Plugins Themes Events-->
+<!-- <script src="{% static 'adminAAKRITICMS/plugins/aakriticms/js/functions.js'%}"></script> -->
+<!-- AakritiCMS JavaScript -->
+<!-- Summernote -->
+<script src="{% static 'adminAAKRITICMS/plugins/summernote/summernote-bs4.min.js' %}"></script>
+<!-- AakritiCMS Tags -->
+<script src="{% static 'adminAAKRITICMS/plugins/tags/tagsinput.js'%}"></script>
+<script src="{% static 'adminAAKRITICMS/plugins/summernote/summernote-ext-highlight.js' %}"></script>
+<script src="{% static 'adminAAKRITICMS/plugins/summernote/prettify.js' %}"></script>
+<!-- AakritiCMS Prism JS -->
+<script src="{% static 'adminAAKRITICMS/plugins/prism/prism.js'%}" data-manual></script>
+<script src="{% static 'adminAAKRITICMS/plugins/overlayScrollbars/js/jquery.overlayScrollbars.min.js' %}"></script>
+<script src="{% static 'adminAAKRITICMS/plugins/moment/moment.min.js'%}"></script>
+<script src="{% static 'adminAAKRITICMS/plugins/daterangepicker/daterangepicker.js'%}"></script>
+<script src="{% static 'adminAAKRITICMS/plugins/tempusdominus-bootstrap-4/js/tempusdominus-bootstrap-4.min.js'%}"></script>
+<script src="{% static 'adminAAKRITICMS/plugins/aakritiCMS/js/additional-operations.js' %}"></script>
+<!-- jQuery -->
+<script src="{% static 'adminAAKRITICMS/plugins/aakritiCMS/4IMGDisplay.js' %}"></script>
+<!-- Bootstrap 4 -->
+<!-- Select2 -->
+<script src="{% static 'adminAAKRITICMS/plugins/select2/js/select2.full.min.js'%}"></script>
+<!-- SweetAlert2 -->
+
+
+
+<script type="text/javascript">
+  $(function () {
+    // Summernote
+    $('#inputDescription').summernote({
+    placeholder: 'type starting with : Project Description',
+    tabsize: 2,
+    height:250,
+    toolbar: [
+          ['style', ['style']],
+          ['highlight', ['highlight']],
+          ['font', ['bold', 'underline', 'clear']],
+          ['color', ['color']],
+          ['para', ['ul', 'ol', 'paragraph']],
+          ['table', ['table']],
+          ['insert', ['link', 'picture', 'video']],
+          ['view', ['fullscreen', 'codeview', 'help']]
+        ],
+    lang:'tr-TR'
+    });
+  })
+</script>
+
+
+
+<script>
+  function updateHOMEMeta(){
+    if ("{{request.session.SUPERADMIN}}" == ""){
+      Toast.fire({
+          icon: 'error',
+          title: '<p id="messages" style="margin-top:12px !important; margin-left:8px !important;"><b> Target Required* </b></p>'
+        }) 
+    }else{
+        const data = new FormData();
+        data.append('meta_title', $('.meta_title').val());
+        data.append('meta_keywords', $('.meta_keywords').val());
+        data.append('meta_description', $('.meta_description').val());
+        $.ajax({                      
+            type: "POST",                   
+            url: "{% url 'UpdateMETASettings' %}",                    
+            data: data,
+            cache: false,
+            processData: false,
+            contentType: false,
+            enctype: 'multipart/form-data',
+            headers: {'X-CSRFToken': "{{ csrf_token }}"},
+            success: function(data) {   
+                if (data.status == 1){
+                    Toast.fire({
+                      icon: 'success',
+                      title: '<p id="messages" style="margin-top: 12px !important; margin-left:8px !important;"><b>'+ data.message +'</b></p>'
+                    }) 
+                }else if (data.status == 0){
+                    Toast.fire({
+                    icon: 'error',
+                    title: '<p id="messages" style="margin-top: 12px !important; margin-left:8px !important;"><b>'+ data.message +'</b></p>'
+                    }) 
+                }       
+            },
+        });
+    }
+}
+</script>
+<script>
+  function updatePROJECTSOCIALMedia(){
+    if ("{{request.session.SUPERADMIN}}" == ""){
+      Toast.fire({
+          icon: 'error',
+          title: '<p id="messages" style="margin-top:12px !important; margin-left:8px !important;"><b> Target Required* </b></p>'
+        }) 
+    }else{
+        const data = new FormData();
+
+        data.append('facebook', $('.Facebook').val());
+        data.append('instagram', $('.Instagram').val());
+        data.append('youtube', $('.YouTube').val());
+        data.append('linkedin', $('.Linkedin').val());
+        data.append('pintrest', $('.Pintrest').val());
+        data.append('twitter', $('.Twitter').val());
+
+        $.ajax({                      
+            type: "POST",                   
+            url: "{% url 'UpdateSocailMedia' %}",                    
+            data: data,
+            cache: false,
+            processData: false,
+            contentType: false,
+            enctype: 'multipart/form-data',
+            headers: {'X-CSRFToken': "{{ csrf_token }}"},
+            success: function(data) {   
+                if (data.status == 1){
+                    Toast.fire({
+                      icon: 'success',
+                      title: '<p id="messages" style="margin-top: 12px !important; margin-left:8px !important;"><b>'+ data.message +'</b></p>'
+                    }) 
+                }else if (data.status == 0){
+                    Toast.fire({
+                    icon: 'error',
+                    title: '<p id="messages" style="margin-top: 12px !important; margin-left:8px !important;"><b>'+ data.message +'</b></p>'
+                    }) 
+                }       
+            },
+        });
+    }
+}
+</script>
+
+<!-- ===================END============================= -->
+{% include 'includes/adminToster.html' %} <!--Add this-->
+</body>
+</html>

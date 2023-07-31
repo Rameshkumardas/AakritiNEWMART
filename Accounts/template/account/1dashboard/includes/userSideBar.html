@@ -1,0 +1,126 @@
+{% load static %}
+{% load AdminInformation %}
+<!-- Main Sidebar Container -->
+<aside class="main-sidebar sidebar-dark-primary elevation-4">
+    <!-- Brand Logo -->
+    <a href="" class="brand-link">
+        <img src="{% if project.favicon %}{{project.favicon.url}}{% else %}{% static 'admineMARTSHOT/img/default/mrdas.jpg' %}{% endif %}"
+            alt="{{project.name}}" class="brand-image img-circle  elevation-3" style="opacity: .8">
+        <span class="brand-text font-weight-light">{{project.name}}</span>
+    </a>
+    <!-- Sidebar -->
+    <div class="sidebar">
+        <!-- Sidebar user panel (optional) -->
+        <div class="user-panel mt-3 pb-3 mb-3 d-flex">
+            <div class="image">
+                <img src="{% if request.user.img %}{{request.user.img.url}}{% endif %}" class="img-circle elevation-2" alt="User Image">
+            </div>
+            <div class="info">
+                <a href="javascript:void(0);" class="d-block">{{request.user.fname}}</a>
+            </div>
+        </div>
+        <!-- SidebarSearch Form -->
+        <div class="form-inline">
+            <form action="" method="POST">
+                <div class="input-group" data-widget="sidebar-search">
+                    <input class="form-control form-control-sidebar" type="search" placeholder="Search"
+                        aria-label="Search">
+                    <div class="input-group-append">
+                        <button class="btn btn-sidebar">
+                            <i class="fas fa-search fa-fw"></i>
+                        </button>
+                    </div>
+                </div>
+            </form>
+        </div>
+        <!-- Sidebar Menu -->
+        <nav class="mt-2">
+            <ul class="nav nav-pills nav-sidebar flex-column" data-widget="treeview" role="menu" data-accordion="false">
+                {% if dashboard %}
+                <li class="nav-item active">
+                    <a href="{% url 'Dashboard' %}" class="nav-link active"><i
+                            class="fas fa-tachometer-alt nav-icon"></i>
+                        <p><b>Dashboard</b></p>
+                    </a>
+                </li>
+                {% else %}
+                <li class="nav-item">
+                    <a href="{% url 'Dashboard' %}" class="nav-link">
+                        <i class="fas fa-tachometer-alt nav-icon"></i>
+                        <p>Dashboard</p>
+                    </a>
+                </li>
+                {% endif %}
+
+                {% if orders or ODERList %}
+                <li class="nav-item active">
+                    <a href="{% url 'Orders' %}" class="nav-link active"><i
+                            class="fas fa-shopping-basket nav-icon"></i>
+                        <p><b>Orders</b></p>
+                    </a>
+                </li>
+                {% else %}
+                <li class="nav-item">
+                    <a href="{% url 'Orders' %}" class="nav-link">
+                        <i class="fas fa-shopping-basket nav-icon"></i>
+                        <p>Orders</p>
+                    </a>
+                </li>
+                {% endif %}
+                
+
+
+
+                {% if address %}
+                <li class="nav-item active">
+                    <a href="{% url 'Address' %}" class="nav-link active"><i
+                            class="fas fa-home nav-icon"></i>
+                        <p><b>Address</b></p>
+                    </a>
+                </li>
+                {% else %}
+                <li class="nav-item">
+                    <a href="{% url 'Address' %}" class="nav-link">
+                        <i class="fas fa-home nav-icon"></i>
+                        <p>Address</p>
+                    </a>
+                </li>
+                {% endif %}
+
+
+                {% if Account %}
+                <li class="nav-item active">
+                    <a href="" class="nav-link active"><i
+                            class="fas fa-user nav-icon"></i>
+                        <p><b>Account Details</b></p>
+                    </a>
+                </li>
+                {% else %}
+                <li class="nav-item">
+                    <a href="" class="nav-link">
+                        <i class="fas fa-user nav-icon"></i>
+                        <p>Account Details</p>
+                    </a>
+                </li>
+                {% endif %}
+
+
+
+
+                <!-- ===========End-User-Manager======================== -->
+                <li class="nav-item sidebar-control bg-warning light" title="Delete Current Access Session"
+                    data-toggle="tooltip" style="border-radius: 3px !important;">
+                    <a href="{% url 'LOGOUTUSER' %}" class="nav-link ">
+                        <i class="fas fa-user-lock nav-icon"></i>
+                        <p><span class="text text-center text-uppercase"> &#160;&#160;&#160;User LogOut</span><i
+                                class="fas fa-sign-out-alt float-right"></i></p>
+                    </a>
+                </li>
+
+                <li class="nav-header text-success text-uppercase text-center">{{project.name}} - END</li>
+            </ul>
+        </nav>
+        <!-- /.sidebar-menu -->
+    </div>
+    <!-- /.sidebar -->
+</aside>

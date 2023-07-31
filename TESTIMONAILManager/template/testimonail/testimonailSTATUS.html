@@ -1,0 +1,275 @@
+<!DOCTYPE html>
+<html lang="en">
+  {% load static%}
+  {% load TestimonailTAG %}
+
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>All {% if request.GET.is_draft %} Draft {% elif request.GET.is_active %} Active {% elif request.GET.is_verified %} Deactive {% elif request.GET.is_deleted %} Deleted {% endif %} Testimonail | {{project.title | safe | title }} || {{project.name}} </title>
+  <link rel="icon" type="image/png" href="{% if project.favicon %}{{project.favicon.url}}{% else %}{% static 'adminAAKRITICMS/img/default/mrdas.jpg' %}{% endif %}">
+  <!-- Font Awesome -->
+  <link rel="stylesheet" href="{% static 'adminAAKRITICMS/plugins/fontawesome-free/css/all.min.css'%}">
+  <!-- SweetAlert2 -->
+  <link rel="stylesheet" href="{% static 'adminAAKRITICMS/plugins/sweetalert2-theme-bootstrap-4/bootstrap-4.min.css' %}">
+  <!-- adminRKMTech Theme style -->
+  <link rel="stylesheet" href="{% static 'adminAAKRITICMS/css/aakriticms.min.css'%}">
+  <link rel="stylesheet" href="{% static 'adminAAKRITICMS/css/aakriti.ui.css'%}">
+  <!-- DataTables -->
+  <link rel="stylesheet" href="{% static 'adminAAKRITICMS/plugins/datatables-bs4/css/dataTables.bootstrap4.min.css'%}">
+  <link rel="stylesheet" href="{% static 'adminAAKRITICMS/plugins/datatables-responsive/css/responsive.bootstrap4.min.css'%}">
+  <link rel="stylesheet" href="{% static 'adminAAKRITICMS/plugins/datatables-buttons/css/buttons.bootstrap4.min.css'%}">
+  <link rel="stylesheet" href="{% static 'adminAAKRITICMS/plugins/select2/css/select2.min.css'%}">
+  <link rel="stylesheet" href="{% static 'adminAAKRITICMS/plugins/overlayScrollbars/css/OverlayScrollbars.min.css' %}">
+</head>
+<body class="hold-transition sidebar-mini layout-fixed">
+  <div class="wrapper">
+  {% include 'includes/adminNavBar.html' %} <!--Add this-->
+  {% include 'includes/adminSideBar.html' %} <!--Add this-->
+
+  <!-- Content Wrapper. Contains page content -->
+  <div class="content-wrapper">
+
+    <section class="content-header">
+      <div class="container-fluid">
+        <div class="row mb-2">
+          <div class="col-sm-6">
+            <h1>Manage Testimonail</h1>
+          </div>
+          <div class="col-sm-6 d-flex " style="justify-content: right;">
+            <a href="javascript:void(0)" data-toggle="modal" data-target="#TESTIMONAILImport" class="TESTIMONAILImport btn btn-primary " data-toggle="tooltip" title="Import TESTIMONAIL " ><i class="fas fa-upload"></i>&nbsp;&nbsp; TESTIMONAIL Import </a>
+            &emsp;
+            <a href="javascript:void(0)" data-toggle="modal" data-target="#TESTIMONAILExport" class="TESTIMONAILExport btn btn-success " data-toggle="tooltip" title="Export TESTIMONAIL " ><i class="fas fa-download"></i>&nbsp;&nbsp; TESTIMONAIL Export</a>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <section class="content">
+      <div class="container-fluid">
+        <div class="row">
+          <div class="col-lg-3 col-6">
+            <div class="small-box bg-info">
+              <div class="inner">
+                <h3>{% draftTESTIMONIAL %}</h3>
+                <p>Draft Testimonail</p>
+              </div>
+              <div class="icon">
+                <i class="fas fa-users"></i>
+              </div>
+              <a href="{% url 'TestimonailList' %}?is_draft=True" class="small-box-footer">More info <i class="fas fa-arrow-circle-right"></i></a>
+            </div>
+          </div>
+          <div class="col-lg-3 col-6">
+            <div class="small-box bg-success">
+              <div class="inner">
+                <h3>{% activeTESTIMONIAL %}</h3>
+                <p>Active Testimonail</p>
+              </div>
+              <div class="icon">
+                <i class="fas fa-users"></i>
+              </div>
+              <a href="{% url 'TestimonailList' %}?is_verified=True" class="small-box-footer">More info <i class="fas fa-arrow-circle-right"></i></a>
+            </div>
+          </div>
+          <div class="col-lg-3 col-6">
+            <div class="small-box bg-warning">
+              <div class="inner">
+                <h3>{% deactivateTESTIMONIAL %}</h3>
+                <p>Deactive Testimonail</p>
+              </div>
+              <div class="icon">
+                <i class="fas fa-users"></i>
+              </div>
+              <a href="{% url 'TestimonailList' %}?is_active=False" class="small-box-footer">More info <i class="fas fa-arrow-circle-right"></i></a>
+            </div>
+          </div>
+          <div class="col-lg-3 col-6">
+            <div class="small-box bg-danger">
+              <div class="inner">
+                <h3>{% deletedTESTIMONIAL %}</h3>
+                <p>Deleted Testimonail</p>
+              </div>
+              <div class="icon">
+                <i class="fas fa-users"></i>
+              </div>
+              <a href="{% url 'TestimonailList' %}?is_deleted=True" class="small-box-footer">More info <i class="fas fa-arrow-circle-right"></i></a>
+            </div>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    {% if TestimonailList %}
+    <!-- Main content -->
+    <section class="content">
+      <div class="container-fluid">
+        <div class="row">
+          <div class="col-md-12">
+            <div class="card {% if request.GET.is_draft %} card-info {% elif request.GET.is_verified %} card-success {% elif request.GET.is_active %} card-warning {% elif request.GET.is_deleted %} card-danger {% endif %}">
+              <div class="card-header ">
+                <h1 class="card-title text-center text-bold text-uppercase">  All &nbsp; {% if request.GET.is_draft %} Draft {% elif request.GET.is_active %} Active {% elif request.GET.is_verified %} Deactive {% elif request.GET.is_deleted %} Deleted {% endif %} &nbsp; Testimonail &nbsp; List</dt></h1>
+                <h1 class="card-title text-center text-bold text-uppercase">  
+                </h1>
+                <!-- <a href="{% url 'CreateTestimonail' %}" class="btn btn-dark float-right" data-toggle="tooltip" title="Create New testimonail" ><i class="fas fa-edit"></i> Edit&nbsp;&nbsp; Create Testimonail</a> -->
+              </div>
+              <!-- /.card-header -->
+              <div class="card-body">
+                {% if TestimonailList %}
+                <table id="allTestimonail" class="table table-bordered table-striped " >
+                  <thead>
+                    <tr>
+                      <th>Image</th>
+                      <th>Name</th>
+                      <th>Date</th>
+                      <th>Actions</th>
+                    </tr>
+                  </thead>
+                  <tbody class="infinite-container">
+                    {% for testimonail in TestimonailList %}
+                    <tr class="infinite-item">
+                      <td style="background-image: url('{% if testimonail.img %}{{testimonail.img.url}}{% endif %}'); background-size:contain;background-repeat:no-repeat; "></td>
+                      <td class="text-center">
+                        {{testimonail.name}}
+                        <!-- <a href="#" target="_blank" class="btn btn-info m-1 right" data-toggle="tooltip" title="{{testimonail.name}}" ><i class="fas fa-eye"></i> View&nbsp;&nbsp;Headline</a> -->
+                      </td>
+                      <td class="text-left">
+                        <li> Publish: {{testimonail.date}}</li>
+                      </td>
+                        <td> 
+                          <div class="btn-group btn-group-sm">
+                            {% if request.GET.is_draft %}
+                              <a href="{% url 'ActivatedTestimonail' testimonail.pk %}" class="btn btn-success" data-toggle="tooltip" data-placement="top" title="Hit For Approved Now"><i class="fas fa-plus"></i> Activate</a>                          
+                              <a href="#" target="_blank" class="btn btn-info" data-toggle="tooltip" title="View testimonail"><i class="fas fa-eye"></i> View</a>
+                              <a href="{% url 'updateTestimonail' testimonail.pk %}" class="btn btn-dark" data-toggle="tooltip" title="Update testimonail"><i class="fas fa-edit"></i> Edit</a>
+                              <a href="{% url 'DeleteTestimonail' testimonail.pk %}" class="btn btn-danger" data-toggle="tooltip" data-placement="top" title="Hit For Delete Testimonail"><i class="fas fa-trash-alt"></i> Delete</a>                      
+                            {% elif request.GET.is_verified %}
+                              <a href="{% url 'DeactivatedTestimonail' testimonail.pk %}" class="btn btn-danger" data-toggle="tooltip" data-placement="top" title="Hit For Approved Now"><i class="fas fa-minus"></i> Deactivate</a>                          
+                              <a href="{{project.baseURL}}" target="_blank" class="btn btn-info" data-toggle="tooltip" title="View testimonail"><i class="fas fa-eye"></i> View</a>
+                            {% elif request.GET.is_active %}
+                              <a href="{% url 'ActivatedTestimonail' testimonail.pk %}" class="btn btn-success" data-toggle="tooltip" data-placement="top" title="Hit For Approved Now"><i class="fas fa-plus"></i> Activate</a>                          
+                              <a href="{{project.baseURL}}" target="_blank" class="btn btn-info" data-toggle="tooltip" title="View testimonail"><i class="fas fa-eye"></i> View</a>
+                              <a href="{% url 'updateTestimonail' testimonail.pk %}" class="btn btn-dark" data-toggle="tooltip" title="Update testimonail"><i class="fas fa-edit"></i> Edit</a>
+                              <a href="{% url 'DeleteTestimonail' testimonail.pk %}" class="btn btn-danger" data-toggle="tooltip" data-placement="top" title="Hit For Delete Testimonail"><i class="fas fa-trash-alt"></i> Delete</a>
+                            {% elif request.GET.is_deleted %}
+                              <a href="#" target="_blank" class="btn btn-info" data-toggle="tooltip" title="View testimonail"><i class="fas fa-eye"></i> View</a>
+                              <a href="{% url 'RestoreTestimonail' testimonail.pk %}" class="btn btn-primary" data-toggle="tooltip" data-placement="top" title="Hit For Removed From Live"><i class="fas fa-plus"></i></a>                          
+                              <a href="{% url 'PermanentlyDeleteTestimonail' testimonail.pk %}" class="btn btn-danger" data-toggle="tooltip" data-placement="top" title="Hit For Delete Testimonail"><i class="fas fa-trash-alt"></i> Delete</a>
+                            {% endif %}
+                      </div>
+                      </td>
+                    </tr>
+                    {% endfor %}
+                  </tbody>
+                  {% if page_obj.has_next %}
+                  <a class="infinite-more-link" href="?{% if request.GET.is_draft %}is_draft=True{% elif request.GET.is_verified %}is_verified=True{% elif request.GET.is_deleted %}is_deleted=True{% endif %}&page={{ page_obj.next_page_number }}"></a>
+
+                  {% else %}
+                    <div class="d-flex justify-content-center">
+                      <div class="spinner-border" role="status"  style="display:none;">
+                        <span class="sr-only">Loading...</span>
+                      </div>
+                    </div>
+                  {% endif %}
+                  <tfoot>
+                    <tfoot>
+                      <tr>
+                        <th>Image</th>
+                        <th>Name</th>
+                        <th>Date</th>
+                        <th>Actions</th>
+                      </tr>
+                    </tfoot>
+                  </tfoot>
+                </table>
+              {% else %}
+                <h4 class="alert text-center">{{project.name}} Has No More Data</h4>
+              {% endif %}
+              </div>
+               <div class="card-footer {% if request.GET.is_draft %} bg-info {% elif request.GET.is_verified %} bg-success {% elif request.GET.is_active %} bg-warning {% elif request.GET.is_deleted %} bg-danger {% endif %} d-flex justify-content-center">
+              </div>
+              <!-- /.card-body -->
+            </div>
+            </div>
+            <!-- /.card -->
+          </div>
+          <!-- /.col -->
+        </div>
+        <!-- /.row -->
+      <!-- /.container-fluid -->
+    </section>
+    <!-- /.content -->
+    {% endif %}
+  </div>
+  <!-- /.content-wrapper -->
+ 
+  {% include 'includes/adminFooter.html' %} <!--Add this-->
+
+</div>
+<!-- ./wrapper -->
+<!-- jQuery -->
+<script src="{% static 'adminAAKRITICMS/plugins/jquery/jquery.min.js'%}"></script>
+<!-- Bootstrap 4 -->
+<script src="{% static 'adminAAKRITICMS/plugins/bootstrap/js/bootstrap.bundle.min.js'%}"></script>
+<!-- DataTables  & Plugins -->
+<script src="{% static 'adminAAKRITICMS/plugins/datatables/jquery.dataTables.min.js'%}"></script>
+<script src="{% static 'adminAAKRITICMS/plugins/datatables-bs4/js/dataTables.bootstrap4.min.js'%}"></script>
+<script src="{% static 'adminAAKRITICMS/plugins/datatables-responsive/js/dataTables.responsive.min.js'%}"></script>
+<script src="{% static 'adminAAKRITICMS/plugins/datatables-responsive/js/responsive.bootstrap4.min.js'%}"></script>
+<script src="{% static 'adminAAKRITICMS/plugins/datatables-buttons/js/dataTables.buttons.min.js'%}"></script>
+<script src="{% static 'adminAAKRITICMS/plugins/datatables-buttons/js/buttons.bootstrap4.min.js'%}"></script>
+<script src="{% static 'adminAAKRITICMS/plugins/jszip/jszip.min.js'%}"></script>
+<script src="{% static 'adminAAKRITICMS/plugins/pdfmake/pdfmake.min.js'%}"></script>
+<script src="{% static 'adminAAKRITICMS/plugins/pdfmake/vfs_fonts.js'%}"></script>
+<script src="{% static 'adminAAKRITICMS/plugins/datatables-buttons/js/buttons.html5.min.js'%}"></script>
+<script src="{% static 'adminAAKRITICMS/plugins/datatables-buttons/js/buttons.print.min.js'%}"></script>
+<script src="{% static 'adminAAKRITICMS/plugins/datatables-buttons/js/buttons.colVis.min.js'%}"></script>
+<!-- AakritiCMS JavaScript -->
+<script src="{% static 'adminAAKRITICMS/js/aakritiCMS.min.js'%}"></script>
+<!-- SweetAlert2 -->
+<script src="{% static 'adminAAKRITICMS/plugins/sweetalert2/sweetalert2.min.js'%}"></script>
+<!-- Toastr -->
+<script src="{% static 'adminAAKRITICMS/plugins/toastr/toastr.min.js'%}"></script>
+<script src="{% static 'adminAAKRITICMS/plugins/overlayScrollbars/js/jquery.overlayScrollbars.min.js' %}"></script>
+
+
+<script src="{% static 'adminAAKRITICMS/plugins/infinite-scroll/jquery.waypoints.min.js'%}"></script>
+<script src="{% static 'adminAAKRITICMS/plugins/infinite-scroll/infinite.min.js'%}"></script>
+<!-- TESTIMONAILImportExport -->
+{% include 'template/bulk/TESTIMONAILImportExport.html' %}
+
+<script>
+  var infinite = new Waypoint.Infinite({
+        element: $('.infinite-container')[0],
+        handler: function(direction) {
+    },
+    offset: 'bottom-in-view',
+    onBeforePageLoad: function () {
+    $('.spinner-border').show();
+    },
+    onAfterPageLoad: function () {
+    $('.spinner-border').hide();
+    }   
+});
+
+
+
+  $(function () {
+    $("#allTestimonail").DataTable({
+      "responsive": true, 
+      "lengthChange": false, 
+      "autoWidth": false,
+      "buttons": ["csv", "excel", "pdf", "print", "colvis"]
+    }).buttons().container().appendTo('#allTestimonail_wrapper .col-md-6:eq(0)');
+  });
+
+$(function () {
+  $('[data-toggle="tooltip"]').tooltip()
+})
+
+
+</script>
+<!-- ==============END=============== -->
+{% include 'includes/adminToster.html' %}
+</body>
+</html>

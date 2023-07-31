@@ -1,0 +1,267 @@
+<div class="modal fade" id="ACTIVEList">
+    <div class="modal-dialog modal-md">
+        <div class="modal-content">
+        <div class="modal-header justify-content-center">
+            <h5 class="modal-title text-center text-justify"><b>Are you sure you want to bulk activate?</b></h5>
+            <!-- <button type="button" class="close" data-dismiss="modal" aria-label="Close"><span aria-hidden="true">&times;</span></button> -->
+        </div>
+        <div class="modal-body ">
+            <div class="row justify-content-center">
+                <i class='fas fa-check-circle' style='font-size:48px;color:green'></i>
+            </div>
+            <input type="text" style="display:none" class="targetVAL form-control" id="input-field" onkeyup="NameStringCount()">
+        </div>
+        <div class="modal-footer justify-content-right ">
+            <button type="button" id="" class=" btn btn-outline-success" onclick="bulkACTIVE()">Confirm </button>
+            <button type="button"  class="btn btn-outline-dark" data-dismiss="modal">Cancel</button>
+        </div>
+        </div>
+    </div>
+</div>
+
+<div class="modal fade" id="DEACTIVEList">
+    <div class="modal-dialog modal-md">
+        <div class="modal-content">
+        <div class="modal-header justify-content-center">
+            <h5 class="modal-title text-center text-justify"><b>Are you sure you want to bulk deactivate?</b></h5>
+            <!-- <button type="button" class="close" data-dismiss="modal" aria-label="Close"><span aria-hidden="true">&times;</span></button> -->
+        </div>
+        <div class="modal-body ">
+            <div class="row justify-content-center">
+                <i class='fas fa-check-circle' style='font-size:48px;color:yellow'></i>
+            </div>
+            <input type="text" style="display:none" class="targetVAL form-control" id="input-field" onkeyup="NameStringCount()">
+        </div>
+        <div class="modal-footer justify-content-right ">
+            <button type="button" id="" class=" btn btn-outline-warning" onclick="bulkDEACTIVE()">Confirm </button>
+            <button type="button"  class="btn btn-outline-dark" data-dismiss="modal">Cancel</button>
+        </div>
+        </div>
+    </div>
+</div>
+
+<div class="modal fade" id="DELETEList">
+    <div class="modal-dialog modal-md">
+        <div class="modal-content">
+        <div class="modal-header justify-content-center">
+            <h5 class="modal-title text-center text-justify"><b>Are you sure you want to bulk delete?</b></h5>
+            <!-- <button type="button" class="close" data-dismiss="modal" aria-label="Close"><span aria-hidden="true">&times;</span></button> -->
+        </div>
+        <div class="modal-body ">
+            <div class="row justify-content-center">
+                <i class='fas fa-trash-alt' style='font-size:48px;color:red'></i>
+            </div>
+            <input type="text" style="display:none" class="targetVAL form-control" id="input-field" onkeyup="NameStringCount()">
+        </div>
+        <div class="modal-footer justify-content-right ">
+            <button type="button" id="" class=" btn btn-outline-danger" onclick="bulkDELETE()">Confirm </button>
+            <button type="button"  class="btn btn-outline-dark" data-dismiss="modal">Cancel</button>
+        </div>
+        </div>
+    </div>
+</div>
+
+<div class="modal fade" id="EMPTYList">
+    <div class="modal-dialog modal-md">
+        <div class="modal-content">
+        <div class="modal-header justify-content-center">
+            <h4 class="modal-title text-center text-justify"><b>Please select row for delete.</b></h4>
+            <button type="button" class="close" data-dismiss="modal" aria-label="Close"><span aria-hidden="true">&times;</span></button>
+        </div>
+        <div class="modal-body ">
+            <div class="row justify-content-center">
+                <i class='fas fa-trash-alt' style='font-size:48px;color:yellowgreen'></i>
+            </div>
+            <input type="text" style="display:none" class="targetVAL form-control" id="input-field" onkeyup="NameStringCount()">
+        </div>
+        <div class="modal-footer justify-content-right ">
+            <button type="button" id="" class=" btn btn-outline-danger">Ok </button>
+            <button type="button"  class="btn btn-outline-dark" data-dismiss="modal">Cancel</button>
+        </div>
+        </div>
+    </div>
+</div>
+<script>
+    function bulkACTIVE(){
+        var id = [];
+        json_data = {id:id}
+        $(':checkbox:checked').each(function(i){
+          var val = $(this).attr('getVal');
+          if(val !="all"){
+            id[i] = val;
+          }
+        })
+
+        if (id.length===0){
+            $('.priceOptionForm').show()
+            $('.bulk_section').hide()
+        }else{
+
+            var filter_data = json_data.id.filter((element)=>{
+                return element != null
+            })
+    
+            const form_data = new FormData();             
+            form_data.append('id', filter_data);
+    
+            $('.priceOptionForm').hide()
+            $('.bulk_section').show()
+            $.ajax({                      
+                type: "POST",                   
+                url: "{% url 'BULK_ACTIVATE_SECTION' %}",                    
+                data: form_data,
+                cache: false,
+                processData: false,
+                contentType: false,
+                enctype: 'multipart/form-data',
+                headers: {'X-CSRFToken': "{{ csrf_token }}"},
+                success: function(data) {   
+                    if (data.status == 1){
+                        Toast.fire({
+                            icon: 'success',
+                            title: '<p id="messages" style="margin-top: 0px !important; margin-left:8px !important;"><b>'+ data.message +'</b></p>'
+                        })  
+                        $('.bulk_section').hide()
+                        setTimeout(function () {
+                            window.location.href =data.AFTERTask;
+                        }, 2000); 
+
+                    }else if (data.status == 0){
+                        Toast.fire({
+                        icon: 'error',
+                        title: '<p id="messages" style="margin-top: 0px !important; margin-left:8px !important;"><b>'+ data.message +'</b></p>'
+                        }) 
+                    }       
+                },
+                error:function(data){
+                    Toast.fire({
+                        icon: 'error',
+                        title: '<p id="messages" style="margin-top: 0px !important; margin-left:8px !important;"><b> Server Issue</b></p>'
+                    }) 
+                }
+            });
+        }
+    }
+    function bulkDEACTIVE(){
+        var id = [];
+        json_data = {id:id}
+        $(':checkbox:checked').each(function(i){
+          var val = $(this).attr('getVal');
+          if(val !="all"){
+            id[i] = val;
+          }
+        })
+        if (id.length===0){
+          $('.priceOptionForm').show()
+          $('.bulk_section').hide()
+        }else{
+          $('.priceOptionForm').hide()
+          $('.bulk_section').show()
+          var filter_data = json_data.id.filter((element)=>{
+            return element != null
+        })
+
+        const form_data = new FormData();             
+        form_data.append('id', filter_data);
+
+          $('.priceOptionForm').hide()
+          $('.bulk_section').show()
+          $.ajax({                      
+              type: "POST",                   
+              url: "{% url 'BULK_DEACTIVATE_SECTION' %}",                    
+              data: form_data,
+              cache: false,
+              processData: false,
+              contentType: false,
+              enctype: 'multipart/form-data',
+              headers: {'X-CSRFToken': "{{ csrf_token }}"},
+              success: function(data) {   
+                  if (data.status == 1){
+                      Toast.fire({
+                          icon: 'success',
+                          title: '<p id="messages" style="margin-top: 0px !important; margin-left:8px !important;"><b>'+ data.message +'</b></p>'
+                      })  
+                      $('.bulk_section').hide()
+                      setTimeout(function () {
+                          window.location.href =data.AFTERTask;
+                      }, 2000); 
+
+                  }else if (data.status == 0){
+                      Toast.fire({
+                      icon: 'error',
+                      title: '<p id="messages" style="margin-top: 0px !important; margin-left:8px !important;"><b>'+ data.message +'</b></p>'
+                      }) 
+                  }       
+              },
+              error:function(data){
+                  Toast.fire({
+                      icon: 'error',
+                      title: '<p id="messages" style="margin-top: 0px !important; margin-left:8px !important;"><b> Server Issue</b></p>'
+                  }) 
+              }
+          });
+        }
+    }
+    function bulkDELETE(){
+        var id = [];
+        json_data = {id:id}
+        $(':checkbox:checked').each(function(i){
+          var val = $(this).attr('getVal');
+          if(val !="all"){
+            id[i] = val;
+          }
+        })
+        if (id.length===0){
+          $('.priceOptionForm').show()
+          $('.bulk_section').hide()
+        }else{
+          $('.priceOptionForm').hide()
+          $('.bulk_section').show()
+        
+        var filter_data = json_data.id.filter((element)=>{
+            return element != null
+        })
+
+        const form_data = new FormData();             
+        form_data.append('id', filter_data);
+
+          $('.priceOptionForm').hide()
+          $('.bulk_section').show()
+          $.ajax({                      
+              type: "POST",                   
+              url: "{% url 'BULK_DELETE_SECTION' %}",                    
+              data: form_data,
+              cache: false,
+              processData: false,
+              contentType: false,
+              enctype: 'multipart/form-data',
+              headers: {'X-CSRFToken': "{{ csrf_token }}"},
+              success: function(data) {   
+                  if (data.status == 1){
+                      Toast.fire({
+                          icon: 'success',
+                          title: '<p id="messages" style="margin-top: 0px !important; margin-left:8px !important;"><b>'+ data.message +'</b></p>'
+                      })  
+                      $('.bulk_section').hide()
+                      setTimeout(function () {
+                          window.location.href =data.AFTERTask;
+                      }, 2000); 
+
+                  }else if (data.status == 0){
+                      Toast.fire({
+                      icon: 'error',
+                      title: '<p id="messages" style="margin-top: 0px !important; margin-left:8px !important;"><b>'+ data.message +'</b></p>'
+                      }) 
+                  }       
+              },
+              error:function(data){
+                  Toast.fire({
+                      icon: 'error',
+                      title: '<p id="messages" style="margin-top: 0px !important; margin-left:8px !important;"><b> Server Issue</b></p>'
+                  }) 
+              }
+          });
+
+        }
+    }
+</script>

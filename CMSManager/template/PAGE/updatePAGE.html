@@ -1,0 +1,280 @@
+<!DOCTYPE html>
+<html lang="en">
+  {% load static%}
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>All &nbsp;{% if request.GET.is_draft %}Draft {% elif request.GET.is_verified %} Active {% elif request.GET.is_active %} Deactive  {% elif request.GET.is_deleted %} Deleted {% endif %}&nbsp; Page List || {{project.title | safe | title }} || {{project.name}} </title>
+  <link rel="icon" type="image/png" href="{% if project.favicon %}{{project.favicon.url}}{% else %}{% static 'adminAAKRITICMS/img/default/mrdas.jpg' %}{% endif %}">
+     <!-- Select2 -->
+     <link rel="stylesheet" href="{% static 'adminAAKRITICMS/plugins/select2/css/select2.min.css'%}">
+     <link rel="stylesheet" href="{% static 'adminAAKRITICMS/plugins/select2-bootstrap4-theme/select2-bootstrap4.min.css'%}">
+    <!-- Font Awesome -->
+    <link rel="stylesheet" href="{% static 'adminAAKRITICMS/plugins/fontawesome-free/css/all.min.css'%}">
+    <!-- SweetAlert2 -->
+    <link rel="stylesheet" href="{% static 'adminAAKRITICMS/plugins/sweetalert2-theme-bootstrap-4/bootstrap-4.min.css' %}">
+    <!-- webreakFree Theme style -->
+    <link rel="stylesheet" href="{% static 'adminAAKRITICMS/css/aakriticms.min.css'%}">
+    <link rel="stylesheet" href="{% static 'adminAAKRITICMS/css/aakriti.ui.css'%}">    
+    <!-- iCheck for checkboxes and radio inputs -->
+    <link rel="stylesheet" href="{% static 'adminAAKRITICMS/plugins/icheck-bootstrap/icheck-bootstrap.min.css'%}">
+    <!-- summernote -->
+    <link rel="stylesheet" href="{% static 'adminAAKRITICMS/plugins/summernote/summernote-bs4.min.css' %}">
+    <link rel="stylesheet" href="{% static 'adminAAKRITICMS/plugins/bootstrap/bootstrap-tagsinput.css' %}"/>
+    <link rel="stylesheet" href="{% static 'adminAAKRITICMS/plugins/tags/tagsinput.css' %}"/>
+    <link rel="stylesheet" href="{% static 'adminAAKRITICMS/plugins/summernote/prettify.css' %}"/>
+    
+    <link rel="stylesheet" href="{% static 'adminAAKRITICMS/plugins/overlayScrollbars/css/OverlayScrollbars.min.css' %}">
+  </head>
+  <body class="hold-transition sidebar-mini layout-fixed">
+  <div class="wrapper">
+  {% include 'includes/adminNavBar.html' %} 
+  {% include 'includes/adminSideBar.html' %} 
+  <div class="content-wrapper">
+    <section class="content-header">
+      <div class="container-fluid">
+        <div class="row mb-2">
+          <div class="col-sm-6">
+          <h1>Update: {{PAGE.name}}</h1>
+          </div>
+          <div class="col-sm-6">
+            <ol class="breadcrumb float-sm-right">
+              <li class="breadcrumb-item"><a href="{% url 'DefaultDashboard' %}">Home</a></li>
+              <li class="breadcrumb-item active">PAGE</li>
+            </ol>
+          </div>
+        </div>
+      </div><!-- /.container-fluid -->
+    </section>
+    <!-- Main content -->
+    <section class="content">
+      <div class="container-fluid">
+        <div class="row">
+          <div class="col-md-12">
+            <div class="card card-primary">
+              <div class="card-header ">
+              </div>
+              <!-- /.card-header -->
+              <div class="card-body">
+                <form action="{% url 'updatePAGE' PAGE.slug %}" method="POST"  id="FormData" enctype="multipart/form-data">
+                  {% csrf_token %}
+                <div class="row" id="LINK" >
+                    <!-- ------------------------------------------------------- -->
+                    <div class="col-md-12">
+                        <div class="card-body">
+                            <div class="row">
+                              <div class="col-lg-6">
+                                <div class="form-group">
+                                  <label for="main-category">Page Name</label>
+                                  <div class="input-group">
+                                      <div class="input-group-prepend">
+                                      <span class="input-group-text"><i class="fas fa-laptop"></i></span>
+                                      </div>
+                                      <input type="text" class="name form-control" id="input-field" onkeyup="NameStringCount()" placeholder="Update Page Name" name="name" value="{{PAGE.name}}">
+                                      <div class="input-group-prepend">
+                                        <span class="input-group-text" for="input-field" id="NameStringCount"></span>
+                                      </div>
+                                  </div>
+                                </div>
+                              </div>
+
+
+                              <div class="col-lg-6">
+                                <div class="form-group">
+                                  <label>Select Page Type*:</label>
+                                  <select class="PAGE_TYPE form-control select2" style="width: 100%;" name="PAGE_TYPE" id="PAGE_TYPE" required onchange="CheckPageType()">
+                                      <option value="{% if PAGE.is_url %}is_url{% elif PAGE.is_product %}is_product{% else %}is_content{% endif %}">Selected {% if PAGE.is_url %} [ URL ] {% elif PAGE.is_product %} [ Product ] {% else %} [ CONTENT ] {% endif %} Page</option>
+                                      <option value="is_content">Content Page</option>
+                                      <option value="is_url">URL Page</option>
+                                      <option value="is_product">Product Page</option>
+                                    </select>
+                                </div>
+                              </div>
+                            </div>
+                            
+
+                            <div class="form-group">
+                              <label for="main-category">Page Slug*</label>
+                              <div class="input-group">
+                                  <div class="input-group-prepend">
+                                  <span class="input-group-text"><i class="fas fa-laptop"></i></span>
+                                  </div>
+                                  <input type="text" class="slug form-control" id="input-field" onkeyup="NameStringCount()" placeholder="Update Page Slug" name="slug" value="{% if PAGE.is_url %}{{PAGE.redirect_to}}{% else %}{{PAGE.slug}}{% endif %}">
+                                  <div class="input-group-prepend">
+                                    <span class="input-group-text" for="input-field" id="NameStringCount"></span>
+                                  </div>
+                              </div>
+                            </div>  
+                            <section class="ProductBOX">
+                              <div class="form-group">
+                                <label>Select Products</label>                            
+                                <div class="select2-purple">
+                                  <select class="product select2 select2-hidden-accessible" name="product" multiple="" data-placeholder="Select Products" data-dropdown-css-class="select2-purple" style="width: 100%;" data-select2-id="15" tabindex="-1" aria-hidden="true">
+                                    {% if allPRODUCTList %}
+                                    {% for product in allPRODUCTList %}
+                                      <option value="{{product.pk}}">{{product.name}}</option>
+                                    {% endfor %}
+                                  {% else %}
+                                    <option value="">No More Products</option>
+                                  {% endif %}
+                                  </select>
+                                </div>
+                              </div>        
+                            </section>       
+                            {% for product in PAGE.product.all %} 
+                            {{product}}
+                            {% endfor %}
+                            <div class="DESCRIPTIONBOX card card-outline card-info  " >
+                                <div class="card-header">
+                                  <h3 class="card-title">Page Description</h3>
+                                </div>
+                                <!-- /.card-header -->
+                                <div class="card-body p-0">
+                                  <textarea class="description" id="summernote"  width="100%" height="100 px" name="description">{{PAGE.description | safe }}</textarea>
+                                </div>
+                            </div>
+                            <div class="METABOX card card-outline card-info ">
+                              <div class="card-header">
+                                <input type="text" class="meta_title form-control" id="input-field" placeholder="Meta Title" name="meta_title" value="{{PAGE.meta_title}}">
+                              </div>
+                              <div class="card-body p-0">
+                                  <textarea class="form-control"  rows="5" id="Chapter-Tag-Description" placeholder="Write Meta Description..." name="meta_description">{{PAGE.meta_description}}</textarea>
+                              </div>
+                              <div class="card-footer card-outline bg-info">
+                                <input type="text" data-role="tagsinput" value="{{PAGE.meta_keywords}}" placeholder="Add Page Meta Keywords" data-role="tagsinput" name="meta_keywords" class="form-control"> 
+                              </div>
+                            </div>
+                              
+                        </div>
+                        <!-- /.card-body -->
+                    </div>
+                    <!-- end col-md-8 -->
+                </div>
+              </div>
+              <div class="card-footer bg-primary">
+                <button href="javascript:void(0);" id="publisher" class=" btn btn-outline-light float-right ml-3 text-dark" title="Hit For: Page Publish" data-toggle="tooltip"><i class="fas fa-upload"></i>&nbsp;&nbsp;Update Page</button>
+              </div> 
+              <!-- /.card-body And Default Form-->
+            </form>
+            </div>
+            </div>
+            <!-- /.card -->
+          </div>
+          <!-- /.col -->
+        </div>
+        <!-- /.row -->
+      </div>
+      <!-- /.container-fluid -->
+    </section>
+    <!-- /.content -->
+  </div>
+  <!-- /.content-wrapper -->
+  {% include 'includes/adminFooter.html' %} 
+</div>
+<!-- ./wrapper -->
+<!-- jQuery -->
+<script src="{% static 'adminAAKRITICMS/plugins/jquery/jquery.min.js'%}"></script>
+<!-- Bootstrap 4 -->
+<script src="{% static 'adminAAKRITICMS/plugins/bootstrap/js/bootstrap.bundle.min.js'%}"></script>
+<!-- Select2 -->
+<script src="{% static 'adminAAKRITICMS/plugins/select2/js/select2.full.min.js'%}"></script>
+<!-- SweetAlert2 -->
+<script src="{% static 'adminAAKRITICMS/plugins/sweetalert2/sweetalert2.min.js'%}"></script>
+<!-- Toastr -->
+<script src="{% static 'adminAAKRITICMS/plugins/toastr/toastr.min.js'%}"></script>
+<!-- AakritiCMS JavaScript -->
+<script src="{% static 'adminAAKRITICMS/js/aakritiCMS.min.js'%}"></script>
+<!-- Summernote -->
+<script src="{% static 'adminAAKRITICMS/plugins/summernote/summernote-bs4.min.js' %}"></script>
+<!-- AakritiCMS Tags -->
+<script src="{% static 'adminAAKRITICMS/plugins/tags/tagsinput.js'%}"></script>
+<script src="{% static 'adminAAKRITICMS/plugins/summernote/summernote-ext-highlight.js' %}"></script>
+<script src="{% static 'adminAAKRITICMS/plugins/summernote/prettify.js' %}"></script>
+
+
+<script src="{% static 'adminAAKRITICMS/plugins/overlayScrollbars/js/jquery.overlayScrollbars.min.js' %}"></script>
+
+<!-- Page specific script -->
+<script>
+$(function () {
+    // Summernote
+    $('#summernote').summernote({
+    placeholder: 'type starting with : Page Description',
+    tabsize: 2,
+    height: 350,
+    toolbar: [
+          ['style', ['style']],
+          ['highlight', ['highlight']],
+          ['font', ['bold', 'underline', 'clear']],
+          ['color', ['color']],
+          ['para', ['ul', 'ol', 'paragraph']],
+          ['table', ['table']],
+          ['insert', ['link', 'picture', 'video']],
+          ['view', ['fullscreen', 'codeview', 'help']]
+        ],
+    lang:'tr-TR'
+    });
+
+    $('.preview-btn').click(function () {
+        $('#preview-box').html($('#summernote').summernote('code'));
+        prettyPrint();
+    });
+
+  })
+
+
+  $(function () {
+    //Initialize Select2 Elements
+    $('.select2').select2()
+
+    //Initialize Select2 Elements
+    $('.select2bs4').select2({
+      theme: 'bootstrap4'
+    })
+  })
+ 
+  $(function () {
+  $('[data-toggle="tooltip"]').tooltip()
+})
+
+
+
+
+
+
+
+
+
+
+function CheckPageType(){
+  var page_type = $('.PAGE_TYPE').val()
+  if (page_type == 'is_url'){
+    $('.SLUGBOX').show();
+    $('.ProductBOX').hide();
+    $('.DESCRIPTIONBOX').hide();
+    $('.METABOX').hide();
+   
+  }
+  else if (page_type == 'is_product'){
+    $('.SLUGBOX').hide();
+    $('.ProductBOX').show();
+    $('.DESCRIPTIONBOX').show();
+    $('.METABOX').show();
+    
+  }
+  else if (page_type == 'is_content'){
+    $('.SLUGBOX').hide();
+    $('.ProductBOX').hide();
+    $('.DESCRIPTIONBOX').show();
+    $('.METABOX').show();
+    
+  }
+}
+
+CheckPageType();
+
+</script>
+<!-- ======================END========================== -->
+{% include 'includes/adminToster.html' %} <!--Toster Add-->
+</body>
+</html>

@@ -1,0 +1,53 @@
+
+
+{% load static %}
+
+{% if ProductList %}
+<div class="card-body">
+    <div class="search-result-header">
+        <h6 class="title"> {{ResultFound}} Result Found</h6>
+        <a href="{% url 'ProductList' %}?query={{query}}" class="view-all">View All</a>
+    </div>
+    <div class="psearch-results">
+        {% for product in ProductList %}
+        <div class="onlinemangao-product-list">
+            <div class="thumbnail">
+                <a href="{% url 'VIEWProduct' product.slug %}">
+                    <img style="width:150px;" src="{% if product.img %}{{product.img.url}}{% else %}{% static 'eMARTSHOPWEB/images/product/electric/product-01.png' %}{% endif %}" alt="{{product.meta_tags}}">
+                </a>
+            </div>
+            <div class="product-content">
+                <div class="product-rating">
+                    <span class="rating-icon">
+                    <i class="fas fa-star"></i>
+                    <i class="fas fa-star"></i>
+                    <i class="fas fa-star"></i>
+                    <i class="fas fa-star"></i>
+                    <i class="fal fa-star"></i>
+                </span>
+                    <span class="rating-number"><span>100+</span> Reviews</span>
+                </div>
+                <h6 class="product-title"><a href="{% url 'VIEWProduct' product.slug %}">{{product.name}}</a></h6>
+                <div class="product-price-variant">
+                    <span class="price current-price"><i class="fas fa-rupee-sign"></i> {{product.sp}}</span>
+                    <span class="price old-price"><i class="fas fa-rupee-sign"></i> {{product.mrp}}</span>
+                </div>
+                <div class="product-cart">
+                    <a href="javascript:void(0);" class="AddToCart cart-btn" AddToCartThisProduct="{{product.pk}}" ><i class="fal fa-shopping-cart"></i></a>
+                    <a href="javascript:void(0);" class="AddToWishlist cart-btn" AddToWishlistProduct="{{product.pk}}"><i class="fal fa-heart"></i></a>
+                    <!-- <a href="javascript:void(0);" class="AddToWishlist cart-btn" AddToWishlistProduct="{{product.pk}}"><i class="fal fa-eye"></i></a> -->
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+{% endfor %}
+
+{% else %}
+<div class="card-body">
+    <div class="search-result-header">
+        <span>Sorry No Result Found : {{query}}</span>
+    </div>
+</div>
+{% endif %}
+{% include 'includes/COMBOOperation.html' %}

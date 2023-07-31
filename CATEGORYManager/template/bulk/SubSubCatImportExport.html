@@ -1,0 +1,157 @@
+
+{% load static %}
+<div class="modal fade" id="SubSubCatImport">
+    <div class="modal-dialog modal-md">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h4 class="modal-title"><b>Import SubSubCat</b></h4>
+                <button type="button" class="close" data-dismiss="modal" aria-label="Close"><span aria-hidden="true">&times;</span></button>
+            </div>            
+            <div class="modal-body">
+                <div class="form-group">
+                    <label for="main-category">Add File</label>
+                    <div class="input-group">
+                        <div class="input-group-prepend">
+                            <span class="input-group-text"><i class="fas fa-laptop"></i></span>
+                        </div>
+                        <input type="file" class="importData form-control" id="input-field" placeholder="importData" name="importData">
+                        <div class="input-group-prepend">
+                            <span class="input-group-text" for="input-field" id="NameStringCount"></span>
+                        </div>
+                    </div>
+                </div>
+                <div class="form-group">
+                    <label>Select File Type</label>
+                    <select name="fileformatIMPORT" class="fileformatIMPORT form-control my-3 select2" name="fileformatIMPORT">
+                        <option selected>Choose format...</option>
+                        <option value="CSV">CSV</option>
+                        <option value="JSON">JSON</option>
+                        <option value="XLS (Excel)">XLS (Excel)</option>
+                    </select>
+                </div>
+            </div>
+            <div class="modal-footer justify-content-center">
+                <button class="btn btn-primary" onclick="IMPORTSubSubCat()" type="submit">Import SubSubCat</button><br />
+            </div>
+        </div>
+    </div>
+</div>
+
+
+<script>
+    function IMPORTSubSubCat(){
+        const importData = $(".importData").val()
+        const fileformatIMPORT = $(".fileformatIMPORT").val()
+        if (importData == ""){
+            Toast.fire({
+                icon: 'error',
+                title: '<p id="messages" style="margin-top:12px !important; margin-left:8px !important;"><b>  Add File  </b></p>'
+                }) 
+        }
+        else if(fileformatIMPORT == "" || fileformatIMPORT=="Choose format..."){
+            Toast.fire({
+                icon: 'error',
+                title: '<p id="messages" style="margin-top:12px !important; margin-left:8px !important;"><b>  Select File Type  </b></p>'
+                }) 
+        }else{
+            const data = new FormData();
+            data.append('fileformatIMPORT', $('.fileformatIMPORT').val());
+            data.append('importData', $('.importData')[0].files[0]);
+            $.ajax({   
+                type: "POST",                   
+                url: "{% url 'SubSubCatImport' %}",                    
+                data: data,
+                cache: false,
+                processData: false,
+                contentType: false,
+                enctype: 'multipart/form-data',
+                headers: {'X-CSRFToken': "{{ csrf_token }}"},
+                success: function(data) {   
+                    if (data.status == 1){
+                        $('#SubSubCatImport').modal('hide');
+
+                        Toast.fire({
+                            icon: 'success',
+                            title: '<p id="messages" style="margin-top: 12px !important; margin-left:8px !important;"><b>'+ data.message +'</b></p>'
+                        }) 
+
+                        setTimeout(function () {
+                                window.location.href =data.Reload;
+                        }, 1000); 
+                    }
+                    else if (data.status == 0){
+                        Toast.fire({
+                        icon: 'error',
+                        title: '<p id="messages" style="margin-top: 12px !important; margin-left:8px !important;"><b>'+ data.message +'</b></p>'
+                        }) 
+                    }       
+                },
+            });
+        }
+    }
+</script>
+<div class="modal fade" id="SubSubCatExport">
+    <div class="modal-dialog modal-md">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h4 class="modal-title"><b>Export SubSubCat</b></h4>
+                <button type="button" class="close" data-dismiss="modal" aria-label="Close"><span aria-hidden="true">&times;</span></button>
+            </div>
+            <div class="modal-body">
+                <form action="{% url 'SubSubCatExport' %}" method="post">
+                    {% csrf_token %}
+                <div class="form-group">
+                    <label>Select File Type</label>
+                    <select name="fileformat" class="fileformat form-control my-3 select2">
+                        <option selected>Choose format...</option>
+                        <option value="CSV">CSV</option>
+                        <option value="JSON">JSON</option>
+                        <option value="XLS (Excel)">XLS (Excel)</option>
+                    </select>
+                </div>
+            </div>
+            <div class="modal-footer justify-content-center">
+                <button class="btn btn-outline-success" a="SubSubCatImport()" type="submit">Export SubSubCat</button><br />
+            </div>
+            </form>
+        </div>
+    </div>
+</div>
+
+<script>
+    function SubSubCatImport(){
+        const fileformat = $(".fileformat").val()
+        if (fileformat == "" || fileformat=="Choose format..."){
+            Toast.fire({
+                icon: 'error',
+                title: '<p id="messages" style="margin-top:12px !important; margin-left:8px !important;"><b> Select File Type   </b></p>'
+                }) 
+        }
+        else{
+            $.ajax({                      
+                type: "POST",                   
+                url: "{% url 'SubSubCatExport' %}",                    
+                data: {
+                    csrfmiddlewaretoken: "{{ csrf_token }}",
+                    'fileformat': fileformat,
+                },
+                success: function(data) {   
+                    if (data.status == 1){
+                        $('#SubSubCatImport').modal('hide');
+                        Toast.fire({
+                            icon: 'success',
+                            title: '<p id="messages" style="margin-top: 12px !important; margin-left:8px !important;"><b>'+ data.message +'</b></p>'
+                        }) 
+                    }
+                    else if (data.status == 0){
+                        Toast.fire({
+                        icon: 'error',
+                        title: '<p id="messages" style="margin-top: 12px !important; margin-left:8px !important;"><b>'+ data.message +'</b></p>'
+                        }) 
+                    }       
+                },
+            });
+        }
+    }
+            
+</script>

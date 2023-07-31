@@ -1,0 +1,240 @@
+{% load static %}
+<!doctype html>
+<html class="no-js" lang="en">
+
+<head>
+    <meta charset="utf-8">
+    <meta http-equiv="x-ua-compatible" content="ie=edge">
+    <title>eMARTSHOP || My Account</title>
+    <meta name="robots" content="noindex, follow" />
+    <meta name="description" content="">
+    <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
+    <!-- Favicon -->
+    <link rel="icon" type="image/png" href="{% if project.favicon %}{{project.favicon.url}}{% else %}{% static 'admineMARTSHOT/img/default/mrdas.jpg' %}{% endif %}">
+
+    <!-- CSS ============================================ -->
+
+    <!-- Bootstrap CSS -->
+    <link rel="stylesheet" href="{% static 'eMARTSHOPWEB/css/vendor/bootstrap.min.css' %}">
+    <link rel="stylesheet" href="{% static 'eMARTSHOPWEB/css/vendor/font-awesome.css' %}">
+    <link rel="stylesheet" href="{% static 'eMARTSHOPWEB/css/vendor/flaticon/flaticon.css' %}">
+    <link rel="stylesheet" href="{% static 'eMARTSHOPWEB/css/vendor/slick.css' %}">
+    <link rel="stylesheet" href="{% static 'eMARTSHOPWEB/css/vendor/slick-theme.css' %}">
+    <link rel="stylesheet" href="{% static 'eMARTSHOPWEB/css/vendor/jquery-ui.min.css' %}">
+    <link rel="stylesheet" href="{% static 'eMARTSHOPWEB/css/vendor/sal.css' %}">
+    <link rel="stylesheet" href="{% static 'eMARTSHOPWEB/css/vendor/magnific-popup.css' %}">
+    <link rel="stylesheet" href="{% static 'eMARTSHOPWEB/css/vendor/base.css' %}">
+    <link rel="stylesheet" href="{% static 'eMARTSHOPWEB/css/style.min.css' %}">
+
+</head>
+<body class="sticky-header">
+    {% include 'templates/includes/miniHEADER.html' %}
+    <main class="main-wrapper">
+
+                        <div class="col-xl-9 col-md-8">
+                            <div class="tab-content">
+                                <div class="tab-pane fade show active" id="nav-dashboard" role="tabpanel">
+                                    <div class="onlinemangao-dashboard-overview">
+                                        <div class="welcome-text">Hello {{user.name}} (not <span>{{user.name}}?</span> <a href="sign-in.html">Log Out</a>)</div>
+                                        <p>From your account dashboard you can view your recent orders, manage your shipping and billing addresses, and edit your password and account details.</p>
+                                    </div>
+                                </div>
+                                <div class="tab-pane fade" id="nav-orders" role="tabpanel">
+                                    <div class="onlinemangao-dashboard-order">
+                                        <div class="table-responsive">
+                                            <table class="table">
+                                                <thead>
+                                                    <tr>
+                                                        <th scope="col">Order</th>
+                                                        <th scope="col">Date</th>
+                                                        <th scope="col">Status</th>
+                                                        <th scope="col">Total</th>
+                                                        <th scope="col">Actions</th>
+                                                    </tr>
+                                                </thead>
+                                                <tbody>
+                                                    <tr>
+                                                        <th scope="row">#6523</th>
+                                                        <td>September 10, 2020</td>
+                                                        <td>Processing</td>
+                                                        <td>$326.63 for 3 items</td>
+                                                        <td><a href="#" class="onlinemangao-btn view-btn">View</a></td>
+                                                    </tr>
+                                                
+                                                </tbody>
+                                            </table>
+                                        </div>
+                                    </div>
+                                </div>
+                                <div class="tab-pane fade" id="nav-address" role="tabpanel">
+                                    <div class="onlinemangao-dashboard-address">
+                                        <a href="#" class=""><i class="far fa-edit"></i></a>
+
+                                        <p class="notice-text">The following addresses will be used on the checkout page by default.</p>
+                                        <div class="row row--30">
+                                            <div class="col-lg-6">
+                                                <div class="address-info mb--40">
+                                                    <div class="addrss-header d-flex align-items-center justify-content-between">
+                                                        <h4 class="title mb-0">Shipping Address</h4>
+                                                        <a href="#" class="address-edit"><i class="far fa-edit"></i></a>
+                                                    </div>
+                                                    <ul class="address-details">
+                                                        <li>Name: {{user.name}} Mario</li>
+                                                        <li>Email: {{user.name}}@example.com</li>
+                                                        <li>Phone: 1234 567890</li>
+                                                        <li class="mt--30">7398 Smoke Ranch Road <br>
+                                                        Las Vegas, Nevada 89128</li>
+                                                    </ul>
+                                                </div>
+                                            </div>
+                                            <div class="col-lg-6">
+                                                <div class="address-info">
+                                                    <div class="addrss-header d-flex align-items-center justify-content-between">
+                                                        <h4 class="title mb-0">Billing Address</h4>
+                                                        <a href="#" class="address-edit"><i class="far fa-edit"></i></a>
+                                                    </div>
+                                                    <ul class="address-details">
+                                                        <li>Name: {{user.name}} Mario</li>
+                                                        <li>Email: {{user.name}}@example.com</li>
+                                                        <li>Phone: 1234 567890</li>
+                                                        <li class="mt--30">7398 Smoke Ranch Road <br>
+                                                        Las Vegas, Nevada 89128</li>
+                                                    </ul>
+                                                </div>
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
+                                <div class="tab-pane fade" id="nav-account" role="tabpanel">
+                                    <div class="col-lg-9">
+                                        <div class="onlinemangao-dashboard-account">
+                                                <div class="row">
+                                                    <div class="col-lg-6">
+                                                        <div class="form-group">
+                                                            <label>Full Name</label>
+                                                            <input type="text" class="form-control" value="{{user.fullname}}">
+                                                        </div>
+                                                    </div>
+                                                    <div class="col-lg-6">
+                                                        <div class="form-group">
+                                                            <label>Last Name</label>
+                                                            <input type="text" class="form-control" value="{{user.name}}">
+                                                        </div>
+                                                    </div>
+                                                    <div class="col-12">
+                                                        <div class="form-group mb--40">
+                                                            <label>Country/ Region</label>
+                                                            <select class="select2">
+                                                                <option value="1">United Kindom (UK)</option>
+                                                                <option value="1">United States (USA)</option>
+                                                                <option value="1">United Arab Emirates (UAE)</option>
+                                                                <option value="1">Australia</option>
+                                                            </select>
+                                                            <p class="b3 mt--10">This will be how your name will be displayed in the account section and in reviews</p>
+                                                        </div>
+                                                    </div>
+                                                    <div class="col-12">
+                                                        <h5 class="title">Password Change</h5>
+                                                        <div class="form-group">
+                                                            <label>Password</label>
+                                                            <input type="password" class="form-control" value="123456789101112131415">
+                                                        </div>
+                                                        <div class="form-group">
+                                                            <label>New Password</label>
+                                                            <input type="password" class="form-control">
+                                                        </div>
+                                                        <div class="form-group">
+                                                            <label>Confirm New Password</label>
+                                                            <input type="password" class="form-control">
+                                                        </div>
+                                                        <div class="form-group mb--0">
+                                                            <input type="submit" onclick="updateUSERINFORMATION();" class="onlinemangao-btn" value="Save Changes">
+                                                        </div>
+                                                    </div>
+                                                </div>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+        <!-- End My Account Area  -->
+
+    </main>
+    {% include 'templates/includes/footer.html' %}
+    <!-- ============================================ -->
+    <!-- Modernizer JS -->
+    <script src="{% static 'eMARTSHOPWEB/js/vendor/modernizr.min.js' %}"></script>
+    <!-- jQuery JS -->
+    <script src="{% static 'eMARTSHOPWEB/js/vendor/jquery.js' %}"></script>
+    <!-- Bootstrap JS -->
+    <script src="{% static 'eMARTSHOPWEB/js/vendor/popper.min.js' %}"></script>
+    <script src="{% static 'eMARTSHOPWEB/js/vendor/bootstrap.min.js' %}"></script>
+    <script src="{% static 'eMARTSHOPWEB/js/vendor/slick.min.js' %}"></script>
+    <script src="{% static 'eMARTSHOPWEB/js/vendor/js.cookie.js' %}"></script>
+    <!-- <script src="{% static 'eMARTSHOPWEB/js/vendor/jquery.style.switcher.js' %}"></script> -->
+    <script src="{% static 'eMARTSHOPWEB/js/vendor/jquery-ui.min.js' %}"></script>
+    <script src="{% static 'eMARTSHOPWEB/js/vendor/jquery.countdown.min.js' %}"></script>
+    <script src="{% static 'eMARTSHOPWEB/js/vendor/sal.js' %}"></script>
+    <script src="{% static 'eMARTSHOPWEB/js/vendor/jquery.magnific-popup.min.js' %}"></script>
+    <script src="{% static 'eMARTSHOPWEB/js/vendor/imagesloaded.pkgd.min.js' %}"></script>
+    <script src="{% static 'eMARTSHOPWEB/js/vendor/isotope.pkgd.min.js' %}"></script>
+    <script src="{% static 'eMARTSHOPWEB/js/vendor/counterup.js' %}"></script>
+    <script src="{% static 'eMARTSHOPWEB/js/vendor/waypoints.min.js' %}"></script>
+
+    <!-- Main JS -->
+    <script src="{% static 'eMARTSHOPWEB/js/main.js' %}"></script>
+    <script>
+        function updateUSERINFORMATION(){
+                const code = $('.vCode').val();
+           
+                if (code == ""){
+                    Toast.fire({
+                        icon: 'error',
+                        title: '<p id="messages" style="margin-top:0px !important; margin-left:8px !important;"><b> Code Required* </b></p>'
+                    })
+                }else{
+
+                    const data = new FormData();
+                    data.append('vCode', $('.vCode').val());
+                    $.ajax({                      
+                        type: "POST",                   
+                        url: "{% url 'VerifyCode' %}",                    
+                        data: data,
+                        cache: false,
+                        processData: false,
+                        contentType: false,
+                        enctype: 'multipart/form-data',
+                        headers: {'X-CSRFToken': "{{ csrf_token }}"},
+                        success: function(data) {   
+                            if (data.status == 1){
+                                Toast.fire({
+                                    icon: 'success',
+                                    title: '<p id="messages" style="margin-top: 0px !important; margin-left:8px !important;"><b>'+ data.message +'</b></p>'
+                                })  
+                                setTimeout(function () {
+                                    window.location.href = data.home;
+                                 }, 5000); //will call the function after 2 secs.
+    
+                            }else if (data.status == 0){
+                                Toast.fire({
+                                icon: 'error',
+                                title: '<p id="messages" style="margin-top: 0px !important; margin-left:8px !important;"><b>'+ data.message +'</b></p>'
+                                }) 
+                            }       
+                        },
+                    });
+                }
+            }
+    </script>
+    <!-- SweetAlert2 -->
+    <script src="{% static 'admineMARTSHOT/plugins/sweetalert2/sweetalert2.min.js'%}"></script>
+    <!-- Toastr -->
+    <script src="{% static 'admineMARTSHOT/plugins/toastr/toastr.min.js'%}"></script>
+    <!-- ======================END========================== -->
+    {% include 'includes/Toster.html' %}
+    </body>
+    </html>

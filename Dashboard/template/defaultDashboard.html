@@ -1,0 +1,167 @@
+<html lang="en">
+    {% load static %}
+    {% load adminDashboardTags %}
+    {% load USERTag %}
+    {% load BLOGTAGS %}
+    {% load orderTAGS %}
+
+  <head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>Default Analytics Board | {{project.title | safe | title }} || {{project.name}} </title>
+  <link rel="icon" type="image/png" href="{% if project.favicon %}{{project.favicon.url}}{% else %}{% static 'adminAAKRITICMS/img/default/mrdas.jpg' %}{% endif %}">
+  <!-- Font Awesome -->
+  <link rel="stylesheet" href="{% static 'adminAAKRITICMS/plugins/fontawesome-free/css/all.min.css'%}">
+  <!-- SweetAlert2 -->
+  <link rel="stylesheet" href="{% static 'adminAAKRITICMS/plugins/sweetalert2-theme-bootstrap-4/bootstrap-4.min.css' %}">
+  <!-- adminKlickbazar Theme style -->
+  <link rel="stylesheet" href="{% static 'adminAAKRITICMS/css/aakriticms.min.css'%}">
+  <link rel="stylesheet" href="{% static 'adminAAKRITICMS/css/aakriti.ui.css'%}">
+  <link rel="stylesheet" href="{% static 'adminAAKRITICMS/plugins/icheck-bootstrap/icheck-bootstrap.min.css'%}">
+  <!-- Tempusdominus Bootstrap 4 -->
+  <link rel="stylesheet" href="{% static 'adminAAKRITICMS/plugins/tempusdominus-bootstrap-4/css/tempusdominus-bootstrap-4.min.css'%}">
+  <link rel="stylesheet" href="{% static 'adminAAKRITICMS/plugins/overlayScrollbars/css/OverlayScrollbars.min.css' %}">
+</head>
+<body class="hold-transition sidebar-mini layout-fixed">
+  <div class="wrapper">
+    {% include "includes/adminNavBar.html" %} 
+    {% include "includes/adminSideBar.html" %}
+    {% include "includes/loaders.html" %}
+
+
+
+
+
+    <div class="content-wrapper">
+      <!-- Content Header (Page header) -->
+      <div class="content-header">
+        <div class="container-fluid">
+          <div class="row mb-2">
+            <div class="col-sm-6">
+              <h1 class="m-0">Default Analytics Board</h1>
+            </div><!-- /.col -->
+            <div class="col-sm-6">
+              <ol class="breadcrumb float-sm-right">
+                <li class="breadcrumb-item"><a href="{% url 'DefaultDashboard' %}">Home</a></li>
+                <li class="breadcrumb-item active">Analytics Board</li>
+              </ol>
+            </div><!-- /.col -->
+          </div><!-- /.row -->
+        </div><!-- /.container-fluid -->
+      </div>
+      <!-- /.content-header -->
+      <!-- Main content -->
+      {% if request.user.is_superadmin %}
+      {% include 'template/PRODUCTDashboard/GridProduct.html' %} 
+      {% include 'template/SALESDashboard/GridBox.html' %} 
+
+      {% include 'template/RCRDashboard/GridCancelBox.html' %} 
+      {% include 'template/RCRDashboard/GridREPLACEMENTBox.html' %} 
+      {% include 'template/RCRDashboard/GridRETURNBox.html' %} 
+      <hr>
+      {% endif %}
+
+      {% if request.user.is_accountant %}
+        {% include 'template/BLOGDashboard/GridBox.html' %} 
+      {% endif %}
+      <hr>
+
+     
+
+
+
+
+
+
+      {% if request.user.is_superadmin %}
+      <section class="content">
+        <div class="container-fluid">
+          <!-- Small boxes (Stat box) -->
+          <div class="row">
+            <div class="col-lg-3 col-6">
+              <!-- small box -->
+              <div class="small-box bg-info">
+                <div class="inner">
+                  <h3>{% TotalAdmins %}</h3>
+                  <p><b>Total Superadmin</b></p>
+                </div>
+                <div class="icon">
+                  <i class="fas fa-users"></i>
+                </div>
+                <a href="{% url 'AllStaffs' %}" class="small-box-footer">More info <i class="fas fa-arrow-circle-right"></i></a>
+              </div>
+            </div>
+            <div class="col-lg-3 col-6">
+              <!-- small box -->
+              <div class="small-box bg-primary">
+                <div class="inner">
+                  <h3>{% TotalActiveAdmins %}</h3>
+                  <p><b>Active Superadmin</b></p>
+                </div>
+                <div class="icon">
+                  <i class="fas fa-users"></i>
+                </div>
+                <a href="{% url 'AllStaffs' %}" class="small-box-footer">More info <i class="fas fa-arrow-circle-right"></i></a>
+              </div>
+            </div>
+            <div class="col-lg-3 col-6">
+              <!-- small box -->
+              <div class="small-box bg-danger">
+                <div class="inner">
+                  <h3>{% TotalDeactiveAdmins %}</h3>
+                  <p><b>Deactive Superadmin</b></p>
+                </div>
+                <div class="icon">
+                  <i class="fas fa-users"></i>
+                </div>
+                <a href="{% url 'AllStaffs' %}" class="small-box-footer">More info <i class="fas fa-arrow-circle-right"></i></a>
+              </div>
+            </div>
+            <div class="col-lg-3 col-6">
+              <!-- small box -->
+              <div class="small-box bg-success">
+                <div class="inner">
+                  <h3>1</h3>
+                  <p><b>Online Superadmin</b></p>
+                </div>
+                <div class="icon">
+                  <i class="fas fa-users"></i>
+                </div>
+                <a href="" class="small-box-footer">More info <i class="fas fa-arrow-circle-right"></i></a>
+              </div>
+            </div>      
+          </div>
+          <!-- /.row -->
+        </div>
+      </section>
+      {% endif %}
+    </div>
+    {% include 'includes/adminFooter.html' %} 
+  </div>
+  
+
+
+  <!-- ./wrapper -->
+<!-- jQuery -->
+<script src="{% static 'adminAAKRITICMS/plugins/jquery/jquery.min.js'%}"></script>
+<!-- jQuery UI 1.11.4 -->
+<script src="{% static 'adminAAKRITICMS/plugins/jquery-ui/jquery-ui.min.js'%}"></script>
+<!-- Resolve conflict in jQuery UI tooltip with Bootstrap tooltip -->
+<script>
+  $.widget.bridge('uibutton', $.ui.button)
+</script>
+<!-- Bootstrap 4 -->
+<script src="{% static 'adminAAKRITICMS/plugins/bootstrap/js/bootstrap.bundle.min.js'%}"></script>
+<!-- AakritiCMS JavaScript -->
+<script src="{% static 'adminAAKRITICMS/js/aakritiCMS.min.js'%}"></script>
+<!-- SweetAlert2 -->
+<script src="{% static 'adminAAKRITICMS/plugins/sweetalert2/sweetalert2.min.js'%}"></script>
+<!-- Toastr -->
+<script src="{% static 'adminAAKRITICMS/plugins/toastr/toastr.min.js'%}"></script>
+<script src="{% static 'adminAAKRITICMS/plugins/overlayScrollbars/js/jquery.overlayScrollbars.min.js' %}"></script>
+
+<script src="{% static 'adminAAKRITICMS/plugins/sweetalert2/sweetalert2.min.js'%}"></script>
+
+{% include 'includes/adminToster.html' %} 
+</body>
+</html>

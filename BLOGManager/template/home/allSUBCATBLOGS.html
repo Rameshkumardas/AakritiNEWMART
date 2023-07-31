@@ -1,0 +1,225 @@
+{% load static %}
+<!doctype html>
+<html lang="eng">
+   <head>
+      <meta charset="utf-8">
+      <meta htaakriticm-equiv="x-ua-compatible" content="ie=edge">
+      <title>Home | {{project.title | safe | title }} || AakritiMART</title>
+      <link rel="icon" type="image/png" href="{% if project.favicon %}{{project.favicon.url}}{% else %}{% static 'adminAAKRITICMS/img/default/mrdas.jpg' %}{% endif %}">
+      <meta name="viewport" content="width=device-width, initial-scale=1">
+      <meta name="keywords" content="{{project.meta_keywords | safe }}">
+      <meta name="description" content="{{project.meta_description | safe }}">
+      <meta property="og:locale" content="en_US">
+      <meta property="og:type" content="website">
+      <meta property="og:title" content="{{ project.meta_title | safe }}">
+      <meta property="og:description" content="{{project.meta_description | safe }}">
+      <meta property="og:url" content="{{project.baseURL}}">
+      <meta property="og:site_name" content="{{project.name}}">
+      <link rel="canonical" href="{{project.baseURL}}">
+
+      <!-- CSS here -->
+      <link rel="stylesheet" href="{% static 'aakritimart/css/bootstrap.css' %}">
+      <link rel="stylesheet" href="{% static 'aakritimart/css/animate.css' %}">
+      <link rel="stylesheet" href="{% static 'aakritimart/css/swiper-bundle.css' %}">
+      <link rel="stylesheet" href="{% static 'aakritimart/css/slick.css' %}">
+      <link rel="stylesheet" href="{% static 'aakritimart/css/magnific-popup.css' %}">
+      <link rel="stylesheet" href="{% static 'aakritimart/css/font-awesome-pro.css' %}">
+      <link rel="stylesheet" href="{% static 'aakritimart/css/flaticon_shofy.css' %}">
+      <link rel="stylesheet" href="{% static 'aakritimart/css/spacing.css' %}">
+      <link rel="stylesheet" href="{% static 'aakritimart/css/main.css' %}">
+      <!-- SweetAlert2 -->
+      <link rel="stylesheet" href="{% static 'adminAAKRITICMS/plugins/sweetalert2-theme-bootstrap-4/bootstrap-4.min.css' %}">
+      <link rel="stylesheet" href="{% static 'adminAAKRITICMS/plugins/toastr/toastr.min.css' %}">
+      {% include "template/includes/COMMONHEADERTags.html" %}
+
+   </head>
+<body>   
+   {% include "template/includes/MAINHeader.html" %}
+   {% if not request.user.is_user %}
+        {% include "template/includes/LOGINSIGNUP.html" %}
+    {% endif %}
+   <main>
+      {% if allTRENDBLOG %}
+      <!-- blog area start -->
+      <section class="aakriticm-blog-area pt-50 pb-75">
+         <div class="container">
+            <div class="row align-items-end">
+               <div class="col-xl-4 col-md-6">
+                  <div class="aakriticm-section-title-wrapper mb-50">
+                     <h3 class="aakriticm-section-title">Trending Blogs
+                        <svg width="114" height="35" viewBox="0 0 114 35" fill="none" xmlns="http://www.w3.org/2000/svg">
+                           <path d="M112 23.275C1.84952 -10.6834 -7.36586 1.48086 7.50443 32.9053" stroke="currentColor" stroke-width="4" stroke-miterlimit="3.8637" stroke-linecap="round"/>
+                        </svg>
+                     </h3>
+                  </div>
+               </div>
+               <div class="col-xl-8 col-md-6">
+                  <div class="aakriticm-blog-more-wrapper d-flex justify-content-md-end">
+                     <div class="aakriticm-blog-more mb-50 text-md-end">
+                        <a href="{% url 'ALLBLOGS' %}" class="aakriticm-btn aakriticm-btn-2 aakriticm-btn-blue">View All Blog 
+                           <svg width="17" height="14" viewBox="0 0 17 14" fill="none" xmlns="http://www.w3.org/2000/svg">
+                              <path d="M16 6.99976L1 6.99976" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"/>
+                              <path d="M9.9502 0.975414L16.0002 6.99941L9.9502 13.0244" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"/>
+                           </svg>
+                        </a>
+                        <span class="aakriticm-blog-more-border"></span>
+                     </div>
+                  </div>
+               </div>
+            </div>
+            <div class="row">
+               <div class="col-xl-12">
+                  <div class="aakriticm-blog-main-slider">
+                     <div class="aakriticm-blog-main-slider-active swiper-container">
+                        <div class="swiper-wrapper">
+                           {% for blog in allTRENDBLOG %}
+                           <div class="aakriticm-blog-item mb-30 swiper-slide">
+                              <div class="aakriticm-blog-thumb p-relative fix">
+                                 <a href="{% url 'BLOGVIEW' blog.slug %}">
+                                    <img src="{% if blog.img %}{{blog.img.url}}{% endif %}" alt="">
+                                 </a>
+                                 <div class="aakriticm-blog-meta aakriticm-blog-meta-date">
+                                    <span>{{blog.last_update | timesince }} Ago</span>
+                                 </div>
+                              </div>
+                              <div class="aakriticm-blog-content">
+                                 <h3 class="aakriticm-blog-title">
+                                    <a href="{% url 'BLOGVIEW' blog.slug %}">{{blog.name | title | safe }}</a>
+                                 </h3>
+                                 <div class="aakriticm-blog-tag">
+                                    <a href="#" class="btn btn-outline-primary text-dark">{{blog.SubCat.name}}</a>
+                                    <a href="#" class="btn btn-outline-primary text-dark">{{blog.SubCat.mainCat.name}}</a>
+                                 </div>            
+                                 <p>{{blog.intro | safe | truncatechars:150 }}</p>
+         
+                                 <div class="aakriticm-blog-btn">
+                                    <a href="{% url 'BLOGVIEW' blog.slug %}" class="aakriticm-btn-2 aakriticm-btn-border-2">
+                                       Read More 
+                                       <span>
+                                          <svg width="17" height="15" viewBox="0 0 17 15" fill="none" xmlns="http://www.w3.org/2000/svg">
+                                             <path d="M16 7.5L1 7.5" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"/>
+                                             <path d="M9.9502 1.47541L16.0002 7.49941L9.9502 13.5244" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"/>
+                                          </svg>                                       
+                                       </span>
+                                    </a>
+                                 </div>
+                              </div>
+                           </div>
+                           {% endfor %}
+                        
+                        </div>
+                     </div>
+                  </div>
+               </div>
+            </div>
+         </div>
+      </section>
+      <!-- blog area end -->
+      {% endif %}
+
+      {% if allNEWBLOG %}
+      <!-- blog area start -->
+      <section class="aakriticm-blog-area pt-20 pb-20">
+         <div class="container">
+            <div class="row align-items-end">
+               <div class="col-xl-4 col-md-6">
+                  <div class="aakriticm-section-title-wrapper mb-50">
+                     <h3 class="aakriticm-section-title">New Arrivals
+                        <svg width="114" height="35" viewBox="0 0 114 35" fill="none" xmlns="http://www.w3.org/2000/svg">
+                           <path d="M112 23.275C1.84952 -10.6834 -7.36586 1.48086 7.50443 32.9053" stroke="currentColor" stroke-width="4" stroke-miterlimit="3.8637" stroke-linecap="round"/>
+                        </svg>
+                     </h3>
+                  </div>
+               </div>
+               <div class="col-xl-8 col-md-6">
+                  <div class="aakriticm-blog-more-wrapper d-flex justify-content-md-end">
+                     <div class="aakriticm-blog-more mb-50 text-md-end">
+                        <a href="{% url 'ALLBLOGS' %}" class="aakriticm-btn aakriticm-btn-2 aakriticm-btn-blue">View All Blog 
+                           <svg width="17" height="14" viewBox="0 0 17 14" fill="none" xmlns="http://www.w3.org/2000/svg">
+                              <path d="M16 6.99976L1 6.99976" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"/>
+                              <path d="M9.9502 0.975414L16.0002 6.99941L9.9502 13.0244" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"/>
+                           </svg>
+                        </a>
+                        <span class="aakriticm-blog-more-border"></span>
+                     </div>
+                  </div>
+               </div>
+            </div>
+            <div class="row">
+               <div class="col-xl-12">
+                  <div class="aakriticm-blog-main-slider">
+                     <div class="aakriticm-blog-main-slider-active swiper-container">
+                        <div class="swiper-wrapper">
+                           {% for blog in allNEWBLOG %}
+                           <div class="aakriticm-blog-item mb-30 swiper-slide">
+                              <div class="aakriticm-blog-thumb p-relative fix">
+                                 <a href="{% url 'BLOGVIEW' blog.slug %}">
+                                    <img src="{% if blog.img %}{{blog.img.url}}{% endif %}" alt="">
+                                 </a>
+                                 <div class="aakriticm-blog-meta aakriticm-blog-meta-date">
+                                    <span>{{blog.last_update | timesince }} Ago</span>
+                                 </div>
+                              </div>
+                              <div class="aakriticm-blog-content">
+                                 <h3 class="aakriticm-blog-title">
+                                    <a href="{% url 'BLOGVIEW' blog.slug %}">{{blog.name | title | safe }}</a>
+                                 </h3>
+                                 <div class="aakriticm-blog-tag">
+                                    <a href="#" class="btn btn-outline-primary text-dark">{{blog.SubCat.name}}</a>
+                                    <a href="#" class="btn btn-outline-primary text-dark">{{blog.SubCat.mainCat.name}}</a>
+                                 </div>            
+                                 <p>{{blog.intro | safe | truncatechars:150 }}</p>
+         
+                                 <div class="aakriticm-blog-btn">
+                                    <a href="{% url 'BLOGVIEW' blog.slug %}" class="aakriticm-btn-2 aakriticm-btn-border-2">
+                                       Read More 
+                                       <span>
+                                          <svg width="17" height="15" viewBox="0 0 17 15" fill="none" xmlns="http://www.w3.org/2000/svg">
+                                             <path d="M16 7.5L1 7.5" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"/>
+                                             <path d="M9.9502 1.47541L16.0002 7.49941L9.9502 13.5244" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"/>
+                                          </svg>                                       
+                                       </span>
+                                    </a>
+                                 </div>
+                              </div>
+                           </div>
+                           {% endfor %}
+                        
+                        </div>
+                     </div>
+                  </div>
+               </div>
+            </div>
+         </div>
+      </section>
+      <!-- blog area end -->
+      {% endif %}
+        
+   </main>   
+   {% include "template/includes/MAINFooter.html" %}
+   <!-- JS here -->
+   <script src="{% static 'aakritimart/js/vendor/jquery.js' %}"></script>
+   <script src="{% static 'aakritimart/js/vendor/waypoints.js' %}"></script>
+   <script src="{% static 'aakritimart/js/bootstrap-bundle.js' %}"></script>
+   <script src="{% static 'aakritimart/js/meanmenu.js' %}"></script>
+   <script src="{% static 'aakritimart/js/swiper-bundle.js' %}"></script>
+   <script src="{% static 'aakritimart/js/slick.js' %}"></script>
+   <script src="{% static 'aakritimart/js/range-slider.js' %}"></script>
+   <script src="{% static 'aakritimart/js/magnific-popup.js' %}"></script>
+   <script src="{% static 'aakritimart/js/nice-select.js' %}"></script>
+   <script src="{% static 'aakritimart/js/purecounter.js' %}"></script>
+   <script src="{% static 'aakritimart/js/countdown.js' %}"></script>
+   <script src="{% static 'aakritimart/js/wow.js' %}"></script>
+   <script src="{% static 'aakritimart/js/isotope-pkgd.js' %}"></script>
+   <script src="{% static 'aakritimart/js/imagesloaded-pkgd.js' %}"></script>
+   <script src="{% static 'aakritimart/js/ajax-form.js' %}"></script>
+   <script src="{% static 'aakritimart/js/main.js' %}"></script>
+   {% include "template/includes/JSCOMMON.html" %}
+   <!-- SweetAlert2 -->
+   <script src="{% static 'adminAAKRITICMS/plugins/sweetalert2/sweetalert2.min.js'%}"></script>
+   <!-- <script src="{% static 'adminAAKRITICMS/plugins/toastr/toastr.min.js'%}"></script> -->
+   <!-- Toastr -->
+   <script src="{% static 'adminAAKRITICMS/plugins/toastr/toastr.min.js'%}"></script>
+   {% include "template/includes/USERToster.html" %}
+</body>
+</html>

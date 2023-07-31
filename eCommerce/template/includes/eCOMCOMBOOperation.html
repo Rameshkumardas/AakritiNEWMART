@@ -1,0 +1,160 @@
+
+<script>
+    $(".SUBSCRIBE_NOW").click(function() {
+        const target = $('.getNEWSLETTER').val();
+            if (target == ""){
+                Toast.fire({
+                    icon: 'error',
+                    title: '<p id="messages" style="margin-top:0px !important; margin-left:8px !important;"><b> Target Required* </b></p>'
+                })
+            }else{
+
+                const data = new FormData();
+                data.append('target', target);
+                $.ajax({                      
+                    type: "POST",                   
+                    url: "{% url 'SUBSCRIBE_NEWSLETTER' %}", 
+                    data: data,
+                    cache: false,
+                    processData: false,
+                    contentType: false,
+                    enctype: 'multipart/form-data',
+                    headers: {'X-CSRFToken': "{{ csrf_token }}"},
+                    success: function(data) {   
+                        if (data.status == 1){
+                            Toast.fire({
+                                icon: 'success',
+                                title: '<p id="messages" style="margin-top: 0px !important; margin-left:8px !important;"><b>'+ data.message +'</b></p>'
+                            })  
+                        }else if (data.status == 0){
+                            Toast.fire({
+                            icon: 'error',
+                            title: '<p id="messages" style="margin-top: 0px !important; margin-left:8px !important;"><b>'+ data.message +'</b></p>'
+                            }) 
+                        }       
+                    },
+                });
+            }
+        });
+</script>
+
+
+<script>
+    $(".AddToCart").click(function() {
+        const target = $(this).attr('AddToCartThisProduct');
+        if (target == ""){
+                Toast.fire({
+                    icon: 'error',
+                    title: '<p id="messages" style="margin-top:0px !important; margin-left:8px !important;"><b> Target Required* </b></p>'
+                })
+            }else{
+                const data = new FormData();
+                data.append('target', target);
+                $.ajax({                      
+                    type: "POST",                   
+                    url: "{% url 'addTOCartThisProduct' %}",                    
+                    data: data,
+                    cache: false,
+                    processData: false,
+                    contentType: false,
+                    enctype: 'multipart/form-data',
+                    headers: {'X-CSRFToken': "{{ csrf_token }}"},
+                    success: function(data) {   
+                        if (data.status == 1){
+                            Toast.fire({
+                                icon: 'success',
+                                title: '<p id="messages" style="margin-top: 0px !important; margin-left:8px !important;"><b>'+ data.message +'</b></p>'
+                            })  
+                        }else if (data.status == 0){
+                            Toast.fire({
+                            icon: 'error',
+                            title: '<p id="messages" style="margin-top: 0px !important; margin-left:8px !important;"><b>'+ data.message +'</b></p>'
+                            }) 
+                        }       
+                    },
+                });
+            }
+        });
+</script>
+
+<script>
+    $(".AddToWishlist").click(function() {
+        const target = $(this).attr('AddToWishlistProduct');
+            if (target == ""){
+                Toast.fire({
+                    icon: 'error',
+                    title: '<p id="messages" style="margin-top:0px !important; margin-left:8px !important;"><b> Target Required* </b></p>'
+                })
+            }else{
+                const data = new FormData();
+                data.append('target', target);
+                $.ajax({                      
+                    type: "POST",                   
+                    url: "{% url 'AddToWishlistThisProduct' %}", 
+                    data: data,
+                    cache: false,
+                    processData: false,
+                    contentType: false,
+                    enctype: 'multipart/form-data',
+                    headers: {'X-CSRFToken': "{{ csrf_token }}"},
+                    success: function(data) {   
+                        if (data.status == 1){
+                            Toast.fire({
+                                icon: 'success',
+                                title: '<p id="messages" style="margin-top: 0px !important; margin-left:8px !important;"><b>'+ data.message +'</b></p>'
+                            })  
+                        }else if (data.status == 0){
+                            Toast.fire({
+                            icon: 'error',
+                            title: '<p id="messages" style="margin-top: 0px !important; margin-left:8px !important;"><b>'+ data.message +'</b></p>'
+                            }) 
+                        }       
+                    },
+                });
+            }
+        });
+</script>
+
+
+<script>
+    function saveToCartwithQTY() {
+        var qty = document.getElementById("QTY").value;
+        const target = $(this).attr('thisproduct');
+        alert(target);
+        if (target == "" ||  target == 'undefined'){
+                Toast.fire({
+                    icon: 'error',
+                    title: '<p id="messages" style="margin-top:0px !important; margin-left:8px !important;"><b> Target Required* </b></p>'
+                })
+            }else{
+                const data = new FormData();
+                data.append('target', target);
+                data.append('qty', qty);                
+                $.ajax({                      
+                    type: "POST",                   
+                    url: "{% url 'addTOCartThisProduct' %}",                    
+                    data: data,
+                    cache: false,
+                    processData: false,
+                    contentType: false,
+                    enctype: 'multipart/form-data',
+                    headers: {'X-CSRFToken': "{{ csrf_token }}"},
+                    success: function(data) {   
+                        if (data.status == 1){
+                            Toast.fire({
+                                icon: 'success',
+                                title: '<p id="messages" style="margin-top: 0px !important; margin-left:8px !important;"><b>'+ data.message +'</b></p>'
+                            })  
+                        }else if (data.status == 0){
+                            Toast.fire({
+                            icon: 'error',
+                            title: '<p id="messages" style="margin-top: 0px !important; margin-left:8px !important;"><b>'+ data.message +'</b></p>'
+                            }) 
+                        }       
+                    },
+                });
+            }
+    }   
+
+        
+</script>

@@ -1,0 +1,28 @@
+
+
+{% load static %}
+{% for Announcement in AnnouncementList %}
+<tr>
+    <td><a href="javascript:void(0);" class="btn btn-outline-primary btn-sm" data-toggle="tooltip" title="{{Announcement.subject}}"><i class="fas fa-send"></i>Headline</a></td>
+    <td>
+      {% if Announcement.status == 'pending' %}
+        <a href="javascript:void(0);" class="btn btn-outline-warning btn-sm"><i class="fas fa-send"></i>Pending</a>
+      {% elif Announcement.status == 'approved' %}
+        <a href="javascript:void(0);" class="btn btn-outline-success btn-sm"><i class="fas fa-send"></i>Approved</a>
+      {% endif %}
+    </td>
+    <td class="text-center">{{Announcement.date}}</td>
+    <td>
+      <div class="btn-group btn-group-sm" role="group" aria-label="Announcement">
+        {% if Announcement.status == 'pending' %}
+        <button type="button" class="btn btn-success target" target-attr="{{Announcement.pk}}" targetType="approved"   data-toggle="tooltip" title="Approved By Admin"><i class="fas fa-check"></i> Activate</button>
+      {% elif Announcement.status == 'approved' %}
+        <button type="button" class="btn btn-warning target" target-attr="{{Announcement.pk}}" targetType="pending"><i class="fas fa-window-close"></i> Deactivate</button>
+      {% endif %}
+        <button type="button" class="btn btn-primary"><i class="fas fa-eye"></i> View</button>
+        <!-- <button type="button" class="btn btn-dark"><i class="fas fa-edit"></i></button> -->
+        <button type="button" class="btn btn-danger target" target-attr="{{Announcement.pk}}" targetType="delete"><i class="fas fa-trash"></i> Delete</button>
+      </div>
+    </td>
+</tr>
+{% endfor %}

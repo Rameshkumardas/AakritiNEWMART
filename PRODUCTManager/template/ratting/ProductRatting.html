@@ -1,0 +1,706 @@
+<!DOCTYPE html>
+<html lang="en">
+  {% load static%}
+  {% load RetailerTags %}
+  {% load TAGS %}
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>Product Rating List  | {{project.title | safe | title }} || {{project.name}} </title>
+  <link rel="icon" type="image/png" href="{% if project.favicon %}{{project.favicon.url}}{% else %}{% static 'adminAAKRITICMS/img/default/mrdas.jpg' %}{% endif %}">
+
+
+  <!-- DropDown -->
+  <link rel="stylesheet" href="{% static 'adminAAKRITICMS/plugins/select2/css/select2.min.css'%}">
+  <link rel="stylesheet" href="{% static 'adminAAKRITICMS/plugins/select2-bootstrap4-theme/select2-bootstrap4.min.css'%}">  
+  <!-- Font Awesome -->
+  <link rel="stylesheet" href="{% static 'adminAAKRITICMS/plugins/fontawesome-free/css/all.min.css'%}">
+  <!-- SweetAlert2 -->
+  <link rel="stylesheet" href="{% static 'adminAAKRITICMS/plugins/sweetalert2-theme-bootstrap-4/bootstrap-4.min.css' %}">
+  <!-- adminKlickbazar Theme style -->
+  <link rel="stylesheet" href="{% static 'adminAAKRITICMS/css/aakriticms.min.css'%}">
+  <link rel="stylesheet" href="{% static 'adminAAKRITICMS/css/aakriti.ui.css'%}">
+  <!-- DataTables -->
+  <link rel="stylesheet" href="{% static 'adminAAKRITICMS/plugins/datatables-bs4/css/dataTables.bootstrap4.min.css'%}">
+  <link rel="stylesheet" href="{% static 'adminAAKRITICMS/plugins/datatables-responsive/css/responsive.bootstrap4.min.css'%}">
+  <link rel="stylesheet" href="{% static 'adminAAKRITICMS/plugins/datatables-buttons/css/buttons.bootstrap4.min.css'%}">
+  <link rel="stylesheet" href="{% static 'adminAAKRITICMS/plugins/overlayScrollbars/css/OverlayScrollbars.min.css' %}">
+</head>
+<body class="hold-transition sidebar-mini layout-fixed">
+<div class="wrapper">
+  {% include 'includes/adminNavBar.html' %} <!--Add this-->
+  {% include 'includes/adminSideBar.html' %} <!--Add this-->
+  <!-- Content Wrapper. Contains page content -->
+  <div class="content-wrapper">
+    <!-- Content Header (Page header) -->
+    <section class="content-header">
+      <div class="container-fluid">
+        <div class="row mb-2">
+          <div class="col-sm-6">
+            <h1>Manage Products</h1>
+          </div>
+          <div class="col-sm-6">
+            <ol class="breadcrumb float-sm-right">
+              <li class="breadcrumb-item"><a href="{% url 'DefaultDashboard' %}">Home</a></li>
+              <li class="breadcrumb-item active">Products</li>
+            </ol>
+          </div>
+        </div>
+      </div><!-- /.container-fluid -->
+    </section>
+    
+
+
+
+    <section class="content">
+      <div class="container-fluid">
+        <!-- Small boxes (Stat box) -->
+        <div class="row">
+        <div class="col-lg-1 col-md-6 d-sm-none d-lg-block d-md-block" >
+        </div>
+          <div class="col-lg-2 col-md-6">
+            <!-- small box -->
+            <div class="small-box bg-success">
+              <div class="inner">
+                <h3>5 Star</h3>
+                <p>{% fiveSTAR %}</p>
+              </div>
+              <div class="icon">
+                <i class="fa fa-star" aria-hidden="true"></i>
+                <i class="fa fa-star" aria-hidden="true"></i>
+                <i class="fa fa-star" aria-hidden="true"></i>
+                <i class="fa fa-star" aria-hidden="true"></i>
+                <i class="fa fa-star" aria-hidden="true"></i>
+                <i class="fa fa-star" aria-hidden="true"></i>
+                <i class="fa fa-star" aria-hidden="true"></i>
+                <i class="fa fa-star" aria-hidden="true"></i>
+                <i class="fa fa-star" aria-hidden="true"></i>
+                <i class="fa fa-star" aria-hidden="true"></i>
+                <i class="fa fa-star" aria-hidden="true"></i>
+                <i class="fa fa-star" aria-hidden="true"></i>
+                <i class="fa fa-star" aria-hidden="true"></i>
+                <i class="fa fa-star" aria-hidden="true"></i>
+                <i class="fa fa-star" aria-hidden="true"></i>
+            </div>
+              <a href="{% url 'FiveStar' %}" class="small-box-footer">More info <i class="fas fa-arrow-circle-right"></i></a>
+            </div> 
+          </div>
+          <!-- ./col -->
+          <div class="col-lg-2 col-md-6">
+            <!-- small box -->
+            <div class="small-box bg-success">
+              <div class="inner">
+                <h3>4 Star</h3> 
+                <p>{% fourSTAR %}</p>
+              </div>
+              <div class="icon">
+                <i class="fa fa-star" aria-hidden="true"></i>
+                <i class="fa fa-star" aria-hidden="true"></i>
+                <i class="fa fa-star" aria-hidden="true"></i>
+                <i class="fa fa-star" aria-hidden="true"></i>
+                <i class="fa fa-star" aria-hidden="true"></i>
+                <i class="fa fa-star" aria-hidden="true"></i>
+                <i class="fa fa-star" aria-hidden="true"></i>
+                <i class="fa fa-star" aria-hidden="true"></i>
+                <i class="fa fa-star" aria-hidden="true"></i>
+                <i class="fa fa-star" aria-hidden="true"></i>
+                <i class="fa fa-star" aria-hidden="true"></i>
+
+              </div>
+              <a href="{% url 'FourStar' %}" class="small-box-footer">More info <i class="fas fa-arrow-circle-right"></i></a>
+            </div>
+          </div>
+          <!-- ./col -->
+          <div class="col-lg-2 col-md-6">
+            <!-- small box -->
+            <div class="small-box bg-warning">
+              <div class="inner">
+                <h3>3 Star</h3>
+                <p>{% threeSTAR %}</p>
+              </div>
+              <div class="icon">
+                <i class="fa fa-star" aria-hidden="true"></i>
+                <i class="fa fa-star" aria-hidden="true"></i>
+                <i class="fa fa-star" aria-hidden="true"></i>
+                <i class="fa fa-star" aria-hidden="true"></i>
+                <i class="fa fa-star" aria-hidden="true"></i>
+                <i class="fa fa-star" aria-hidden="true"></i>
+                <i class="fa fa-star" aria-hidden="true"></i>
+                <i class="fa fa-star" aria-hidden="true"></i>
+              </div>
+              <a href="{% url 'ThreeStar' %}" class="small-box-footer">More info <i class="fas fa-arrow-circle-right"></i></a>
+            </div>
+          </div>
+          <div class="col-lg-2 col-md-6">
+            <!-- small box -->
+            <div class="small-box bg-warning">
+              <div class="inner">
+                <h3>2 Star</h3>
+                <p>{% twoSTAR %}</p>
+              </div>
+              <div class="icon">
+                <i class="fa fa-star" aria-hidden="true"></i>
+                <i class="fa fa-star" aria-hidden="true"></i>
+                <i class="fa fa-star" aria-hidden="true"></i>
+                <i class="fa fa-star" aria-hidden="true"></i>
+                <i class="fa fa-star" aria-hidden="true"></i>
+            </div>
+              <a href="{% url 'TwoStar' %}" class="small-box-footer">More info <i class="fas fa-arrow-circle-right"></i></a>
+            </div>
+          </div>
+          <div class="col-lg-2 col-md-6">
+            <!-- small box -->
+            <div class="small-box bg-danger">
+              <div class="inner">
+                <h3>1 Star</h3>
+                <p>{% oneSTAR %}</p>
+              </div>
+              <div class="icon">
+                <i class="fa fa-star" aria-hidden="true"></i>
+                <i class="fa fa-star" aria-hidden="true"></i>
+            </div>
+              <a href="{% url 'OneStar' %}" class="small-box-footer">More info <i class="fas fa-arrow-circle-right"></i></a>
+            </div>
+          </div>
+          <div class="col-lg-1 col-md-6">
+          </div>
+          
+          <!-- ./col -->
+        </div>
+        <!-- /.row --> 
+      </div>
+    </section>
+
+    {% if FiveStar  %}
+    <!-- Five Star  *****-->
+      <section class="content">
+        <div class="container-fluid">
+        <div class="row">
+        <div class="col-md-12">
+        <div class="card card-success">
+        <div class="card-header ">
+        <h1 class="card-title text-center text-bold text-uppercase">  All &nbsp;5 Star Products</dt></h1>
+        <h1 class="card-title text-center text-bold text-uppercase"></h1>
+        <a href="javascript:void(0)" data-toggle="modal" data-target="#UploadProduct" class="AddProduct btn btn-dark float-right" data-toggle="tooltip" title="Create New Retailer Products" ><i class="fas fa-edit"></i>&nbsp;&nbsp; Create New Product</a>
+        </div>
+        <!-- /.card-header -->
+        <div class="card-body">
+        {% if Products  %}
+        <table id="all-Retailer Products" class="table table-bordered table-striped" style="text-align: center !important;">
+        <thead>
+        <tr>
+          <th>Image</th>
+          <th>Title</th>
+          <th class="text-left">All Category</th>
+          <th>Actions</th>
+        </tr>
+        </thead>
+        <tbody>
+        {% for product in Products %}
+        <tr>
+          <td>
+            <div class="image">
+              <a href="{% IMG product.pk %}" class="" target="_blank">
+                <img src="{% IMG product.pk %}" class="img-" style="height: 50px !important; width: 100% !important;" alt="">
+              </a>
+            </div>
+          </td>
+          <td class="text-center">
+            <a href="" target="_blank" class="btn btn-info m-1 right" data-toggle="tooltip" title="{{product.title}}" ><i class="fas fa-eye"></i>&nbsp;&nbsp;product Name</a>
+          </td>
+          <td class="text-left">
+            <li>{% RetailerMainCatName product.pMainCat_id %}</li>
+            <li>{% RetailerSubCatName product.pSubCat_id %}</li>
+            <li>{% SubSubCatName product.pSubSubCat_id %}</li>
+          </td>
+          <td> 
+            <div class="btn-group btn-group-sm" role="group" aria-label="Protest Actions">
+              <a href="{% url 'CopyRetailerProduct' product.pk %}" class="btn btn-success" data-toggle="tooltip" data-placement="left" title="Hit For Copy Product"><i class="fas fa-copy"></i></a>
+              <a href="{% url 'productVIEW' product.pk %}" class="btn btn-primary btn-sm" data-toggle="tooltip" title="Hit For View Product Details"><i class="fas fa-eye"></i></a>                                
+              <a href="{% url 'banProduct' product.pk %}" class="btn btn-warning btn-sm" data-toggle="tooltip" title="Hit For Ban Product"><i class="fa fa-ban"></i></a> 
+              <a href="{% url 'closedProduct' product.pk %}" class="btn btn-danger btn-sm" data-toggle="tooltip" title="Hit For Closed selling Product"><i class="fa fa-window-close"></i></a>                                
+            </div>
+          </td>
+        </tr>
+        {% endfor %}
+        </tbody>
+        <tfoot>
+        <tr>
+        <th>Image</th>
+        <th>Title</th>
+        <th class="text-left">All Category</th>
+        <th>Actions</th>
+        </tr>
+        </tfoot>
+        </table>
+        {% else %}
+        <h4 class="alert text-center">OnlineMangao Has - No Data</h4>
+        {% endif %}
+        </div>
+        <div class="card-footer bg-success d-flex justify-content-center">
+        </div>
+        <!-- /.card-body -->
+        </div>
+
+        </div>
+        <!-- /.card -->
+        </div>
+        <!-- /.col -->
+        </div>
+      </section>
+    <!-- end Five Star -->
+    {% endif %}
+
+    {% if FourStar  %}
+    <!-- Four Star  *****-->
+      <section class="content">
+        <div class="container-fluid">
+        <div class="row">
+        <div class="col-md-12">
+        <div class="card card-success">
+        <div class="card-header ">
+        <h1 class="card-title text-center text-bold text-uppercase">  All &nbsp;5 Star Products</dt></h1>
+        <h1 class="card-title text-center text-bold text-uppercase"></h1>
+        <a href="javascript:void(0)" data-toggle="modal" data-target="#UploadProduct" class="AddProduct btn btn-dark float-right" data-toggle="tooltip" title="Create New Retailer Products" ><i class="fas fa-edit"></i>&nbsp;&nbsp; Create New Product</a>
+        </div>
+        <!-- /.card-header -->
+        <div class="card-body">
+        {% if Products  %}
+        <table id="all-Retailer Products" class="table table-bordered table-striped" style="text-align: center !important;">
+        <thead>
+        <tr>
+        <th>Image</th>
+        <th>Title</th>
+        <th class="text-left">All Category</th>
+        <th>Featured</th>
+        <th>Todays Deal</th>
+        <th>Stocks</th>
+        <th>Actions</th>
+        </tr>
+        </thead>
+        <tbody>
+        {% for product in Products %}
+        <tr>
+        <td>
+        <div class="image">
+        <a href="{% IMG product.pk %}" class="" target="_blank">
+        <img src="{% IMG product.pk %}" class="img-" style="height: 50px !important; width: 100% !important;" alt="">
+        </a>
+        </div>
+        </td>
+        <td class="text-center">
+        <a href="" target="_blank" class="btn btn-info m-1 right" data-toggle="tooltip" title="{{product.title}}" ><i class="fas fa-eye"></i>&nbsp;&nbsp;product Name</a>
+        </td>
+        <td class="text-left">
+        <li>{% RetailerMainCatName product.pMainCat_id %}</li>
+        <li>{% RetailerSubCatName product.pSubCat_id %}</li>
+        <li>{% SubSubCatName product.pSubSubCat_id %}</li>
+
+        </td>
+
+        <td class="text-center">
+        {% if product.status == 0  %}
+        <a href="{% url 'ActivateRetailerProduct' product.pk %}" class="text-danger">Deactive</a>
+        {% elif product.status == 1 %}
+        <a href="{% url 'DeactivateRetailerProduct' product.pk %}" class="">Activated</a>
+        {% endif %}
+        </td>
+        <td>{{product.views}}</td>
+        <td>{{product.likes}}</td>
+        <td> 
+        <div class="btn-group btn-group-sm" role="group" aria-label="Protest Actions">
+        <a href="{% url 'CopyRetailerProduct' product.pk %}" class="btn btn-success" data-toggle="tooltip" data-placement="left" title="Hit For Copy Product"><i class="fas fa-copy"></i></a>
+        <a href="{% url 'productVIEW' product.pk %}" class="btn btn-primary btn-sm" data-toggle="tooltip" title="Hit For View Product Details"><i class="fas fa-eye"></i></a>                                
+        <a href="{% url 'banProduct' product.pk %}" class="btn btn-warning btn-sm" data-toggle="tooltip" title="Hit For Ban Product"><i class="fa fa-ban"></i></a> 
+        <a href="{% url 'closedProduct' product.pk %}" class="btn btn-danger btn-sm" data-toggle="tooltip" title="Hit For Closed selling Product"><i class="fa fa-window-close"></i></a>                                
+        </div>
+        </td>
+        </tr>
+        {% endfor %}
+        </tbody>
+        <tfoot>
+        <tr>
+        <th>Image</th>
+        <th>Title</th>
+        <th class="text-left">All Category</th>
+        <th>Featured</th>
+        <th>Todays Deal</th>
+        <th>Stocks</th>
+        <th>Actions</th>
+        </tr>
+        </tfoot>
+        </table>
+        {% else %}
+        <h4 class="alert text-center">OnlineMangao Has - No Data</h4>
+        {% endif %}
+        </div>
+        <div class="card-footer bg-success d-flex justify-content-center">
+        </div>
+        <!-- /.card-body -->
+        </div>
+
+        </div>
+        <!-- /.card -->
+        </div>
+        <!-- /.col -->
+        </div>
+      </section>
+    <!-- end Four Star -->
+    {% endif %}
+
+    {% if ThreeStar %}
+      <!-- Three Star  *****-->
+      <section class="content">
+        <div class="container-fluid">
+        <div class="row">
+        <div class="col-md-12">
+        <div class="card card-warning">
+        <div class="card-header ">
+        <h1 class="card-title text-center text-bold text-uppercase">  All &nbsp;5 Star Products</dt></h1>
+        <h1 class="card-title text-center text-bold text-uppercase"></h1>
+        <a href="javascript:void(0)" data-toggle="modal" data-target="#UploadProduct" class="AddProduct btn btn-dark float-right" data-toggle="tooltip" title="Create New Retailer Products" ><i class="fas fa-edit"></i>&nbsp;&nbsp; Create New Product</a>
+        </div>
+        <!-- /.card-header -->
+        <div class="card-body">
+        {% if Products  %}
+        <table id="all-Retailer Products" class="table table-bordered table-striped" style="text-align: center !important;">
+        <thead>
+        <tr>
+        <th>Image</th>
+        <th>Title</th>
+        <th class="text-left">All Category</th>
+        <th>Featured</th>
+        <th>Todays Deal</th>
+        <th>Stocks</th>
+        <th>Actions</th>
+        </tr>
+        </thead>
+        <tbody>
+        {% for product in Products %}
+        <tr>
+        <td>
+        <div class="image">
+        <a href="{% IMG product.pk %}" class="" target="_blank">
+        <img src="{% IMG product.pk %}" class="img-" style="height: 50px !important; width: 100% !important;" alt="">
+        </a>
+        </div>
+        </td>
+        <td class="text-center">
+        <a href="" target="_blank" class="btn btn-info m-1 right" data-toggle="tooltip" title="{{product.title}}" ><i class="fas fa-eye"></i>&nbsp;&nbsp;product Name</a>
+        </td>
+        <td class="text-left">
+        <li>{% RetailerMainCatName product.pMainCat_id %}</li>
+        <li>{% RetailerSubCatName product.pSubCat_id %}</li>
+        <li>{% SubSubCatName product.pSubSubCat_id %}</li>
+  
+        </td>
+  
+        <td class="text-center">
+        {% if product.status == 0  %}
+        <a href="{% url 'ActivateRetailerProduct' product.pk %}" class="text-danger">Deactive</a>
+        {% elif product.status == 1 %}
+        <a href="{% url 'DeactivateRetailerProduct' product.pk %}" class="">Activated</a>
+        {% endif %}
+        </td>
+        <td>{{product.views}}</td>
+        <td>{{product.likes}}</td>
+        <td> 
+        <div class="btn-group btn-group-sm" role="group" aria-label="Protest Actions">
+        <a href="{% url 'CopyRetailerProduct' product.pk %}" class="btn btn-success" data-toggle="tooltip" data-placement="left" title="Hit For Copy Product"><i class="fas fa-copy"></i></a>
+        <a href="{% url 'productVIEW' product.pk %}" class="btn btn-primary btn-sm" data-toggle="tooltip" title="Hit For View Product Details"><i class="fas fa-eye"></i></a>                                
+        <a href="{% url 'banProduct' product.pk %}" class="btn btn-warning btn-sm" data-toggle="tooltip" title="Hit For Ban Product"><i class="fa fa-ban"></i></a> 
+        <a href="{% url 'closedProduct' product.pk %}" class="btn btn-danger btn-sm" data-toggle="tooltip" title="Hit For Closed selling Product"><i class="fa fa-window-close"></i></a>                                
+        </div>
+        </td>
+        </tr>
+        {% endfor %}
+        </tbody>
+        <tfoot>
+        <tr>
+        <th>Image</th>
+        <th>Title</th>
+        <th class="text-left">All Category</th>
+        <th>Featured</th>
+        <th>Todays Deal</th>
+        <th>Stocks</th>
+        <th>Actions</th>
+        </tr>
+        </tfoot>
+        </table>
+        {% else %}
+        <h4 class="alert text-center">OnlineMangao Has - No Data</h4>
+        {% endif %}
+        </div>
+        <div class="card-footer bg-warning d-flex justify-content-center">
+        </div>
+        <!-- /.card-body -->
+        </div>
+  
+        </div>
+        <!-- /.card -->
+        </div>
+        <!-- /.col -->
+        </div>
+      </section>
+    <!-- end Three Star -->
+    {% endif %}
+
+    {% if TwoStar  %}
+      <!-- Two Star  *****-->
+      <section class="content">
+        <div class="container-fluid">
+        <div class="row">
+        <div class="col-md-12">
+        <div class="card card-success">
+        <div class="card-header ">
+        <h1 class="card-title text-center text-bold text-uppercase">  All &nbsp;5 Star Products</dt></h1>
+        <h1 class="card-title text-center text-bold text-uppercase"></h1>
+        <a href="javascript:void(0)" data-toggle="modal" data-target="#UploadProduct" class="AddProduct btn btn-dark float-right" data-toggle="tooltip" title="Create New Retailer Products" ><i class="fas fa-edit"></i>&nbsp;&nbsp; Create New Product</a>
+        </div>
+        <!-- /.card-header -->
+        <div class="card-body">
+        {% if Products  %}
+        <table id="all-Retailer Products" class="table table-bordered table-striped" style="text-align: center !important;">
+        <thead>
+        <tr>
+        <th>Image</th>
+        <th>Title</th>
+        <th class="text-left">All Category</th>
+        <th>Featured</th>
+        <th>Todays Deal</th>
+        <th>Stocks</th>
+        <th>Actions</th>
+        </tr>
+        </thead>
+        <tbody>
+        {% for product in Products %}
+        <tr>
+        <td>
+        <div class="image">
+        <a href="{% IMG product.pk %}" class="" target="_blank">
+        <img src="{% IMG product.pk %}" class="img-" style="height: 50px !important; width: 100% !important;" alt="">
+        </a>
+        </div>
+        </td>
+        <td class="text-center">
+        <a href="" target="_blank" class="btn btn-info m-1 right" data-toggle="tooltip" title="{{product.title}}" ><i class="fas fa-eye"></i>&nbsp;&nbsp;product Name</a>
+        </td>
+        <td class="text-left">
+        <li>{% RetailerMainCatName product.pMainCat_id %}</li>
+        <li>{% RetailerSubCatName product.pSubCat_id %}</li>
+        <li>{% SubSubCatName product.pSubSubCat_id %}</li>
+  
+        </td>
+  
+        <td class="text-center">
+        {% if product.status == 0  %}
+        <a href="{% url 'ActivateRetailerProduct' product.pk %}" class="text-danger">Deactive</a>
+        {% elif product.status == 1 %}
+        <a href="{% url 'DeactivateRetailerProduct' product.pk %}" class="">Activated</a>
+        {% endif %}
+        </td>
+        <td>{{product.views}}</td>
+        <td>{{product.likes}}</td>
+        <td> 
+        <div class="btn-group btn-group-sm" role="group" aria-label="Protest Actions">
+        <a href="{% url 'CopyRetailerProduct' product.pk %}" class="btn btn-success" data-toggle="tooltip" data-placement="left" title="Hit For Copy Product"><i class="fas fa-copy"></i></a>
+        <a href="{% url 'productVIEW' product.pk %}" class="btn btn-primary btn-sm" data-toggle="tooltip" title="Hit For View Product Details"><i class="fas fa-eye"></i></a>                                
+        <a href="{% url 'banProduct' product.pk %}" class="btn btn-warning btn-sm" data-toggle="tooltip" title="Hit For Ban Product"><i class="fa fa-ban"></i></a> 
+        <a href="{% url 'closedProduct' product.pk %}" class="btn btn-danger btn-sm" data-toggle="tooltip" title="Hit For Closed selling Product"><i class="fa fa-window-close"></i></a>                                
+        </div>
+        </td>
+        </tr>
+        {% endfor %}
+        </tbody>
+        <tfoot>
+        <tr>
+        <th>Image</th>
+        <th>Title</th>
+        <th class="text-left">All Category</th>
+        <th>Featured</th>
+        <th>Todays Deal</th>
+        <th>Stocks</th>
+        <th>Actions</th>
+        </tr>
+        </tfoot>
+        </table>
+        {% else %}
+        <h4 class="alert text-center">OnlineMangao Has - No Data</h4>
+        {% endif %}
+        </div>
+        <div class="card-footer bg-success d-flex justify-content-center">
+        </div>
+        <!-- /.card-body -->
+        </div>
+  
+        </div>
+        <!-- /.card -->
+        </div>
+        <!-- /.col -->
+        </div>
+      </section>
+    <!-- end Two Star -->
+    {% endif %}
+
+    {% if OneStar  %}
+    <!-- One Star  *****-->
+      <section class="content">
+      <div class="container-fluid">
+      <div class="row">
+      <div class="col-md-12">
+      <div class="card card-success">
+      <div class="card-header ">
+      <h1 class="card-title text-center text-bold text-uppercase">  All &nbsp;5 Star Products</dt></h1>
+      <h1 class="card-title text-center text-bold text-uppercase"></h1>
+      <a href="javascript:void(0)" data-toggle="modal" data-target="#UploadProduct" class="AddProduct btn btn-dark float-right" data-toggle="tooltip" title="Create New Retailer Products" ><i class="fas fa-edit"></i>&nbsp;&nbsp; Create New Product</a>
+      </div>
+      <!-- /.card-header -->
+      <div class="card-body">
+      {% if Products  %}
+      <table id="all-Retailer Products" class="table table-bordered table-striped" style="text-align: center !important;">
+      <thead>
+      <tr>
+      <th>Image</th>
+      <th>Title</th>
+      <th class="text-left">All Category</th>
+      <th>Featured</th>
+      <th>Todays Deal</th>
+      <th>Stocks</th>
+      <th>Actions</th>
+      </tr>
+      </thead>
+      <tbody>
+      {% for product in Products %}
+      <tr>
+      <td>
+      <div class="image">
+      <a href="{% IMG product.pk %}" class="" target="_blank">
+      <img src="{% IMG product.pk %}" class="img-" style="height: 50px !important; width: 100% !important;" alt="">
+      </a>
+      </div>
+      </td>
+      <td class="text-center">
+      <a href="" target="_blank" class="btn btn-info m-1 right" data-toggle="tooltip" title="{{product.title}}" ><i class="fas fa-eye"></i>&nbsp;&nbsp;product Name</a>
+      </td>
+      <td class="text-left">
+      <li>{% RetailerMainCatName product.pMainCat_id %}</li>
+      <li>{% RetailerSubCatName product.pSubCat_id %}</li>
+      <li>{% SubSubCatName product.pSubSubCat_id %}</li>
+
+      </td>
+
+      <td class="text-center">
+      {% if product.status == 0  %}
+      <a href="{% url 'ActivateRetailerProduct' product.pk %}" class="text-danger">Deactive</a>
+      {% elif product.status == 1 %}
+      <a href="{% url 'DeactivateRetailerProduct' product.pk %}" class="">Activated</a>
+      {% endif %}
+      </td>
+      <td>{{product.views}}</td>
+      <td>{{product.likes}}</td>
+      <td> 
+      <div class="btn-group btn-group-sm" role="group" aria-label="Protest Actions">
+      <a href="{% url 'CopyRetailerProduct' product.pk %}" class="btn btn-success" data-toggle="tooltip" data-placement="left" title="Hit For Copy Product"><i class="fas fa-copy"></i></a>
+      <a href="{% url 'productVIEW' product.pk %}" class="btn btn-primary btn-sm" data-toggle="tooltip" title="Hit For View Product Details"><i class="fas fa-eye"></i></a>                                
+      <a href="{% url 'banProduct' product.pk %}" class="btn btn-warning btn-sm" data-toggle="tooltip" title="Hit For Ban Product"><i class="fa fa-ban"></i></a> 
+      <a href="{% url 'closedProduct' product.pk %}" class="btn btn-danger btn-sm" data-toggle="tooltip" title="Hit For Closed selling Product"><i class="fa fa-window-close"></i></a>                                
+      </div>
+      </td>
+      </tr>
+      {% endfor %}
+      </tbody>
+      <tfoot>
+      <tr>
+      <th>Image</th>
+      <th>Title</th>
+      <th class="text-left">All Category</th>
+      <th>Featured</th>
+      <th>Todays Deal</th>
+      <th>Stocks</th>
+      <th>Actions</th>
+      </tr>
+      </tfoot>
+      </table>
+      {% else %}
+      <h4 class="alert text-center">OnlineMangao Has - No Data</h4>
+      {% endif %}
+      </div>
+      <div class="card-footer bg-success d-flex justify-content-center">
+      </div>
+      <!-- /.card-body -->
+      </div>
+
+      </div>
+      <!-- /.card -->
+      </div>
+      <!-- /.col -->
+      </div>
+      </section>
+    <!-- end One Star -->
+    {% endif %}
+
+</div>
+  <!-- /.content-wrapper -->
+  {% include 'includes/adminFooter.html' %} <!--Add this-->
+</div>
+<!-- ./wrapper -->
+<!-- jQuery -->
+<script src="{% static 'adminAAKRITICMS/plugins/jquery/jquery.min.js'%}"></script>
+<!-- Bootstrap 4 -->
+<script src="{% static 'adminAAKRITICMS/plugins/bootstrap/js/bootstrap.bundle.min.js'%}"></script>
+<!-- DataTables  & Plugins -->
+<script src="{% static 'adminAAKRITICMS/plugins/datatables/jquery.dataTables.min.js'%}"></script>
+<script src="{% static 'adminAAKRITICMS/plugins/datatables-bs4/js/dataTables.bootstrap4.min.js'%}"></script>
+<script src="{% static 'adminAAKRITICMS/plugins/datatables-responsive/js/dataTables.responsive.min.js'%}"></script>
+<script src="{% static 'adminAAKRITICMS/plugins/datatables-responsive/js/responsive.bootstrap4.min.js'%}"></script>
+<script src="{% static 'adminAAKRITICMS/plugins/datatables-buttons/js/dataTables.buttons.min.js'%}"></script>
+<script src="{% static 'adminAAKRITICMS/plugins/datatables-buttons/js/buttons.bootstrap4.min.js'%}"></script>
+<script src="{% static 'adminAAKRITICMS/plugins/jszip/jszip.min.js'%}"></script>
+<script src="{% static 'adminAAKRITICMS/plugins/pdfmake/pdfmake.min.js'%}"></script>
+<script src="{% static 'adminAAKRITICMS/plugins/pdfmake/vfs_fonts.js'%}"></script>
+<script src="{% static 'adminAAKRITICMS/plugins/datatables-buttons/js/buttons.html5.min.js'%}"></script>
+<script src="{% static 'adminAAKRITICMS/plugins/datatables-buttons/js/buttons.print.min.js'%}"></script>
+<script src="{% static 'adminAAKRITICMS/plugins/datatables-buttons/js/buttons.colVis.min.js'%}"></script>
+<!-- AakritiCMS JavaScript -->
+<script src="{% static 'adminAAKRITICMS/js/aakritiCMS.min.js'%}"></script>
+<!-- SweetAlert2 -->
+<script src="{% static 'adminAAKRITICMS/plugins/sweetalert2/sweetalert2.min.js'%}"></script>
+<!-- Toastr -->
+<script src="{% static 'adminAAKRITICMS/plugins/toastr/toastr.min.js'%}"></script>
+<!-- Select2 -->
+<script src="{% static 'adminAAKRITICMS/plugins/select2/js/select2.full.min.js'%}"></script>
+<script src="{% static 'adminAAKRITICMS/plugins/overlayScrollbars/js/jquery.overlayScrollbars.min.js' %}"></script>
+<script>
+  $(function () {
+    $("#all-Retailer Products").DataTable({
+      "responsive": true, "lengthChange": false, "autoWidth": false,
+      "buttons": ["copy", "csv", "excel", "pdf", "print", "colvis"]
+    }).buttons().container().appendTo('#all-Retailer Products_wrapper .col-md-6:eq(0)');
+    $('#example2').DataTable({
+      "paging": true,
+      "lengthChange": false,
+      "searching": false,
+      "ordering": true,
+      "info": true,
+      "autoWidth": false,
+      "responsive": true,
+    });
+  });
+
+$(function () {
+  $('[data-toggle="tooltip"]').tooltip()
+})
+
+$(function () {
+    //Initialize Select2 Elements
+    $('.select2').select2();
+    //Initialize Select2 Elements
+    $('.select2bs4').select2({
+      theme: 'bootstrap4'
+    })
+  })
+</script>
+<!-- ======================END========================== -->
+{% include 'includes/adminToster.html' %} <!--Add this-->
+</body>
+</html>

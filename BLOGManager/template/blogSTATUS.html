@@ -1,0 +1,460 @@
+<!DOCTYPE html>
+<html lang="en">
+  {% load static%}
+  {% load BLOGTAGS %}
+  {% load blogCAT %}
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>All Blogs | {{project.title | safe | title }} || {{project.name}} </title>
+  <link rel="icon" type="image/png" href="{% if project.favicon %}{{project.favicon.url}}{% else %}{% static 'adminAAKRITICMS/img/default/mrdas.jpg' %}{% endif %}">
+  <!-- Font Awesome -->
+  <link rel="stylesheet" href="{% static 'adminAAKRITICMS/plugins/fontawesome-free/css/all.min.css'%}">
+  <!-- SweetAlert2 -->
+  <link rel="stylesheet" href="{% static 'adminAAKRITICMS/plugins/sweetalert2-theme-bootstrap-4/bootstrap-4.min.css' %}">
+  <!-- adminRKMTech Theme style -->
+  <link rel="stylesheet" href="{% static 'adminAAKRITICMS/css/aakriticms.min.css'%}">
+  <link rel="stylesheet" href="{% static 'adminAAKRITICMS/css/aakriti.ui.css'%}">
+  <!-- DataTables -->
+  <link rel="stylesheet" href="{% static 'adminAAKRITICMS/plugins/datatables-bs4/css/dataTables.bootstrap4.min.css'%}">
+  <link rel="stylesheet" href="{% static 'adminAAKRITICMS/plugins/datatables-responsive/css/responsive.bootstrap4.min.css'%}">
+  <link rel="stylesheet" href="{% static 'adminAAKRITICMS/plugins/datatables-buttons/css/buttons.bootstrap4.min.css'%}">
+  <link rel="stylesheet" href="{% static 'adminAAKRITICMS/plugins/select2/css/select2.min.css'%}">
+  <link rel="stylesheet" href="{% static 'adminAAKRITICMS/plugins/overlayScrollbars/css/OverlayScrollbars.min.css' %}">
+</head>
+<body class="hold-transition sidebar-mini layout-fixed">
+  <div class="wrapper">
+  {% include 'includes/adminNavBar.html' %} <!--Add this-->
+  {% include 'includes/adminSideBar.html' %} <!--Add this-->
+  <!-- Content Wrapper. Contains page content -->
+  <div class="content-wrapper">
+    <section class="content-header">
+      <div class="container-fluid">
+        <div class="row mb-2">
+          <div class="col-sm-6">
+            <h1>Manage Blogs </h1>
+          </div>
+          <div class="col-sm-6 d-flex " style="justify-content: right;">
+            <a href="javascript:void(0)" data-toggle="modal" data-target="#BLOGImport" class="BLOGImport btn btn-primary " data-toggle="tooltip" title="Import Blog " ><i class="fas fa-upload"></i>&nbsp;&nbsp; BLOG Import </a>
+            &emsp;
+            <a href="javascript:void(0)" data-toggle="modal" data-target="#BLOGExport" class="BLOGExport btn btn-success " data-toggle="tooltip" title="Export Blog " ><i class="fas fa-download"></i>&nbsp;&nbsp; BLOG Export</a>
+          </div>
+        </div>
+      </div>
+    </section>
+    {% if request.user.is_accountant %}
+    {% include 'template/BLOGDashboard/GridBox.html' %} 
+    {% endif %}
+    <!-- Main content -->
+    <section class="content">
+      <div class="container-fluid">
+        <div class="row">
+          <div class="col-md-12">
+            <div class="card {% if request.GET.is_draft %}card-info {% elif request.GET.is_verified %} card-success {% elif request.GET.is_active %}card-warning{% elif request.GET.is_deleted %}card-danger {% endif %}">
+              <div class="card-header ">
+                <form action="" method="get" class="priceOptionForm" name="priceOptionForm">
+                  <div class="row">
+                    <div class="col-lg-2">
+                      <a href="{% url 'createBLOG' %}" class="btn {% if request.GET.is_active %}btn-outline-light{% else %}btn-outline-dark{% endif %}  float-right" data-toggle="tooltip" title="Create New Blog" ><i class="fas fa-edit"></i> Create Blog</a>
+                    </div>
+                    <div class="col-lg-2">
+                      <input type="text" style="display: none;" value="{% if request.GET.is_active %}False{% else %}True{% endif %}" name="{% if request.GET.is_draft %}is_draft{% elif request.GET.is_verified %}is_verified{% elif request.GET.is_active %}is_active{% elif request.GET.is_deleted %}is_deleted{% endif %}">
+                      <div class="form-group">
+                        <select class="form-control select2" style="width: 100%;" name="filter" id="filter" required onchange="this.form.submit()">
+                          {% if request.GET.filter %}
+                          <option  value="{{request.GET.filter}}">[ {{request.GET.filter}} ] Filtered Rows </option>
+                          {% else %}
+                          <option  value="20">Filter Rows</option>
+                          {% endif %}
+                          <option value="5"> Show 5 </option>
+                          <option value="10"> Show 10 </option>
+                          <option value="20"> Show 20 </option>
+                          <option value="50"> Show 50 </option>
+                          <option value="100"> Show 100 </option>
+                          <option value="200"> Show 200 </option>
+                          <option value="500"> Show 500 </option>
+                        </select>
+                      </div>
+                    </div>
+                    <div class="col-lg-2">
+                      <div class="form-group">
+                        <select class="fMainCat form-control" id="fMainCat" name="fMainCat" data-toggle="tooltip" data-placement="top" title="Select mainCat" autocomplete="off" onchange="this.form.submit();">
+                          {% if request.GET.fMainCat %}
+                          <option  value="{{request.GET.fMainCat}}">{% BLOGMainCatName request.GET.fMainCat %}</option>
+
+                          {% endif %}
+                            {% for row in BLOGMainCat %}
+                              <option value="{{row.pk}}"> {{row.name}} </option>
+                            {% endfor %}
+                        </select>
+                      </div>
+                    </div>
+                    <div class="col-lg-2">
+                      <div class="form-group">
+                        <select class="fSubCat form-control" id="fSubCatList" name="SubCat" data-toggle="tooltip" data-placement="top" title="Select Sub Category" autocomplete="off" onchange="this.form.submit();" onload="this.form.submit();">
+                          {% if request.GET.SubCat %}
+                          <option  value="{{request.GET.SubCat}}">{% BLOGSubCatName request.GET.SubCat %}</option>
+                          {% endif  %}
+                          {% for subCat in FILTERBLOGSubCat %}
+                            <option value="{{subCat.pk}}"> {{subCat.name}} </option>
+                          {% endfor %}
+                        </select>
+                      </div>
+                    </div>
+
+                    <div class="col-lg-4">
+                      <div class="input-group mb-3">
+                        <input onchange="this.form.submit()" type="text" class="form-control" placeholder="Search Blogs" data-toggle="tooltip" data-placement="top" title="Search Blogs" name="search" value="{{request.GET.search}}"  autocomplete="off" required aria-label="BlogMainCat" aria-describedby="basic-addon1">
+                        <div class="input-group-prepend">
+                          <span class="input-group-text" id="basic-addon1">
+                            {% if request.GET.search %}
+                            <a href="{% url 'BLOGList' %}?{% if request.GET.is_draft %}is_draft=True{% elif request.GET.is_verified %}is_verified=True{% elif request.GET.is_active %}is_active=False{% elif request.GET.is_deleted %}is_deleted=True{% endif %}&filter={{request.GET.filter}}" class="text-dark"  data-toggle="tooltip" data-placement="top" title="Reset Filter & Search">  <i class="fas fa-times" style="font-size:20px;"></i> </a>
+                            {% else %}
+                            <a class="text-dark" onclick="this.form.submit()" data-toggle="tooltip" data-placement="top" title="Reset Filter & Search">  <i class="fas fa-search" style="font-size:20px;"></i> </a>
+                            {% endif %}
+                          </span>
+                        </div>
+                      </div>
+                    </div>                 
+                  </div>
+                </form>
+                <div class="bulk_section btn-group btn-group-sm" style="display: none;">
+                  {% if request.GET.is_draft %}
+                  <a href="javascript:void(0);" id="BTN_ACTIVEList" class="BTN_ACTIVEList btn btn-success" data-toggle="modal" data-target="#ACTIVEList" data-placement="top" title="Hit For Bulk Active Page"> <i class="fas fa-plus"></i> </a>                          
+                  <a href="javascript:void(0);" id="BTN_DEACTIVEList" class="BTN_DEACTIVEList btn btn-dark" data-toggle="modal" data-target="#DEACTIVEList" data-placement="top" title="Hit For Bulk Deactive Page"> <i class="fas fa-minus"></i> </a>                          
+                  <a href="javascript:void(0);" id="BTN_MOVETOTRASHList" class="BTN_MOVETOTRASHList btn btn-danger btn-sm" data-toggle="modal" data-target="#TRASHList" title="Hit For Bulk Delete Page"><i class="fas fa-trash-alt"></i> </a>
+                  {% elif request.GET.is_verified %} 
+                  <a href="javascript:void(0);" id="BTN_DEACTIVEList" class="BTN_DEACTIVEList btn btn-dark" data-toggle="modal" data-target="#DEACTIVEList" data-placement="top" title="Hit For Bulk Deactive Page"> <i class="fas fa-minus"></i> </a>                          
+                  <a href="javascript:void(0);" id="BTN_MOVETOTRASHList" class="BTN_MOVETOTRASHList btn btn-danger btn-sm" data-toggle="modal" data-target="#TRASHList" title="Hit For Bulk Delete Page"><i class="fas fa-trash-alt"></i> </a>
+                  {% elif request.GET.is_active %} 
+                  <a href="javascript:void(0);" id="BTN_ACTIVEList" class="BTN_ACTIVEList btn btn-success" data-toggle="modal" data-target="#ACTIVEList" data-placement="top" title="Hit For Bulk Active Page"> <i class="fas fa-plus"></i> </a>                          
+                  <a href="javascript:void(0);" id="BTN_MOVETOTRASHList" class="BTN_MOVETOTRASHList btn btn-danger btn-sm" data-toggle="modal" data-target="#TRASHList" title="Hit For Bulk Delete Page"><i class="fas fa-trash-alt"></i> </a>
+                  {% elif request.GET.is_deleted %} 
+                  <a href="javascript:void(0);" id="BTN_RESTORE" class="BTN_RESTORE btn btn-info btn-sm" data-toggle="modal" data-target="#RESTORE" title="Hit For Bulk Restore Page"><i class="fas fa-plus"></i> </a>
+                  <a href="javascript:void(0);" id="BTN_DELETEList" class="BTN_DELETEList btn btn-dark btn-sm" data-toggle="modal" data-target="#DELETEList" title="Hit For Bulk Delete Page"><i class="fas fa-trash-alt"></i> </a>
+                  {% endif %}
+                </div>
+
+              </div>
+              <!-- /.card-header -->
+              <div class="card-body p-0">
+                {% if BLOGList %}
+                <table id="allBLOGS1" class="table table-bordered table-striped " >
+                  <thead>
+                    <tr>
+                      <th>Sn</th>
+                      <th>IMG</th>
+                      <th>Headline</th>
+                      <th>Publish/Update</th>
+                      <th>Views</th>
+                      <th>Actions</th>
+                      <th style="width: 12px;">
+                        <div class="form-group clearfix">
+                          <div class="icheck-primary d-inline">
+                            <input type="checkbox" id="checkAll" class="checkAll" getVal="all" onchange="checkSELECT()">
+                          </div>
+                        </div>
+                      </th>
+  
+                    </tr>
+                  </thead>
+                  <tbody class="infinite-container">
+                    {% for Blog in BLOGList %}
+                    <tr class="infinite-item">
+                      <td>{{forloop.counter}}</td>
+                      {% if Blog.img %}
+                      <td style="background-image: url('{% if Blog.img %}{{Blog.img.url}}{% endif %}'); background-size:contain;background-repeat:no-repeat; "></td>
+                      {% else %}
+                      <td> No IMG</td>
+                      {% endif %}
+
+                      <td class="text-left">
+                        {% if Blog.mainCat_id %}
+                        <li>{{Blog.SubCat.mainCat.name}}</li>
+                        {% endif %}
+                        {% if Blog.SubCat %}
+                        <li>{{Blog.SubCat.name}}</li>
+                        {% endif %}
+                        <li><a href="{% url 'BLOGVIEW'  Blog.slug %}" target="_blank">{{Blog.name}} <i class="fas fa-external-link-alt" aria-hidden="true"></i></a></li>
+                      </td>
+                      <td class="text-left">
+                        <li> Publish: {{Blog.date}}</li>
+                        <li> Update: {{Blog.last_update}}</li>
+                      </td>
+                      <td class="text-center">{{Blog.get_view_count}}</td>
+                      <td> 
+                        <div class="btn-group btn-group-sm">
+                          {% if request.GET.is_draft %}
+                            <a href="{% url 'activateBLOG' Blog.pk %}" class="btn btn-success" data-toggle="tooltip" data-placement="left" title="Activated Topic">  <i class="fas fa-plus"></i> </a>
+                            <a href="{% url 'BLOGVIEW'  Blog.slug %}" target="_blank" class="btn btn-info" data-toggle="tooltip" title="View Blog"><i class="fas fa-eye"></i> </a>
+                            <a href="{% url 'updateBLOG' Blog.slug %}" class="btn btn-dark" data-toggle="tooltip" title="Update Blog"> <i class="fas fa-edit"></i> </a>
+                            <a href="{% url 'deleteBLOG' Blog.pk %}" class="btn btn-danger" data-toggle="tooltip" title="Move To Trash" ><i class="fas fa-trash"></i> </a>
+                          {% elif request.GET.is_verified %}
+                            <a href="{% url 'deactivateBLOG' Blog.pk %}" class="btn btn-danger" data-toggle="tooltip" data-placement="left" title="Deactivate Blog"><i class="fas fa-minus"></i> </a>
+                            <a href="{% url 'BLOGVIEW'  Blog.slug %}" target="_blank" class="btn btn-info" data-toggle="tooltip" title="View Blog"><i class="fas fa-eye"></i> </a>                      
+                          {% elif request.GET.is_active %}
+                            <a href="{% url 'activateBLOG' Blog.pk %}" class="btn btn-success" data-toggle="tooltip" data-placement="left" title="Activated Blog"> <i class="fas fa-plus"></i> </a>
+                            <a href="{% url 'BLOGVIEW'  Blog.slug %}" target="_blank" class="btn btn-info" data-toggle="tooltip" title="View Blog"> <i class="fas fa-eye"></i> </a>
+                            <a href="{% url 'updateBLOG' Blog.slug %}" class="btn btn-dark" data-toggle="tooltip" title="Update Blog"> <i class="fas fa-edit"></i> </a>
+                            <a href="{% url 'deleteBLOG' Blog.pk %}" class="btn btn-danger" data-toggle="tooltip" title="Move To Trash" ><i class="fas fa-trash"></i> </a>                          
+                          {% elif request.GET.is_deleted %}
+                            <a href="{% url 'restoreBLOG' Blog.pk %}" class="btn btn-primary" data-toggle="tooltip"  title="Restore Deleted Blog"><i class="fas fa-plus"></i> </a>
+                            {% if request.user.is_admin %}
+                            <a href="{% url 'PermanentDeleteBLOG' Blog.pk %}" class="btn btn-danger" data-toggle="tooltip"  title="Permanent Deleted Blog"><i class="fas fa-trash-alt"></i> </a>
+                            {% endif %}
+                          {% endif %}
+                        </div>
+                      </td>
+                      <td>
+                        <div class="form-group clearfix">
+                          <div class="icheck-primary d-inline">
+                            <input type="checkbox" id="{{Blog.slug}}" getVal="{{Blog.pk}}" onchange="checkSELECT()">
+                          </div>
+                        </div>
+                      </td>
+
+                    </tr>
+                    {% endfor %}
+                  </tbody>
+                  <tfoot>
+                    <tfoot>
+                      <tr>
+                        <th>Sn</th>
+                        <th>IMG</th>
+                        <th>Headline</th>
+                        <th>Publish/Update</th>
+                        <th>Views</th>
+                        <th>Actions</th>
+                      </tr>
+                    </tfoot>
+                  </tfoot>
+                </table>
+              {% else %}
+                <h4 class="alert text-center">{{project.name}} Has No More Blogs</h4>
+              {% endif %}
+              </div>
+              <div class="card-footer {% if request.GET.is_draft %}bg-info {% elif request.GET.is_verified %} bg-success {% elif request.GET.is_active %} bg-warning  {% elif request.GET.is_deleted %} bg-danger{% endif %} d-flex justify-content-center">
+                {% if page_obj.has_other_pages %}
+                <nav>
+                  <ul class="pagination justify-content-center">
+                    {% if page_obj.has_previous %}
+                      <li class="page-item">
+                        <a class="page-link" href="?{% if request.GET.is_draft %}is_draft=True{% elif request.GET.is_verified %}is_verified=True{% elif request.GET.is_active %}is_active=True{% elif request.GET.is_deleted %}is_deleted=True{% endif %}{% if request.GET.filter %}&filter={{request.GET.filter}}{% endif %}&page={{ page_obj.previous_page_number }}" aria-label="Previous">
+                          <span aria-hidden="true">&laquo;</span>
+                        </a>
+                      </li>
+                    {% else %}
+                      <li class="page-item disabled">
+                          <span class="page-link" aria-hidden="true">&laquo;</span>
+                      </li>
+                    {% endif %}
+  
+
+                    {% for p in page_obj.paginator.page_range %}
+                      {% if page_obj.number == p %}
+                        <li class="page-item"><a class="page-link" style="color: red;" href="#">{{ p }}</a></li>
+                      {% endif %}
+                      {% if p > page_obj.number|add:'-5' and p < page_obj.number|add:'5' %}
+                      <li class="page-item"><a class="page-link" href="?{% if request.GET.is_draft %}is_draft=True{% elif request.GET.is_verified %}is_verified=True{% elif request.GET.is_active %}is_active=True{% elif request.GET.is_deleted %}is_deleted=True{% endif %}{% if request.GET.filter %}&filter={{request.GET.filter}}{% endif %}&page={{ p }}">{{ p }}</a></li>
+                      {% else %}
+                        <li class="page-item"><a class="page-link" href="?{% if request.GET.is_draft %}is_draft=True{% elif request.GET.is_verified %}is_verified=True{% elif request.GET.is_active %}is_active=True{% elif request.GET.is_deleted %}is_deleted=True{% endif %}{% if request.GET.filter %}&filter={{request.GET.filter}}{% endif %}&page={{ p }}">{{ p }}</a></li>
+                      {% endif %}
+                    {% endfor %}
+  
+                    {% if page_obj.has_next %}
+                      <li class="page-item">
+                        <a class="page-link" href="?{% if request.GET.is_draft %}is_draft=True{% elif request.GET.is_verified %}is_verified=True{% elif request.GET.is_active %}is_active=True{% elif request.GET.is_deleted %}is_deleted=True{% endif %}&page={{ page_obj.next_page_number }}" aria-label="Next">
+                          <span aria-hidden="true">&raquo;</span>
+                        </a>
+                      </li>
+                    {% else %}
+                      <li class="page-item disabled">
+                        <span class="page-link" aria-hidden="true">&raquo;</span>
+                      </li>
+                    {% endif %}
+                </ul>
+                </nav>
+                {% endif %}
+              </div>              <!-- /.card-body -->
+            </div>
+            </div>
+            <!-- /.card -->
+          </div>
+          <!-- /.col -->
+        </div>
+        <!-- /.row -->
+      <!-- /.container-fluid -->
+    </section>
+    <!-- /.content -->
+
+  </div>
+  <!-- /.content-wrapper -->
+ 
+  {% include 'includes/adminFooter.html' %} <!--Add this-->
+
+</div>
+<!-- ./wrapper -->
+<!-- jQuery -->
+<script src="{% static 'adminAAKRITICMS/plugins/jquery/jquery.min.js'%}"></script>
+<!-- Bootstrap 4 -->
+<script src="{% static 'adminAAKRITICMS/plugins/bootstrap/js/bootstrap.bundle.min.js'%}"></script>
+<!-- DataTables  & Plugins -->
+<script src="{% static 'adminAAKRITICMS/plugins/datatables/jquery.dataTables.min.js'%}"></script>
+<script src="{% static 'adminAAKRITICMS/plugins/datatables-bs4/js/dataTables.bootstrap4.min.js'%}"></script>
+<script src="{% static 'adminAAKRITICMS/plugins/datatables-responsive/js/dataTables.responsive.min.js'%}"></script>
+<script src="{% static 'adminAAKRITICMS/plugins/datatables-responsive/js/responsive.bootstrap4.min.js'%}"></script>
+<script src="{% static 'adminAAKRITICMS/plugins/datatables-buttons/js/dataTables.buttons.min.js'%}"></script>
+<script src="{% static 'adminAAKRITICMS/plugins/datatables-buttons/js/buttons.bootstrap4.min.js'%}"></script>
+<script src="{% static 'adminAAKRITICMS/plugins/jszip/jszip.min.js'%}"></script>
+<script src="{% static 'adminAAKRITICMS/plugins/pdfmake/pdfmake.min.js'%}"></script>
+<script src="{% static 'adminAAKRITICMS/plugins/pdfmake/vfs_fonts.js'%}"></script>
+<script src="{% static 'adminAAKRITICMS/plugins/datatables-buttons/js/buttons.html5.min.js'%}"></script>
+<script src="{% static 'adminAAKRITICMS/plugins/datatables-buttons/js/buttons.print.min.js'%}"></script>
+<script src="{% static 'adminAAKRITICMS/plugins/datatables-buttons/js/buttons.colVis.min.js'%}"></script>
+<!-- AakritiCMS JavaScript -->
+<script src="{% static 'adminAAKRITICMS/js/aakritiCMS.min.js'%}"></script>
+<!-- SweetAlert2 -->
+<script src="{% static 'adminAAKRITICMS/plugins/sweetalert2/sweetalert2.min.js'%}"></script>
+<!-- Toastr -->
+<script src="{% static 'adminAAKRITICMS/plugins/toastr/toastr.min.js'%}"></script>
+<script src="{% static 'adminAAKRITICMS/plugins/overlayScrollbars/js/jquery.overlayScrollbars.min.js' %}"></script>
+{% include 'template/bulk/BLOGImportExport.html' %}
+{% include 'template/bulk/BULKBLOGModel.html' %}
+
+<script src="{% static 'adminAAKRITICMS/plugins/infinite-scroll/jquery.waypoints.min.js'%}"></script>
+<script src="{% static 'adminAAKRITICMS/plugins/infinite-scroll/infinite.min.js'%}"></script>
+
+<script>
+  $(".fMainCat").on('change', function() {
+    $.ajax({                     
+        type: "POST",                   
+        url: "{% url 'LoadSubCatList' %}",                  
+        data: {
+          csrfmiddlewaretoken: "{{ csrf_token }}",
+          'mainCat':  this.value      
+        },
+        success: function (data) {  
+          $("#fSubCatList").html(data);
+        }
+    });
+  });
+
+  $(".fSubCat").on('change', function() {
+      $.ajax({                     
+          type: "POST",                   
+          url: "{% url 'LoadSubSubCatList' %}",                  
+          data: {
+            csrfmiddlewaretoken: "{{ csrf_token }}",
+            'subCat':  this.value      
+          },
+          success: function (data) {   
+              $("#fSubSubCatList").html(data);  
+          }
+      });
+    });
+  </script>
+
+<script>
+
+$('#checkAll').click(function () {    
+  $('input:checkbox').prop('checked', this.checked);  
+});
+
+$('.BTN_MOVETOTRASHList').click(function () {    
+$('#TRASHList').model('show')
+$('#DELETEList').model('hide')
+$('#DEACTIVEList').model('hide')
+$('#ACTIVEList').model('hide')
+$('#RESTORE').model('hide')
+
+});
+
+
+$('.BTN_ACTIVEList').click(function () {    
+$('#ACTIVEList').model('show')
+$('#DEACTIVEList').model('hide')
+$('#DELETEList').model('hide')
+$('#TRASHList').model('hide')
+$('#RESTORE').model('hide')
+
+});
+
+$('.BTN_DEACTIVEList').click(function () {    
+$('#DEACTIVEList').model('show')
+$('#DELETEList').model('hide')
+$('#ACTIVEList').model('hide')
+$('#TRASHList').model('hide')
+$('#RESTORE').model('hide')
+
+
+});
+
+$('.BTN_DELETEList').click(function () {    
+$('#DELETEList').model('show')
+$('#DEACTIVEList').model('hide')
+$('#ACTIVEList').model('hide')
+$('#TRASHList').model('hide')
+$('#RESTORE').model('hide')
+
+});
+
+$('.BTN_RESTORE').click(function () {    
+$('#RESTORE').model('show')
+$('#DELETEList').model('hide')
+$('#DEACTIVEList').model('hide')
+$('#ACTIVEList').model('hide')
+$('#TRASHList').model('hide')
+});
+
+
+
+function checkSELECT(){
+var id = [];
+$(':checkbox:checked').each(function(i){
+  id[i] = $(this).attr("getVal");
+})
+if (id.length===0){
+  $('.priceOptionForm').show()
+  $('.bulk_section').hide()
+}else{
+  $('.priceOptionForm').hide()
+  $('.bulk_section').show()
+}
+}
+
+
+
+  var infinite = new Waypoint.Infinite({
+        element: $('.infinite-container')[0],
+        handler: function(direction) {
+    },
+    offset: 'bottom-in-view',
+    onBeforePageLoad: function () {
+    $('.spinner-border').show();
+    },
+    onAfterPageLoad: function () {
+    $('.spinner-border').hide();
+    }   
+});
+
+
+
+  $(function () {
+    $("#1").DataTable({
+      "responsive": true, 
+      "lengthChange": false, 
+      "autoWidth": false,
+      "buttons": ["csv", "excel", "pdf", "print", "colvis"]
+    }).buttons().container().appendTo('#1_wrapper .col-md-6:eq(0)');
+  });
+
+$(function () {
+  $('[data-toggle="tooltip"]').tooltip()
+})
+
+
+</script>
+<!-- ==============END=============== -->
+{% include 'includes/adminToster.html' %}
+</body>
+</html>

@@ -1,0 +1,290 @@
+{% load static %}
+<div class="modal fade quick-view-product" id="ShippingAddress" tabindex="-1" aria-hidden="true">
+    <div class="modal-dialog modal-dialog-centered">
+        <div class="modal-content">
+            <div class="modal-header">
+                Add New Shipping Address
+                <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"><i class="far fa-times"></i></button>
+            </div>
+            <div class="modal-body">
+                <p class="b3 mt--10">This will be how your name will be displayed in the account section and in reviews</p>
+                <div class="onlinemangao-dashboard-account">
+                    <div class="row">
+                        <div class="col-lg-6">
+                            <div class="form-group">
+                                <label>Pin Code</label>
+                                <input type="text" class="pincode form-control" value="" placeholder="Pin Code / Zip Code / Postal Code">
+                            </div>
+                        </div>
+                        <div class="col-lg-6">
+                            <div class="form-group">
+                                <label>House No</label>
+                                <input type="text" class="houseno form-control" value="" placeholder="House No, Bulding No, Flat No">
+                            </div>
+                        </div>
+                        <div class="col-lg-6">
+                            <div class="form-group">
+                                <label>Land Mark</label>
+                                <input type="text" class="landmark form-control" value="" placeholder="Landmark, Colony">
+                            </div>
+                        </div>
+                        <div class="col-lg-6">
+                            <div class="form-group">
+                                <label>City</label>
+                                <input type="text" class="city form-control" value="" placeholder="City / Village">
+                            </div>
+                        </div>
+                        <div class="col-6">
+                            <div class="form-group">
+                                <label>State</label>
+                                <input type="text" class="state form-control" value="" placeholder="State or Provence">
+                            </div>
+                        </div>
+                        <div class="col-6">
+                            <div class="form-group">
+                                <label>Country</label>
+                                <input type="text" class="country form-control" value="" placeholder="Country">
+                            </div>
+                        </div>
+                        <div class="col-12">
+                            <div class="form-group">
+                                <label>More Note ( Optional )</label>
+                                <input type="text" class="more form-control" value="" placeholder="More Note Optional">
+                            </div>
+                        </div>
+                        <div class="col-12">                              
+                            <div class="form-group mb--0">
+                                <input type="submit" onclick="createSHIPPINGAddress();" class="onlinemangao-btn" value="Save Changes">
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</div> 
+<div class="modal fade quick-view-product" id="BillingAddress" tabindex="-1" aria-hidden="true">
+    <div class="modal-dialog modal-dialog-centered">
+        <div class="modal-content">
+            <div class="modal-header">
+                Add New Billing Address
+                <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"><i class="far fa-times"></i></button>
+            </div>
+            <div class="modal-body">
+                <p class="b3 mt--10">This will be how your name will be displayed in the account section and in reviews</p>
+
+                <div class="onlinemangao-dashboard-account">
+                    <div class="row">
+                        <div class="col-lg-6">
+                            <div class="form-group">
+                                <label>Pin Code</label>
+                                <input type="text" class="bpincode form-control" value="" placeholder="Pin Code / Zip Code / Postal Code">
+                            </div>
+                        </div>
+                        <div class="col-lg-6">
+                            <div class="form-group">
+                                <label>House No</label>
+                                <input type="text" class="bhouseno form-control" value="" placeholder="House No, Bulding No, Flat No">
+                            </div>
+                        </div>
+                        <div class="col-lg-6">
+                            <div class="form-group">
+                                <label>Land Mark</label>
+                                <input type="text" class="blandmark form-control" value="" placeholder="Landmark, Colony">
+                            </div>
+                        </div>
+                        <div class="col-lg-6">
+                            <div class="form-group">
+                                <label>City</label>
+                                <input type="text" class="bcity form-control" value="" placeholder="City / Village">
+                            </div>
+                        </div>
+                        <div class="col-6">
+                            <div class="form-group">
+                                <label>State</label>
+                                <input type="text" class="bstate form-control" value="" placeholder="State or Provence">
+                            </div>
+                        </div>
+                        <div class="col-6">
+                            <div class="form-group">
+                                <label>Country</label>
+                                <input type="text" class="bcountry form-control" value="" placeholder="Country">
+                            </div>
+                        </div>
+                        <div class="col-12">
+                            <div class="form-group">
+                                <label>More Note ( Optional )</label>
+                                <input type="text" class="more form-control" value="" placeholder="More Note Optional">
+                            </div>
+                        </div>
+                        <div class="col-12">                              
+                            <div class="form-group mb--0">
+                                <input type="submit" onclick="createBILLINGAddress();" class="onlinemangao-btn" value="Save Changes">
+                            </div>
+                        </div>
+                    </div>
+            </div>
+
+            </div>
+        </div>
+    </div>
+</div> 
+
+<script>
+    function createBILLINGAddress(){
+            const pincode = $('.bpincode').val();
+            const houseno = $('.bhouseno').val();
+            const landmark = $('.blandmark').val();
+            const city = $('.bcity').val();
+            const state = $('.bstate').val();
+            const country = $('.bcountry').val();
+            const more = $('.bmore').val();
+            if ("{{request.user.pk}}" == ""){
+                Toast.fire({
+                    icon: 'error',
+                    title: '<p id="messages" style="margin-top:0px !important; margin-left:8px !important;"><b> Target Required* </b></p>'
+                })
+            }
+            else if (pincode == ""){
+                Toast.fire({
+                    icon: 'error',
+                    title: '<p id="messages" style="margin-top:0px !important; margin-left:8px !important;"><b> PinCode Required* </b></p>'
+                })
+            }else if (city == ""){
+                Toast.fire({
+                    icon: 'error',
+                    title: '<p id="messages" style="margin-top:0px !important; margin-left:8px !important;"><b> City Required* </b></p>'
+                })
+            }else if (state == ""){
+                Toast.fire({
+                    icon: 'error',
+                    title: '<p id="messages" style="margin-top:0px !important; margin-left:8px !important;"><b> State Required* </b></p>'
+                })
+            }
+            else{
+                const data = new FormData();
+                data.append('target', "{{request.user.pk}}" );
+                data.append('pincode', pincode );
+                data.append('houseno', houseno );
+                data.append('landmark', landmark );
+                data.append('city', city );
+                data.append('state', state );
+                data.append('country', country );
+                data.append('more', more );
+                $.ajax({                      
+                    type: "POST",                   
+                    url: "{% url 'BILLINGAddress' %}",                    
+                    data: data,
+                    cache: false,
+                    processData: false,
+                    contentType: false,
+                    enctype: 'multipart/form-data',
+                    headers: {'X-CSRFToken': "{{ csrf_token }}"},
+                    success: function(data) {   
+                        if (data.status == 1){
+                            $('.bpincode').val('');
+                            $('.bhouseno').val('');
+                            $('.blandmark').val('');
+                            $('.bcity').val('');
+                            $('.bstate').val('');
+                            $('.bcountry').val('');
+                            $('.bmore').val('');                               
+                            Toast.fire({
+                                icon: 'success',
+                                title: '<p id="messages" style="margin-top: 0px !important; margin-left:8px !important;"><b>'+ data.message +'</b></p>'
+                            }) 
+                            $('#BillingAddress').modal('hide');
+                            setTimeout(function () {
+                                window.location.href = date.AFTERTask;
+                            }, 2000); 
+
+                        }else if (data.status == 0){
+                            Toast.fire({
+                            icon: 'error',
+                            title: '<p id="messages" style="margin-top: 0px !important; margin-left:8px !important;"><b>'+ data.message +'</b></p>'
+                            }) 
+                        }       
+                    },
+                });
+            }
+        }
+</script>
+<script>
+    function createSHIPPINGAddress(){
+            const pincode = $('.pincode').val();
+            const houseno = $('.houseno').val();
+            const landmark = $('.landmark').val();
+            const city = $('.city').val();
+            const state = $('.state').val();
+            const country = $('.country').val();
+            const more = $('.more').val();
+            if ("{{request.user.pk}}" == ""){
+                Toast.fire({
+                    icon: 'error',
+                    title: '<p id="messages" style="margin-top:0px !important; margin-left:8px !important;"><b> Target Required* </b></p>'
+                })
+            }
+            else if (pincode == ""){
+                Toast.fire({
+                    icon: 'error',
+                    title: '<p id="messages" style="margin-top:0px !important; margin-left:8px !important;"><b> PinCode Required* </b></p>'
+                })
+            }else if (city == ""){
+                Toast.fire({
+                    icon: 'error',
+                    title: '<p id="messages" style="margin-top:0px !important; margin-left:8px !important;"><b> City Required* </b></p>'
+                })
+            }else if (state == ""){
+                Toast.fire({
+                    icon: 'error',
+                    title: '<p id="messages" style="margin-top:0px !important; margin-left:8px !important;"><b> State Required* </b></p>'
+                })
+            }
+            else{
+                const data = new FormData();
+                data.append('target', "{{request.user.pk}}" );
+                data.append('pincode', pincode );
+                data.append('houseno', houseno );
+                data.append('landmark', landmark );
+                data.append('city', city );
+                data.append('state', state );
+                data.append('country', country );
+                data.append('more', more );
+                $.ajax({                      
+                    type: "POST",                   
+                    url: "{% url 'SHIPPINGAddress' %}",                    
+                    data: data,
+                    cache: false,
+                    processData: false,
+                    contentType: false,
+                    enctype: 'multipart/form-data',
+                    headers: {'X-CSRFToken': "{{ csrf_token }}"},
+                    success: function(data) { 
+                        $('.pincode').val('');
+                        $('.houseno').val('');
+                        $('.landmark').val('');
+                        $('.city').val('');
+                        $('.state').val('');
+                        $('.country').val('');
+                        $('.more').val('');
+                        if (data.status == 1){
+                            Toast.fire({
+                                icon: 'success',
+                                title: '<p id="messages" style="margin-top: 0px !important; margin-left:8px !important;"><b>'+ data.message +'</b></p>'
+                            })  
+                            $('#ShippingAddress').modal('hide');
+                            setTimeout(function () {
+                                window.location.href = date.AFTERTask;
+                            }, 2000); 
+
+                        }else if (data.status == 0){
+                            Toast.fire({
+                            icon: 'error',
+                            title: '<p id="messages" style="margin-top: 0px !important; margin-left:8px !important;"><b>'+ data.message +'</b></p>'
+                            }) 
+                        }       
+                    },
+                });
+            }
+        }
+</script>

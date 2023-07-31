@@ -1,0 +1,7 @@
+{% if colors %}
+    {% for color in colors %}
+    <option>{{color.name}}</option>
+    {% endfor %}
+{% else %}
+<option>No More Color</option>
+{% endif %}

@@ -1,0 +1,61 @@
+
+{% load static %}
+
+
+<div class="modal fade" id="DELETESECTION">
+    <div class="modal-dialog modal-md">
+        <div class="modal-content">
+        <div class="modal-header justify-content-center">
+            <h4 class="modal-title text-center text-justify"><b>Are you sure you want to delete</b></h4>
+            <button type="button" class="close" data-dismiss="modal" aria-label="Close"><span aria-hidden="true">&times;</span></button>
+        </div>
+        <div class="modal-body ">
+            <div class="row justify-content-center">
+                <i class='fas fa-trash-alt' style='font-size:48px;color:red'></i>
+            </div>
+            <input type="text" style="display:none" class="targetVAL form-control" id="input-field" onkeyup="NameStringCount()">
+        </div>
+        <div class="modal-footer justify-content-center ">
+            <button type="button"  class="btn btn-outline-dark" data-dismiss="modal">Cancel</button>
+            <button type="button" id="deleteREQUESTFORTHISSECTION" class="deleteREQUESTFORTHISSECTION btn btn-outline-danger">Confirm </button>
+        </div>
+        </div>
+    </div>
+</div>
+<script>
+    $(".deleteREQUESTFORTHISSECTION").click(function () {
+        const targetMainCat = $(".targetVAL").val()
+        if (targetMainCat == ""){
+            Toast.fire({
+                icon: 'error',
+                title: '<p id="messages" style="margin-top:12px !important; margin-left:8px !important;"><b> Target Not Define </b></p>'
+                }) 
+        }else{
+            $.ajax({                      
+                type: "POST",                   
+                url: "{% url 'DELETESECTION' %}",                    
+                data: {
+                csrfmiddlewaretoken: "{{ csrf_token }}",
+                'targetOBJ': targetMainCat,
+                },
+                success: function(data) {   
+                    if (data.status == 1){
+                        Toast.fire({
+                            icon: 'success',
+                            title: '<p id="messages" style="margin-top: 12px !important; margin-left:8px !important;"><b>'+ data.message +'</b></p>'
+                        }) 
+                        setTimeout(function () {
+                                window.location.href =data.Reload;
+                        }, 1000); 
+                    }
+                    else if (data.status == 0){
+                        Toast.fire({
+                        icon: 'error',
+                        title: '<p id="messages" style="margin-top: 12px !important; margin-left:8px !important;"><b>'+ data.message +'</b></p>'
+                        }) 
+                    }       
+                },
+            });
+        }
+    });
+</script>

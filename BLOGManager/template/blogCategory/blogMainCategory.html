@@ -1,0 +1,393 @@
+<!DOCTYPE html>
+<html lang="en">
+  {% load static%}
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>Blog Category | {{project.title | safe | title }} || {{project.name}} </title>
+  <link rel="icon" type="image/png" href="{% if project.favicon %}{{project.favicon.url}}{% else %}{% static 'adminAAKRITICMS/img/default/mrdas.jpg' %}{% endif %}">
+  <!-- Font Awesome -->
+  <link rel="stylesheet" href="{% static 'adminAAKRITICMS/plugins/fontawesome-free/css/all.min.css'%}">
+  <!-- SweetAlert2 -->
+  <link rel="stylesheet" href="{% static 'adminAAKRITICMS/plugins/sweetalert2-theme-bootstrap-4/bootstrap-4.min.css' %}">
+  <!-- adminRKMTech Theme style -->
+  <link rel="stylesheet" href="{% static 'adminAAKRITICMS/css/aakriticms.min.css'%}">
+  <link rel="stylesheet" href="{% static 'adminAAKRITICMS/css/aakriti.ui.css'%}">
+  <!-- DataTables -->
+  <link rel="stylesheet" href="{% static 'adminAAKRITICMS/plugins/datatables-bs4/css/dataTables.bootstrap4.min.css'%}">
+  <link rel="stylesheet" href="{% static 'adminAAKRITICMS/plugins/datatables-responsive/css/responsive.bootstrap4.min.css'%}">
+  <link rel="stylesheet" href="{% static 'adminAAKRITICMS/plugins/datatables-buttons/css/buttons.bootstrap4.min.css'%}">
+  <link rel="stylesheet" href="{% static 'adminAAKRITICMS/plugins/select2/css/select2.min.css'%}">
+  <link rel="stylesheet" href="{% static 'adminAAKRITICMS/plugins/select2-bootstrap4-theme/select2-bootstrap4.min.css'%}">
+  <link rel="stylesheet" href="{% static 'adminAAKRITICMS/plugins/overlayScrollbars/css/OverlayScrollbars.min.css' %}">
+</head>
+<body class="hold-transition sidebar-mini layout-fixed">
+  <div class="wrapper">
+
+
+  {% include 'includes/adminNavBar.html' %} <!--Add this-->
+  {% include 'includes/adminSideBar.html' %} <!--Add this-->
+
+
+  <!-- Content Wrapper. Contains page content -->
+  <div class="content-wrapper">
+    <!-- Content Header (Page header) -->
+    <section class="content-header">
+      <div class="container-fluid">
+        <div class="row mb-2">
+          <div class="col-sm-6">
+            <h1>Manage Blog Category</h1>
+          </div>
+          <div class="col-sm-6 d-flex " style="justify-content: right;">
+            <a href="javascript:void(0)" data-toggle="modal" data-target="#BLOGMainCatImport" class="BLOGMainCatImport btn btn-primary " data-toggle="tooltip" title="Import BLOGMainCat" ><i class="fas fa-upload"></i>&nbsp;&nbsp; Blog Main Category Import </a>
+            &emsp;
+            <a href="javascript:void(0)" data-toggle="modal" data-target="#BLOGMainCatExport" class="BLOGMainCatExport btn btn-success " data-toggle="tooltip" title="Export BLOGMainCat" ><i class="fas fa-download"></i>&nbsp;&nbsp; Blog Main Category Export</a>
+          </div>          
+        </div>
+      </div><!-- /.container-fluid -->
+    </section>
+
+    <!-- Blog content -->
+    <section class="content">
+      <div class="container-fluid">
+        <div class="row">
+          <div class="col-md-4">
+            <div class="card card-primary">
+              <div class="card-header">
+                <h3 class="card-title">Create Blog Category</h3>
+              </div>
+              <form action="{% url 'blogMainCategory' %}" method="POST" enctype="multipart/form-data">
+                {% csrf_token %}
+                <div class="card-body">
+                  <div class="form-group">
+                    <label for="BLOGMainCategory">Blog Category Name</label>
+                    <input type="text" class="form-control" id="input-field" placeholder="Create Blog Category" data-toggle="tooltip" data-placement="top" title="Create Blog Category Name" name="mainCat"  autocomplete="off" required>
+                  </div>
+                  <label for="exampleInputFile">Select Image </label>
+                  <div class="card card-outline card-info">
+                    <div class="card-body"> 
+                      <div id="display_image" style="height:150px; width:100% !important; border-radius: 10px; border: 2px solid rgb(9, 135, 238); display: none; visibility: hidden; background-size:contain; background-repeat:no-repeat;"></div>
+                      <img src="{% static 'adminAAKRITICMS/img/default/AakritiLiteWebDeveloper.jpg'%}" class="img_display img-thumbnail" id="NoObject" style="height:150px; width:100% !important; border-radius: 10px; border: 2px solid rgb(9, 135, 238);" data-toggle="tooltip" data-placement="top" title="Select Blog Category Image"/>
+                    </div>
+                    <div class="card-footer">
+                        <span class="btn btn-primary col fileinput-button " data-toggle="tooltip" data-placement="top" title="Hit For Select Image">
+                            <input type="file" accept="image/png, image/jpg , image/jpeg" name="img" id="image_input"  style="display: none;" class="img_input"/>
+                            <label for="image_input" style="cursor: pointer;" ><i class="fas fa-plus"></i><span>Add Thumbnail </span></label>
+                        </span>
+                    </div>
+                  </div>
+                </div>
+                <div class="card-footer bg-primary">
+                  <div class="container">
+                    <div class="row">
+                      <div class="col text-center">
+                        <button type="submit" class="btn btn-light" data-toggle="tooltip" data-placement="top" title="Hit For Create Blog Category">Create Blog Category</button>
+                      </div>
+                    </div>
+                  </div>
+                </div><!-- End Card Footer -->
+              </form>
+            </div>
+            <!-- /.card -->
+          </div>
+          <div class="col-md-8">
+            <div class="card card-primary">
+              <div class="card-header ">
+                <form action="" method="get" class="priceOptionForm" name="priceOptionForm">
+                <div class="row">
+                  <div class="col-lg-5">
+                    <h3 class="card-title">Manage Blog Category</h3>
+                  </div>
+                  <div class="col-lg-3">
+                    <div class="form-group">
+                      <select class="form-control select2" style="width: 100%;" name="filter" id="filter" required onchange="this.form.submit()">
+                        {% if request.GET.filter %}
+                        <option  value="{{request.GET.filter}}">[ {{request.GET.filter}} ] Filtered Rows </option>
+                        {% else %}
+                        <option  value="20">Filter Rows</option>
+                        {% endif %}
+                        <option value="5"> Show 5 </option>
+                        <option value="10"> Show 10 </option>
+                        <option value="20"> Show 20 </option>
+                        <option value="50"> Show 50 </option>
+                        <option value="100"> Show 100 </option>
+                        <option value="200"> Show 200 </option>
+                        <option value="500"> Show 500 </option>
+                      </select>
+                  </div>
+                  </div>
+                  <div class="col-lg-4">
+                    <div class="input-group mb-3">
+                      <input onchange="this.form.submit()" type="text" class="form-control" placeholder="Search Blog Main Category" data-toggle="tooltip" data-placement="top" title="Search Blog Main Category Name" name="search" value="{{request.GET.search}}"  autocomplete="off" required aria-label="BlogMainCat" aria-describedby="basic-addon1">
+                      <div class="input-group-prepend">
+                        <span class="input-group-text" id="basic-addon1">
+                          {% if request.GET.search %}
+                          <a href="{% url 'blogMainCategory' %}" class="text-dark"  data-toggle="tooltip" data-placement="top" title="Reset Filter & Search">  <i class="fas fa-times" style="font-size:20px;"></i> </a>
+                          {% else %}
+                          <a class="text-dark" onclick="this.form.submit()" data-toggle="tooltip" data-placement="top" title="Reset Filter & Search">  <i class="fas fa-search" style="font-size:20px;"></i> </a>
+                          {% endif %}
+                        </span>
+                      </div>
+                    </div>
+
+                    </div>
+               
+                </div>
+              </form>
+              <div class="bulk_section btn-group btn-group-sm" style="display: none;">
+                <a href="javascript:void(0);" id="BTN_ACTIVEList" class="BTN_ACTIVEList btn btn-success" data-toggle="modal" data-target="#ACTIVEList" data-placement="top" title="Hit For Bulk Active Main Category"> <i class="fas fa-plus"></i> Active</a>                          
+                <a href="javascript:void(0);" id="BTN_DEACTIVEList" class="BTN_DEACTIVEList btn btn-dark" data-toggle="modal" data-target="#DEACTIVEList" data-placement="top" title="Hit For Bulk Deactive Main Category"> <i class="fas fa-minus"></i> Deactive</a>                          
+                <a href="javascript:void(0);" id="BTN_DELETEList" class="BTN_DELETEList btn btn-danger btn-sm" data-toggle="modal" data-target="#DELETEList" title="Hit For Bulk Delete Main Category"><i class="fas fa-trash-alt"></i> Delete</a>
+              </div>
+              </div>
+              <!-- /.card-header -->
+              <div class="card-body p-0">
+                {% if blogMainCat %}
+                <table id="BLOGMainCat1" class="table table-bordered table-striped">
+                  <thead>
+                    <tr>
+                      <th>Sn</th>
+                      <th>Name</th>
+                      <th>Images</th>
+                      <th>Actions</th>
+                      <th style="width: 12px;">
+                        <div class="form-group clearfix">
+                          <div class="icheck-primary d-inline">
+                            <input type="checkbox" id="checkAll" getVal="all" class="checkAll" onchange="checkSELECT()">
+                          </div>
+                        </div>
+                      </th>
+                    </tr>
+                  </thead>
+                  <tbody>
+                  {% for blogMaincat in blogMainCat %}
+                    <tr>
+                      <td>{{forloop.counter}}</td>
+                      <td>
+                        <li>
+                          <a href="javascript:void();" class="text-dark" target="_blank">{{blogMaincat.name}}</a>
+                        </li>
+                      </td>
+                      {% if blogMaincat.img %}
+                        <td style="height: 50px !important; width: 120px !important; background-image: url('{% if blogMaincat.img %}{{blogMaincat.img.url}}{% endif %}'); background-size:contain;background-repeat:no-repeat; "></td></td>
+                      {% else %}
+                        <td style="text-align: center !important;"> No IMG </td>
+                      {% endif %}
+                      <td> 
+                        <div class="btn-group btn-group-sm">
+                          {% if blogMaincat.is_active == True %}
+                            <a href="{% url 'blogDeactivatedMainCategory' blogMaincat.pk %}" class="btn btn-danger" data-toggle="tooltip" data-placement="top" title="Hit For Removed From Live"><i class="fas fa-minus"></i> Deactive</a>                          
+                          {% else %}
+                          <a href="{% url 'blogActivatedMainCategory' blogMaincat.pk %}" class="btn btn-success" data-toggle="tooltip" data-placement="top" title="Hit For Approved Now"> <i class="fas fa-plus"></i> Active</a>                          
+                          <!-- <a href="{% url 'blogCopyMainCategory' blogMaincat.pk %}" class="btn btn-dark" data-toggle="tooltip" data-placement="top" title="Hit For Copy Blog Category"> Make Copy</a>                           -->
+                          <a href="{% url 'blogUpdateMainCategory' blogMaincat.pk %}" class="btn btn-primary" data-toggle="tooltip" data-placement="top" title="Hit For Edit Blog Category"><i class="fas fa-edit"></i> Edit</a>
+
+                            {% comment %}
+                            <!-- <a href="{% url 'blogDeleteMainCategory' blogMaincat.pk %}" class="btn btn-danger" data-toggle="tooltip" data-placement="top" title="Hit For Delete Blog Category"><i class="fas fa-trash-alt"></i> Delete</a> -->
+                            {% endcomment %}
+                            {% if request.user.is_admin %}
+                            <a href="javascript:void(0);" class="targetMainCat btn btn-danger btn-sm" mainCatVAL="{{blogMaincat.pk}}" data-toggle="modal" data-target="#DELETEBLOGMainCat" data-toggle="tooltip" data-placement="top" title="Hit For Delete Main Category"><i class="fas fa-trash-alt"></i> Delte</a>
+                            {% endif %}
+                          {% endif %}
+                        </div>
+                      </td>
+                      <td>
+                        <div class="form-group clearfix">
+                          <div class="icheck-primary d-inline">
+                            <input type="checkbox" id="{{blogMaincat.slug}}" getVal="{{blogMaincat.pk}}" onchange="checkSELECT()">
+                          </div>
+                        </div>
+                      </td>
+                    </tr>
+                  {% endfor %}
+                  </tbody>
+                  <tfoot>
+                    <tr>
+                      <th>Sn</th>
+
+                      <th>Name</th>
+                      <th>Images</th>
+                      <th>Actions</th>
+                      <th>...</th>
+                    </tr>
+                  </tfoot>
+                </table>
+                {% else %}
+                <h4 class="alert text-center text-dark"> {{project.name}} has No Blog MainCat</h4>
+                {% endif %}
+              </div>
+              <div class="card-footer bg-primary">
+                {% if blogMainCat.has_other_pages %}
+                <nav>
+                  <ul class="pagination justify-content-center">
+                    {% if blogMainCat.has_previous %}
+                      <li class="page-item">
+                        <a class="page-link" href="?page={{ blogMainCat.previous_page_number }}" aria-label="Previous">
+                          <span aria-hidden="true">&laquo;</span>
+                        </a>
+                      </li>
+                    {% else %}
+                      <li class="page-item disabled">
+                          <span class="page-link" aria-hidden="true">&laquo;</span>
+                      </li>
+                    {% endif %}
+  
+                    {% for p in blogMainCat.paginator.page_range %}
+                      {% if blogMainCat.number == p %}
+                        <li class="page-item"><a class="page-link" style="color: red;" href="#">{{ p }}</a></li>
+                      
+                      {% elif p > blogMainCat.number|add:'-5' and p < blogMainCat.number|add:'5' %}
+                        <!-- <li class="page-item" ><a  class="page-link" href="?page={{ i }}">{{ i }}</a></li> -->
+                        <li class="page-item"><a class="page-link" href="?page={{ p }}">{{ p }}</a></li>
+                      {% endif %}
+  
+                   
+  
+  
+                    {% endfor %}
+  
+                    {% if blogMainCat.has_next %}
+                      <li class="page-item">
+                        <a class="page-link" href="?page={{ blogMainCat.next_page_number }}" aria-label="Next">
+                          <span aria-hidden="true">&raquo;</span>
+                        </a>
+                      </li>
+                    {% else %}
+                      <li class="page-item disabled">
+                        <span class="page-link" aria-hidden="true">&raquo;</span>
+                      </li>
+                    {% endif %}
+                </ul>
+                </nav>
+                {% endif %}
+              </div>
+             
+              <!-- /.card-body -->
+            </div>
+            </div>
+            <!-- /.card -->
+
+          </div>
+          <!-- /.col -->
+        </div>
+        <!-- /.row -->
+      <!-- /.container-fluid -->
+    </section>
+    <!-- /.content -->
+  </div>
+  <!-- /.content-wrapper -->
+ 
+  {% include 'includes/adminFooter.html' %} <!--Add this-->
+</div>
+<!-- ./wrapper -->
+<!-- jQuery -->
+<script src="{% static 'adminAAKRITICMS/plugins/jquery/jquery.min.js'%}"></script>
+<!-- Bootstrap 4 -->
+<script src="{% static 'adminAAKRITICMS/plugins/bootstrap/js/bootstrap.bundle.min.js'%}"></script>
+<!-- DataTables  & Plugins -->
+<script src="{% static 'adminAAKRITICMS/plugins/datatables/jquery.dataTables.min.js'%}"></script>
+<script src="{% static 'adminAAKRITICMS/plugins/datatables-bs4/js/dataTables.bootstrap4.min.js'%}"></script>
+<script src="{% static 'adminAAKRITICMS/plugins/datatables-responsive/js/dataTables.responsive.min.js'%}"></script>
+<script src="{% static 'adminAAKRITICMS/plugins/datatables-responsive/js/responsive.bootstrap4.min.js'%}"></script>
+<script src="{% static 'adminAAKRITICMS/plugins/datatables-buttons/js/dataTables.buttons.min.js'%}"></script>
+<script src="{% static 'adminAAKRITICMS/plugins/datatables-buttons/js/buttons.bootstrap4.min.js'%}"></script>
+<script src="{% static 'adminAAKRITICMS/plugins/jszip/jszip.min.js'%}"></script>
+<script src="{% static 'adminAAKRITICMS/plugins/pdfmake/pdfmake.min.js'%}"></script>
+<script src="{% static 'adminAAKRITICMS/plugins/pdfmake/vfs_fonts.js'%}"></script>
+<script src="{% static 'adminAAKRITICMS/plugins/datatables-buttons/js/buttons.html5.min.js'%}"></script>
+<script src="{% static 'adminAAKRITICMS/plugins/datatables-buttons/js/buttons.print.min.js'%}"></script>
+<script src="{% static 'adminAAKRITICMS/plugins/datatables-buttons/js/buttons.colVis.min.js'%}"></script>
+
+<!-- SweetAlert2 -->
+<script src="{% static 'adminAAKRITICMS/plugins/sweetalert2/sweetalert2.min.js'%}"></script>
+<!-- Toastr -->
+<script src="{% static 'adminAAKRITICMS/plugins/toastr/toastr.min.js'%}"></script>
+<!-- AakritiCMS JavaScript -->
+<script src="{% static 'adminAAKRITICMS/js/aakritiCMS.min.js'%}"></script>
+<script src="{% static 'adminAAKRITICMS/plugins/overlayScrollbars/js/jquery.overlayScrollbars.min.js' %}"></script>
+<script src="{% static 'adminAAKRITICMS/plugins/aakritiCMS/js/additional-operations.js' %}"></script>
+
+{% include 'template/BLOGOperation.html' %}
+{% include 'template/bulk/BLOGMainCatImportExport.html' %}
+{% include 'template/bulk/BULKBLOGMAINCATModel.html' %}
+
+
+<script>
+
+  $('#checkAll').click(function () {    
+    $('input:checkbox').prop('checked', this.checked);  
+});
+
+$('.BTN_ACTIVEList').click(function () {    
+  $('#ACTIVEList').model('show')
+  $('#DEACTIVEList').model('hide')
+  $('#DELETEList').model('hide')
+});
+
+$('.BTN_DEACTIVEList').click(function () {    
+  $('#DEACTIVEList').model('show')
+  $('#DELETEList').model('hide')
+  $('#ACTIVEList').model('hide')
+});
+
+$('.BTN_DELETEList').click(function () {    
+  $('#DELETEList').model('show')
+  $('#DEACTIVEList').model('hide')
+  $('#ACTIVEList').model('hide')
+});
+
+function checkSELECT(){
+  var id = [];
+  $(':checkbox:checked').each(function(i){
+    id[i] = $(this).attr("getVal");
+  })
+  if (id.length===0){
+    $('.priceOptionForm').show()
+    $('.bulk_section').hide()
+  }else{
+    $('.priceOptionForm').hide()
+    $('.bulk_section').show()
+  }
+}
+
+
+  $(function () {
+    //Initialize Select2 Elements
+    $('.select2').select2()
+
+    //Initialize Select2 Elements
+    $('.select2bs4').select2({
+      theme: 'bootstrap4'
+    })
+  })
+
+  $(function () {
+    $("#BLOGMainCat").DataTable({
+      "responsive": true,
+      "lengthChange": false, 
+      "autoWidth": false,
+      "bPaginate": false,
+      "paging": false,
+      "paging":   false,
+      "ordering": false,
+      "info":     false,
+      "buttons": ["csv", "excel", "pdf", "print"]
+    }).buttons().container().appendTo('#BLOGMainCat_wrapper .col-md-6:eq(0)');
+  });
+  
+$(document).ready(function() {
+    $(".targetMainCat").click(function(){
+        $('.targetVAL').val($(this).attr('mainCatVAL'))
+    });
+  });
+  
+  $(function () {
+        //Initialize Select2 Elements
+        $('.IMPORTselect2').select2()
+        $('.EXPORTselect2').select2()
+    })
+</script>
+<!-- ==============END=============== -->
+{% include 'includes/adminToster.html' %}
+</body>
+</html>

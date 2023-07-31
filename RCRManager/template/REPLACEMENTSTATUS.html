@@ -1,0 +1,264 @@
+<!DOCTYPE html>
+<html lang="en">
+  {% load static%}
+  {% load REPLACEMENTTAGS %}
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>All REPLACEMENTs | {{project.title | safe | title }} || {{project.name}} </title>
+  <link rel="icon" type="image/png" href="{% if project.favicon %}{{project.favicon.url}}{% else %}{% static 'adminAAKRITICMS/img/default/mrdas.jpg' %}{% endif %}">
+  <!-- Font Awesome -->
+  <link rel="stylesheet" href="{% static 'adminAAKRITICMS/plugins/fontawesome-free/css/all.min.css'%}">
+  <!-- SweetAlert2 -->
+  <link rel="stylesheet" href="{% static 'adminAAKRITICMS/plugins/sweetalert2-theme-bootstrap-4/bootstrap-4.min.css' %}">
+  <!-- adminRKMTech Theme style -->
+  <link rel="stylesheet" href="{% static 'adminAAKRITICMS/css/aakriticms.min.css'%}">
+  <link rel="stylesheet" href="{% static 'adminAAKRITICMS/css/aakriti.ui.css'%}">
+  <!-- DataTables -->
+  <link rel="stylesheet" href="{% static 'adminAAKRITICMS/plugins/datatables-bs4/css/dataTables.bootstrap4.min.css'%}">
+  <link rel="stylesheet" href="{% static 'adminAAKRITICMS/plugins/datatables-responsive/css/responsive.bootstrap4.min.css'%}">
+  <link rel="stylesheet" href="{% static 'adminAAKRITICMS/plugins/datatables-buttons/css/buttons.bootstrap4.min.css'%}">
+  <link rel="stylesheet" href="{% static 'adminAAKRITICMS/plugins/select2/css/select2.min.css'%}">
+  <link rel="stylesheet" href="{% static 'adminAAKRITICMS/plugins/overlayScrollbars/css/OverlayScrollbars.min.css' %}">
+</head>
+<body class="hold-transition sidebar-mini layout-fixed">
+  <div class="wrapper">
+  {% include 'includes/adminNavBar.html' %} <!--Add this-->
+  {% include 'includes/adminSideBar.html' %} <!--Add this-->
+  <!-- Content Wrapper. Contains page content -->
+  <div class="content-wrapper">
+    <section class="content-header">
+      <div class="container-fluid">
+        <div class="row mb-2">
+          <div class="col-sm-6">
+            <h1>Manage REPLACEMENTs </h1>
+          </div>
+          <div class="col-sm-6 d-flex " style="justify-content: right;">
+            <a href="javascript:void(0)" data-toggle="modal" data-target="#REPLACEMENTImport" class="REPLACEMENTImport btn btn-primary " data-toggle="tooltip" title="Import REPLACEMENT " ><i class="fas fa-upload"></i>&nbsp;&nbsp; REPLACEMENTRequest Import </a>
+            &emsp;
+            <a href="javascript:void(0)" data-toggle="modal" data-target="#REPLACEMENTExport" class="REPLACEMENTExport btn btn-success " data-toggle="tooltip" title="Export REPLACEMENT " ><i class="fas fa-download"></i>&nbsp;&nbsp; REPLACEMENTRequest Export</a>
+          </div>
+        </div>
+      </div>
+    </section>
+    {% if request.user.is_accountant %}
+    {% include 'template/RCRDashboard/GridREPLACEMENTBox.html' %} 
+    {% endif %}
+    <!-- Main content -->
+    <section class="content">
+      <div class="container-fluid">
+        <div class="row">
+          <div class="col-md-12">
+            <div class="card {% if request.GET.is_draft %}card-info {% elif request.GET.is_verified %} card-success {% elif request.GET.is_active %}card-warning{% elif request.GET.is_deleted %}card-danger {% endif %}">
+              <div class="card-header ">
+                <form action="" method="get" class="priceOptionForm" name="priceOptionForm">
+                  <div class="row">
+                    <div class="col-lg-6">
+                      <h1 class="card-title text-center text-bold text-uppercase">  All &nbsp; {% if request.GET.is_draft %}Requests {% elif request.GET.is_verified %} Approved {% elif request.GET.is_active %}Rejected{% elif request.GET.is_deleted %}Deleted {% endif %} &nbsp; REPLACEMENTS</h1>
+                    </div>
+                    <div class="col-lg-3">
+                      <div class="form-group">
+                        <select class="form-control select2" style="width: 100%;" name="filter" id="filter" required onchange="this.form.submit()">
+                          {% if request.GET.filter %}
+                          <option  value="{{request.GET.filter}}">[ {{request.GET.filter}} ] Filtered Rows </option>
+                          {% else %}
+                          <option  value="20">Filter Rows</option>
+                          {% endif %}
+                          <option value="5"> Show 5 </option>
+                          <option value="10"> Show 10 </option>
+                          <option value="20"> Show 20 </option>
+                          <option value="50"> Show 50 </option>
+                          <option value="100"> Show 100 </option>
+                          <option value="200"> Show 200 </option>
+                          <option value="500"> Show 500 </option>
+                        </select>
+                    </div>
+                    </div>
+                    <div class="col-lg-3">
+                      <div class="input-group mb-3">
+                        <input onchange="this.form.submit()" type="text" class="form-control" placeholder="Search REPLACEMENTs" data-toggle="tooltip" data-placement="top" title="Search REPLACEMENTs" name="search" value="{{request.GET.search}}"  autocomplete="off" required aria-label="REPLACEMENTMainCat" aria-describedby="basic-addon1">
+                        <div class="input-group-prepend">
+                          <span class="input-group-text" id="basic-addon1">
+                            {% if request.GET.search %}
+                            <a href="" class="text-dark"  data-toggle="tooltip" data-placement="top" title="Reset Filter & Search">  <i class="fas fa-times" style="font-size:20px;"></i> </a>
+                            {% else %}
+                            <a class="text-dark" onclick="this.form.submit()" data-toggle="tooltip" data-placement="top" title="Reset Filter & Search">  <i class="fas fa-search" style="font-size:20px;"></i> </a>
+                            {% endif %}
+                          </span>
+                        </div>
+                      </div>
+                    </div>                 
+                  </div>
+                </form>
+              </div>
+              <!-- /.card-header -->
+              <div class="card-body p-0">
+                {% if REPLACEMENTList %}
+                <table id="allREPLACEMENTS1" class="table table-bordered table-striped " >
+                  <thead>
+                    <tr>
+                      <th>Headline</th>
+                      <th>IMG</th>
+                      <th>Publish/Update</th>
+                      <th>Views</th>
+                      <th>Actions</th>
+                    </tr>
+                  </thead>
+                  <tbody class="infinite-container">
+                    {% for REPLACEMENT in REPLACEMENTList %}
+                    <tr class="infinite-item">
+                      <td class="text-left">
+                        {% if REPLACEMENT.mainCat_id %}
+                        <li>{{REPLACEMENT.SubCat.mainCat.name}}</li>
+                        {% endif %}
+                        {% if REPLACEMENT.SubCat %}
+                        <li>{{REPLACEMENT.SubCat.name}}</li>
+                        {% endif %}
+                        <li><a href="" target="_blank">{{REPLACEMENT.name}} <i class="fas fa-external-link-alt" aria-hidden="true"></i></a></li>
+                      </td>
+                      {% if REPLACEMENT.img %}
+                      <td style="background-image: url('{% if REPLACEMENT.img %}{{REPLACEMENT.img.url}}{% endif %}'); background-size:contain;background-repeat:no-repeat; "></td>
+                      {% else %}
+                      <td> No IMG</td>
+                      {% endif %}
+                      <td class="text-left">
+                        <li> Publish: {{REPLACEMENT.date}}</li>
+                        <li> Update: {{REPLACEMENT.last_update}}</li>
+                      </td>
+                      <td class="text-center">{{REPLACEMENT.get_view_count}}</td>
+                      <td> 
+                        <div class="btn-group btn-group-sm">
+                          {% if request.GET.is_draft %}
+                            <a href="{% url 'activateREPLACEMENT' REPLACEMENT.pk %}" class="btn btn-success" data-toggle="tooltip" data-placement="left" title="Activated Topic">  <i class="fas fa-plus"></i> Active</a>
+                            <a href="" target="_blank" class="btn btn-info" data-toggle="tooltip" title="View REPLACEMENT"><i class="fas fa-eye"></i> View</a>
+                            <a href="" class="btn btn-dark" data-toggle="tooltip" title="Update REPLACEMENT"> <i class="fas fa-edit"></i> Edit</a>
+                            <a href="{% url 'deleteREPLACEMENT' REPLACEMENT.pk %}" class="btn btn-danger" data-toggle="tooltip" title="Move To Trash" ><i class="fas fa-trash"></i> Delate</a>
+                          {% elif request.GET.is_verified %}
+                            <a href="{% url 'deactivateREPLACEMENT' REPLACEMENT.pk %}" class="btn btn-danger" data-toggle="tooltip" data-placement="left" title="Deactivate REPLACEMENT"><i class="fas fa-minus"></i> Deactive</a>
+                            <a href="" target="_blank" class="btn btn-info" data-toggle="tooltip" title="View REPLACEMENT"><i class="fas fa-eye"></i> View</a>                      
+                          {% elif request.GET.is_active %}
+                            <a href="{% url 'activateREPLACEMENT' REPLACEMENT.pk %}" class="btn btn-success" data-toggle="tooltip" data-placement="left" title="Activated REPLACEMENT"> <i class="fas fa-plus"></i> Active</a>
+                            <a href="" target="_blank" class="btn btn-info" data-toggle="tooltip" title="View REPLACEMENT"> <i class="fas fa-eye"></i> View</a>
+                            <a href="" class="btn btn-dark" data-toggle="tooltip" title="Update REPLACEMENT"> <i class="fas fa-edit"></i> Edit</a>
+                            <a href="{% url 'deleteREPLACEMENT' REPLACEMENT.pk %}" class="btn btn-danger" data-toggle="tooltip" title="Move To Trash" ><i class="fas fa-trash"></i> Delete</a>                          
+                          {% elif request.GET.is_deleted %}
+                            <a href="{% url 'restoreREPLACEMENT' REPLACEMENT.pk %}" class="btn btn-primary" data-toggle="tooltip"  title="Restore Deleted REPLACEMENT"><i class="fas fa-plus"></i> Restore</a>
+                            {% if request.user.is_admin %}
+                            <a href="{% url 'PermanentDeleteREPLACEMENT' REPLACEMENT.pk %}" class="btn btn-danger" data-toggle="tooltip"  title="Permanent Deleted REPLACEMENT"><i class="fas fa-trash-alt"></i> Delete</a>
+                            {% endif %}
+                          {% endif %}
+                        </div>
+                      </td>
+                    </tr>
+                    {% endfor %}
+                  </tbody>
+                  {% if page_obj.has_next %}
+                    <a class="infinite-more-link" href="?{% if request.GET.is_draft %}is_draft=True{% elif request.GET.is_verified %}is_verified=True{% elif request.GET.is_deleted %}is_deleted=True{% endif %}&page={{ page_obj.next_page_number }}"></a>
+                  {% else %}
+                    <div class="d-flex justify-content-center">
+                      <div class="spinner-border" role="status" style="display: none;">
+                          <span class="sr-only">Loading...</span>
+                      </div>
+                    </div>
+                  {% endif %}
+                  
+                  <tfoot>
+                    <tfoot>
+                      <tr>
+                        <th>Headline</th>
+                        <th>Image</th>
+                        <th>Publish/Update</th>
+                        <th>Views</th>
+                        <th>Actions</th>
+                      </tr>
+                    </tfoot>
+                  </tfoot>
+                </table>
+              {% else %}
+                <h4 class="alert text-center">{{project.name}} Has No More REPLACEMENTs</h4>
+              {% endif %}
+              </div>
+              <div class="card-footer {% if request.GET.is_draft %}bg-info {% elif request.GET.is_verified %} bg-success {% elif request.GET.is_active %}bg-warning{% elif request.GET.is_deleted %}bg-danger {% endif %}  d-flex justify-content-center">
+              </div>
+              <!-- /.card-body -->
+            </div>
+            </div>
+            <!-- /.card -->
+          </div>
+          <!-- /.col -->
+        </div>
+        <!-- /.row -->
+      <!-- /.container-fluid -->
+    </section>
+    <!-- /.content -->
+
+  </div>
+  <!-- /.content-wrapper -->
+ 
+  {% include 'includes/adminFooter.html' %} <!--Add this-->
+
+</div>
+<!-- ./wrapper -->
+<!-- jQuery -->
+<script src="{% static 'adminAAKRITICMS/plugins/jquery/jquery.min.js'%}"></script>
+<!-- Bootstrap 4 -->
+<script src="{% static 'adminAAKRITICMS/plugins/bootstrap/js/bootstrap.bundle.min.js'%}"></script>
+<!-- DataTables  & Plugins -->
+<script src="{% static 'adminAAKRITICMS/plugins/datatables/jquery.dataTables.min.js'%}"></script>
+<script src="{% static 'adminAAKRITICMS/plugins/datatables-bs4/js/dataTables.bootstrap4.min.js'%}"></script>
+<script src="{% static 'adminAAKRITICMS/plugins/datatables-responsive/js/dataTables.responsive.min.js'%}"></script>
+<script src="{% static 'adminAAKRITICMS/plugins/datatables-responsive/js/responsive.bootstrap4.min.js'%}"></script>
+<script src="{% static 'adminAAKRITICMS/plugins/datatables-buttons/js/dataTables.buttons.min.js'%}"></script>
+<script src="{% static 'adminAAKRITICMS/plugins/datatables-buttons/js/buttons.bootstrap4.min.js'%}"></script>
+<script src="{% static 'adminAAKRITICMS/plugins/jszip/jszip.min.js'%}"></script>
+<script src="{% static 'adminAAKRITICMS/plugins/pdfmake/pdfmake.min.js'%}"></script>
+<script src="{% static 'adminAAKRITICMS/plugins/pdfmake/vfs_fonts.js'%}"></script>
+<script src="{% static 'adminAAKRITICMS/plugins/datatables-buttons/js/buttons.html5.min.js'%}"></script>
+<script src="{% static 'adminAAKRITICMS/plugins/datatables-buttons/js/buttons.print.min.js'%}"></script>
+<script src="{% static 'adminAAKRITICMS/plugins/datatables-buttons/js/buttons.colVis.min.js'%}"></script>
+<!-- AakritiCMS JavaScript -->
+<script src="{% static 'adminAAKRITICMS/js/aakritiCMS.min.js'%}"></script>
+<!-- SweetAlert2 -->
+<script src="{% static 'adminAAKRITICMS/plugins/sweetalert2/sweetalert2.min.js'%}"></script>
+<!-- Toastr -->
+<script src="{% static 'adminAAKRITICMS/plugins/toastr/toastr.min.js'%}"></script>
+<script src="{% static 'adminAAKRITICMS/plugins/overlayScrollbars/js/jquery.overlayScrollbars.min.js' %}"></script>
+{% include 'template/bulk/REPLACEMENTImportExport.html' %}
+<script src="{% static 'adminAAKRITICMS/plugins/infinite-scroll/jquery.waypoints.min.js'%}"></script>
+<script src="{% static 'adminAAKRITICMS/plugins/infinite-scroll/infinite.min.js'%}"></script>
+
+<script>
+  var infinite = new Waypoint.Infinite({
+        element: $('.infinite-container')[0],
+        handler: function(direction) {
+    },
+    offset: 'bottom-in-view',
+    onBeforePageLoad: function () {
+    $('.spinner-border').show();
+    },
+    onAfterPageLoad: function () {
+    $('.spinner-border').hide();
+    }   
+});
+
+
+
+  $(function () {
+    $("#1").DataTable({
+      "responsive": true, 
+      "lengthChange": false, 
+      "autoWidth": false,
+      "buttons": ["csv", "excel", "pdf", "print", "colvis"]
+    }).buttons().container().appendTo('#1_wrapper .col-md-6:eq(0)');
+  });
+
+$(function () {
+  $('[data-toggle="tooltip"]').tooltip()
+})
+
+
+</script>
+<!-- ==============END=============== -->
+{% include 'includes/adminToster.html' %}
+</body>
+</html>

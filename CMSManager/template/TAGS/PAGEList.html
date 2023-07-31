@@ -1,0 +1,7 @@
+{% if PAGEList %}
+    {% for page in PAGEList %}
+    <li><a  href="{% if  page.is_url %}{{page.redirect_to}}{% else %}{% url 'OPENCONTENTPAGE' page.slug %}{% endif %}" > {{page.name}} </a></li>
+    {% endfor %}
+{% endif  %}
+
+

@@ -1,0 +1,533 @@
+{% load static %}
+<!doctype html>
+<html lang="eng">
+   <head>
+      <meta charset="utf-8">
+      <meta htaakriticm-equiv="x-ua-compatible" content="ie=edge">
+      <title>Home | {{project.title | safe | title }} || AakritiMART</title>
+      <link rel="icon" type="image/png" href="{% if project.favicon %}{{project.favicon.url}}{% else %}{% static 'adminAAKRITICMS/img/default/mrdas.jpg' %}{% endif %}">
+      <meta name="viewport" content="width=device-width, initial-scale=1">
+      <meta name="keywords" content="{{project.meta_keywords | safe }}">
+      <meta name="description" content="{{project.meta_description | safe }}">
+      <meta property="og:locale" content="en_US">
+      <meta property="og:type" content="website">
+      <meta property="og:title" content="{{ project.meta_title | safe }}">
+      <meta property="og:description" content="{{project.meta_description | safe }}">
+      <meta property="og:url" content="{{project.baseURL}}">
+      <meta property="og:site_name" content="{{project.name}}">
+      <link rel="canonical" href="{{project.baseURL}}">
+
+      <!-- CSS here -->
+      <link rel="stylesheet" href="{% static 'aakritimart/css/bootstrap.css' %}">
+      <link rel="stylesheet" href="{% static 'aakritimart/css/animate.css' %}">
+      <link rel="stylesheet" href="{% static 'aakritimart/css/swiper-bundle.css' %}">
+      <link rel="stylesheet" href="{% static 'aakritimart/css/slick.css' %}">
+      <link rel="stylesheet" href="{% static 'aakritimart/css/magnific-popup.css' %}">
+      <link rel="stylesheet" href="{% static 'aakritimart/css/font-awesome-pro.css' %}">
+      <link rel="stylesheet" href="{% static 'aakritimart/css/flaticon_shofy.css' %}">
+      <link rel="stylesheet" href="{% static 'aakritimart/css/spacing.css' %}">
+      <link rel="stylesheet" href="{% static 'aakritimart/css/main.css' %}">
+      <!-- SweetAlert2 -->
+      <link rel="stylesheet" href="{% static 'adminAAKRITICMS/plugins/sweetalert2-theme-bootstrap-4/bootstrap-4.min.css' %}">
+      <link rel="stylesheet" href="{% static 'adminAAKRITICMS/plugins/toastr/toastr.min.css' %}">
+      {% include "template/includes/COMMONHEADERTags.html" %}
+
+   </head>
+<body>
+   {% include "template/includes/MINIHeader.html" %}
+   <main>
+        <!-- breadcrumb area start -->
+        <section class="breadcrumb__area include-bg pt-20 pb-50">
+        <div class="container">
+            <div class="row">
+                <div class="col-xxl-12">
+                    <div class="breadcrumb__content p-relative z-index-1">
+                    <h3 class="breadcrumb__title">Track your order</h3>
+                    <div class="breadcrumb__list">
+                        <span><a href="#">Home</a></span>
+                        <span>Track your order</span>
+                    </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+        </section>
+        <!-- breadcrumb area end -->
+
+        <!-- order area start -->
+        <section class="aakriticm-order-area">
+        <div class="container">
+            <div class="aakriticm-order-inner">
+                <div class="row gx-0">
+                    <div class="col-lg-6">
+                    <div class="aakriticm-order-details" data-bg-color="#4F3D97" style="background-color: rgb(79, 61, 151);">
+                        <div class="aakriticm-order-details-top text-center mb-70">
+                            <div class="aakriticm-order-details-icon">
+                                <span>
+                                <svg width="52" height="52" viewBox="0 0 52 52" fill="none" xmlns="http://www.w3.org/2000/svg">
+                                    <path d="M46 26V51H6V26" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"></path>
+                                    <path d="M51 13.5H1V26H51V13.5Z" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"></path>
+                                    <path d="M26 51V13.5" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"></path>
+                                    <path d="M26 13.5H14.75C13.0924 13.5 11.5027 12.8415 10.3306 11.6694C9.15848 10.4973 8.5 8.9076 8.5 7.25C8.5 5.5924 9.15848 4.00269 10.3306 2.83058C11.5027 1.65848 13.0924 1 14.75 1C23.5 1 26 13.5 26 13.5Z" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"></path>
+                                    <path d="M26 13.5H37.25C38.9076 13.5 40.4973 12.8415 41.6694 11.6694C42.8415 10.4973 43.5 8.9076 43.5 7.25C43.5 5.5924 42.8415 4.00269 41.6694 2.83058C40.4973 1.65848 38.9076 1 37.25 1C28.5 1 26 13.5 26 13.5Z" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"></path>
+                                </svg>
+                                </span>
+                            </div>
+                            <div class="aakriticm-order-details-content">
+                                <h3 class="aakriticm-order-details-title">Your Order Confirmed</h3>
+                                <p>We will send you a shipping confirmation email as soon <br> as your order ships</p>
+                            </div>
+                        </div>
+                        <div class="aakriticm-order-details-item-wrapper">
+                            <div class="row">
+                                <div class="col-sm-6">
+                                <div class="aakriticm-order-details-item">
+                                    <h4>Order Date:</h4>
+                                    <p>{{obj.date}}</p>
+                                </div>
+                                </div>
+                                <div class="col-sm-6">
+                                <div class="aakriticm-order-details-item">
+                                    <h4>Expected Delivery: </h4>
+                                    <p>April 16, 2023</p>
+                                </div>
+                                </div>
+                                <div class="col-sm-6">
+                                <div class="aakriticm-order-details-item">
+                                    <h4>Order Number:</h4>
+                                    <p>#{{obj.orderId}}</p>
+                                </div>
+                                </div>
+                                <div class="col-sm-6">
+                                <div class="aakriticm-order-details-item">
+                                    <h4>Payment Method:</h4>
+                                    <p>Credit Card</p>
+                                </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                    </div>
+                    <div class="col-lg-6">
+                    <div class="aakriticm-order-info-wrapper">
+                        <h4 class="aakriticm-order-info-title">Order Details</h4>
+                        <div class="aakriticm-order-info-list">
+                            <ul>
+                                <!-- header -->
+                                <li class="aakriticm-order-info-list-header">
+                                    <h4>Product</h4>
+                                    <h4>Total</h4>
+                                </li>
+                                
+                                {% if status == "single" %}
+                                <li class="aakriticm-order-info-list-desc">
+                                    <p>{{obj.product.name}} <span> x {{obj.qty}}</span></p>
+                                    <span>${{obj.product.sp}}</span>
+                                </li>
+
+                                  
+                                <!-- subtotal -->
+                                <li class="aakriticm-order-info-list-subtotal">
+                                    <span>Subtotal</span>
+                                    <span>${{obj.subtotal}}</span>
+                                </li>
+                                <!-- shipping -->
+                                <!-- shipping -->
+                                <li class="aakriticm-order-info-list-shipping">
+                                    <span>Shipping</span>
+                                    <span>${{obj.shipping}}</span>
+                                </li>
+                                <li class="aakriticm-order-info-list-shipping">
+                                    <span>GST</span>
+                                    <span>${{obj.gst}}</span>
+                                </li>
+                                {% if obj.discount %}
+                                <li class="aakriticm-order-info-list-shipping">
+                                    <span>Discount</span>
+                                    <span><strike>${{obj.discount}}</strike></span>
+                                </li>
+                                {% endif %}
+                                <!-- total -->
+                                <li class="aakriticm-order-info-list-total">
+                                    <span>Total</span>
+                                    <span>${{obj.total}}</span>
+                                </li>
+
+
+                                {% elif status == "miltiple" %}
+                                    {% for order in all_orders %}
+                                    <li class="aakriticm-order-info-list-desc">
+                                        <p>{{order.product.name}} <span> x {{order.qty}}</span></p>
+                                        <span>${{order.product.sp}}</span>
+                                    </li>                                      
+                                    <!-- subtotal -->
+                                    <li class="aakriticm-order-info-list-subtotal">
+                                        <span>Subtotal</span>
+                                        <span>${{subtotal}}</span>
+                                    </li>
+                                    <!-- shipping -->
+                                    <!-- shipping -->
+                                    <li class="aakriticm-order-info-list-shipping">
+                                        <span>Shipping</span>
+                                        <span>${{ShippingTotal}}</span>
+                                    </li>
+                                    <li class="aakriticm-order-info-list-shipping">
+                                        <span>GST</span>
+                                        <span>${{discount}}</span>
+                                    </li>
+                                    <li class="aakriticm-order-info-list-shipping">
+                                        <span>Discount</span>
+                                        <span>${{discount}}</span>
+                                    </li>
+                                    <!-- total -->
+                                    <li class="aakriticm-order-info-list-total">
+                                        <span>Total</span>
+                                        <span>${{total}}</span>
+                                    </li>
+                                    {% endfor %}
+                                {% endif %}
+
+                            </ul>
+                        </div>
+                    </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+        </section>
+        <!-- order area end -->
+    </main>
+    {% include "template/includes/MAINFooter.html" %}
+    <!-- JS here -->
+    <script src="{% static 'aakritimart/js/vendor/jquery.js' %}"></script>
+    <script src="{% static 'aakritimart/js/vendor/waypoints.js' %}"></script>
+    <script src="{% static 'aakritimart/js/bootstrap-bundle.js' %}"></script>
+    <script src="{% static 'aakritimart/js/meanmenu.js' %}"></script>
+    <script src="{% static 'aakritimart/js/swiper-bundle.js' %}"></script>
+    <script src="{% static 'aakritimart/js/slick.js' %}"></script>
+    <script src="{% static 'aakritimart/js/range-slider.js' %}"></script>
+    <script src="{% static 'aakritimart/js/magnific-popup.js' %}"></script>
+    <script src="{% static 'aakritimart/js/nice-select.js' %}"></script>
+    <script src="{% static 'aakritimart/js/purecounter.js' %}"></script>
+    <script src="{% static 'aakritimart/js/countdown.js' %}"></script>
+    <script src="{% static 'aakritimart/js/wow.js' %}"></script>
+    <script src="{% static 'aakritimart/js/isotope-pkgd.js' %}"></script>
+    <script src="{% static 'aakritimart/js/imagesloaded-pkgd.js' %}"></script>
+    <script src="{% static 'aakritimart/js/ajax-form.js' %}"></script>
+    <script src="{% static 'aakritimart/js/main.js' %}"></script>
+    {% include "template/includes/JSCOMMON.html" %}
+
+
+      <script>
+         function updateIMG(){
+            const img = $('.img')[0].files[0];
+            const data = new FormData();
+            data.append('img', img );
+            $.ajax({    
+               type: "POST",                   
+               url: "{% url 'updateIMG' %}",                    
+               data: data,
+               cache: false,
+               processData: false,
+               contentType: false,
+               enctype: 'multipart/form-data',
+               headers: {'X-CSRFToken': "{{ csrf_token }}"},
+               success: function(data) {   
+                  if (data.status == 1){
+                     Toast.fire({
+                           icon: 'success',
+                           title: '<p id="messages" style="margin-top: 0px !important; margin-left:8px !important;"><b>'+ data.message +'</b></p>'
+                     })    
+                  
+                  setTimeout(function () {
+                     window.location.href =data.AFTERTask;
+                  }, 2000); 
+                  
+                  }else if (data.status == 0){
+                     Toast.fire({
+                     icon: 'error',
+                     title: '<p id="messages" style="margin-top: 0px !important; margin-left:8px !important;"><b>'+ data.message +'</b></p>'
+                     }) 
+                  }       
+               },
+            });
+         }
+      </script>
+      <script>
+         function updateINFORMATION(){
+            const fname = $('.fname').val();
+            const lname = $('.lname').val();
+            const contact = $('.contact').val();
+            const gender = $('.gender').val();
+
+            const data = new FormData();
+            data.append('fname', fname );
+            data.append('lname', lname );
+            data.append('contact', contact );
+            data.append('gender', gender );
+            $.ajax({    
+               type: "POST",                   
+               url: "{% url 'updateINFORMATION' %}",                    
+               data: data,
+               cache: false,
+               processData: false,
+               contentType: false,
+               enctype: 'multipart/form-data',
+               headers: {'X-CSRFToken': "{{ csrf_token }}"},
+               success: function(data) {   
+                  if (data.status == 1){
+                     Toast.fire({
+                           icon: 'success',
+                           title: '<p id="messages" style="margin-top: 0px !important; margin-left:8px !important;"><b>'+ data.message +'</b></p>'
+                     })    
+                  //setTimeout(function () {
+                  //   window.location.href =data.AFTERTask;
+                  //}, 2000); 
+
+                  }else if (data.status == 0){
+                     Toast.fire({
+                     icon: 'error',
+                     title: '<p id="messages" style="margin-top: 0px !important; margin-left:8px !important;"><b>'+ data.message +'</b></p>'
+                     }) 
+                  }       
+               },
+            });
+         }
+      </script>
+
+      <script>
+         function updatePASSWORD(e){
+            var old_password = 'new' ;
+            if (e !='new'){
+               old_password = $('.old_password').val();
+            }else{
+               old_password = e;
+            }
+            
+            const password = $('.password').val();
+            const repassword = $('.repassword').val();
+            if (password ==""){
+               Toast.fire({
+                  icon: 'error',
+                  title: '<p id="messages" style="margin-top: 0px !important; margin-left:8px !important;"><b> New Password Required</b></p>'
+               }) 
+            }
+            else if (repassword ==""){
+               Toast.fire({
+                  icon: 'error',
+                  title: '<p id="messages" style="margin-top: 0px !important; margin-left:8px !important;"><b> Repassword Required</b></p>'
+               }) 
+            }
+            else if (password == repassword){
+               const data = new FormData();
+               data.append('old_password', old_password );
+               data.append('password', password );
+               data.append('repassword', repassword );
+               $.ajax({    
+
+                  type: "POST",                   
+                  url: "{% url 'updatePASSWORD' %}",                    
+                  data: data,
+                  cache: false,
+                  processData: false,
+                  contentType: false,
+                  enctype: 'multipart/form-data',
+                  headers: {'X-CSRFToken': "{{ csrf_token }}"},
+                  success: function(data) {   
+                     if (data.status == 1){
+                        Toast.fire({
+                              icon: 'success',
+                              title: '<p id="messages" style="margin-top: 0px !important; margin-left:8px !important;"><b>'+ data.message +'</b></p>'
+                        })    
+
+                     //setTimeout(function () {
+                     //   window.location.href =data.AFTERTask;
+                     //}, 2000); 
+                     
+                     }else if (data.status == 0){
+                        Toast.fire({
+                           icon: 'error',
+                           title: '<p id="messages" style="margin-top: 0px !important; margin-left:8px !important;"><b>'+ data.message +'</b></p>'
+                        }) 
+                     }       
+                  },
+               });            
+            }else{
+               Toast.fire({
+                  icon: 'error',
+                  title: '<p id="messages" style="margin-top: 0px !important; margin-left:8px !important;"><b> Password Not Mached</b></p>'
+               }) 
+            }
+         }
+      </script>
+
+
+      <script>
+         function createBILLINGAddress(){
+                 const pincode = $('.bpincode').val();
+                 const houseno = $('.bhouseno').val();
+                 const landmark = $('.blandmark').val();
+                 const city = $('.bcity').val();
+                 const state = $('.bstate').val();
+                 const country = $('.bcountry').val();
+                 const more = $('.bmore').val();
+                 if ("{{request.user.pk}}" == ""){
+                     Toast.fire({
+                         icon: 'error',
+                         title: '<p id="messages" style="margin-top:0px !important; margin-left:8px !important;"><b> Target Required* </b></p>'
+                     })
+                 }
+                 else if (pincode == ""){
+                     Toast.fire({
+                         icon: 'error',
+                         title: '<p id="messages" style="margin-top:0px !important; margin-left:8px !important;"><b> PinCode Required* </b></p>'
+                     })
+                 }else if (city == ""){
+                     Toast.fire({
+                         icon: 'error',
+                         title: '<p id="messages" style="margin-top:0px !important; margin-left:8px !important;"><b> City Required* </b></p>'
+                     })
+                 }else if (state == ""){
+                     Toast.fire({
+                         icon: 'error',
+                         title: '<p id="messages" style="margin-top:0px !important; margin-left:8px !important;"><b> State Required* </b></p>'
+                     })
+                 }
+                 else{
+                     const data = new FormData();
+                     data.append('target', "{{request.user.pk}}" );
+                     data.append('pincode', pincode );
+                     data.append('houseno', houseno );
+                     data.append('landmark', landmark );
+                     data.append('city', city );
+                     data.append('state', state );
+                     data.append('country', country );
+                     data.append('more', more );
+                     $.ajax({                      
+                         type: "POST",                   
+                         url: "{% url 'BILLINGAddress' %}",                    
+                         data: data,
+                         cache: false,
+                         processData: false,
+                         contentType: false,
+                         enctype: 'multipart/form-data',
+                         headers: {'X-CSRFToken': "{{ csrf_token }}"},
+                         success: function(data) {   
+                             if (data.status == 1){
+                                 $('.bpincode').val('');
+                                 $('.bhouseno').val('');
+                                 $('.blandmark').val('');
+                                 $('.bcity').val('');
+                                 $('.bstate').val('');
+                                 $('.bcountry').val('');
+                                 $('.bmore').val('');                               
+                                 Toast.fire({
+                                     icon: 'success',
+                                     title: '<p id="messages" style="margin-top: 0px !important; margin-left:8px !important;"><b>'+ data.message +'</b></p>'
+                                 }) 
+                                 $('#BillingAddress').modal('hide');
+
+                                 setTimeout(function () {
+                                    window.location.href =data.AFTERTask;
+                                 }, 2000); 
+                                  
+                             }else if (data.status == 0){
+                                 Toast.fire({
+                                 icon: 'error',
+                                 title: '<p id="messages" style="margin-top: 0px !important; margin-left:8px !important;"><b>'+ data.message +'</b></p>'
+                                 }) 
+                             }       
+                         },
+                     });
+                 }
+             }
+     </script>
+     <script>
+         function createSHIPPINGAddress(){
+                 const pincode = $('.pincode').val();
+                 const houseno = $('.houseno').val();
+                 const landmark = $('.landmark').val();
+                 const city = $('.city').val();
+                 const state = $('.state').val();
+                 const country = $('.country').val();
+                 const more = $('.more').val();
+                 if ("{{request.user.pk}}" == ""){
+                     Toast.fire({
+                         icon: 'error',
+                         title: '<p id="messages" style="margin-top:0px !important; margin-left:8px !important;"><b> Target Required* </b></p>'
+                     })
+                 }
+                 else if (pincode == ""){
+                     Toast.fire({
+                         icon: 'error',
+                         title: '<p id="messages" style="margin-top:0px !important; margin-left:8px !important;"><b> PinCode Required* </b></p>'
+                     })
+                 }else if (city == ""){
+                     Toast.fire({
+                         icon: 'error',
+                         title: '<p id="messages" style="margin-top:0px !important; margin-left:8px !important;"><b> City Required* </b></p>'
+                     })
+                 }else if (state == ""){
+                     Toast.fire({
+                         icon: 'error',
+                         title: '<p id="messages" style="margin-top:0px !important; margin-left:8px !important;"><b> State Required* </b></p>'
+                     })
+                 }
+                 else{
+                     const data = new FormData();
+                     data.append('target', "{{request.user.pk}}" );
+                     data.append('pincode', pincode );
+                     data.append('houseno', houseno );
+                     data.append('landmark', landmark );
+                     data.append('city', city );
+                     data.append('state', state );
+                     data.append('country', country );
+                     data.append('more', more );
+                     $.ajax({                      
+                         type: "POST",                   
+                         url: "{% url 'SHIPPINGAddress' %}",                    
+                         data: data,
+                         cache: false,
+                         processData: false,
+                         contentType: false,
+                         enctype: 'multipart/form-data',
+                         headers: {'X-CSRFToken': "{{ csrf_token }}"},
+                         success: function(data) { 
+                             $('.pincode').val('');
+                             $('.houseno').val('');
+                             $('.landmark').val('');
+                             $('.city').val('');
+                             $('.state').val('');
+                             $('.country').val('');
+                             $('.more').val('');
+                             if (data.status == 1){
+                                 Toast.fire({
+                                     icon: 'success',
+                                     title: '<p id="messages" style="margin-top: 0px !important; margin-left:8px !important;"><b>'+ data.message +'</b></p>'
+                                 })  
+                                 $('#ShippingAddress').modal('hide');
+                                 setTimeout(function () {
+                                    window.location.href =data.AFTERTask;
+                                 }, 2000); 
+     
+                             }else if (data.status == 0){
+                                 Toast.fire({
+                                 icon: 'error',
+                                 title: '<p id="messages" style="margin-top: 0px !important; margin-left:8px !important;"><b>'+ data.message +'</b></p>'
+                                 }) 
+                             }       
+                         },
+                     });
+                 }
+             }
+     </script>
+     
+     
+      <!-- SweetAlert2 -->
+      <script src="{% static 'adminAAKRITICMS/plugins/sweetalert2/sweetalert2.min.js'%}"></script>
+      <!-- <script src="{% static 'adminAAKRITICMS/plugins/toastr/toastr.min.js'%}"></script> -->
+      <!-- Toastr -->
+      <script src="{% static 'adminAAKRITICMS/plugins/toastr/toastr.min.js'%}"></script>
+      {% include "template/includes/USERToster.html" %}
+</body>
+</html>

@@ -1,0 +1,130 @@
+<html lang="en">
+    {% load static %}
+    {% load DASHBOARDTAGS %}
+  <head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>[ {{request.user.fname}} ] Default Analytics Board | {{project.title | safe | title }} || {{project.name}} </title>
+  <link rel="icon" type="image/png" href="{% if project.favicon %}{{project.favicon.url}}{% else %}{% static 'adminKHANTAILOR/img/default/mrdas.jpg' %}{% endif %}">
+  <!-- Font Awesome -->
+  <link rel="stylesheet" href="{% static 'adminKHANTAILOR/plugins/fontawesome-free/css/all.min.css'%}">
+  <!-- SweetAlert2 -->
+  <link rel="stylesheet" href="{% static 'adminKHANTAILOR/plugins/sweetalert2-theme-bootstrap-4/bootstrap-4.min.css' %}">
+  <!-- adminKlickbazar Theme style -->
+  <link rel="stylesheet" href="{% static 'adminKHANTAILOR/css/aakriticms.min.css'%}">
+  <link rel="stylesheet" href="{% static 'adminKHANTAILOR/css/aakriti.ui.css'%}">
+  <link rel="stylesheet" href="{% static 'adminKHANTAILOR/plugins/icheck-bootstrap/icheck-bootstrap.min.css'%}">
+  <!-- Tempusdominus Bootstrap 4 -->
+  <link rel="stylesheet" href="{% static 'adminKHANTAILOR/plugins/tempusdominus-bootstrap-4/css/tempusdominus-bootstrap-4.min.css'%}">
+  <link rel="stylesheet" href="{% static 'adminKHANTAILOR/plugins/overlayScrollbars/css/OverlayScrollbars.min.css' %}">
+</head>
+<body class="hold-transition sidebar-mini layout-fixed">
+  <div class="wrapper">
+    {% include 'template/account/dashboard/includes/userNavBar.html' %} 
+    {% include 'template/account/dashboard/includes/userSideBar.html' %}
+    
+    <div class="content-wrapper">
+      <!-- Content Header (Page header) -->
+      <div class="content-header">
+        <div class="container-fluid">
+          <div class="row mb-2">
+            <div class="col-sm-6">
+              <h1 class="m-0">Default Analytics Board</h1>
+            </div><!-- /.col -->
+            <div class="col-sm-6">
+              <ol class="breadcrumb float-sm-right">
+                <li class="breadcrumb-item"><a href="{% url 'Dashboard' %}">Home</a></li>
+                <li class="breadcrumb-item active">Analytics</li>
+              </ol>
+            </div><!-- /.col -->
+          </div><!-- /.row -->
+        </div><!-- /.container-fluid -->
+      </div>
+      <!-- /.content-header -->
+
+      <!-- Main content -->
+      <section class="content">
+        <div class="container-fluid">
+          <!-- Small boxes (Stat box) -->
+          <div class="row">
+            <div class="col-lg-3 col-6">
+              <!-- small box -->
+              <div class="small-box bg-info">
+                <div class="inner">
+                  <h3>{% allORDERS request.user.pk %}</h3>
+                  <p><b>Total Ordes</b></p>
+                </div>
+                <div class="icon">
+                  <i class="fas fa-cart"></i>
+                </div>
+                <a href="{% url 'Orders' %}" class="small-box-footer">More info <i class="fas fa-arrow-circle-right"></i></a>
+              </div>
+            </div>
+            <div class="col-lg-3 col-6">
+              <!-- small box -->
+              <div class="small-box bg-primary">
+                <div class="inner">
+                  <h3>{% allCANCELORDERS request.user.pk %}</h3>
+                  <p><b>Appointments</b></p>
+                </div>
+                <div class="icon">
+                  <i class="fas fa-users"></i>
+                </div>
+                <a href="" class="small-box-footer">More info <i class="fas fa-arrow-circle-right"></i></a>
+              </div>
+            </div>
+            <div class="col-lg-3 col-6">
+              <!-- small box -->
+              <div class="small-box bg-danger">
+                <div class="inner">
+                  <h3>{% allCANCELORDERS request.user.pk %}</h3>
+                  <p><b>Cancel Ordes</b></p>
+                </div>
+                <div class="icon">
+                  <i class="fas fa-users"></i>
+                </div>
+                <a href="{% url 'Orders' %}" class="small-box-footer">More info <i class="fas fa-arrow-circle-right"></i></a>
+              </div>
+            </div>
+            <div class="col-lg-3 col-6">
+              <!-- small box -->
+              <div class="small-box bg-success">
+                <div class="inner">
+                  <h3>1</h3>
+                  <p><b>------------</b></p>
+                </div>
+                <div class="icon">
+                  <i class="fas fa-users"></i>
+                </div>
+                <a href="" class="small-box-footer">More info <i class="fas fa-arrow-circle-right"></i></a>
+              </div>
+            </div>      
+          </div>
+          <!-- /.row -->
+        </div>
+      </section>
+     
+    </div>
+    {% include 'template/account/dashboard/includes/userFooter.html' %} 
+  </div>
+  <!-- ./wrapper -->
+<!-- jQuery -->
+<script src="{% static 'adminKHANTAILOR/plugins/jquery/jquery.min.js'%}"></script>
+<!-- jQuery UI 1.11.4 -->
+<script src="{% static 'adminKHANTAILOR/plugins/jquery-ui/jquery-ui.min.js'%}"></script>
+<!-- Resolve conflict in jQuery UI tooltip with Bootstrap tooltip -->
+<script>
+  $.widget.bridge('uibutton', $.ui.button)
+</script>
+<!-- Bootstrap 4 -->
+<script src="{% static 'adminKHANTAILOR/plugins/bootstrap/js/bootstrap.bundle.min.js'%}"></script>
+<!-- AakritiCMS JavaScript -->
+<script src="{% static 'adminKHANTAILOR/js/aakritiCMS.min.js'%}"></script>
+<!-- SweetAlert2 -->
+<script src="{% static 'adminKHANTAILOR/plugins/sweetalert2/sweetalert2.min.js'%}"></script>
+<!-- Toastr -->
+<script src="{% static 'adminKHANTAILOR/plugins/toastr/toastr.min.js'%}"></script>
+<script src="{% static 'adminKHANTAILOR/plugins/overlayScrollbars/js/jquery.overlayScrollbars.min.js' %}"></script>
+</body>
+{% include 'includes/adminToster.html' %} 
+</html>

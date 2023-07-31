@@ -1,0 +1,29 @@
+
+{% load static %}
+<style>
+  nice-select{
+    display: none !important;
+  }
+</style>
+<script>
+  var Toast = Swal.mixin({
+    toast: true,
+    position: 'top-end',
+    showConfirmButton: false,
+    timer: 5000
+
+  });
+</script> 
+
+  {% for message in messages %}
+    {% if message.tags == 'success' %}
+      <script>
+        toastr.error("{{message}}")
+      </script>
+    {% elif message.tags == 'error' %}
+      <script>
+        toastr.error("{{message}}")
+      </script>
+    {% endif %}
+  {% endfor %}
+

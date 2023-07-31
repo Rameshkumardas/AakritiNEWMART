@@ -1,0 +1,144 @@
+{% load static %}
+<div class="modal fade" id="MAKEEntry">
+    <div class="modal-dialog modal-md">
+        <div class="modal-content">
+        <div class="modal-header">
+            <h4 class="modal-title"><b>Make Email Entry</b></h4>
+            <button type="button" class="close" data-dismiss="modal" aria-label="Close"><span aria-hidden="true">&times;</span></button>
+        </div>
+        <div class="modal-body">            
+            <div class="form-group">
+                <label for="main-category">Name*</label>
+                <div class="input-group">
+                    <div class="input-group-prepend">
+                    <span class="input-group-text"><i class="fas fa-laptop"></i></span>
+                    </div>
+                    <input type="text" class="name form-control" id="input-field" placeholder="Create Name" name="name" required>
+                    <div class="input-group-prepend">
+                      <span class="input-group-text" for="input-field" id="NameStringCount"></span>
+                    </div>
+                </div>
+            </div>
+
+            <div class="form-group">
+                <label for="main-category">Email*</label>
+                <div class="input-group">
+                    <div class="input-group-prepend">
+                    <span class="input-group-text"><i class="fas fa-laptop"></i></span>
+                    </div>
+                    <input type="email" class="email form-control" id="input-field" placeholder="Create Email" name="email" required>
+                    <div class="input-group-prepend">
+                      <span class="input-group-text" for="input-field" id="NameStringCount"></span>
+                    </div>
+                </div>
+            </div>
+            <div class="form-group">
+                <label for="main-category">Contact No*</label>
+                <div class="input-group">
+                    <div class="input-group-prepend">
+                    <span class="input-group-text"><i class="fas fa-laptop"></i></span>
+                    </div>
+                    <input type="text" class="contact form-control" id="input-field" placeholder="Create Contact No." name="contact" required>
+                    <div class="input-group-prepend">
+                      <span class="input-group-text" for="input-field" id="NameStringCount"></span>
+                    </div>
+                </div>
+            </div>
+        </div>
+        <div class="modal-footer justify-content-center">
+            <button type="button" id="" onclick="addEMAIL()" class=" btn btn-primary">Create New Email</button>
+        </div>
+        </div>
+    </div>
+</div>
+<script>
+// NameStringCount
+document.getElementById("NameStringCount").innerHTML = 65;
+function NameStringCount() {
+    var x = document.getElementById("input-field").value;
+    let length = x.length;
+    let max = 60;
+    let current = max-length;
+    if ((current<151) & (current>-1)){
+        document.getElementById("NameStringCount").innerHTML = current;
+        document.getElementById("NameStringCount").style.color = '';
+        document.getElementById("publisher").style.display='';
+        document.getElementById("publisher").style.visibility='';
+    }else{
+        // .style.color
+        document.getElementById("NameStringCount").style.color = '#d00';
+        document.getElementById("NameStringCount").innerHTML = current;
+        document.getElementById("publisher").style.display='none';
+        document.getElementById("publisher").style.visibility='hidden';
+    }
+}
+</script>
+
+
+<script>
+
+
+
+function addEMAIL(){
+    const name = $(".name").val()
+    const email = $(".email").val()
+    const contact = $(".contact").val()
+
+    if (name == ""){
+        Toast.fire({
+            icon: 'error',
+            title: '<p id="messages" style="margin-top:12px !important; margin-left:8px !important;"><b> Name is Empty </b></p>'
+            }) 
+    }
+    else if (email == ""){
+        Toast.fire({
+            icon: 'error',
+            title: '<p id="messages" style="margin-top:12px !important; margin-left:8px !important;"><b>subCat is Empty</b></p>'
+            }) 
+    }else{
+        $.ajax({                      
+            type: "POST",                   
+            url: "{% url 'addEMAIL' %}",                    
+            data: {
+            csrfmiddlewaretoken: "{{ csrf_token }}",
+            'name': name,
+            'email':email,       
+            'contact':contact,       
+            },
+            success: function(data) {   
+                if (data.status == 1){
+                    $('#MAKEEntry').modal('hide');
+                    $(".name").val('')
+                    $(".email").val('')
+                    $(".contact").val('')
+                    Toast.fire({
+                        icon: 'success',
+                        title: '<p id="messages" style="margin-top: 12px !important; margin-left:8px !important;"><b>'+ data.message +'</b></p>'
+                    }) 
+                    setTimeout(function () {
+                        window.location.href =data.AFTERLogin;
+                    }, 2000); 
+                }
+                else if (data.status == 0){
+                    Toast.fire({
+                    icon: 'error',
+                    title: '<p id="messages" style="margin-top: 12px !important; margin-left:8px !important;"><b>'+ data.message +'</b></p>'
+                    }) 
+                }       
+            },
+
+        });
+    }
+}
+
+
+const elem = document.getElementById("input-field");
+elem.addEventListener("keypress", (event)=> {
+    if (event.keyCode === 13) { 
+      event.preventDefault();
+     addPRODUCT();
+    }
+  });
+</script>
+
+

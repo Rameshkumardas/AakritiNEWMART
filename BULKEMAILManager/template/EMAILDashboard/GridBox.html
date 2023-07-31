@@ -1,0 +1,66 @@
+{% load static %}
+{% load EMAILTAGS %}
+
+<section class="content">
+    <div class="container-fluid">
+      <!-- Small boxes (Stat box) -->
+      <div class="row">
+        <div class="col-lg-3 col-6">
+          <!-- small box -->
+          <div class="small-box bg-info">
+            <div class="inner">
+              <h3>{% draftEMAIL %}</h3>
+              <p><b>Draft Emails</b></p>
+            </div>
+            <div class="icon">
+              <i class="fas fa-envelope"></i>
+            </div>
+            <a href="{% url 'EMAILList' %}?is_draft=True" class="small-box-footer">More info <i class="fas fa-arrow-circle-right"></i></a>
+          </div>
+        </div>
+        <div class="col-lg-3 col-6">
+          <!-- small box -->
+          <div class="small-box bg-success">
+            <div class="inner">
+              <h3>{% activeEMAIL %}</h3>
+              <p><b>Active Emails</b></p>
+            </div>
+            <div class="icon">
+              <i class="fas fa-envelope"></i>
+            </div>
+            <a href="{% url 'EMAILList' %}?is_verified=True" class="small-box-footer">More info <i class="fas fa-arrow-circle-right"></i></a>
+          </div>
+        </div>
+
+        <div class="col-lg-3 col-6">
+          <!-- small box -->
+          <div class="small-box bg-warning">
+            <div class="inner">
+              <h3>{% deactivateEMAIL %}</h3>
+              <p><b>Deactive Emails</b></p>
+            </div>
+            <div class="icon">
+              <i class="fas fa-envelope nav-icon"></i>
+            </div>
+            <a href="{% url 'EMAILList' %}?is_active=False" class="small-box-footer">More info <i class="fas fa-arrow-circle-right"></i></a>
+          </div>
+        </div>
+        <div class="col-lg-3 col-6">
+          <!-- small box -->
+          <div class="small-box bg-danger">
+            <div class="inner">
+              <h3>{% deletedEMAIL %}</h3>
+              <p><b>Deleted Emails</b></p>
+            </div>
+            <div class="icon">
+              <i class="fas fa-envelope nav-icon"></i>
+            </div>
+            <a href="{% url 'EMAILList' %}?is_deleted=True" class="small-box-footer">More info <i class="fas fa-arrow-circle-right"></i></a>
+          </div>
+        </div>           
+        <!-- ./col -->
+    </div>
+    <!-- /.row -->
+  </div>
+  </section>
+ 

@@ -1,0 +1,372 @@
+<!DOCTYPE html>
+<html lang="en">
+{% load static%}
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>Announcements | {{project.title | safe | title }} || {{project.name}} </title>
+  <link rel="icon" type="image/png" href="{% if project.favicon %}{{project.favicon.url}}{% else %}{% static 'adminAAKRITICMS/img/default/mrdas.jpg' %}{% endif %}">
+  <!-- Font Awesome -->
+  <link rel="stylesheet" href="{% static 'adminAAKRITICMS/plugins/fontawesome-free/css/all.min.css'%}">
+  <!-- SweetAlert2 -->
+  <link rel="stylesheet"
+    href="{% static 'adminAAKRITICMS/plugins/sweetalert2-theme-bootstrap-4/bootstrap-4.min.css' %}">
+  <!-- adminAAKRITICMS Theme style -->
+  <link rel="stylesheet" href="{% static 'adminAAKRITICMS/css/aakriticms.min.css'%}">
+  <link rel="stylesheet" href="{% static 'adminAAKRITICMS/css/aakriti.ui.css'%}">
+  <!-- DataTables -->
+  <link rel="stylesheet"
+    href="{% static 'adminAAKRITICMS/plugins/datatables-bs4/css/dataTables.bootstrap4.min.css'%}">
+  <link rel="stylesheet"
+    href="{% static 'adminAAKRITICMS/plugins/datatables-responsive/css/responsive.bootstrap4.min.css'%}">
+  <link rel="stylesheet"
+    href="{% static 'adminAAKRITICMS/plugins/datatables-buttons/css/buttons.bootstrap4.min.css'%}">
+  <link rel="stylesheet" href="{% static 'adminAAKRITICMS/plugins/select2/css/select2.min.css'%}">
+  <link rel="stylesheet"
+    href="{% static 'adminAAKRITICMS/plugins/overlayScrollbars/css/OverlayScrollbars.min.css' %}">
+  <!-- summernote -->
+  <link rel="stylesheet" href="{% static 'adminAAKRITICMS/plugins/summernote/summernote-bs4.min.css' %}">
+</head>
+
+<body class="hold-transition sidebar-mini layout-fixed">
+  <div class="wrapper">
+    {% include 'includes/adminNavBar.html' %}
+    <!--Add this-->
+    {% include 'includes/adminSideBar.html' %}
+    <!--Add this-->
+    <!-- Content Wrapper. Contains page content -->
+    <div class="content-wrapper">
+      <!-- Content Header (Page header) -->
+      <section class="content-header">
+        <div class="container-fluid">
+          <div class="row mb-2">
+            <div class="col-sm-6">
+              <h1>Announcements</h1>
+            </div>
+            <div class="col-sm-6">
+              <ol class="breadcrumb float-sm-right">
+                <li class="breadcrumb-item"><a href="{% url 'DefaultDashboard' %}">Home</a></li>
+                <li class="breadcrumb-item active">Announcements</li>
+              </ol>
+            </div>
+          </div>
+        </div><!-- /.container-fluid -->
+      </section>
+      <!-- Main content -->
+      <section class="content">
+        <div class="container-fluid">
+          <div class="row">
+            <div class="col-lg-12">
+              <div class="card card-outline card-primary">
+                <div class="card-header">
+                  <h3 class="card-title"><b><strong>Admin Announcement</strong></b></h3>
+                </div>
+                <div class="card-body">
+                  {% csrf_token %}
+                  <div class="form-group">
+                    <label for="main-category">Subject</label>
+                    <div class="input-group">
+                      <div class="input-group-prepend">
+                        <span class="input-group-text"><i class="fa fa-bullhorn nav-icon"></i></span>
+                      </div>
+                      <input type="text" class="subject form-control input-field" id="input-field"
+                        placeholder="Add Message Subject" name="tutorial-title">
+                    </div>
+                  </div>
+                  <textarea id="summernote" class="description" width="100%" height="400%" name="description"></textarea>
+                </div>
+                <div class="card-footer bg-primary">
+                    <div class="row">
+                        <div class="col d-flex justify-content-center">
+                            <button type="submit" class="btn btn-outline-light addNEWannouncement" target="_blank"><i class="fas fa-upload "></i>&nbsp; Create Announcement</button>
+                        </div>
+                    </div>
+                </div>
+              </div>
+            </div>
+            {% if AnnouncementList %}
+            <div class="col-lg-12" id="EMPTYAREA">
+              <div class="card card-primary">
+                <div class="card-header ">
+                  <h1 class="card-title text-center text-bold text-uppercase"> Announcement&nbsp; List </h1>
+                </div>
+                <!-- /.card-header -->
+                <div class="card-body">
+                  <table id="AnnouncementList1" class="table table-bordered table-striped" style="text-align: center !important;">
+                    <thead>
+                      <tr>
+                        <th>Subjects</th>
+                        <th>status</th>
+                        <th>Date</th>
+                        <th>Actions</th>
+                      </tr>
+                    </thead>
+                    <tbody>
+                        {% for Announcement in AnnouncementList %}
+                        <tr class="del{Announcement.pk}">
+                            <td><a href="javascript:void(0);" class="btn btn-outline-primary btn-sm" data-toggle="tooltip" title="{{Announcement.subject}}"><i class="fas fa-send"></i>{{Announcement.subject}}</a></td>
+                            <td>
+                              {% if Announcement.status == 'pending' %}
+                                <a href="javascript:void(0);" class="btn btn-outline-warning btn-sm"><i class="fas fa-send"></i>Deactivated</a>
+                              {% elif Announcement.status == 'approved' %}
+                                <a href="javascript:void(0);" class="btn btn-outline-success btn-sm"><i class="fas fa-send"></i>Activated</a>
+                              {% endif %}
+                            </td>
+                            <td class="text-center">{{Announcement.date}}</td>
+                            <td>
+                              <div class="btn-group btn-group-sm" role="group" aria-label="Announcement">
+                                {% if Announcement.status == 'pending' %}
+                                <button type="button" class="btn btn-success target" target-attr="{{Announcement.pk}}" targetType="approved"   data-toggle="tooltip" title="Approved By Admin"><i class="fas fa-check"></i> Activate</button>
+                              {% elif Announcement.status == 'approved' %}
+                                <button type="button" class="btn btn-warning target" target-attr="{{Announcement.pk}}" targetType="pending"><i class="fas fa-window-close"></i> Deactivate</button>
+                              {% endif %}
+                                <a href="" target="_blank" class="btn btn-primary"><i class="fas fa-eye"></i> View</a>
+                                <!-- <button type="button" class="btn btn-dark"><i class="fas fa-edit"></i></button> -->
+                                <button type="button" class="btn btn-danger target" target-attr="{{Announcement.pk}}" targetType="delete"><i class="fas fa-trash"></i> Delete</button>
+                              </div>
+                            </td>
+                        </tr>
+                        {% endfor %}
+                    </tbody>
+                    <tfoot>
+                      <tr>
+                        <th>Subjects</th>
+                        <th>status</th>
+                        <th>Date</th>
+                        <th>Actions</th>
+                      </tr>
+                    </tfoot>
+                  </table>
+                </div>
+                <div class="card-footer bg-primary">
+                </div>
+              </div>
+            </div>
+            {% endif %}
+          </div>
+        </div>
+      </section>
+    </div>
+    <!-- ================================================ -->
+    {% include 'includes/adminFooter.html' %}
+    <!--Add this-->
+  </div>
+  <!-- ./wrapper -->
+    <!-- jQuery -->
+    <script src="{% static 'adminAAKRITICMS/plugins/jquery/jquery.min.js'%}"></script>
+    <!-- Bootstrap 4 -->
+    <script src="{% static 'adminAAKRITICMS/plugins/bootstrap/js/bootstrap.bundle.min.js'%}"></script>
+    <!-- Summernote -->
+    <script src="{% static 'adminAAKRITICMS/plugins/summernote/summernote-bs4.min.js' %}"></script>
+    <script src="{% static 'adminAAKRITICMS/plugins/overlayScrollbars/js/jquery.overlayScrollbars.min.js' %}"></script>
+    <!-- AakritiCMS JavaScript -->
+    <script src="{% static 'adminAAKRITICMS/js/aakritiCMS.min.js'%}"></script>
+    <!-- SweetAlert2 -->
+    <script src="{% static 'adminAAKRITICMS/plugins/sweetalert2/sweetalert2.min.js'%}"></script>
+    <!-- Toastr -->
+    <script src="{% static 'adminAAKRITICMS/plugins/toastr/toastr.min.js'%}"></script>
+  
+    <!-- DataTables  & Plugins -->
+    <script src="{% static 'adminAAKRITICMS/plugins/datatables/jquery.dataTables.min.js'%}"></script>
+    <script src="{% static 'adminAAKRITICMS/plugins/datatables-bs4/js/dataTables.bootstrap4.min.js'%}"></script>
+    <script src="{% static 'adminAAKRITICMS/plugins/datatables-responsive/js/dataTables.responsive.min.js'%}"></script>
+    <script src="{% static 'adminAAKRITICMS/plugins/datatables-responsive/js/responsive.bootstrap4.min.js'%}"></script>
+    <script src="{% static 'adminAAKRITICMS/plugins/datatables-buttons/js/dataTables.buttons.min.js'%}"></script>
+    <script src="{% static 'adminAAKRITICMS/plugins/datatables-buttons/js/buttons.bootstrap4.min.js'%}"></script>
+    <script src="{% static 'adminAAKRITICMS/plugins/jszip/jszip.min.js'%}"></script>
+    <script src="{% static 'adminAAKRITICMS/plugins/pdfmake/pdfmake.min.js'%}"></script>
+    <script src="{% static 'adminAAKRITICMS/plugins/pdfmake/vfs_fonts.js'%}"></script>
+    <script src="{% static 'adminAAKRITICMS/plugins/datatables-buttons/js/buttons.html5.min.js'%}"></script>
+    <script src="{% static 'adminAAKRITICMS/plugins/datatables-buttons/js/buttons.print.min.js'%}"></script>
+    <script src="{% static 'adminAAKRITICMS/plugins/datatables-buttons/js/buttons.colVis.min.js'%}"></script>
+
+
+<script>
+//     $(function () {
+//         $.ajax( {
+//               url: "{% url 'AnnouncementList' %}",                 
+//               cache: true,                   
+//               success: function(result) {   
+//               var jsonObject = $.parseJSON(result.AnnouncementList); //Only if not already an object
+//                 $.each(jsonObject, function (i, obj) {
+//                     var NewROW = '<tr>'    
+//                         NewROW+= '<td><a href="javascript:void(0);" class="btn btn-outline-primary btn-sm" data-toggle="tooltip" title="'+obj.fields.subject+'"><i class="fas fa-send"></i>Headline</a></td>'
+                        
+//                         NewROW+='<td>{% if obj.fields.status == "pending" %}<a href="javascript:void(0);" class="btn btn-outline-warning btn-sm"><i class="fas fa-send"></i>Pending</a>{% elif obj.fields.status == "approved" %}<a href="javascript:void(0);" class="btn btn-outline-success btn-sm"><i class="fas fa-send"></i>Approved</a>{% endif %}</td>'
+                        
+//                         NewROW+='<td class="text-center">'+obj.fields.date+'</td>'
+                        
+//                         NewROW+='<td><div class="btn-group btn-group-sm" role="group" aria-label="Announcement"><button type="button" class="btn btn-success target" target-attr="{{Announcement.pk}}" targetType="approved"   data-toggle="tooltip" title="Approved By Admin"><i class="fas fa-check"></i></button><button type="button" class="btn btn-primary"><i class="fas fa-eye"></i></button></div></td>'
+//                         NewROW+= '</tr>';
+                        
+//                         $('table tbody').append(NewROW);
+//                 });
+//               },// success                
+//         })// ajax
+//   })
+</script>
+    
+<script>   
+    $(function () {
+      // Summernote
+      $('#summernote').summernote({
+        placeholder: 'Write Announcement Message',
+        tabsize: 2,
+        height: 300,
+        lang: 'tr-TR'
+      });
+    })
+    $(function () {
+      $('[data-toggle="tooltip"]').tooltip()
+    })
+</script>
+    
+<script>
+
+    $(document).ready(function () {
+      $('.target').click(function () {
+          
+        var target = $(this).attr('target-attr');
+        var targetType = $(this).attr('targetType');
+
+        if (targetType == 'delete') {
+            $(this).closest('tr').remove();
+        }
+             
+             
+        if (target == '') {
+          Toast.fire({
+            icon: 'error',
+            title: '<p id="messages" style="margin-top:12px !important; margin-left:8px !important; "><b> Target Required! </b></p>'
+          })
+        } else if (targetType == '') {
+          Toast.fire({
+            icon: 'error',
+            title: '<p id="messages" style="margin-top:12px !important; margin-left:8px !important; "><b> targetType Required </b></p>'
+          })
+          
+        } else {
+          $.ajax({
+            type: "POST",
+            url: "{% url 'commonOPERATIONSFORAnnouncement' %}",
+            data: {
+              csrfmiddlewaretoken: "{{ csrf_token }}",
+              
+              'target': target,
+              'targetType': targetType,
+            },
+            success: function (result) {
+              if (result.status == 1) {
+                  
+                Toast.fire({
+                  icon: 'success',
+                  title: '<p id="messages" style="margin-top:12px !important; margin-left:8px !important; "><b>' + result.message + '</b></p>'
+                })
+
+                setTimeout(function () {
+                      window.location.href =result.redirectURL;
+                  }, 1000); 
+
+              }
+              else if (result.status == 0) {
+                Toast.fire({
+                  icon: 'error',
+                  title: '<p id="messages" style="margin-top:12px !important; margin-left:8px !important;"><b>' + result.message + '</b></p>'
+                })
+              }
+            },
+          });
+        }
+      });
+    });
+    </script>
+    
+    <script>
+    $(document).ready(function () {
+      $('.addNEWannouncement').click(function () {
+
+        var subject = $('.subject').val();
+        var description = $('.description').val();
+
+        if (subject == '') {
+
+          Toast.fire({
+            icon: 'error',
+            title: '<p id="messages" style="margin-top:12px !important; margin-left:8px !important; "><b> Subject Required! </b></p>'
+          })
+
+        } else if (description == '') {
+          Toast.fire({
+            icon: 'error',
+            title: '<p id="messages" style="margin-top:12px !important; margin-left:8px !important; "><b> Description Required </b></p>'
+          })
+        } else {
+          $.ajax({
+            type: "POST",
+            url: "{% url 'addNEWAnnouncement' %}",
+            data: {
+              csrfmiddlewaretoken: "{{ csrf_token }}",
+              'subject': subject,
+              'description': description,
+            },
+            success: function (result) {
+              if (result.status == 1) {
+                
+        
+        
+                $('.subject').val('');
+                $('textarea').val('');
+                $('#summernote').val('');
+                $('.description').val('');
+
+                Toast.fire({
+                  icon: 'success',
+                  title: '<p id="messages" style="margin-top:12px !important; margin-left:8px !important; "><b>' + result.message + '</b></p>'
+                })
+                setTimeout(function () {
+                      window.location.href =result.redirectURL;
+                  }, 1000); 
+              }
+              else if (result.status == 0) {
+                Toast.fire({
+                  icon: 'error',
+                  title: '<p id="messages" style="margin-top:12px !important; margin-left:8px !important;"><b>' + result.message + '</b></p>'
+                })
+
+              }
+            },
+          });
+        }
+      });
+    });
+    
+    
+    
+    
+    
+    
+    
+    
+$(function () {
+    $("#AnnouncementList1").DataTable({
+      "responsive": true, "lengthChange": false, "autoWidth": false,
+      "buttons": ["csv", "excel", "pdf", "print"]
+    }).buttons().container().appendTo('#AnnouncementList1_wrapper .col-md-6:eq(0)');
+    $('#example2').DataTable({
+      "paging": true,
+      "lengthChange": false,
+      "searching": false,
+      "ordering": true,
+      "info": true,
+      "autoWidth": false,
+      "responsive": true,
+    });
+  });
+    </script>
+
+  <!-- ===================END============================= -->
+  {% include 'includes/adminToster.html' %}
+  <!--Add this-->
+</body>
+
+</html>

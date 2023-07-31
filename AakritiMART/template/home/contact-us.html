@@ -1,0 +1,477 @@
+{% load static %}
+<!doctype html>
+<html lang="eng">
+   <head>
+    <meta charset="utf-8">
+    <meta htaakriticm-equiv="x-ua-compatible" content="ie=edge">
+    <title>Contact Us | {{project.title | safe | title }} || AakritiMART</title>
+    <link rel="icon" type="image/png" href="{% if project.favicon %}{{project.favicon.url}}{% else %}{% static 'adminAAKRITICMS/img/default/mrdas.jpg' %}{% endif %}">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <meta name="keywords" content="{{project.meta_keywords | safe }}">
+    <meta name="description" content="{{project.meta_description | safe }}">
+    <meta property="og:locale" content="en_US">
+    <meta property="og:type" content="website">
+    <meta property="og:title" content="{{ project.meta_title | safe }}">
+    <meta property="og:description" content="{{project.meta_description | safe }}">
+    <meta property="og:url" content="{{project.baseURL}}">
+    <meta property="og:site_name" content="{{project.name}}">
+    <link rel="canonical" href="{{project.baseURL}}">
+
+    <!-- CSS here -->
+    <link rel="stylesheet" href="{% static 'aakritimart/css/bootstrap.css' %}">
+    <link rel="stylesheet" href="{% static 'aakritimart/css/animate.css' %}">
+    <link rel="stylesheet" href="{% static 'aakritimart/css/swiper-bundle.css' %}">
+    <link rel="stylesheet" href="{% static 'aakritimart/css/slick.css' %}">
+    <link rel="stylesheet" href="{% static 'aakritimart/css/magnific-popup.css' %}">
+    <link rel="stylesheet" href="{% static 'aakritimart/css/font-awesome-pro.css' %}">
+    <link rel="stylesheet" href="{% static 'aakritimart/css/flaticon_shofy.css' %}">
+    <link rel="stylesheet" href="{% static 'aakritimart/css/spacing.css' %}">
+    <link rel="stylesheet" href="{% static 'aakritimart/css/main.css' %}">
+    <!-- SweetAlert2 -->
+    <link rel="stylesheet" href="{% static 'adminAAKRITICMS/plugins/sweetalert2-theme-bootstrap-4/bootstrap-4.min.css' %}">
+    <link rel="stylesheet" href="{% static 'adminAAKRITICMS/plugins/toastr/toastr.min.css' %}">
+    {% include "template/includes/COMMONHEADERTags.html" %}
+
+   </head>
+<body>
+   
+   {% include "template/includes/MAINHeader.html" %}
+   
+   {% comment %}
+   {% include "template/includes/MINIHeader.html" %}
+   {% endcomment%}
+   {% if not request.user.is_user %}
+    {% include "template/includes/LOGINSIGNUP.html" %}
+    {% endif %}   
+
+   <main>
+
+    <!-- breadcrumb area start -->
+    <section class="breadcrumb__area include-bg text-center pt-50 pb-50">
+       <div class="container">
+          <div class="row">
+             <div class="col-xxl-12">
+                <div class="breadcrumb__content p-relative z-index-1">
+                   <h3 class="breadcrumb__title">Keep In Touch with Us</h3>
+                   <div class="breadcrumb__list">
+                      <span><a href="{{project.baseURL}}">Home</a></span>
+                      <span>Contact</span>
+                   </div>
+                </div>
+             </div>
+          </div>
+       </div>
+    </section>
+    <!-- breadcrumb area end -->
+
+    <!-- contact area start -->
+    <section class="aakriticm-contact-area pb-100">
+       <div class="container">
+          <div class="aakriticm-contact-inner">
+             <div class="row">
+                <div class="col-xl-9 col-lg-8">
+
+                    <div class="aakriticm-contact-wrapper">
+                        <h3 class="aakriticm-contact-title">Our Team Will Connect With You.</h3>
+                        <div class="aakriticm-contact-form">
+                            <div class="aakriticm-contact-input-wrapper">
+                                <div class="row">
+                                    <div class="col-lg-6">
+                                        <div class="aakriticm-contact-input-box">
+                                            <div class="aakriticm-contact-input">
+                                                <input name="name" class="get_first_name" id="first_status_border" class="" type="text" placeholder="Mr Das" onchange="ContactFormValidate()">
+                                            </div>
+                                            <div class="aakriticm-contact-input-title">
+                                                <label for="name">First Name <span class="text-danger">*</span></label>
+                                            </div>
+                                        </div>
+                                    </div>
+                                    <div class="col-lg-6">
+                                        <div class="aakriticm-contact-input-box">
+                                            <div class="aakriticm-contact-input">
+                                                <input name="name" class="get_last_name" id="last_status_border" class="" type="text" placeholder="Ramesh" onchange="ContactFormValidate()">
+                                            </div>
+                                            <div class="aakriticm-contact-input-title">
+                                                <label for="name">Last Name <span class="text-danger">*</span></label>
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
+                                <br>
+
+                                <div class="row">
+                                    <div class="col-lg-6">
+                                        <div class="aakriticm-contact-input-box">
+                                            <div class="aakriticm-contact-input">
+                                                <input name="email" class="get_email" id="email_status_border" type="email" placeholder="support@aakriticms.com" onchange="ContactFormValidate()">
+                                            </div>
+                                            <div class="aakriticm-contact-input-title">
+                                                <label for="email">Your Email <span class="text-danger">*</span></label>
+                                            </div>
+                                        </div>
+                                    </div>
+                                    <div class="col-lg-6">
+                                        <div class="aakriticm-contact-input-box">
+                                            <div class="aakriticm-contact-input">
+                                                <input name="contact" class="get_contact" id="contact_status_border" type="text" placeholder="(+91) 7322057677" onchange="ContactFormValidate()">
+                                            </div>
+                                            <div class="aakriticm-contact-input-title">
+                                                <label for="contact">Your Contact No. <span class="text-danger">*</span></label>
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
+                                <br>
+
+
+
+                                
+                                <div class="aakriticm-contact-input-box">
+                                    <div class="aakriticm-contact-input">
+                                        <input name="subject" class="get_subject" id="subject_status_border" type="text" placeholder="Write your subject" onchange="ContactFormValidate()">
+                                    </div>
+                                    <div class="aakriticm-contact-input-title">
+                                        <label for="subject">Subject <span class="text-danger">*</span></label>
+                                    </div>
+                                </div>
+                                
+
+
+
+
+                                <div class="aakriticm-contact-input-box">
+                                    <div class="aakriticm-contact-input">
+                                    <textarea class="get_message" id="message_status_border" name="message" placeholder="Write your message here..." onchange="ContactFormValidate()"></textarea>
+                                    </div>
+                                    <div class="aakriticm-contact-input-title">
+                                        <label for="message">Your Message <span class="text-danger">*</span></label>
+                                    </div>
+                                </div>
+                            </div>
+                            <div class="aakriticm-contact-suggetions mb-20">
+                                <div class="aakriticm-contact-remeber">
+                                    <input id="remeber" type="checkbox" class="remeber_save">
+                                    <label for="remeber">Save my name, email, and website in this browser for the next time I comment.</label>
+                                </div>
+                            </div>
+                            <div class="aakriticm-contact-btn">
+                                <button type="submit" onclick="GENERATE_CONTACT_REQUEST();">Send Message</button>
+                            </div>
+                            <p class="ajax-response"></p>
+                        </div>
+                    </div>
+
+                    <div class="aakriticm-contact-success" style="display: none;">
+                        <h3 class="aakriticm-contact-title">Thanks For Contact Us.</h3>
+                        <section class=" p-3">
+                            <b>Congratulations</b>, <br>
+                                We Get Your Request. Our Team will Connect With You Soon As Well As Possible.
+                            <br>
+                         </section>
+            
+                    </div>
+                </div>
+                <div class="col-xl-3 col-lg-4">
+                   <div class="aakriticm-contact-info-wrapper">
+                      <div class="aakriticm-contact-info-item">
+                         <div class="aakriticm-contact-info-icon">
+                            <span>
+                               <img src="{% static 'aakritimart/img/contact/contact-icon-1.png' %}" alt="">
+                            </span>
+                         </div>
+                         <div class="aakriticm-contact-info-content">
+                            <p data-info="mail"><a href="mailto:{{project.mail}}">{{project.mail}}</a></p>
+                            <p data-info="phone"><a href="tel:{{project.contact}}">+{{project.contact}}</a></p>
+                         </div>
+                      </div>
+                      <div class="aakriticm-contact-info-item">
+                         <div class="aakriticm-contact-info-icon">
+                            <span>
+                               <img src="{% static 'aakritimart/img/contact/contact-icon-2.png' %}" alt="">
+                            </span>
+                         </div>
+                         <div class="aakriticm-contact-info-content">
+                            <p>
+                               <a href="https://www.google.com/maps/place/New+York,+NY,+USA/@40.6976637,-74.1197638,11z/data=!3m1!4b1!4m6!3m5!1s0x89c24fa5d33f083b:0xc80b8f06e177fe62!8m2!3d40.7127753!4d-74.0059728!16zL20vMDJfMjg2" target="_blank">
+                                  {{project.address}}
+                               </a>
+                            </p>
+                         </div>
+                      </div>
+                      <div class="aakriticm-contact-info-item">
+                         <div class="aakriticm-contact-info-icon">
+                            <span>
+                               <img src="{% static 'aakritimart/img/contact/contact-icon-3.png' %}" alt="">
+                            </span>
+                         </div>
+                         <div class="aakriticm-contact-info-content">
+                            <div class="aakriticm-contact-social-wrapper mt-5">
+                               <h4 class="aakriticm-contact-social-title">Find on social media</h4>
+                               <div class="aakriticm-contact-social-icon">
+                                  <a href="{{project.facebook}}"><i class="fa-brands fa-facebook-f"></i></a>
+                                  <a href="{{project.twitter}}"><i class="fa-brands fa-twitter"></i></a>
+                                  <a href="{{project.linkedin}}"><i class="fa-brands fa-linkedin-in"></i></a>
+                                  <a href="{{project.youtube}}"><i class="fa-brands fa-youtube"></i></a>
+                                </div>
+                            </div>
+                         </div>
+                      </div>
+                   </div>
+                </div>
+             </div>
+          </div>
+       </div>
+    </section>
+    <!-- contact area end -->
+
+    {% comment %}
+<!-- map area start -->
+    <!-- <section class="aakriticm-map-area pb-120">
+       <div class="container">
+          <div class="row">
+             <div class="col-xl-12">
+                <div class="aakriticm-map-wrapper">
+                   <div class="aakriticm-map-hotspot">
+                      <span class="aakriticm-hotspot aakriticm-pulse-border">
+                         <svg width="12" height="12" viewBox="0 0 12 12" fill="none" xmlns="http://www.w3.org/2000/svg">
+                            <circle cx="6" cy="6" r="6" fill="#821F40"></circle>
+                         </svg>
+                      </span>
+                   </div>
+                   <div class="aakriticm-map-iframe">
+                      <iframe src="https://www.google.com/maps/embed?pb=!1m18!1m12!1m3!1d193595.15830894612!2d-74.11976383964465!3d40.69766374865766!2m3!1f0!2f0!3f0!3m2!1i1024!2i768!4f13.1!3m3!1m2!1s0x89c24fa5d33f083b%3A0xc80b8f06e177fe62!2sNew%20York%2C%20NY%2C%20USA!5e0!3m2!1sen!2sbd!4v1678114595329!5m2!1sen!2sbd"></iframe>
+                   </div>
+                </div>
+             </div>
+          </div>
+       </div>
+    </section> -->
+    <!-- map area end -->
+    {% endcomment %}
+
+ </main>
+ <div class="modal fade rounded" id="CONTACT_US_VERIFY_MODEL" tabindex="-1" aria-hidden="true">
+    <div class="modal-dialog mx-auto" style="max-width:400px">
+       <div class="modal-content">
+          <div class="modal-header">
+             <h4 class="modal-title text-secondary font-weight-600"> Verify & Confirm Request.</h4>
+             <button type="button" class="close" data-bs-dismiss="modal" aria-label="Close">
+                <span aria-hidden="true">&times;</span>
+             </button>
+          </div>
+          <div class="modal-body p-0 " style="height: 200px;">
+             <input type="text" name="get_otp_for_verify_contact_us" class="get_otp_for_verify_contact_us" placeholder="Enter Your Onetime Verification Code" value=""/>
+             <br>
+             <section class="d-flex justify-content-center p-3">
+                <br>
+                <i class="fas fa-check-circle d-flex justify-content-center" style='font-size:48px;color:green;'></i>
+                <br>
+             </section>
+             <section class="d-flex justify-content-center p-3">
+                You Will Get Onetime Verification Code From Your Email Inbox.
+                <br>
+             </section>
+          </div>
+          <div class="model-footer p-3">
+                <button class="btn btn-primary w-100 rounded-sm" onclick="VERIFY_CONTACT_REQUEST();">Verify Request With OTP</button>
+          </div>
+       </div>
+    </div>
+ </div>
+
+ <div class="modal fade rounded" id="CONTACT_US_SUCCESS" tabindex="-1" aria-hidden="true">
+    <div class="modal-dialog mx-auto" style="max-width:400px">
+       <div class="modal-content">
+          <div class="modal-header">
+             <h4 class="modal-title text-secondary font-weight-600"> Thanks For Contact Us.</h4>
+             <button type="button" class="close" data-bs-dismiss="modal" aria-label="Close">
+                <span aria-hidden="true">&times;</span>
+             </button>
+          </div>
+          <div class="modal-body p-0 " style="height: 200px;">
+         
+            <section class=" p-3">
+                <b>Congratulations</b>, <br>
+                    We Get Your Request. Our Team will Connect With You Soon As Well As Possible.
+                <br>
+             </section>
+             <hr>
+             <section class=" p-3">
+                Thnaks, <br>
+                Team <b>{{project.name | title}}</b>
+                <br>
+             </section>
+          </div>
+          <div class="model-footer p-3">
+          </div>
+       </div>
+    </div>
+ </div>
+   
+   
+   {% include "template/includes/MAINFooter.html" %}
+   <!-- JS here -->
+   <script src="{% static 'aakritimart/js/vendor/jquery.js' %}"></script>
+   <script src="{% static 'aakritimart/js/vendor/waypoints.js' %}"></script>
+   <script src="{% static 'aakritimart/js/bootstrap-bundle.js' %}"></script>
+   <script src="{% static 'aakritimart/js/meanmenu.js' %}"></script>
+   <script src="{% static 'aakritimart/js/swiper-bundle.js' %}"></script>
+   <script src="{% static 'aakritimart/js/slick.js' %}"></script>
+   <script src="{% static 'aakritimart/js/range-slider.js' %}"></script>
+   <script src="{% static 'aakritimart/js/magnific-popup.js' %}"></script>
+   <script src="{% static 'aakritimart/js/nice-select.js' %}"></script>
+   <script src="{% static 'aakritimart/js/purecounter.js' %}"></script>
+   <script src="{% static 'aakritimart/js/countdown.js' %}"></script>
+   <script src="{% static 'aakritimart/js/wow.js' %}"></script>
+   <script src="{% static 'aakritimart/js/isotope-pkgd.js' %}"></script>
+   <script src="{% static 'aakritimart/js/imagesloaded-pkgd.js' %}"></script>
+   <script src="{% static 'aakritimart/js/ajax-form.js' %}"></script>
+   <script src="{% static 'aakritimart/js/main.js' %}"></script>
+   {% include "template/includes/JSCOMMON.html" %}
+
+    <script>
+    function ContactFormValidate(){
+        jsonOBJ = {}
+        const fname =$('.get_first_name').val(); 
+        error = document.getElementById('first_status_border');
+        if (!fname){
+            error.style.border = "1px solid red";
+            toastr.error("First Name Required")
+        }else{
+            error.style.border = "1px solid green";
+            jsonOBJ['fname'] = fname;
+        }
+        const lname =$('.get_last_name').val();
+        lname_status = document.getElementById('last_status_border');
+        if (!lname){
+            lname_status.style.border = "1px solid red";
+            toastr.error("Last Name Required")
+        }else{
+            lname_status.style.border = "1px solid green";
+            jsonOBJ['lname'] = lname;
+        }
+
+        const email =$('.get_email').val();
+        email_status = document.getElementById('email_status_border');
+        if (!email){
+            email_status.style.border = "1px solid red";
+            toastr.error("Email Required") 
+        }else{
+            email_status.style.border = "1px solid green";
+            jsonOBJ['email'] = email;
+        }
+        const contact =$('.get_contact').val();
+        contact_status = document.getElementById('contact_status_border');
+
+        if (!contact){
+            contact_status.style.border = "1px solid red";
+            toastr.error("Contact No. Required")
+        }else{
+            contact_status.style.border = "1px solid green";
+            jsonOBJ['contact'] = contact;
+        }
+        const subject =$('.get_subject').val();
+        subject_status = document.getElementById('subject_status_border');
+        if (!subject){
+            subject_status.style.border = "1px solid red";
+            toastr.error("Subject Required")
+        }else{
+            subject_status.style.border = "1px solid green";
+            jsonOBJ['subject'] = subject;
+        }
+        const message =$('.get_message').val();
+        message_status = document.getElementById('message_status_border');
+
+        if (!message){
+            message_status.style.border = "1px solid red";
+            toastr.error("Message Required")
+        }else{
+            message_status.style.border = "1px solid green";
+            jsonOBJ['message'] = message;
+        }
+        if (lname && fname && email && subject && message){
+            const remeber_save =$('.remeber_save').val();
+            jsonOBJ['remeber_and_save'] = remeber_save;
+            return jsonOBJ
+        }else{
+            return false
+        }
+    }
+
+    function GENERATE_CONTACT_REQUEST(){
+        var jsonOBJ = ContactFormValidate();
+        if (jsonOBJ != false){
+            console.log(jsonOBJ)
+            const data = new FormData();
+            data.append('jsonOBJ', JSON.stringify(jsonOBJ));
+            $.ajax({                      
+                type: "POST",                   
+                url: "{% url 'GENERATE_CONTACT_REQUEST' %}",                    
+                data: data,
+                cache: false,
+                processData: false,
+                contentType: false,
+                enctype: 'multipart/form-data',
+                headers: {'X-CSRFToken': "{{ csrf_token }}"},
+                success: function(data) {   
+                    if (data.status == 1){
+                        $('#CONTACT_US_VERIFY_MODEL').modal('show');
+                        toastr.success( data.message )
+                    }else if (data.status == 0){
+                        toastr.error( data.message ) 
+                    }       
+                },
+                error: function(data) {   
+                    toastr.error("Server Issue")
+                },
+            }); 
+        }else{
+            toastr.error("Contact Us From Not Valid")
+        }
+    }
+    function VERIFY_CONTACT_REQUEST(){
+        var jsonOBJ = ContactFormValidate();
+        if (jsonOBJ != false){
+            const data = new FormData();
+            data.append('get_otp_for_verify_contact_us', $('.get_otp_for_verify_contact_us').val());
+            data.append('jsonOBJ', JSON.stringify(jsonOBJ));
+            $.ajax({                      
+                type: "POST",                   
+                url: "{% url 'SAVE_CONTACT_US_REQUEST_SEND_EMAIL' %}",                    
+                data: data,
+                cache: false,
+                processData: false,
+                contentType: false,
+                enctype: 'multipart/form-data',
+                headers: {'X-CSRFToken': "{{ csrf_token }}"},
+                success: function(data) {   
+                    if (data.status == 1){
+                        toastr.success( data.message ) 
+                        $('#CONTACT_US_VERIFY_MODEL').modal('hide');
+                        $('#CONTACT_US_SUCCESS').modal('show');
+                        $(".aakriticm-contact-wrapper").hide();
+                        $(".aakriticm-contact-success").show();
+
+                    }else if (data.status == 0){
+                        toastr.error( data.message ) 
+                    }       
+                },
+                error: function(data) {   
+                    toastr.error("Server Issue")
+                },
+            });
+        }        
+    }
+    </script>
+   <!-- SweetAlert2 -->
+   <script src="{% static 'adminAAKRITICMS/plugins/sweetalert2/sweetalert2.min.js'%}"></script>
+   <!-- <script src="{% static 'adminAAKRITICMS/plugins/toastr/toastr.min.js'%}"></script> -->
+   <!-- Toastr -->
+   <script src="{% static 'adminAAKRITICMS/plugins/toastr/toastr.min.js'%}"></script>
+   {% include "template/includes/USERToster.html" %}
+</body>
+</html>
+
+
+
+

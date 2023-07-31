@@ -1,0 +1,593 @@
+{% load static %}
+{% load COLORTag %}
+<!doctype html>
+<html class="no-js" lang="en">
+<head>
+    <meta charset="utf-8">
+    <meta http-equiv="x-ua-compatible" content="ie=edge">
+    <title>{{product.name}} || Product </title>
+    <meta name="robots" content="noindex, follow" />
+    <meta name="description" content="">
+    <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
+    {% include 'includes/CSS.html' %}
+
+    <link rel="stylesheet" href="{% static 'kahntailors/css/font-awesome.css' %}">
+    <link rel="stylesheet" href="{% static 'kahntailors/css/flaticon/flaticon.css' %}">
+    <link rel="stylesheet" href="{% static 'kahntailors/css/slick.css' %}">
+    <link rel="stylesheet" href="{% static 'kahntailors/css/slick-theme.css' %}">
+    <link rel="stylesheet" href="{% static 'kahntailors/css/jquery-ui.min.css' %}">
+    <link rel="stylesheet" href="{% static 'kahntailors/css/sal.css' %}">
+    <link rel="stylesheet" href="{% static 'kahntailors/css/magnific-popup.css' %}">
+    <link rel="stylesheet" href="{% static 'kahntailors/css/base.css' %}">
+    <link rel="stylesheet" href="{% static 'kahntailors/css/style.min.css' %}">
+    <!-- style css -->
+    <link rel="stylesheet" type="text/css" href="{% static 'kahntailors/css/style.css' %}">
+
+    <link rel="stylesheet" href="{% static 'kahntailors/css/font-awesome.css' %}">
+    <link rel="stylesheet" href="{% static 'kahntailors/css/flaticon/flaticon.css' %}">
+    <link rel="stylesheet" href="{% static 'kahntailors/css/slick.css' %}">
+    <link rel="stylesheet" href="{% static 'kahntailors/css/slick-theme.css' %}">
+    <link rel="stylesheet" href="{% static 'kahntailors/css/jquery-ui.min.css' %}">
+    <link rel="stylesheet" href="{% static 'kahntailors/css/sal.css' %}">
+    <link rel="stylesheet" href="{% static 'kahntailors/css/magnific-popup.css' %}">
+    <link rel="stylesheet" href="{% static 'kahntailors/css/base.css' %}">
+    <link rel="stylesheet" href="{% static 'kahntailors/css/style.min.css' %}">
+
+</head>
+
+<body class="sticky-header">
+    {% include 'templates/includes/mainHeader.html' %}
+    <main class="main-wrapper">
+        <!-- Start Shop Area  -->
+        <div class="khantailor-single-product-area khantailor-section-gap pb--0 bg-color-white">
+            <div class="single-product-thumb mb--40">
+                <div class="container">
+                    <div class="row">
+                        <div class="col-lg-7 mb--40">
+                            <div class="row">
+                                <div class="col-lg-10 order-lg-2">
+                                    <div class="single-product-thumbnail-wrap zoom-gallery">
+                                        <div class="single-product-thumbnail product-large-thumbnail-3 khantailor-product  slick-slider">
+                                            {% if product.img %}
+                                            <div class="thumbnail">
+                                                <a href="{{product.img.url}}" class="popup-zoom">
+                                                    <img src="{{product.img.url}}" alt="Product Images">
+                                                </a>
+                                            </div>
+                                            {% endif %}
+
+                                            {% if product.img1 %}
+                                            <div class="thumbnail">
+                                                <a href="{% if product.img1%}{{product.img1.url}}{% endif %}" class="popup-zoom">
+                                                    <img src="{% if product.img1 %}{{product.img1.url}}{% endif %}" alt="Product Images">
+                                                </a>
+                                            </div>
+                                            {% endif %}
+
+                                            {% if product.img2 %}
+                                            <div class="thumbnail">
+                                                <a href="{{product.img2.url}}" class="popup-zoom">
+                                                    <img src="{{product.img2.url}}" alt="Product Images">
+                                                </a>
+                                            </div>
+                                            {% endif %}
+
+                                            {% if product.img3 %}
+                                            <div class="thumbnail">
+                                                <a href="{{product.img3.url}}" class="popup-zoom">
+                                                    <img src="{{product.img3.url}}" alt="Product Images">
+                                                </a>
+                                            </div>
+                                            {% endif %}
+
+                                            {% if product.img4 %}
+                                            <div class="thumbnail">
+                                                <a href="{{product.img4.url}}" class="popup-zoom">
+                                                    <img src="{{product.img4.url}}" alt="Product Images">
+                                                </a>
+                                            </div>
+                                            {% endif %}
+                                        </div>
+                                        <div class="label-block">
+                                            <!-- <div class="product-badget">20% OFF</div> -->
+                                        </div>
+                                        <div class="product-quick-view position-view">
+                                            <a href="{% if product.img %}{{product.img.url}}{% elif product.img1 %}{{product.img1.url}}{% elif product.img2 %}{{product.img2.url}}{% endif %}" class="popup-zoom">
+                                                <i class="far fa-search-plus"></i>
+                                            </a>
+                                        </div>
+                                    </div>
+                                </div>
+                                <div class="col-lg-2 order-lg-1">
+                                    <div class="product-small-thumb-3 small-thumb-wrapper slick-slider slick-vertical">
+                                        {% if product.img %}
+                                        <div class="small-thumb-img">
+                                            <img src="{{product.img.url}}" alt="thumb image">
+                                        </div>
+                                        {% endif %}
+                                        {% if product.img1 %}
+                                        <div class="small-thumb-img">
+                                            <img src="{{product.img1.url}}" alt="thumb image">
+                                        </div>
+                                        {% endif %}
+
+                                        {% if product.img2 %}
+                                        <div class="small-thumb-img">
+                                            <img src="{{product.img2.url}}" alt="thumb image">
+                                        </div>
+                                        {% endif %}
+
+                                        {% if product.img3 %}
+                                        <div class="small-thumb-img">
+                                            <img src="{{product.img3.url}}" alt="thumb image">
+                                        </div>
+                                        {% endif %}
+
+                                        {% if product.img4 %}
+                                        <div class="small-thumb-img">
+                                            <img src="{{product.img4.url}}" alt="thumb image">
+                                        </div>
+                                        {% endif %}
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="col-lg-5 mb--40">
+                            <div class="single-product-content">
+                                <div class="inner">
+                                    <h2 class="product-title">{{product.name}}</h2>
+                                    <div class="product-price-variant">
+                                        <span class="price-amount">$ {{product.sp}} |- Only</span>
+                                        <span class="price old-price p-0">$<del> {{product.mrp}}</del></span>
+                                    </div> 
+                                    <div class="product-rating">
+                                        <div class="star-rating">
+                                            <i class="fas fa-star"></i>
+                                            <i class="fas fa-star"></i>
+                                            <i class="fas fa-star"></i>
+                                            <i class="fas fa-star"></i>
+                                            <i class="far fa-star"></i>
+                                        </div>
+                                        <div class="review-link">
+                                            <a href="javascript:void(0);">(<span>{{totalReview}}</span> customer reviews)</a>
+                                        </div>
+                                    </div>
+
+                                    <ul class="product-meta">
+                                        {% if product.total_qty > 1 %}
+                                            <li><i class="fal fa-check"></i>In stock</li>
+                                        {% else %}
+                                            <li class="text-danger"><i class="fal fa-check text-danger"></i>Out Of Stock</li>
+                                        {% endif %}
+                                        <!-- {% if product.is_cash_on_delivery == True and product.total_qty > 1  %}
+                                            <li><i class="fal fa-check"></i>COD Delivery available</li>
+                                        {% endif %} -->
+                                    </ul>
+                                    <p class="description">{{product.meta_description | safe }}</p>
+
+
+                                    <form action="{% url 'CheckOutHere' %}" method="GET">
+                                     {% csrf_token %}
+                                    <input type="text" name="product" value="{{product.slug}}" style="display: none;">                                            
+                                    <input type="text" name="checkoutFor" value="singleProduct" style="display: none;">
+                                    <input type="text" name="paymethod" value="onlineRazorpay" style="display: none;">
+
+                                    <div class="product-action-wrapper d-flex-center">
+                                        <b>Enter Quality </b>: &nbsp; &nbsp;&nbsp;
+                                        <div class="pro-qty" onclick="getQTY()">
+                                            <input type="number" value="1" name="qty" class="Quality" id="QTY" onchange="getQTY()">
+                                        </div>
+                                    </div>       
+                                    <br>   
+                                    <script>
+                                        function getQTY() {
+                                            var x = document.getElementById("QTY").value;
+                                            $('.qty').val(x);
+                                            console.log(x);
+                                            return x
+                                        }   
+                                    </script>
+                                  
+                                    <div class="product-variations-wrapper">
+                                        {% if product.color %}
+                                        <!-- Start Product Variation  -->
+                                        <div class="product-variation">
+                                            <h6 class="title">Colors:</h6>
+                                            <div class="color-variant-wrapper">
+                                                <ul class="color-variant">
+                                                  {% getCOLORList product.pk %}                                         
+                                                </ul>
+                                            </div>
+                                        </div>
+                                        {% endif %}
+                                        <!-- End Product Variation  -->
+                                        <!-- Start Product Variation  -->
+                                        <!-- {% comment %} <div class="product-variation product-size-variation"> -->
+                                            <h6 class="title">Size:</h6>
+                                            <ul class="range-variant">
+                                                <li>xs</li>
+                                                <li>s</li>
+                                                <li>m</li>
+                                                <li>l</li>
+                                                <li>xl</li>
+                                            </ul>
+                                        <!-- </div> {% endcomment %} -->
+                                        <!-- End Product Variation  -->
+                                    </div>
+                                    <!-- Start Product Action Wrapper  -->
+                                    <div class="product-action-wrapper d-flex-center">
+                                        <!-- Start Quentity Action  -->
+                                        <!-- {% comment %} <div class="pro-qty"><input type="text" value="1"></div> {% endcomment %} -->
+                                        <!-- End Quentity Action  -->
+                                        <!-- Start Product Action  -->
+                                        <ul class="product-action d-flex-center mb--0">
+                                            <li class="add-to-cart"><a href="javascript:void(0);" class="AddToCart khantailor-btn btn-bg-primary" AddToCartThisProduct="{{product.pk}}">Add to Cart</a></li>
+                                            <!-- <li class="wishlist"><a href="javascript:void(0);" class="AddToWishlist khantailor-btn wishlist-btn" AddToWishlistProduct="{{product.pk}}"><i class="far fa-heart"></i></a></li>                                             -->
+                                        </ul>
+                                        <!-- End Product Action  -->
+                                    </div>
+                                    <br>
+                                    <!-- End Product Action Wrapper  -->
+                                    <div class="product-action-wrapper d-flex-center">
+                                        <!-- Start Product Action  -->
+                                        <ul class="product-action d-flex-center mb--0">
+                                            <li class="add-to-cart">       
+                                                <button class="khantailor-btn btn-bg-primary onlinePay" type="submit">Pay  Now Save $ {{saveAmount}} |-</button>
+                                            </li>
+                                        </ul> 
+                                        <!-- End Product Action  -->
+                                    </div>
+                                    <br>
+                                    {% comment %}
+                                    {% if product.is_cash_on_delivery == True and product.total_qty > 1 %}
+                                    <div class="product-action-wrapper d-flex-center">
+                                        <!-- Start Product Action  -->
+                                        <ul class="product-action d-flex-center mb--0">
+                                            <button class="khantailor-btn btn-bg-primary onlinePay" type="submit">Order Now | Cash On Delivery</button>
+
+                                            <!-- <li class="add-to-cart"><a href="{% url 'CheckOutHere' %}?checkoutFor=singleProduct&paymethod=cod&product={{product.slug}}&qty=1&color={{request.GET.color}}" class="khantailor-btn btn-bg-primary">Order Now | Cash On Delivery</a></li> -->
+                                        </ul>
+                                        <!-- End Product Action  -->
+                                    </div>
+                                    {% endif %}
+                                    {% endcomment %}
+                                </div>
+                            </form>
+
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+            <!-- End .single-product-thumb -->
+            <div class="woocommerce-tabs wc-tabs-wrapper bg-vista-white">
+                <div class="container">
+                    <ul class="nav tabs" id="myTab" role="tablist">
+                        <li class="nav-item" role="presentation">
+                            <a class="active" id="description-tab" data-bs-toggle="tab" href="#description" role="tab" aria-controls="description" aria-selected="true">Description & Information</a>
+                        </li>
+                        <li class="nav-item" role="presentation">
+                            <a id="reviews-tab" data-bs-toggle="tab" href="#reviews" role="tab" aria-controls="reviews" aria-selected="false">Reviews</a>
+                        </li>
+                    </ul>
+                    <div class="tab-content" id="myTabContent">
+                        <div class="tab-pane fade show active" id="description" role="tabpanel" aria-labelledby="description-tab">
+                            <div class="product-desc-wrapper">
+                                <div class="row">
+                                   <html class="text-dark"> {{product.description | safe }}   </html>                                 
+                                </div>
+                                <!-- End .row -->
+                                <div class="row">
+                                    <div class="col-lg-12">
+                                        <ul class="pro-des-features">
+                                            <li class="single-features">
+                                                <div class="icon">
+                                                    <img src="{% static 'kahntailors/images/product/khantailor-product-thumb/icon-3.png' %}" alt="icon">
+                                                </div>
+                                                Easy Returns
+                                            </li>
+                                            <li class="single-features">
+                                                <div class="icon">
+                                                    <img src="{% static 'kahntailors/images/product/khantailor-product-thumb/icon-2.png' %}" alt="icon">
+                                                </div>
+                                                Quality Service
+                                            </li>
+                                            <li class="single-features">
+                                                <div class="icon">
+                                                    <img src="{% static 'kahntailors/images/product/khantailor-product-thumb/icon-1.png' %}" alt="icon">
+                                                </div>
+                                                Original Product
+                                            </li>
+                                        </ul>
+                                        <!-- End .pro-des-features -->
+                                    </div>
+                                </div>
+                                <!-- End .row -->
+                            </div>
+                            <!-- End .product-desc-wrapper -->
+                        </div>
+                        <div class="tab-pane fade" id="reviews" role="tabpanel" aria-labelledby="reviews-tab">
+                            <div class="reviews-wrapper">
+                                <div class="row">
+                                    <div class="col-lg-6 mb--40">
+                                        <div class="khantailor-comment-area pro-desc-commnet-area">
+                                            <h5 class="title">{{totalReview}} Review for this product</h5>
+                                            <ul class="comment-list">
+                                                <!-- Start Single Comment  -->
+                                                {% if Feedbacks %}
+                                                {% for Feedback in Feedbacks %}
+                                                <li class="comment">
+                                                    <div class="comment-body">
+                                                        <div class="single-comment">
+                                                            <div class="comment-img">
+                                                                <img src="{% if Feedback.user.img %}{{Feedback.user.img.url}}{% else %}{% static 'kahntailors/images/blog/author-image-4.png' %}{% endif %}" alt="{{Feedback.user.name}}">
+                                                            </div>
+                                                            <div class="comment-inner">
+                                                                <h6 class="commenter">
+                                                                    <a class="hover-flip-item-wrapper" href="#">
+                                                                        <span class="hover-flip-item">
+                                                                            <span data-text="Cameron Williamson">{{Feedback.user.name}}</span>
+                                                                        </span>
+                                                                    </a>
+                                                                    <span class="commenter-rating ratiing-four-star">
+                                                                        {% if Feedback.Ratting == 1 %}
+                                                                        <a href="javascript:void(0);"><i class="fas fa-star"></i></a>
+                                                                        <a href="javascript:void(0);"><i class="fas fa-star empty-rating"></i></a>
+                                                                        <a href="javascript:void(0);"><i class="fas fa-star empty-rating"></i></a>
+                                                                        <a href="javascript:void(0);"><i class="fas fa-star empty-rating"></i></a>
+                                                                        <a href="javascript:void(0);"><i class="fas fa-star empty-rating"></i></a>
+                                                                        {% elif Feedback.Ratting == 2 %}
+                                                                        <a href="javascript:void(0);"><i class="fas fa-star"></i></a>
+                                                                        <a href="javascript:void(0);"><i class="fas fa-star"></i></a>
+                                                                        <a href="javascript:void(0);"><i class="fas fa-star empty-rating"></i></a>
+                                                                        <a href="javascript:void(0);"><i class="fas fa-star empty-rating"></i></a>
+                                                                        <a href="javascript:void(0);"><i class="fas fa-star empty-rating"></i></a>
+                                                                        {% elif Feedback.Ratting == 3 %}
+                                                                        <a href="javascript:void(0);"><i class="fas fa-star"></i></a>
+                                                                        <a href="javascript:void(0);"><i class="fas fa-star"></i></a>
+                                                                        <a href="javascript:void(0);"><i class="fas fa-star"></i></a>
+                                                                        <a href="javascript:void(0);"><i class="fas fa-star empty-rating"></i></a>
+                                                                        <a href="javascript:void(0);"><i class="fas fa-star empty-rating"></i></a>
+                                                                        {% elif Feedback.Ratting == 4 %}
+                                                                        <a href="javascript:void(0);"><i class="fas fa-star"></i></a>
+                                                                        <a href="javascript:void(0);"><i class="fas fa-star"></i></a>
+                                                                        <a href="javascript:void(0);"><i class="fas fa-star"></i></a>
+                                                                        <a href="javascript:void(0);"><i class="fas fa-star"></i></a>
+                                                                        <a href="javascript:void(0);"><i class="fas fa-star empty-rating"></i></a>
+                                                                        {% elif Feedback.Ratting == 5 %}
+                                                                        <a href="javascript:void(0);"><i class="fas fa-star"></i></a>
+                                                                        <a href="javascript:void(0);"><i class="fas fa-star"></i></a>
+                                                                        <a href="javascript:void(0);"><i class="fas fa-star"></i></a>
+                                                                        <a href="javascript:void(0);"><i class="fas fa-star"></i></a>
+                                                                        <a href="javascript:void(0);"><i class="fas fa-star"></i></a>                                                                        {% endif %}
+                                                                    </span>
+                                                                </h6>
+                                                                <div class="comment-text">
+                                                                    <p>{{Feedback.message | safe | title }}</p>
+                                                                </div>
+                                                            </div>
+                                                        </div>
+                                                    </div>
+                                                </li>
+                                                {% endfor %}
+                                                {% endif %}
+                                                <!-- End Single Comment  -->
+                                            </ul>
+                                        </div>
+                                        <!-- End .khantailor-commnet-area -->
+                                    </div>
+                                    <!-- End .col -->
+                                    <div class="col-lg-6 mb--40">
+                                        <!-- Start Comment Respond  -->
+                                        <div class="comment-respond pro-des-commend-respond mt--0">
+                                            <h5 class="title mb--30">Add a Review</h5>
+                                            <p>Your email address will not be published. Required fields are marked *</p>
+                                            <div class="rating-wrapper d-flex-center mb--40">
+                                                Your Rating <span class="require">*</span>
+                                                <div class="reating-inner ml--20">
+                                                    <a href="javascript:void(0);" class="Ratting" getRatting="1"><i class="fal fa-star"></i></a>
+                                                    <a href="javascript:void(0);" class="Ratting" getRatting="2"><i class="fal fa-star"></i></a>
+                                                    <a href="javascript:void(0);" class="Ratting" getRatting="3"><i class="fal fa-star"></i></a>
+                                                    <a href="javascript:void(0);" class="Ratting" getRatting="4"><i class="fal fa-star"></i></a>
+                                                    <a href="javascript:void(0);" class="Ratting" getRatting="5"><i class="fal fa-star"></i></a>
+                                                </div>
+                                                <br>
+                                                <div class="" style="display:none;">
+                                                    <div class="form-group">
+                                                        <input id="Ratting" class="Ratting" type="text" >
+                                                    </div>
+                                                </div>
+                                            
+                                            </div>
+                                            <div class="row">
+                                                <div class="col-12">
+                                                    <div class="form-group">
+                                                        <label>Other Notes (optional)</label>
+                                                        <textarea name="message" placeholder="Your Comment" id="message"></textarea>
+                                                    </div>
+                                                </div>
+                                                    <div class="form-submit">
+                                                        <button type="submit" id="submit"   class="addFreedBack khantailor-btn btn-bg-primary w-auto">Submit Comment</button>
+                                                    </div>
+                                                </div>
+                                            </div>
+                                        </div>
+                                        <div class="khantailor-checkout-notice">
+                                            <div class="khantailor-toggle-box">
+                                                <div class="toggle-bar active"><i class="fas fa-user"></i> Returning customer? <a href="javascript:void(0)" class="toggle-btn">Click here to login <i class="fas fa-angle-down"></i></a>
+                                                </div>
+                                                <div class="khantailor-checkout-login toggle-open" style="display: block;">
+                                                    <p>If you didn't Logged in, Please Log in first.</p>
+                                                    <div class="signin-box">
+                                                        <div class="form-group mb--0">
+                                                            <!-- {{ request.get_full_path }} -->
+                                                            <a href="" class="khantailor-btn btn-bg-primary submit-btn">LOGIN</a>
+                                                            <a href="" class="khantailor-btn btn-bg-primary submit-btn">LOGIN WITH OTP</a>
+                                                            <a href="" class="forgot-btn">Forgot password?</a>
+                                                        </div>
+                                                    </div>
+                                                </form>
+                                                </div>
+                                            </div>
+                                        </div> 
+                                        <!-- End Comment Respond  -->
+                                    </div>
+                                    <!-- End .col -->
+                                </div>
+                        </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+            <!-- woocommerce-tabs -->
+        </div>
+        <!-- End Shop Area  -->
+
+        {% if RecentlyViewedProductList %}
+        <!-- Start Recently Viewed Product Area  -->
+        <div class="khantailor-product-area bg-color-white khantailor-section-gap pb--50 pb_sm--30">
+            <div class="container">
+                <div class="section-title-wrapper">
+                    <span class="title-highlighter highlighter-primary"><i class="far fa-shopping-basket"></i> Your Recently</span>
+                    <h2 class="title">Viewed Items</h2>
+                </div>
+                <div class="recent-product-activation slick-layout-wrapper--15 khantailor-slick-arrow arrow-top-slide">
+                    {% for product in RecentlyViewedProductList %}
+                    <div class="slick-single-layout">
+                        <div class="khantailor-product">
+                            <div class="thumbnail">
+                                <a href="{% url 'VIEWProduct' product.slug %}">
+                                    <img src="{% if product.img %}{{product.img.url}}{% else %}{% static 'kahntailors/images/product/electric/product-01.png' %}{% endif %}" alt="Product Images">
+                                </a>
+                                <div class="label-block label-right">
+                                    <!-- <div class="product-badget">20% OFF</div> -->
+                                </div>
+                                <div class="product-hover-action">
+                                    <ul class="cart-action">
+                                        <!-- <li class="wishlist"><a href="javascript:void(0);" class="AddToWishlist" AddToWishlistProduct="{{product.pk}}"><i class="far fa-heart"></i></a></li> -->
+                                        <li class="select-option"><a href="javascript:void(0);" class="AddToCart" AddToCartThisProduct="{{product.pk}}">Add to Cart</a></li>                                                
+                                        <li class="quickview"><a href="#" data-bs-toggle="modal" data-bs-target="#quick-view-modal"><i class="far fa-eye"></i></a></li>
+                                    </ul>
+                                </div>
+                            </div>
+                            <div class="product-content">
+                                <div class="inner">
+                                    <h5 class="title"><a href="{% url 'VIEWProduct' product.slug %}">{{product.name}}</a></h5>
+                                    <div class="product-price-variant">
+                                        <span class="price current-price">$ {{product.sp}}</span>
+                                        <span class="price old-price">$ {{product.mrp}}</span>
+                                    </div>
+                                    <div class="color-variant-wrapper">
+                                        <ul class="color-variant">
+                                            <li class="color-extra-01 active"><span><span class="color"></span></span> </li>
+                                            <li class="color-extra-02"><span><span class="color"></span></span> </li>
+                                            <li class="color-extra-03"><span><span class="color"></span></span></li>
+                                        </ul>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                    {% endfor %}
+                    <!-- End .slick-single-layout -->
+                </div>
+            </div>
+        </div>
+        {% endif %}
+        <!-- End Recently Viewed Product Area  -->
+
+       
+        <br>
+        <br>
+        <!-- End khantailor Newsletter Area  -->
+    </main>
+    {% include 'templates/includes/mainFooter.html' %}
+
+    {% include 'templates/includes/JS.html' %}
+    <!-- ============================================ -->
+    <!-- Modernizer JS -->
+    <script src="{% static 'kahntailors/js/modernizr.min.js' %}"></script>
+    <!-- jQuery JS -->
+    <script src="{% static 'kahntailors/js/jquery.js' %}"></script>
+    <!-- Bootstrap JS -->
+    <script src="{% static 'kahntailors/js/popper.min.js' %}"></script>
+    <script src="{% static 'kahntailors/js/bootstrap.min.js' %}"></script>
+    <script src="{% static 'kahntailors/js/slick.min.js' %}"></script>
+    <script src="{% static 'kahntailors/js/js.cookie.js' %}"></script>
+    <!-- <script src="{% static 'kahntailors/js/jquery.style.switcher.js' %}"></script> -->
+    <script src="{% static 'kahntailors/js/jquery-ui.min.js' %}"></script>
+    <script src="{% static 'kahntailors/js/jquery.countdown.min.js' %}"></script>
+    <script src="{% static 'kahntailors/js/sal.js' %}"></script>
+    <script src="{% static 'kahntailors/js/jquery.magnific-popup.min.js' %}"></script>
+    <script src="{% static 'kahntailors/js/imagesloaded.pkgd.min.js' %}"></script>
+    <script src="{% static 'kahntailors/js/isotope.pkgd.min.js' %}"></script>
+    <script src="{% static 'kahntailors/js/counterup.js' %}"></script>
+    <script src="{% static 'kahntailors/js/waypoints.min.js' %}"></script>
+
+    <!-- Main JS -->
+    <script src="{% static 'kahntailors/js/main.js' %}"></script>  
+    {% include 'includes/COMBOOperation.html' %}
+    {% include 'template/includes/eCOMCOMBOOperation.html' %}
+
+
+    <script>
+        $(".Ratting").click(function() {
+            $('.Ratting').val($(this).attr('getRatting'));
+        });
+        $(".addFreedBack").click(function() {
+            const ratting = $('.Ratting').val();
+            const message = $('#message').val();
+                if ("{{product.pk}}" == ""){
+                    Toast.fire({
+                        icon: 'error',
+                        title: '<p id="messages" style="margin-top:0px !important; margin-left:8px !important;"><b> Target Required* </b></p>'
+                    })
+                }
+                else if ("{{request.user.pk}}" == ""){
+                    Toast.fire({
+                        icon: 'error',
+                        title: '<p id="messages" style="margin-top:0px !important; margin-left:8px !important;"><b> Target Required* </b></p>'
+                    })
+                }
+                
+                else{
+                    const data = new FormData();
+                    data.append('targetPRODUCT', "{{product.pk}}");
+                    data.append('targetUSER', "{{request.user.pk}}");
+                    data.append('ratting', ratting);
+                    data.append('message', message);
+                    $.ajax({                      
+                        type: "POST",                   
+                        url: "{% url 'AddFeedBack' %}",                    
+                        data: data,
+                        cache: false,
+                        processData: false,
+                        contentType: false,
+                        enctype: 'multipart/form-data',
+                        headers: {'X-CSRFToken': "{{ csrf_token }}"},
+                        success: function(data) {   
+                            if (data.status == 1){
+                                Toast.fire({
+                                    icon: 'success',
+                                    title: '<p id="messages" style="margin-top: 0px !important; margin-left:8px !important;"><b>'+ data.message +'</b></p>'
+                                })  
+                            }else if (data.status == 0){
+                                Toast.fire({
+                                icon: 'error',
+                                title: '<p id="messages" style="margin-top: 0px !important; margin-left:8px !important;"><b>'+ data.message +'</b></p>'
+                                }) 
+                            }       
+                        },
+                    });
+                }
+            });
+    </script>
+
+    <!-- SweetAlert2 -->
+    <script src="{% static 'adminKHANTAILOR/plugins/sweetalert2/sweetalert2.min.js'%}"></script>
+    <!-- Toastr -->
+    <script src="{% static 'adminKHANTAILOR/plugins/toastr/toastr.min.js'%}"></script>
+    <!-- ======================END========================== -->
+    {% include 'includes/Toster.html' %}
+</body>
+</html>

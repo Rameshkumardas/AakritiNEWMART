@@ -1,0 +1,608 @@
+{% load static %}
+<!doctype html>
+<html class="no-js" lang="en">
+<head>
+    <meta charset="utf-8">
+    <meta http-equiv="x-ua-compatible" content="ie=edge">
+    <title>Checkout {{product.name}} || {{project.name}}</title>
+    <meta name="robots" content="noindex, follow" />
+    <meta name="description" content="">
+    <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
+    {% include 'templates/includes/CSS.html' %}
+    <link rel="stylesheet" href="{% static 'kahntailors/css/style.min.css' %}">
+
+</head>
+<body class="">
+    {% include 'templates/includes/mainHeader.html' %}
+    <main class="main-wrapper">
+        <!-- Start Checkout Area  -->
+        <div class="khantailor-checkout-area khantailor-section-gap">
+            <div class="container">
+                    <div class="row">
+                        <div class="col-lg-6">
+                            {% if request.user.is_user %}
+                            <div class="khantailor-checkout-billing">
+                                <a href="javascript:void(0);" data-toggle="modal" data-toggle="modal" data-target="#BillingAddress" class="btn btn-info" class="address-edit"><i class="far fa-edit"></i> Create New Billing Address</a>
+                                <h4 class="title mb--40">Billing details</h4>
+                                <div class="row">
+                                    <div class="col-lg-6">
+                                        <div class="form-group">
+                                            <label>First Name*</label>
+                                            <input type="text" required class="fname" id="company-name" placeholder="Enter Your First Name" value="{% if request.user.is_user %}{{request.user.fname}}{% endif %}" {% if request.user.fname %} disabled {% endif %}>
+                                        </div>
+                                    </div>
+                                    <div class="col-lg-6">
+                                        <div class="form-group">
+                                            <label>Last Name*</label>
+                                            <input type="text" required class="lname" id="company-name" placeholder="Enter Your Last Name" value="{% if request.user.is_user %}{{request.user.lname}}{% endif %}" {% if request.user.lname %} disabled {% endif %}>
+                                        </div>
+                                    </div>
+                                </div>
+                                <div class="row">                                    
+                                    <div class="col-lg-6">
+                                          <div class="form-group">
+                                            <label>Email Id*</label>
+                                            <input type="text" required class="email" id="company-name" placeholder="Enter Email Id" value="{% if request.user.is_user %}{{request.user.email}}{% endif %}" {% if request.user.email %} disabled {% endif %}>
+                                        </div>
+                                    </div>
+                                    <div class="col-lg-6">
+                                        <div class="form-group">
+                                            <label>Contact Number*</label>
+                                            <input type="text" required class="contact" id="company-name" placeholder="Enter Your Contact No" value="{{request.user.phone}}" {% if request.user.phone %} disabled {% endif %}>
+                                        </div>
+                                    </div>
+                                </div>
+
+
+                                
+                                <div class="form-group">
+                                    <label>Selected Billing Address <span>*</span></label>
+                                    <select id="Region" name="billing" class="billingAddress">                                        
+                                    {% for billing in billings %}
+                                        <option value="{{billing.pk}}">{{billing.bhouse_no}} {{billing.blandmark}} {{billing.bcity}} {{billing.bcode}}, {{billing.bstate}} ( {{billing.bcountry}} )</option>
+                                    {% endfor %}
+                                    </select>
+                                </div>
+                                <a href="javascript:void(0);" data-bs-toggle="modal" data-bs-target="#ShippingAddress" class="btn btn-info" class="address-edit"><i class="far fa-edit"></i> Create New Shipping Address</a>
+                                <h4 class="title mb--40">Shipping details</h4>
+                                <div class="form-group">
+                                    <label>Selected Shipping Address <span>*</span></label>
+                                    <select id="Region" name="shipping" class="shippingAddress">
+                                        {% for shipping in shippings %}
+                                            <option value="{{shipping.pk}}">{{shipping.shouse_no}} {{shipping.slandmark}} {{shipping.scity}} {{shipping.scode}}, {{shipping.sstate}} ( {{shipping.scountry}} )</option>
+                                        {% endfor %}
+                                    </select>
+                                </div>                                                                
+                            </div>
+                            {% else %}
+                            <div class="khantailor-checkout-notice">
+                                <div class="khantailor-toggle-box">
+                                    <div class="toggle-bar active"><i class="fas fa-user"></i> Returning customer? <a href="javascript:void(0)" class="toggle-btn">Click here to login <i class="fas fa-angle-down"></i></a>
+                                    </div>
+                                    <div class="khantailor-checkout-login toggle-open" style="display: block;">
+                                        <p>If you didn't Logged in, Please Log in first.</p>
+                                        <div class="signin-box">
+                                            <div class="form-group mb--0">
+                                                <a href="javascript:void(0);"  data-toggle="modal" data-target="#signin-modal" class="khantailor-btn btn-bg-primary submit-btn">LOGIN</a>
+                                                <a href="{% url 'CREATE_NEW_USER' %}?next={{ request.get_full_path }}" class="khantailor-btn btn-bg-primary submit-btn">CREATE NEW ACCOUNT</a><br>
+                                                <a href="{% url 'FORGOT_USER_ACCOUNT' %}?next={{ request.get_full_path }}" class="forgot-btn">Forgot Password?</a>
+                                            </div>
+                                        </div>                                        
+                                    </form>
+                                    </div>
+                                </div>
+                            </div> 
+                            {% endif %}
+                        </div>
+                        <div class="col-lg-6">
+                            <div class="khantailor-order-summery order-checkout-summery">
+                                <h5 class="title mb--20">Your Order</h5>
+                                <div class="summery-table-wrap">
+                                    <table class="table summery-table">
+                                        <thead>
+                                            <tr>
+                                            <th>Product</th>
+                                            {% if request.GET.checkoutFor == 'singleProduct' %} 
+                                                <th>Subtotal</th>
+                                            {% elif request.GET.checkoutFor == 'myCartList' %} 
+                                                <th>Per / Unit Price</th>
+                                            {% endif %}
+                                            </tr>
+                                        </thead>
+                                        <tbody>
+                                            {% if request.GET.checkoutFor == 'myCartList' %}
+                                                {% for cart in CartList %}
+                                                <tr class="order-product">
+                                                    <td><img src="{% if cart.product.img %}{{cart.product.img.url}}{% endif %}" alt="Girl in a jacket" width="500" height="600"> {{product.name}} <span class="quantity"> {{cart.product.name}} of {{cart.qty}} Item</span></td>
+                                                    <td>$ {{cart.product.sp}}</td>
+                                                </tr>
+                                                {% endfor %}
+
+                                                
+                                            {% elif request.GET.checkoutFor == 'singleProduct' %}
+                                            <tr class="order-product">
+                                                <td><img src="{% if product.img %}{{product.img.url}}{% endif %}" width="50" height="50"> {{product.name}} <span class="quantity"> of {{request.GET.qty}} Item</span></td>
+                                                <td>$ {% widthratio product.sp 1 request.GET.qty %} |-</td>
+                                            </tr>
+                                            {% endif %}
+                                            <tr class="order-subtotal">
+                                                <td><b>Subtotal:</b></td>
+                                                <td>$ {{subTotal}} |-</td>
+                                            </tr>
+                                            {% comment %}
+                                            <tr class="order-shipping">
+                                                <td colspan="2">
+                                                    <div class="shipping-amount">
+                                                        <span class="title">GST</span>
+                                                        <span class="amount">$ {{GSTTotal}} |-</span>
+                                                    </div>
+                                                </td>
+                                            </tr>
+                                            {% endcomment %}
+                                            <tr class="order-shipping">
+                                                <td colspan="2">
+                                                    <div class="shipping-amount">
+                                                        <span class="title">Shipping</span>
+                                                        <span class="amount">$ {{ShippingTotal}} |-</span>
+                                                    </div>
+                                                </td>
+                                            </tr>
+
+                                            <tr class="order-shipping">
+                                                <td colspan="2">
+                                                    <div class="shipping-amount">
+                                                        <span class="title">Discount</span>
+                                                        <span class="amount">$ <strike>{{discount}}</strike> |-</span>
+                                                    </div>
+                                                </td>
+                                            </tr>                                        
+                                            <tr class="order-total">
+                                                <td>Total</td>
+                                                <td class="order-total-amount">$ {{total}} |-</td>
+                                            </tr>
+                                        </tbody>
+                                    </table>
+                                </div>
+                                <div class="khantailor-checkout-notice">
+                                    <div class="khantailor-toggle-box">
+                                    {% comment %}
+                                    <div class="toggle-bar {% if request.GET.coupon %}active{% endif %}"><i class="fas fa-pencil"></i> Have a coupon? <a href="javascript:void(0)" class="toggle-btn">Click here to enter your code <i class="fas fa-angle-down"></i></a>
+                                    </div>
+                                    {% endcomment %}
+                                    <div class="khantailor-checkout-coupon toggle-open" tyle="display:{% if request.GET.coupon %}block{% endif %};">
+                                        <p>If you have a coupon code, please apply it below.</p>
+                                        <form action="" method="GET">
+                                            <div class="input-group">
+                                                <input placeholder="Enter coupon code" name="coupon"  type="text">
+                                                <div class="apply-btn">
+                                                    <button type="submit" class="khantailor-btn btn-bg-primary">Apply</button>
+                                                </div>
+                                            </div>
+                                        </form> 
+                                    </div>
+                                </div>
+                            </div>
+
+                             
+                                <div class="order-payment-method">
+                                    {% comment %}
+                                    <div class="single-payment">
+                                        <div class="input-group">
+                                            <input type="radio" id="radio4" name="payment">
+                                            <label for="radio4">Direct bank transfer</label>
+                                        </div>
+                                        <p>Make your payment directly into our bank account. Please use your Order ID as the payment reference. Your order will not be shipped until the funds have cleared in our account.</p>
+                                    </div> 
+                                    {% if project.PAYPAL_PAY_ACTIVE %}
+                                    <div class="single-payment">
+                                        <div class="input-group justify-content-between align-items-center">
+                                            <input type="radio" id="radio6" name="payment">
+                                            <label for="radio6">Paypal</label>
+                                            <img src="{% static 'kahntailors/images/others/payment.png' %}" alt="Paypal payment">
+                                        </div>
+                                        <p>Pay via PayPal; you can pay with your credit card if you don’t have a PayPal account.</p>
+                                    </div>
+                                    {% endif %}
+                                   
+                                   
+                                    
+                                    <div class="single-payment">
+                                        <div class="input-group">
+                                            <input type="radio" id="radio5" name="payment" {% if request.GET.paymethod == 'cod' %} checked {% endif %} value="CashOnDelivery">
+                                            <label for="radio5">Cash on delivery</label>
+                                        </div>
+                                        <p>Pay with cash upon delivery.</p>
+                                    </div>
+                                    {% endcomment %}
+
+                                    {% if project.RAZORPAY_PAY_ACTIVE %}
+                                    <div class="single-payment">
+                                        <div class="input-group justify-content-between align-items-center">
+                                            <input type="radio" id="radio7" name="payment" value="onlineRAZORPAY" {% if request.GET.paymethod == 'onlineRazorpay' %} checked {% endif %}>
+                                            <label for="radio7">Razorpay</label>
+                                            <img src="{% static 'kahntailors/images/others/payment.png' %}" alt="Paypal payment">
+                                        </div>
+                                        <p>Pay via Razorpay; you can pay with your credit card and UPI Account.</p>
+                                    </div>
+                                    {% endif %}
+                                </div>
+                                <button type="submit" onclick="orderTHISPRODUCT();" class="khantailor-btn btn-bg-primary checkout-btn">Proceed to Checkout</button>
+                            </div>
+                        </div>
+                    </div>
+                </form>
+            </div>
+        </div>
+        <!-- End Checkout Area  -->
+    </main>
+
+    <div class="modal fade " id="CODVerification" tabindex="-1" aria-hidden="false">
+        <div class="modal-dialog ">
+            <div class="modal-content">
+                <div class="modal-header">
+                    Cash On Delivery
+                    <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"><i class="far fa-times"></i></button>
+                </div>
+                <div class="modal-body">
+                    <p class="b3 mt--10">We Sent One Time Verification Code on Your Email Id and Contact No Please Verify Here</p>
+                    <div class="khantailor-dashboard-account">
+                        <div class="row">
+                            <div class="col-lg-12">
+                                <div class="form-group">
+                                    <label>One Time Verification Code</label>
+                                    <input type="text" class="vCode form-control" value="" placeholder="One Time Verification Code">
+                                </div>
+                            </div>                          
+                            <div class="col-12">                              
+                                <div class="form-group mb--0">
+                                    <input type="submit" onclick="ConfirmOrderWITHcod();" class="khantailor-btn" value="Verify & Confirm Order">
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div> 
+    
+
+    {% include 'templates/includes/mainFooter.html' %}
+    {% include 'templates/includes/JS.html' %}
+    <!-- ============================================ -->
+    <!-- Modernizer JS -->
+    <script src="{% static 'kahntailors/js/modernizr.min.js' %}"></script>
+    <!-- jQuery JS -->
+    <script src="{% static 'kahntailors/js/jquery.js' %}"></script>
+    <!-- Bootstrap JS -->
+    <script src="{% static 'kahntailors/js/popper.min.js' %}"></script>
+    <script src="{% static 'kahntailors/js/bootstrap.min.js' %}"></script>
+    <script src="{% static 'kahntailors/js/slick.min.js' %}"></script>
+    <script src="{% static 'kahntailors/js/js.cookie.js' %}"></script>
+    <script src="{% static 'kahntailors/js/jquery.style.switcher.js' %}"></script>
+    <script src="{% static 'kahntailors/js/jquery-ui.min.js' %}"></script>
+    <script src="{% static 'kahntailors/js/jquery.countdown.min.js' %}"></script>
+    <script src="{% static 'kahntailors/js/sal.js' %}"></script>
+    <script src="{% static 'kahntailors/js/jquery.magnific-popup.min.js' %}"></script>
+    <script src="{% static 'kahntailors/js/imagesloaded.pkgd.min.js' %}"></script>
+    <script src="{% static 'kahntailors/js/isotope.pkgd.min.js' %}"></script>
+    <script src="{% static 'kahntailors/js/counterup.js' %}"></script>
+    <script src="{% static 'kahntailors/js/waypoints.min.js' %}"></script>   
+    <!-- Carousel -->
+    <script src="/static/kahntailors/js/owl.carousel.min.js"></script>
+    <!-- Main JS -->
+    <script src="{% static 'kahntailors/js/ecomMAIN.js' %}"></script>
+    {% include 'includes/COMBOOperation.html' %}
+    {% include 'includes/JSOPERATIONS.html' %}
+    <script src="https://checkout.razorpay.com/v1/checkout.js"></script>
+    <script>
+        function orderTHISPRODUCT(){
+                if ("{{request.user.pk}}" == 'None'){
+                    Toast.fire({
+                        icon: 'error',
+                        title: '<p id="messages" style="margin-top:0px !important; margin-left:8px !important;"><b> Register Account & Login First </b></p>'
+                    })
+                }
+                const payMethod =$('input[name="payment"]:checked').val();
+                const billing =$('.billingAddress').val();
+                const shipping =$('.shippingAddress').val();
+                const fname =$('.fname').val();
+                const lname =$('.lname').val();
+                const email =$('.email').val();
+                const contact =$('.contact').val();
+
+                if ("{{request.user.pk}}" == ""){
+                    Toast.fire({
+                        icon: 'error',
+                        title: '<p id="messages" style="margin-top:0px !important; margin-left:8px !important;"><b> Register Account & Login First </b></p>'
+                    })
+                }
+                else if (fname == "" || lname == ""){
+                    Toast.fire({
+                        icon: 'error',
+                        title: '<p id="messages" style="margin-top:0px !important; margin-left:8px !important;"><b> Name Required* </b></p>'
+                    })
+                }
+       
+                else if (email == "" || email == "undefined" || email=="None"){
+                    Toast.fire({
+                        icon: 'error',
+                        title: '<p id="messages" style="margin-top:0px !important; margin-left:8px !important;"><b> Email Id  Required* </b></p>'
+                    })
+                }
+                else if ( contact == "" || contact=="undefined"  || contact=="None"){
+                    Toast.fire({
+                        icon: 'error',
+                        title: '<p id="messages" style="margin-top:0px !important; margin-left:8px !important;"><b> Contact No Required* </b></p>'
+                    })
+                }
+                else if ( contact.length >11 || contact.length <10 ){
+                    Toast.fire({
+                        icon: 'error',
+                        title: '<p id="messages" style="margin-top:0px !important; margin-left:8px !important;"><b> Contact No Not Valid Required* </b></p>'
+                    })
+                }
+
+                else if (billing == ""){
+                    Toast.fire({
+                        icon: 'error',
+                        title: '<p id="messages" style="margin-top:0px !important; margin-left:8px !important;"><b> Billing Address Required* </b></p>'
+                    })
+                }
+                else if (shipping == ""){
+                    Toast.fire({
+                        icon: 'error',
+                        title: '<p id="messages" style="margin-top:0px !important; margin-left:8px !important;"><b> Shipping Address Required* </b></p>'
+                    })
+                }
+                else if (payMethod == ""){
+                    Toast.fire({
+                        icon: 'error',
+                        title: '<p id="messages" style="margin-top:0px !important; margin-left:8px !important;"><b> Pay Method Required* </b></p>'
+                    })
+                }
+                else{
+                    if (payMethod == 'CashOnDelivery'){
+                        $('#CODVerification').modal('show');
+                        const data = new FormData();
+                        data.append('target', "{{request.user.pk}}" );
+                        
+                        $.ajax({                      
+                            type: "POST",                   
+                            url: "{% url 'CODVerificationCode' %}",                    
+                            data: data,
+                            cache: false,
+                            processData: false,
+                            contentType: false,
+                            enctype: 'multipart/form-data',
+                            headers: {'X-CSRFToken': "{{ csrf_token }}"},
+                            success: function(data) {   
+                                if (data.status == 1){
+                                    
+                                    Toast.fire({
+                                        icon: 'success',
+                                        title: '<p id="messages" style="margin-top: 0px !important; margin-left:8px !important;"><b>'+ data.message +'</b></p>'
+                                    })
+                                }else if (data.status == 0){
+                                    Toast.fire({
+                                    icon: 'error',
+                                    title: '<p id="messages" style="margin-top: 0px !important; margin-left:8px !important;"><b>'+ data.message +'</b></p>'
+                                    }) 
+                                }       
+                            },
+                        }); 
+                    }
+                    else if (payMethod == 'onlineRAZORPAY'){
+                        const data = new FormData();
+                        data.append('target', "{{request.user.pk}}" );
+                        data.append('fname', fname);
+                        data.append('lname', lname);
+                        data.append('email', email);
+                        data.append('contact', contact);
+                        data.append('amount', "{{total}}");
+                        $.ajax({                      
+                            type: "POST",                   
+                            url: "{% url 'ORDERGenerate' %}",                    
+                            data: data,
+                            cache: false,
+                            processData: false,
+                            contentType: false,
+                            enctype: 'multipart/form-data',
+                            headers: {'X-CSRFToken': "{{ csrf_token }}"},
+                            success: function(data) {   
+                                if (data.status == 1){
+                                    var options = {
+                                        "key": data.api_key,
+                                        "amount": data.amount, 
+                                        "currency": data.currency,
+                                        "name": data.name,
+                                        "description": "Thanks For Purchase",
+                                        "image": "",
+                                        "order_id": data.order_id, 
+                                        "handler": function (response){
+                                            $.ajax({                      
+                                                type: "POST",                   
+                                                url: "{% url 'PAYMENTVERIFICATIONWITHRAZORPAY' %}",                    
+                                                data: {
+                                                  csrfmiddlewaretoken: "{{ csrf_token }}",
+                                                  'fname': fname,
+                                                  'lname': lname,
+                                                  'email': email,
+                                                  'contact': contact,
+                                                  'product': "{{request.GET.product}}",
+                                                  'checkoutFor': "{{request.GET.checkoutFor}}",
+                                                  'billingAddress': billing,
+                                                  'shippingAddress': shipping,
+                                                  'qty': "{{request.GET.qty}}",
+                                                  'color': "{{request.GET.color}}",
+                                                  'properties': 'shipping',
+                                                  'subtotal': "{{subTotal}}",
+                                                  //'gst': "{{GSTTotal}}",
+                                                  'shipping': "{{ShippingTotal}}",
+                                                  'discount': "{{discount}}",
+                                                  'total': "{{total}}",
+                                                  'razorpay_order_id': response.razorpay_order_id, 
+                                                  'razorpay_payment_id': response.razorpay_payment_id, 
+                                                  'razorpay_signature': response.razorpay_signature, 
+                                                },
+                                                success: function(response) {   
+                                                    if (response.status == 1){
+                                                        Toast.fire({
+                                                            icon: 'success',
+                                                            title: '<p id="messages" style=" margin-left:8px !important;"><b>'+ response.message +'</b></p>'
+                                                        }) 
+                                                        redirectTime = "1000";
+                                                        redirectURL = "{{project.baseURL}}"+"/auth/OrderConfirm/"+response.OrderId+"/";
+                                                        setTimeout("location.href = redirectURL;", redirectTime);
+
+                                                    }else if (response.status == 0){
+                                                        Toast.fire({
+                                                            icon: 'error',
+                                                            title: '<p id="messages" style=" margin-left:8px !important;"><b>'+ response.message +'</b></p>'
+                                                        }) 
+                                                    } 
+                                                },
+                                            });
+                                        },
+                                        "prefill": {
+                                            "name": data.name,
+                                            "email": data.email,
+                                            "contact": data.contact,
+                                        },
+                                        "notes": {
+                                            "address": data.address
+                                        },
+                                    };
+                                    var rzp1 = new Razorpay(options);
+                                    rzp1.on('payment.failed', function (response){
+                                        Toast.fire({
+                                            icon: 'error',
+                                            title: '<p id="messages" style="margin-top: 12px !important; margin-left:8px !important;"><b>OOps! - Payment Faild</b></p>'
+                                          }) 
+                                    });
+                    
+                                    rzp1.open();
+                                    e.preventDefault();
+
+                                    Toast.fire({
+                                        icon: 'success',
+                                        title: '<p id="messages" style="margin-top: 0px !important; margin-left:8px !important;"><b>'+ data.message +'</b></p>'
+                                    })
+
+                                }else if (data.status == 0){
+                                    Toast.fire({
+                                    icon: 'error',
+                                    title: '<p id="messages" style="margin-top: 0px !important; margin-left:8px !important;"><b>'+ data.message +'</b></p>'
+                                    }) 
+                                }     
+                            },
+                        });
+                    }
+                }
+            }
+    </script>
+    <script>
+        function ConfirmOrderWITHcod(){
+            const payMethod =$('input[name="payment"]:checked').val();
+            const billing =$('.billingAddress').val();
+            const shipping =$('.shippingAddress').val();
+            const fname =$('.fname').val();
+            const lname =$('.lname').val();
+
+            const email =$('.email').val();
+            const contact =$('.contact').val();
+            const vCode =$('.vCode').val();
+            if ("{{request.user.pk}}" == ""){
+                Toast.fire({
+                    icon: 'error',
+                    title: '<p id="messages" style="margin-top:0px !important; margin-left:8px !important;"><b> User Required* </b></p>'
+                })
+            }
+            else if (fname == "" || lname==""){
+                Toast.fire({
+                    icon: 'error',
+                    title: '<p id="messages" style="margin-top:0px !important; margin-left:8px !important;"><b> Full Name Required* </b></p>'
+                })
+            }
+            else if (email == "" || email == "undefined" || email=="None"){
+                Toast.fire({
+                    icon: 'error',
+                    title: '<p id="messages" style="margin-top:0px !important; margin-left:8px !important;"><b> Email Id  Required* </b></p>'
+                })
+            }
+            else if ( contact == "" || contact=="undefined"  || contact=="None"){
+                Toast.fire({
+                    icon: 'error',
+                    title: '<p id="messages" style="margin-top:0px !important; margin-left:8px !important;"><b> Contact No Required* </b></p>'
+                })
+            }
+            else if (billing == "" || billing=="undefined"){
+                Toast.fire({
+                    icon: 'error',
+                    title: '<p id="messages" style="margin-top:0px !important; margin-left:8px !important;"><b> Billing Address Required* </b></p>'
+                })
+            }
+            else if (shipping == "" || shipping=="undefined"){
+                Toast.fire({
+                    icon: 'error',
+                    title: '<p id="messages" style="margin-top:0px !important; margin-left:8px !important;"><b> Shipping Address Required* </b></p>'
+                })
+            }
+            else{
+                const data = new FormData();
+                data.append('vCode', vCode);
+                data.append('fname', fname);
+                data.append('lname', lname);
+                data.append('email', email);
+                data.append('contact', contact);
+                data.append('product', "{{request.GET.product}}");
+                data.append('checkoutFor', "{{request.GET.checkoutFor}}");
+                data.append('billingAddress', billing);
+                data.append('shippingAddress', shipping);
+                data.append('qty', "{{request.GET.qty}}");
+                data.append('color', "{{request.GET.color}}");
+                data.append('properties', 'properties');
+                data.append('subtotal', "{{subTotal}}");
+                //data.append('gst', "{{GSTTotal}}" );
+                data.append('shipping', "{{ShippingTotal}}");
+                data.append('discount', "{{discount}}");
+                data.append('total', "{{total}}");   
+                $.ajax({                      
+                    type: "POST",                   
+                    url: "{% url 'ConfirmCODORDER' %}",                    
+                    data: data,
+                    cache: false,
+                    processData: false,
+                    contentType: false,
+                    enctype: 'multipart/form-data',
+                    headers: {'X-CSRFToken': "{{ csrf_token }}"},
+                    success: function(data) {   
+                        if (data.status == 1){
+                            $('#CODVerification').modal('hide');
+                            Toast.fire({
+                                icon: 'success',
+                                title: '<p id="messages" style="margin-top: 0px !important; margin-left:8px !important;"><b>'+ data.message +'</b></p>'
+                            })
+                            redirectTime = "1000";
+                            redirectURL = data.home+"/OrderConfirm/"+data.OrderId+"/";
+                            setTimeout("location.href = redirectURL;",redirectTime);
+                            
+                        }else if (data.status == 0){
+                            Toast.fire({
+                            icon: 'error',
+                            title: '<p id="messages" style="margin-top: 0px !important; margin-left:8px !important;"><b>'+ data.message +'</b></p>'
+                            }) 
+                        }       
+                    },
+                }); 
+            }
+        }
+    </script>
+{% include 'template/account/dashboard/includes/addressJAVASCRIPT.html' %} 
+<!-- SweetAlert2 -->
+<script src="{% static 'adminKHANTAILOR/plugins/sweetalert2/sweetalert2.min.js'%}"></script>
+<!-- Toastr -->
+<script src="{% static 'adminKHANTAILOR/plugins/toastr/toastr.min.js'%}"></script>
+<!-- ======================END========================== -->
+{% include 'includes/Toster.html' %}
+</body>
+</html>

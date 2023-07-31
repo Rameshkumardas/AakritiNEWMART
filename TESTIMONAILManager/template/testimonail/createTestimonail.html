@@ -1,0 +1,221 @@
+<!DOCTYPE html>
+<html lang="en">
+  {% load static%}
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>Create Testimonial | {{project.title | safe | title }} || {{project.name}} </title>
+  <link rel="icon" type="image/png" href="{% if project.favicon %}{{project.favicon.url}}{% else %}{% static 'adminAAKRITICMS/img/default/mrdas.jpg' %}{% endif %}">
+     <!-- Select2 -->
+     <link rel="stylesheet" href="{% static 'adminAAKRITICMS/plugins/select2/css/select2.min.css'%}">
+     <link rel="stylesheet" href="{% static 'adminAAKRITICMS/plugins/select2-bootstrap4-theme/select2-bootstrap4.min.css'%}">
+    <!-- Font Awesome -->
+    <link rel="stylesheet" href="{% static 'adminAAKRITICMS/plugins/fontawesome-free/css/all.min.css'%}">
+    <!-- SweetAlert2 -->
+    <link rel="stylesheet" href="{% static 'adminAAKRITICMS/plugins/sweetalert2-theme-bootstrap-4/bootstrap-4.min.css' %}">
+    <!-- OZYMed Theme style -->
+    <link rel="stylesheet" href="{% static 'adminAAKRITICMS/css/aakriticms.min.css'%}">
+    <link rel="stylesheet" href="{% static 'adminAAKRITICMS/css/aakriti.ui.css'%}">    
+    <!-- iCheck for checkboxes and radio inputs -->
+    <link rel="stylesheet" href="{% static 'adminAAKRITICMS/plugins/icheck-bootstrap/icheck-bootstrap.min.css'%}">
+    <!-- summernote -->
+    <link rel="stylesheet" href="{% static 'adminAAKRITICMS/plugins/summernote/summernote-bs4.min.css' %}">
+    <link rel="stylesheet" href="{% static 'adminAAKRITICMS/plugins/bootstrap/bootstrap-tagsinput.css' %}"/>
+    <link rel="stylesheet" href="{% static 'adminAAKRITICMS/plugins/tags/tagsinput.css' %}"/>
+    <link rel="stylesheet" href="{% static 'adminAAKRITICMS/plugins/summernote/prettify.css' %}"/>
+    <link rel="stylesheet" href="{% static 'adminAAKRITICMS/plugins/prism/prism.css' %}">
+    <link rel="stylesheet" href="{% static 'adminAAKRITICMS/plugins/overlayScrollbars/css/OverlayScrollbars.min.css' %}">
+
+</head>
+<body class="hold-transition sidebar-mini layout-fixed">
+  <div class="wrapper">
+  {% include 'includes/adminNavBar.html' %} <!--Add this-->
+  {% include 'includes/adminSideBar.html' %} <!--Add this-->
+  <!-- Content Wrapper. Contains page content -->
+  <div class="content-wrapper">
+    <!-- Content Header (Page header) -->
+    <section class="content-header">
+      <div class="container-fluid">
+        <div class="row mb-2">
+          <div class="col-sm-6">
+            <h1>Create New Testimonial</h1>
+          </div>
+          <div class="col-sm-6">
+            <ol class="breadcrumb float-sm-right">
+              <li class="breadcrumb-item"><a href="{% url 'DefaultDashboard' %}">Home</a></li>
+              <li class="breadcrumb-item active">Create Testimonial</li>
+            </ol>
+          </div>
+        </div>
+      </div><!-- /.container-fluid -->
+    </section>
+    
+    <!-- Main content -->
+    <section class="content">
+      <div class="container-fluid">
+        <div class="row">
+          <div class="col-md-12">
+            <div class="card card-primary">
+              <div class="card-header ">
+              </div>
+              <!-- /.card-header -->
+              <div class="card-body">
+                <form action="" method="POST" enctype="multipart/form-data" id="FormData">
+                    {% csrf_token %}
+                <div class="row">
+                    <div class="col-md-3">
+                        <div class="form-group">
+                            <label for="main-category">Name</label>
+                            <div class="input-group">
+                                <div class="input-group-prepend">
+                                <span class="input-group-text"><i class="fas fa-laptop"></i></span>
+                                </div>
+                                <input type="text" class="form-control" id="input-field" onkeyup="NameStringCount()" placeholder="User Name" name="name">
+                                <div class="input-group-prepend">
+                                  <span class="input-group-text" for="input-field" id="NameStringCount"></span>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="form-group">
+                            <label>Rating</label>
+                            <select class="form-control select2" style="width: 100%;" name="ratting" id="subCatLoaded" >
+                              <option selected>Select {{project.name}} Rating</option>
+                              <option value="1"> [ 1 Star ] Rating</option>
+                              <option value="2"> [ 2 Star ] Rating</option>
+                              <option value="3"> [ 3 Star ] Rating</option>
+                              <option value="4"> [ 4 Star ] Rating</option>
+                              <option value="5"> [ 5 Star ] Rating</option>
+                            </select>
+                        </div>
+                        <label for="exampleInputFile">Select Image </label>
+                        <div class="card card-outline card-info">
+                          <div class="card-body"> 
+                            <div id="display_image" style="height:150px; width:100% !important; border-radius: 10px; border: 2px solid rgb(9, 135, 238); display: none; visibility: hidden; background-size:contain; background-repeat:no-repeat;"></div>
+                            <img src="{% static 'adminAAKRITICMS/img/default/AakritiLiteWebDeveloper.jpg'%}" class="img_display img-thumbnail" id="NoObject" style="height:150px; width:100% !important; border-radius: 10px; border: 2px solid rgb(9, 135, 238);" data-toggle="tooltip" data-placement="top" title="Select Blog Thumbnail"/>
+                          </div>
+                          <div class="card-footer">
+                              <span class="btn btn-primary col fileinput-button " data-toggle="tooltip" data-placement="top" title="Hit For Select Blog Thumbnail">
+                                  <input type="file" accept="image/png, image/jpg , image/jpeg" name="img" id="image_input"  style="display: none;" class="img_input" />
+                                  <label for="image_input" style="cursor: pointer;" ><i class="fas fa-plus"></i><span>Add Thumbnail </span></label>
+                              </span>
+                          </div>
+                        </div>
+                    </div>
+                    <!-- ------------------------------------------------------- -->
+                    <div class="col-md-9">
+                        <div class="card-body">
+                            <div class="card card-outline card-info">
+                                <div class="card-header">
+                                  <h3 class="card-title">Testimonial Description</h3>
+                                </div>
+                                <!-- /.card-header -->
+                                <div class="card-body">
+                                  <textarea id="summernote"  width="100%" height="100 px" name="description"></textarea>
+                                </div>
+                            </div>
+                        </div>
+                        <!-- /.card-body -->
+                    </div>
+                    <!-- end col-md-8 -->
+                </div>
+              </div>
+              <div class="card-footer bg-primary">
+                <button type="submit" id="publisher" class="btn btn-light float-right ml-3" title="Hit For: Blog Publish" data-toggle="tooltip"><i class="fas fa-upload"></i>&nbsp;&nbsp; Create New Testimonial</button>
+              </div> 
+              <!-- /.card-body And Default Form-->
+            </form>
+            </div>
+            </div>
+            <!-- /.card -->
+          </div>
+          <!-- /.col -->
+        </div>
+        <!-- /.row -->
+      </div>
+      <!-- /.container-fluid -->
+    </section>
+    <!-- /.content -->
+  </div>
+  <!-- /.content-wrapper -->
+  {% include 'includes/adminFooter.html' %} <!--Add this-->
+</div>
+<!-- ./wrapper -->
+<!-- jQuery -->
+<!-- <script src="{% static 'adminAAKRITICMS/plugins/jquery/jquery.js'%}"></script> -->
+<script src="{% static 'adminAAKRITICMS/plugins/jquery/jquery.min.js'%}"></script>
+<!-- Bootstrap 4 -->
+<script src="{% static 'adminAAKRITICMS/plugins/bootstrap/js/bootstrap.bundle.min.js'%}"></script>
+<!-- Select2 -->
+<script src="{% static 'adminAAKRITICMS/plugins/select2/js/select2.full.min.js'%}"></script>
+<!-- SweetAlert2 -->
+<script src="{% static 'adminAAKRITICMS/plugins/sweetalert2/sweetalert2.min.js'%}"></script>
+<!-- Toastr -->
+<script src="{% static 'adminAAKRITICMS/plugins/toastr/toastr.min.js'%}"></script>
+<!-- AakritiCMS Plugins Themes Events-->
+<script src="{% static 'adminAAKRITICMS/plugins/aakriticms/js/functions.js'%}"></script>
+<script src="{% static 'adminAAKRITICMS/plugins/aakriticms/js/additional-operations.js'%}"></script>
+<!-- AakritiCMS JavaScript -->
+<script src="{% static 'adminAAKRITICMS/js/aakritiCMS.min.js'%}"></script>
+<!-- Summernote -->
+<script src="{% static 'adminAAKRITICMS/plugins/summernote/summernote-bs4.min.js' %}"></script>
+<!-- AakritiCMS Tags -->
+<script src="{% static 'adminAAKRITICMS/plugins/tags/tagsinput.js'%}"></script>
+<script src="{% static 'adminAAKRITICMS/plugins/summernote/summernote-ext-highlight.js' %}"></script>
+<script src="{% static 'adminAAKRITICMS/plugins/summernote/prettify.js' %}"></script>
+<!-- AakritiCMS Prism JS -->
+<script src="{% static 'adminAAKRITICMS/plugins/prism/prism.js'%}" data-manual></script>
+
+<script src="{% static 'adminAAKRITICMS/plugins/overlayScrollbars/js/jquery.overlayScrollbars.min.js' %}"></script>
+<script src="{% static 'adminAAKRITICMS/plugins/aakritiCMS/js/additional-operations.js' %}"></script>
+
+<!-- Page specific script -->
+<script>
+
+$(function () {
+    // Summernote
+    $('#summernote').summernote({
+    placeholder: 'type starting with : Testimonial Description',
+    tabsize: 2,
+    height: 350,
+
+    toolbar: [
+          ['style', ['style']],
+          ['highlight', ['highlight']],
+          ['font', ['bold', 'underline', 'clear']],
+          ['color', ['color']],
+          ['para', ['ul', 'ol', 'paragraph']],
+          ['table', ['table']],
+          ['insert', ['link', 'picture', 'video']],
+          ['view', ['fullscreen', 'codeview', 'help']]
+        ],
+    lang:'tr-TR'
+    });
+
+    $('.preview-btn').click(function () {
+        $('#preview-box').html($('#summernote').summernote('code'));
+        prettyPrint();
+    });
+
+  })
+
+
+  $(function () {
+    //Initialize Select2 Elements
+    $('.select2').select2()
+
+    //Initialize Select2 Elements
+    $('.select2bs4').select2({
+      theme: 'bootstrap4'
+    })
+  })
+ 
+  $(function () {
+  $('[data-toggle="tooltip"]').tooltip()
+})
+
+
+</script>
+<!-- ==============END=============== -->
+{% include 'includes/adminToster.html' %}
+</body>
+</html>

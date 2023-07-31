@@ -1,0 +1,193 @@
+<!DOCTYPE html>
+<html lang="en">
+  {% load static %}  
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>Update - {% if data %} {% endif %} {{data.name}} | {{project.title | safe | title }} || {{project.name}} </title>
+  <link rel="icon" type="image/png" href="{% if project.favicon %}{{project.favicon.url}}{% else %}{% static 'adminAAKRITICMS/img/default/mrdas.jpg' %}{% endif %}">
+  <!-- iCheck for checkboxes and radio inputs -->
+  <link rel="stylesheet" href="{% static 'adminAAKRITICMS/plugins/icheck-bootstrap/icheck-bootstrap.min.css'%}">
+  <!-- Select2 -->
+  <link rel="stylesheet" href="{% static 'adminAAKRITICMS/plugins/select2/css/select2.min.css'%}">
+  <link rel="stylesheet" href="{% static 'adminAAKRITICMS/plugins/select2-bootstrap4-theme/select2-bootstrap4.min.css'%}">
+  <!-- Font Awesome -->
+  <link rel="stylesheet" href="{% static 'adminAAKRITICMS/plugins/fontawesome-free/css/all.min.css'%}">
+  <!-- SweetAlert2 -->
+  <link rel="stylesheet" href="{% static 'adminAAKRITICMS/plugins/sweetalert2-theme-bootstrap-4/bootstrap-4.min.css' %}">
+  <!-- adminRKMTech Theme style -->
+  <link rel="stylesheet" href="{% static 'adminAAKRITICMS/css/aakriticms.min.css'%}">
+  <link rel="stylesheet" href="{% static 'adminAAKRITICMS/css/aakriti.ui.css'%}">
+  <!-- summernote -->
+  <link rel="stylesheet" href="{% static 'adminAAKRITICMS/plugins/summernote/summernote-bs4.min.css' %}">
+</head>
+<body class="hold-transition sidebar-mini layout-fixed">
+  <div class="wrapper">
+  {% include 'includes/adminNavBar.html' %} <!--Add this-->
+  {% include 'includes/adminSideBar.html' %} <!--Add this-->
+  <!-- Content Wrapper. Contains page content -->
+  <div class="content-wrapper">
+    <!-- Content Header (Page header) -->
+    <section class="content-header">
+      <div class="container-fluid">
+        <div class="row mb-2">
+          <div class="col-sm-6">
+            <h1>Update SECTION</h1>
+
+          </div>
+          <div class="col-sm-6">
+            <ol class="breadcrumb float-sm-right">
+              <li class="breadcrumb-item"><a href="">Home</a></li>
+              <li class="breadcrumb-item active">CMS</li>
+            </ol>
+          </div>
+        </div>
+      </div><!-- /.container-fluid -->
+    </section>
+
+    
+    <!-- Main content -->
+    <section class="content">
+      <div class="container-fluid">
+        <div class="row">
+          <div class="col-md-12">
+
+            <div class="card card-primary">
+              <div class="card-header ">
+                  <h3 class="card-title">{{data.name}}</h3>
+                  <a href="{% url 'SECTIONList' %}" class="btn btn-dark float-right" data-toggle="tooltip" data-placement="top" title="Hit For Back Previous Page"><i class="fas fa-step-backward"></i> Back</a>
+              </div>
+              <!-- /.card-header -->
+              <div class="card-body">
+
+                <form action="" method="POST" enctype="multipart/form-data" id="FormData">
+                    {% csrf_token %}
+                <div class="row">
+                    <div class="col-md-4">
+                        <!-- /.card-body -->
+                    </div>
+                    <div class="col-md-4">
+                        <div class="form-group">
+                            <label for="main-category">SECTION Name</label>
+                            <div class="input-group">
+                                <div class="input-group-prepend">
+                                <span class="input-group-text"><i class="fas fa-laptop"></i></span>
+                                </div>
+                                <input type="text" name="SECTION" class="form-control" id="input-field" onkeyup="NameStringCount()"  value="{{data.name}}" autocomplete="off" required>
+                                <div class="input-group-prepend">
+                                  <span class="input-group-text" for="input-field" id="NameStringCount"></span>
+                                </div>
+                            </div>
+                        </div>
+
+                        <div class="form-group">
+                          <label for="SECTIONMList">SECTION PARENT  URL ( <u>Optional</u> ):</label>
+                          <input type="text" class="form-control" id="input-field" placeholder="Add Section URL to Redirect" data-toggle="tooltip" data-placement="top" title="Create Section Url & Slug to Redirect_to " value="{{data.redirect_to}}" name="redirect_to"  autocomplete="off">
+                        </div>
+
+                        <div class="form-group">
+                          <label for="SECTIONMList">SECTION LOGO SVG ( <u>Optional</u> ):</label>
+                          <textarea class="form-control" id="input-field" cols="30" rows="5" name="logo" placeholder="http://www.w3.org/2000/svg">{{data.logo}}</textarea>
+                        </div>
+
+
+
+
+                        <div class="form-group clearfix">
+                          <div class="icheck-primary d-inline">
+                            <input type="checkbox" id="CheckForHeader" {% if data.is_header %} checked{% endif %}  name="header">
+                            <label for="CheckForHeader"> Header</label>
+                          </div>
+                          <div class="icheck-primary d-inline">
+                            <input type="checkbox" id="CheckForFooter" {% if data.is_footer %} checked {% endif %} name="footer">
+                            <label for="CheckForFooter"> Footer</label>
+                          </div>
+                          <div class="icheck-primary d-inline">
+                            <input type="checkbox" id="CheckForMobile" {% if data.is_menu %} checked {% endif %} name="mobile">
+                            <label for="CheckForMobile"> Menu</label>
+                          </div>
+                        </div>
+                      
+                        <div class="card-footer bg-primary">
+                            <div class="col text-center">
+                                <button type="submit" id="publisher" class="btn btn-outline-light  ml-3" title="Hit For: SECTION Update" data-toggle="tooltip"><i class="fas fa-upload"></i>&nbsp;&nbsp; Update Now</button>
+                            </div>
+                        </div>
+               
+                    </div>
+
+                    <!-- ------------------------------------------------------- -->
+                  
+                    <!-- end col-md-8 -->
+                    <div class="col-md-4">
+                        <!-- /.card-body -->
+                    </div>
+                    <!-- end col-md-8 -->
+                </div>
+                
+              </div>
+              <div class="card-footer bg-primary">
+
+              </div> 
+              <!-- /.card-body And Default Form-->
+            </form>
+
+            </div>
+            </div>
+            <!-- /.card -->
+          </div>
+          <!-- /.col -->
+        </div>
+        <!-- /.row -->
+      </div>
+      <!-- /.container-fluid -->
+    </section>
+    <!-- /.content -->
+  </div>
+  <!-- /.content-wrapper -->
+
+  {% include 'includes/adminFooter.html' %} <!--Add this-->
+
+</div>
+<!-- ./wrapper -->
+<!-- jQuery -->
+<script src="{% static 'adminAAKRITICMS/plugins/jquery/jquery.min.js'%}"></script>
+<!-- Bootstrap 4 -->
+<script src="{% static 'adminAAKRITICMS/plugins/bootstrap/js/bootstrap.bundle.min.js'%}"></script>
+<!-- Select2 -->
+<script src="{% static 'adminAAKRITICMS/plugins/select2/js/select2.full.min.js'%}"></script>
+<!-- AakritiCMS JavaScript -->
+<script src="{% static 'adminAAKRITICMS/js/aakritiCMS.min.js'%}"></script>
+<!-- Summernote -->
+<script src="{% static 'adminAAKRITICMS/plugins/summernote/summernote-bs4.min.js' %}"></script>
+<script src="{% static 'adminAAKRITICMS/plugins/aakritiCMS/js/additional-operations.js' %}"></script>
+<script>
+
+  $(function () {
+    // Summernote
+    $('#summernote').summernote()
+
+  })
+
+  $(function () {
+    //Initialize Select2 Elements
+    $('.select2').select2()
+
+    //Initialize Select2 Elements
+    $('.select2bs4').select2({
+      theme: 'bootstrap4'
+    })
+    //Date and time picker
+  })
+ 
+  $(function () {
+  $('[data-toggle="tooltip"]').tooltip()
+})
+
+
+
+</script>
+<!-- ==============END=============== -->
+{% include 'includes/adminToster.html' %}
+</body>
+</html>

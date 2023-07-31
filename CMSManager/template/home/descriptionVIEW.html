@@ -1,0 +1,108 @@
+{% load static %}
+{% load social_share %}
+
+<!doctype html>
+<html lang="eng">
+   <head>
+      <meta charset="utf-8">
+      <meta htaakriticm-equiv="x-ua-compatible" content="ie=edge">
+      {% if page.meta_title %}
+         <title>{{page.meta_title}}</title>
+      {% else %}
+         <title>{{page.name | title }} | {{project.title | safe | title }}</title>
+      {% endif %}
+      <link rel="icon" type="image/png" href="{% if project.favicon %}{{project.favicon.url}}{% else %}{% static 'adminAAKRITICMS/img/default/mrdas.jpg' %}{% endif %}">
+      <meta name="viewport" content="width=device-width, initial-scale=1">
+      <meta name="keywords" content="{{page.meta_keywords | safe }}">
+      <meta name="description" content="{{page.meta_description | safe }}">
+      <meta property="og:locale" content="en_US">
+      <meta property="og:type" content="website">
+      <meta property="og:title" content="{{ page.meta_title | safe }}">
+      <meta property="og:description" content="{{page.meta_description | safe }}">
+      <meta property="og:url" content="{{project.baseURL}}/{{page.slug}}/">
+      <meta property="og:site_name" content="{{page.name}}">
+      <link rel="canonical" href="{{project.baseURL}}/{{page.slug}}/">
+      <!-- CSS here -->
+      <link rel="stylesheet" href="{% static 'aakritimart/css/bootstrap.css' %}">
+      <link rel="stylesheet" href="{% static 'aakritimart/css/animate.css' %}">
+      <link rel="stylesheet" href="{% static 'aakritimart/css/swiper-bundle.css' %}">
+      <link rel="stylesheet" href="{% static 'aakritimart/css/slick.css' %}">
+      <link rel="stylesheet" href="{% static 'aakritimart/css/magnific-popup.css' %}">
+      <link rel="stylesheet" href="{% static 'aakritimart/css/font-awesome-pro.css' %}">
+      <link rel="stylesheet" href="{% static 'aakritimart/css/flaticon_shofy.css' %}">
+      <link rel="stylesheet" href="{% static 'aakritimart/css/spacing.css' %}">
+      <link rel="stylesheet" href="{% static 'aakritimart/css/main.css' %}">
+      <!-- SweetAlert2 -->
+      <link rel="stylesheet" href="{% static 'adminAAKRITICMS/plugins/sweetalert2-theme-bootstrap-4/bootstrap-4.min.css' %}">
+      <link rel="stylesheet" href="{% static 'adminAAKRITICMS/plugins/toastr/toastr.min.css' %}">
+      {% include "template/includes/COMMONHEADERTags.html" %}
+   </head>
+<body>
+   {% include "template/includes/MAINHeader.html" %}
+   {% if not request.user.is_user %}
+      {% include "template/includes/LOGINSIGNUP.html" %}
+   {% endif %}        
+      <main>
+         
+         <section class="aakriticm-postbox-details-area pb-120 pt-50">
+            <div class="container">               
+               <div class="row">
+                  <div class="col-xl-2 col-lg-2 col-md-2">
+                     <div class="aakriticm-postbox-details-share-2">
+                        <span>Share Now</span>
+                        <ul>
+                           <li>{% post_to_facebook "{{product.description}}" "" %}</li>
+                           <li>{% post_to_twitter "Product: {{product.description}}. Check it out!" object_or_url "" %}</li>
+                           <li>{% post_to_telegram "Product: {{product.description}}. Check it out!" object_or_url "" %}</li>
+                           <li>{% save_to_pinterest "Product: {{product.description}}. Check it out!" object_or_url "" %}</li>
+                           <li>{% post_to_whatsapp "Product: {{product.description}}. Check it out!" object_or_url "" %}</li>         
+                        </ul>
+                     </div>
+                  </div>
+                  <div class="col-xl-8 col-lg-8 col-md-10">
+                     <div class="aakriticm-postbox-details-main-wrapper aakriticm-postbox-style2">
+                        <div class="aakriticm-postbox-details-content">
+                           <h4 class="aakriticm-postbox-details-heading" style="margin: 43px 0px 12px; padding: 0px; font-size: 34px; font-family: Jost, sans-serif; transition: color 0.3s ease-out 0s; letter-spacing: -0.02em;">
+                              {{page.name | title | safe }}
+                           </h4>
+                           <p style="margin-right: 0px; margin-bottom: 23px; margin-left: 0px; padding: 0px; transition: all 0.3s ease-out 0s; font-family: Jost, sans-serif; font-size: 18px; color: rgb(85, 88, 91); line-height: 1.56;">{{page.description | safe }}</p>
+                        </div>
+                     </div>
+                  </div>
+               </div>
+            </div>
+         </section>
+         
+
+
+
+      </main>
+      
+   
+   {% include "template/includes/MAINFooter.html" %}
+   <!-- JS here -->
+   <script src="{% static 'aakritimart/js/vendor/jquery.js' %}"></script>
+   <script src="{% static 'aakritimart/js/vendor/waypoints.js' %}"></script>
+   <script src="{% static 'aakritimart/js/bootstrap-bundle.js' %}"></script>
+   <script src="{% static 'aakritimart/js/meanmenu.js' %}"></script>
+   <script src="{% static 'aakritimart/js/swiper-bundle.js' %}"></script>
+   <script src="{% static 'aakritimart/js/slick.js' %}"></script>
+   <script src="{% static 'aakritimart/js/range-slider.js' %}"></script>
+   <script src="{% static 'aakritimart/js/magnific-popup.js' %}"></script>
+   <script src="{% static 'aakritimart/js/nice-select.js' %}"></script>
+   <script src="{% static 'aakritimart/js/purecounter.js' %}"></script>
+   <script src="{% static 'aakritimart/js/countdown.js' %}"></script>
+   <script src="{% static 'aakritimart/js/wow.js' %}"></script>
+   <script src="{% static 'aakritimart/js/isotope-pkgd.js' %}"></script>
+   <script src="{% static 'aakritimart/js/imagesloaded-pkgd.js' %}"></script>
+   <script src="{% static 'aakritimart/js/ajax-form.js' %}"></script>
+   <script src="{% static 'aakritimart/js/main.js' %}"></script>
+   {% include "template/includes/JSCOMMON.html" %}
+   <!-- SweetAlert2 -->
+   <script src="{% static 'adminAAKRITICMS/plugins/sweetalert2/sweetalert2.min.js'%}"></script>
+   <!-- <script src="{% static 'adminAAKRITICMS/plugins/toastr/toastr.min.js'%}"></script> -->
+   <!-- Toastr -->
+   <script src="{% static 'adminAAKRITICMS/plugins/toastr/toastr.min.js'%}"></script>
+   {% include "template/includes/USERToster.html" %}
+</body>
+</html>

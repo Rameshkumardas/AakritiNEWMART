@@ -1,0 +1,1092 @@
+{% if request.user.is_superadmin %}
+<!DOCTYPE html>
+{% load static%}
+<html lang="en">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>General Settings | {{project.title | safe | title }} || {{project.name}} </title>
+  <link rel="icon" type="image/png" href="{% if project.favicon %}{{project.favicon.url}}{% else %}{% static 'adminAAKRITICMS/img/default/mrdas.jpg' %}{% endif %}">
+
+  <!-- Font Awesome -->
+  <link rel="stylesheet" href="{% static 'adminAAKRITICMS/plugins/fontawesome-free/css/all.min.css'%}">
+  <!-- SweetAlert2 -->
+  <link rel="stylesheet" href="{% static 'adminAAKRITICMS/plugins/sweetalert2-theme-bootstrap-4/bootstrap-4.min.css' %}">
+  <!-- adminAAKRITICMS Theme style -->
+  <link rel="stylesheet" href="{% static 'adminAAKRITICMS/css/aakriticms.min.css'%}">
+  <link rel="stylesheet" href="{% static 'adminAAKRITICMS/css/aakriti.ui.css'%}">
+  <link rel="stylesheet" href="{% static 'adminAAKRITICMS/plugins/overlayScrollbars/css/OverlayScrollbars.min.css' %}">
+  <link rel="stylesheet" href="{% static 'adminAAKRITICMS/plugins/sweetalert2-theme-bootstrap-4/bootstrap-4.min.css' %}">
+  <!-- adminAAKRITICMS Theme style -->
+  <!-- iCheck for checkboxes and radio inputs -->
+  <link rel="stylesheet" href="{% static 'adminAAKRITICMS/plugins/icheck-bootstrap/icheck-bootstrap.min.css'%}">
+  <!-- summernote -->
+  <link rel="stylesheet" href="{% static 'adminAAKRITICMS/plugins/summernote/summernote-bs4.min.css' %}">
+  <link rel="stylesheet" href="{% static 'adminAAKRITICMS/plugins/bootstrap/bootstrap-tagsinput.css' %}"/>
+  <link rel="stylesheet" href="{% static 'adminAAKRITICMS/plugins/tags/tagsinput.css' %}"/>
+  <link rel="stylesheet" href="{% static 'adminAAKRITICMS/plugins/summernote/prettify.css' %}"/>
+  <link rel="stylesheet" href="{% static 'adminAAKRITICMS/plugins/prism/prism.css' %}">
+  <link rel="stylesheet" href="{% static 'adminAAKRITICMS/plugins/overlayScrollbars/css/OverlayScrollbars.min.css' %}">
+  <link rel="stylesheet" href="{% static 'adminAAKRITICMS/plugins/daterangepicker/daterangepicker.css'%}">
+</head>
+<body class="hold-transition sidebar-mini layout-fixed">
+  <div class="wrapper">
+  {% include 'includes/adminNavBar.html' %} <!--Add this-->
+  {% include 'includes/adminSideBar.html' %} <!--Add this-->
+  <!-- Content Wrapper. Contains page content -->
+  <div class="content-wrapper">
+    <!-- Content Header (Page header) -->
+    <section class="content-header">
+      <div class="container-fluid">
+        <div class="row mb-2">
+          <div class="col-sm-6">
+            <h1>General Settings</h1>
+          </div>
+          <div class="col-sm-6 d-flex " style="justify-content: right;">
+            <a href="javascript:void(0)" data-toggle="modal" data-target="#SETTINGImport" class="SETTINGImport btn btn-primary " data-toggle="tooltip" title="Import SETTING " ><i class="fas fa-upload"></i>&nbsp;&nbsp; SETTING Import </a>
+            &emsp;
+            <a href="javascript:void(0)" data-toggle="modal" data-target="#SETTINGExport" class="SETTINGExport btn btn-success " data-toggle="tooltip" title="Export SETTING " ><i class="fas fa-download"></i>&nbsp;&nbsp; SETTING Export</a>
+          </div>
+        </div>
+      </div><!-- /.container-fluid -->
+    </section>
+
+    <!-- Main content -->
+    <section class="content">
+      <div class="container-fluid">
+        <div class="row">
+            <div class="col-md-12 ">
+              <div class="card card-outline card-primary">
+                <div class="card-header">
+                  <h3 class="card-title"><b><strong>General Settings Details</strong></b></h3>
+                  <a href="{% url 'CREATESettings' %}"  class="SETTINGExport btn btn-dark float-right mr-2" data-toggle="tooltip" title="CREATE SETTINGS.INI " ><i class="fas fa-save"></i>&nbsp;&nbsp;CREATE SETTINGS.INI</a>
+                  <a href="{% url 'CREATEREQUIRMENT_TXTSettings' %}"  class="btn btn-success float-right mr-2" data-toggle="tooltip" title="Create & Export All Python Pacakages" ><i class="fas fa-download"></i>&nbsp;&nbsp;CREATE REQUIRMENTS.TXT</a>
+
+                  
+                </div>
+                <div class="card-bodyp-0">
+                  <div class="p-0">
+                    <div class="card">
+                      <div class="card-header p-2">
+                        <ul class="nav nav-pills">
+                          <li class="nav-item"><a class="nav-link active" href="#PROJECTDetail" data-toggle="tab">Setup & Configuration</a></li>
+                          <li class="nav-item"><a class="nav-link" href="#PROJECTLogo" data-toggle="tab">Logo & Icons</a></li>
+                          <li class="nav-item"><a class="nav-link" href="#PaymentSettings" data-toggle="tab">Payment Settings</a></li>
+                          <li class="nav-item"><a class="nav-link" href="#SMTP" data-toggle="tab">SMTP Setting</a></li>
+                          <li class="nav-item"><a class="nav-link" href="#GOOGLE" data-toggle="tab">Google</a></li>
+                          <li class="nav-item"><a class="nav-link" href="#ChatBot" data-toggle="tab">ChatBOT</a></li>
+                          <li class="nav-item"><a class="nav-link" href="#ChatGTP" data-toggle="tab">ChatGTP</a></li>
+
+                          <li class="nav-item"><a class="nav-link" href="#Media" data-toggle="tab">Media Setting</a></li>
+                        </ul>
+                      </div>
+                      <div class="card-body">
+                        <div class="tab-content">
+                          <div class="tab-pane active" id="PROJECTDetail">
+                            <div class="form-group row">
+                              <label for="inputName" class="col-sm-2 col-form-label">PROJECT Name</label>
+                              <div class="col-sm-10">
+                                <input type="email" class="name form-control" value="{{project.name}}" id="inputName" placeholder="Enter Project Name & Domain Name">
+                              </div>
+                            </div>
+                            <div class="form-group row">
+                              <label for="inputEmail" class="col-sm-2 col-form-label">PROJECT Title</label>
+                              <div class="col-sm-10">
+                                <input type="text" class="title form-control" value="{{project.title}}" id="inputEmail" placeholder="Enter Project Title">
+                              </div>
+                            </div>
+                            <div class="form-group row">
+                              <label for="inputEmail" class="col-sm-2 col-form-label">PROJECT BASE URL</label>
+                              <div class="col-sm-10">
+                                <input type="text" class="baseURL form-control" value="{{project.baseURL}}" id="inputEmail" placeholder="Enter Project Base URL">
+                              </div>
+                            </div>
+                            <div class="form-group row">
+                              <label for="inputEmail" class="col-sm-2 col-form-label">SUPPORT Mail</label>
+                              <div class="col-sm-10">
+                                <input type="text" class="mail form-control" value="{{project.mail}}" id="inputEmail" placeholder="Enter SUPPORT MAIL">
+                              </div>
+                            </div>
+
+                            <div class="form-group row">
+                              <label for="inputEmail" class="col-sm-2 col-form-label">SUPPORT Contact No</label>
+                              <div class="col-sm-10">
+                                <input type="text" class="contact form-control" value="{{project.contact}}" id="inputEmail" placeholder="Enter SUPPORT Contact No">
+                              </div>
+                            </div>
+
+                            <div class="form-group row">
+                              <label for="inputEmail" class="col-sm-2 col-form-label">COMPANY ADDRESS</label>
+                              <div class="col-sm-10">
+                                <input type="text" class="address form-control" value="{{project.address}}" id="inputEmail" placeholder="Enter Company Address">
+                              </div>
+                            </div>
+                            
+                            <div class="form-group row">
+                              <label for="inputName2" class="col-sm-2 col-form-label">SECRET KEY</label>
+                              <div class="col-sm-10">
+                                <input type="password" class="SECRET_KEY form-control" value="{{project.SECRET_KEY}}" id="inputName2" placeholder="Enter SECRET KEY">
+                              </div>
+                            </div>
+                            <div class="form-group row">
+                              <label for="inputExperience" class="col-sm-2 col-form-label">ALLOWED HOSTS</label>
+                              <div class="col-sm-10">
+                                <input type="text" data-role="tagsinput" id="inputExperience" value="{{project.ALLOWED_HOSTS}}" placeholder="Add ALLOWED HOSTS" data-role="tagsinput" name="ALLOWED_HOSTS" class="ALLOWED_HOSTS form-control"> 
+                              </div>
+                            </div>
+                            <div class="form-group row">
+                              <label for="inputDescription" class="col-sm-2 col-form-label">PROJECT Description</label>
+                              <div class="col-sm-10">
+                                <textarea class="description inputDescription " id="inputDescription"  width="100%" height="100 px" name="description">{{project.description}}</textarea>
+                              </div>
+                            </div>
+                            
+                            <div class="form-group row">
+                              <div class="offset-sm-2 col-sm-10">
+                                <div class="checkbox">
+                                  <label>
+                                    {% if not project.DEBUG %}
+                                    <input type="checkbox" name="DEBUG" checked> Uncheck For Development Server & Debug Application
+
+                                    {% else %}
+
+                                    <input type="checkbox" name="DEBUG" title="CHeck For Live & Secure Server"> Check [ Make Live & Secure Server ]
+                                    {% endif %}
+                                  </label>
+                                </div>
+                              </div>
+                            </div>
+                            <div class="form-group row">
+                              <div class="offset-sm-2 col-sm-10">
+                                <button type="submit" class="btn btn-success" onclick="updatePROJECTInformation()">Save & Change <b>Setup & Configuration</b></button>
+                            </div>
+                          </div>
+                          </div>  
+                          <div class="tab-pane" id="PROJECTLogo">
+
+                            <div class="row">
+                              
+                              <div class="col-lg-4">
+                                <div class="card card-outline card-info">
+                                  <div class="card-body"> 
+                                    <div id="display_imageIMG1" style="height:150px; width:100% !important; border-radius: 10px; border: 2px solid rgb(9, 135, 238); display: none; visibility: hidden; background-size:contain; background-repeat:no-repeat;"></div>
+                                    <img src="{% if project.headerLogo %}{{project.headerLogo.url}}{% else %}{% static 'adminAAKRITICMS/img/default/AakritiLiteWebDeveloper.jpg'%}{% endif %}" class="img_display img-thumbnail" id="NoObjectIMG1" style="height:150px; width:100% !important; border-radius: 10px; border: 2px solid rgb(9, 135, 238); background-repeat: no-repeat; background-size:cover;" data-toggle="tooltip" data-placement="top" title="Sellect Header Logo"/>
+                                  </div>
+                                  <div class="card-footer">
+                                      <span class="btn btn-primary col fileinput-button " data-toggle="tooltip" data-placement="top" title="Hit For Sellect Header Logo">
+                                          <input type="file" accept="image/png, image/jpg , image/jpeg" name="img1" id="IMG1"  style="display: none;" class="IMG1" required/>
+                                          <label for="IMG1" style="cursor: pointer;" ><i class="fas fa-plus"></i><span> Add Header Logo </span></label>
+                                      </span>
+                                  </div>
+                                </div>   
+                              </div>
+                              <div class="col-lg-4">
+                                <div class="card card-outline card-info">
+                                  <div class="card-body"> 
+                                    <div id="display_imageIMG2" style="height:150px; width:100% !important; border-radius: 10px; border: 2px solid rgb(9, 135, 238); display: none; visibility: hidden; background-size:contain; background-repeat:no-repeat;"></div>
+
+                                    <img src="{% if project.footerLogo %}{{project.footerLogo.url}}{% else %}{% static 'adminAAKRITICMS/img/default/AakritiLiteWebDeveloper.jpg'%}{% endif %}" class="img_display img-thumbnail" id="NoObjectIMG2" style="height:150px; width:100% !important; border-radius: 10px; border: 2px solid rgb(9, 135, 238);" data-toggle="tooltip" data-placement="top" title="Sellect Footer Logo"/>
+                                  </div>
+                                  <div class="card-footer">
+                                      <span class="btn btn-primary col fileinput-button " data-toggle="tooltip" data-placement="top" title="Hit For Sellect Footer Logo">
+                                          <input type="file" accept="image/png, image/jpg , image/jpeg" name="img2" id="IMG2"  style="display: none;" class="IMG2" required/>
+                                          <label for="IMG2" style="cursor: pointer;" ><i class="fas fa-plus"></i><span> Add Footer Logo </span></label>
+                                      </span>
+                                  </div>
+                                </div>   
+                              </div>
+                              <div class="col-lg-4">
+                                <div class="card card-outline card-info">
+                                  <div class="card-body"> 
+                                    <div id="display_imageIMG3" style="height:150px; width:100% !important; border-radius: 10px; border: 2px solid rgb(9, 135, 238); display: none; visibility: hidden; background-size:contain; background-repeat:no-repeat;"></div>
+                                    <img src="{% if project.favicon %}{{project.favicon.url}}{% else %}{% static 'adminAAKRITICMS/img/default/AakritiLiteWebDeveloper.jpg'%}{% endif %}" class="img_display img-thumbnail" id="NoObjectIMG3" style="height:150px; width:100% !important; border-radius: 10px; border: 2px solid rgb(9, 135, 238);" data-toggle="tooltip" data-placement="top" title="Sellect Favicon  Website"/>
+                                  </div>
+                                  <div class="card-footer">
+                                      <span class="btn btn-primary col fileinput-button " data-toggle="tooltip" data-placement="top" title="Hit For Sellect Favicon">
+                                          <input type="file" accept="image/png, image/jpg , image/jpeg" name="img3" id="IMG3"  style="display: none;" class="IMG3" required />
+                                          <label for="IMG3" style="cursor: pointer;" ><i class="fas fa-plus"></i><span> Add Favicon <b>( 16 x 16 )</b></span></label>
+                                      </span>
+                                  </div>
+                                </div>   
+                              </div>
+                            </div>
+                            <div class="form-group row">
+                              <div class="offset-sm-5 col-sm-7">
+                                <button type="submit" class="btn btn-success" onclick="updatePROJECTLogoIcons()">Save & Change Logo & Icons</button>
+                            </div>
+                          </div>
+                          </div>  
+                          
+                          <div class="tab-pane" id="PaymentSettings">
+                            <h3><b>RAZORPAY SETTINGS</b></h3>
+                            <div class="form-group row">
+                              <label for="inputName" class="col-sm-2 col-form-label">API KEY</label>
+                              <div class="col-sm-10">
+                                <input type="password" class="RAZORPAY_KEY form-control" id="inputName" placeholder="RAZORPAY API KEY" value="{{project.RAZORPAY_API_KEY}}">
+                              </div>
+                            </div>
+                            <div class="form-group row">
+                              <label for="inputEmail" class="col-sm-2 col-form-label">API SECRET</label>                              
+                              <div class="col-sm-10">
+                                <input type="password" class="RAZORPAY_SECRET form-control" id="inputEmail" placeholder="RAZORPAY API SECRET" value="{{project.RAZORPAY_API_SECRET}}">
+                              </div>
+                            </div>
+                            <div class="form-group row">
+                              <div class="offset-sm-2 col-sm-10">
+                                <div class="checkbox">
+                                  <label>
+                                    {% if project.RAZORPAY_PAY_ACTIVE == True %}
+                                      <input type="checkbox" name="RAZORPAY_PAY_STATUS" checked> RAZORPAY ACCEPTED 
+                                    {% else %}
+                                    <input type="checkbox" name="RAZORPAY_PAY_STATUS"> CHECKED FOR RAZORPAY ACCEPTED  
+                                    {% endif %}
+                                  </label>
+                                </div>
+                              </div>
+                            </div>
+                            <div class="form-group row">
+                              <div class="offset-sm-2 col-sm-10">
+                                <button type="submit" class="btn btn-success" onclick="updatePROJECTRAZORPAYSettings()">Save & Change RAZORPAY PAY Settings</button>
+                              </div>
+                            </div>
+                            <hr> 
+                            <hr>
+                            <section>
+                              <h3><b>PAYPAL SETTINGS</b></h3>
+
+                              <div class="form-group row">
+                                <label for="inputName" class="col-sm-2 col-form-label">API KEY</label>
+                                <div class="col-sm-10">
+                                  <input type="password" class="PAYPAL_KEY form-control" id="inputName" placeholder="Paypal API KEY" value="{{project.PAYPAL_API_KEY}}">
+                                </div>
+                              </div>
+                              <div class="form-group row">
+                                <label for="inputEmail" class="col-sm-2 col-form-label">API SECRET</label>                              
+                                <div class="col-sm-10">
+                                  <input type="password" class="PAYPAL_SECRET form-control" id="inputEmail" placeholder="Paypal API SECRET" value="{{project.PAYPAL_API_SECRET}}">
+                                </div>
+                              </div>
+                              <div class="form-group row">
+                                <div class="offset-sm-2 col-sm-10">
+                                  <div class="checkbox">
+                                    <label>
+                                      {% if project.PAYPAL_PAY_ACTIVE == True %}
+                                        <input type="checkbox" name="PAYPAL_PAY_STATUS" checked> PAYPAL ACCEPTED 
+                                      {% else %}
+                                      <input type="checkbox" name="PAYPAL_PAY_STATUS"> CHECKED FOR PAYPAL ACCEPTED  
+                                      {% endif %}
+                                    </label>
+                                  </div>
+                                </div>
+                              </div>
+
+                              <div class="form-group row">
+                                <div class="offset-sm-2 col-sm-10">
+                                  <button type="submit" class="btn btn-success" onclick="updatePROJECTPAYPALSettings()">Save & Change PAYPAL Settings</button>
+                                </div>
+                              </div>
+                            </section>
+        
+            
+                          </div> 
+                          <div class="tab-pane" id="SMTP">
+                            <div class="form-group row">
+                              <label for="inputName" class="col-sm-2 col-form-label">HOST</label>
+                              <div class="col-sm-10">
+                                <input type="text" class="EMAIL_HOST form-control" id="inputName" placeholder="Enter EMAIL HOST" value="{{project.EMAIL_HOST}}">
+                              </div>
+                            </div>
+                            <div class="form-group row">
+                              <label for="inputEmail" class="col-sm-2 col-form-label">HOST USER</label>
+                              <div class="col-sm-10">
+                                <input type="text" class="EMAIL_HOST_USER form-control" id="inputEmail" placeholder="Enter EMAIL HOST USER" value="{{project.EMAIL_HOST_USER}}">
+                              </div>
+                            </div>
+                            <div class="form-group row">
+                              <label for="inputName2" class="col-sm-2 col-form-label">HOST PASSWORD</label>
+                              <div class="col-sm-10">
+                                <input type="password" class="EMAIL_HOST_PASSWORD form-control" id="inputName2" placeholder="Enter EMAIL HOST PASSWORD" value="{{project.EMAIL_HOST_PASSWORD}}">
+                              </div>
+                            </div>
+                            <div class="form-group row">
+                              <label for="inputName2" class="col-sm-2 col-form-label">PORT</label>
+                              <div class="col-sm-10">
+                                <input type="text" class="EMAIL_PORT form-control" id="inputName2" placeholder="Enter EMAIL PORT" value="{{project.EMAIL_PORT}}">
+                              </div>
+                            </div>
+                            <div class="form-group row">
+                              <div class="offset-sm-2 col-sm-10">
+                                <div class="checkbox">
+                                  <label>
+                                    {% if project.EMAIL_USE_TLS == True %}
+                                      <input type="checkbox"  name="EMAIL_USE_TLS" checked> Transport Layer Security ( TLS )
+                                    {% else %}
+                                      <input type="checkbox"  name="EMAIL_USE_TLS"> Transport Layer Security ( TLS )
+                                    {% endif %}
+                                  </label>
+                                </div>
+                              </div>
+                            </div>
+                            <div class="form-group row">
+                              <div class="offset-sm-2 col-sm-10">
+                                <button type="submit" class="btn btn-success" onclick="updatePROJECTSMTPSettings()">Save & Change SMTP Setting</button>
+                            </div>
+                          </div>
+                            <hr>
+                            <hr>
+                            <b>A no-reply email address is an address in your domain that's not set up to receive incoming mail. On the surface, this might seem like a great way to avoid clogging up your inbox from bounced emails and out-of-office notifications, but no-reply email addresses are bad for digital marketing.</b>
+                            <hr>
+                            <div class="form-group row">
+                                <label for="inputName" class="col-sm-2 col-form-label">HOST</label>
+                                <div class="col-sm-10">
+                                  <input type="text" class="EMAIL_HOST_NO_REPLY form-control" id="inputName" placeholder="Enter EMAIL HOST NO REPLY" value="{{project.EMAIL_HOST_NO_REPLY}}">
+                                </div>
+                              </div>
+                              <div class="form-group row">
+                                <label for="inputEmail" class="col-sm-2 col-form-label">HOST USER</label>
+                                <div class="col-sm-10">
+                                  <input type="text" class="EMAIL_HOST_USER_NO_REPLY form-control" id="inputEmail" placeholder="Enter EMAIL HOST USER NO REPLY" value="{{project.EMAIL_HOST_USER_NO_REPLY}}">
+                                </div>
+                              </div>
+
+                              <div class="form-group row">
+                                <label for="inputName2" class="col-sm-2 col-form-label">HOST PASSWORD</label>
+                                <div class="col-sm-10">
+                                  <input type="password" class="EMAIL_HOST_PASSWORD_NO_REPLY form-control" id="inputName2" placeholder="Enter EMAIL HOST PASSWORD NO REPLY" value="{{project.EMAIL_HOST_PASSWORD_NO_REPLY}}">
+                                </div>
+                              </div>
+                              <div class="form-group row">
+                                <label for="inputName2" class="col-sm-2 col-form-label">PORT</label>
+                                <div class="col-sm-10">
+                                  <input type="text" class="EMAIL_PORT_NO_REPLY form-control" id="inputName2" placeholder="Enter EMAIL PORT NO REPLY" value="{{project.EMAIL_PORT_NO_REPLY}}">
+                                </div>
+                              </div>
+                              <div class="form-group row">
+                                <div class="offset-sm-2 col-sm-10">
+                                  <div class="checkbox">
+                                    <label>
+                                      {% if project.EMAIL_USE_TLS_NO_REPLY == True %}
+                                        <input type="checkbox"  name="EMAIL_USE_TLS_NO_REPLY" checked> Transport Layer Security ( TLS )
+                                      {% else %}
+                                        <input type="checkbox"  name="EMAIL_USE_TLS_NO_REPLY"> Transport Layer Security ( TLS )
+                                      {% endif %}
+                                    </label>
+                                  </div>
+                                </div>
+                              </div>
+                              <div class="form-group row">
+                                <div class="offset-sm-2 col-sm-10">
+                                  <button type="submit" class="btn btn-success" onclick="updatePROJECTNOReplySMTPSettings()">Save & Change SMTP Setting</button>
+                              </div>
+                            </div>
+                          </div>  
+
+
+
+                          <div class="tab-pane" id="GOOGLE">
+
+                            <div class="form-group row">
+                              <label for="developer_token_label" class="col-sm-2 col-form-label">Developer Token</label>
+                              <div class="col-sm-10">
+                                <input type="password" class="google_developer_token form-control" value="{{project.google_developer_token}}" id="developer_token_label" placeholder="Enter Developer Token">
+                              </div>
+                            </div>
+
+
+                            <div class="form-group row">
+                              <label for="google_client_id_label" class="col-sm-2 col-form-label">Client Id</label>
+                              <div class="col-sm-10">
+                                <input type="password" class="google_client_id form-control" value="{{project.google_client_id}}" id="google_client_id_label" placeholder="Enter Google Client Id">
+                              </div>
+                            </div>
+
+
+                            <div class="form-group row">
+                              <label for="google_secret_label" class="col-sm-2 col-form-label">Secret Key</label>
+                              <div class="col-sm-10">
+                                <input type="password" class="google_secret_key form-control" value="{{project.google_secret_key}}" id="google_secret_label" placeholder="Enter Google Secret Key">
+                              </div>
+                            </div>
+
+                            <div class="form-group row">
+                              <label for="google_refresh_token_label" class="col-sm-2 col-form-label">Refresh Token</label>
+                              <div class="col-sm-10">
+                                <input type="password" class="google_refresh_token form-control" value="{{project.google_refresh_token}}" id="google_refresh_token_label" placeholder="Enter Google Refresh Token">
+                              </div>
+                            </div>
+                            <div class="form-group row">
+                              <label for="google_login_customer_id_label" class="col-sm-2 col-form-label">Login Customer Id</label>
+                              <div class="col-sm-10">
+                                <input type="password" class="google_login_customer_id form-control" value="{{project.google_login_customer_id}}" id="google_login_customer_id_label" placeholder="Enter Google Login Customer Id">
+                              </div>
+                            </div>
+
+
+                              <div class="form-group row">
+                                <label for="inputName2" class="col-sm-2 col-form-label">Google Analytics</label>
+                                <div class="col-sm-10">
+                                  <textarea class="google_analytics form-control" value="{{project.google_analytics}}" name="google_analytics" id="inputName2" placeholder="Enter Google Analytics Code" id="" cols="30" rows="10">{{project.google_analytics}}</textarea>
+                                </div>
+                              </div>
+                              <div class="form-group row">
+                                <label for="inputName2" class="col-sm-2 col-form-label">Google Meta</label>
+                                <div class="col-sm-10">
+                                  <textarea class="google_meta form-control" value="{{project.google_meta}}" name="google_meta" id="inputName2" placeholder="Enter Google Meta Code" id="" cols="30" rows="10">{{project.google_meta}}</textarea>
+                                </div>
+                              </div>
+                  
+
+
+                            <div class="form-group row">
+                              <div class="offset-sm-5 col-sm-7">
+                                <button type="submit" class="btn btn-success" onclick="updateGOOGLESettings()">Save & Change Google Settings</button>
+                            </div>
+                          </div>
+                          </div>  
+                          <div class="tab-pane" id="ChatBot">
+                            <div class="form-group row">
+                              <label for="inputName2" class="col-sm-2 col-form-label">Tawk.to ChatBOT</label>
+                              <div class="col-sm-10">
+                                <textarea class="tawk form-control" value="{{project.tawk}}" name="tawk" id="inputName2" placeholder="Paste Tawk Weight Code" id="" cols="30" rows="13">{{project.tawk}}</textarea>
+                              </div>
+                            </div>
+                            <div class="form-group row">
+                              <div class="offset-sm-5 col-sm-7">
+                                <button type="submit" class="btn btn-success" onclick="updateCHATBOTSettings()">Save & Change ChatBot Settings</button>
+                              </div>
+                            </div>
+                          </div>  
+                          <div class="tab-pane" id="ChatGTP">
+                            <div class="form-group row">
+                              <label for="ChatGTP_LABEL" class="col-sm-2 col-form-label">ChatGTP API KEY:</label>
+                              <div class="col-sm-10">
+                                <input type="password" id="ChatGTP_LABEL" value="{{project.ChatGTP_API_KEY}}" placeholder="ChatGTP API KEY" name="ChatGTP" class="ChatGTP_API_KEY form-control"> 
+                              </div>
+                            </div>
+                            <div class="form-group row">
+                              <div class="offset-sm-5 col-sm-7">
+                                <button type="submit" class="btn btn-success" onclick="updateCHATGTPSettings()">Save & Change ChatGTP Settings</button>
+                              </div>
+                            </div>
+                          </div> 
+                      
+                          <div class="tab-pane" id="Media">
+                            <div class="form-group row">
+                              <label for="inputName" class="col-sm-2 col-form-label">Facebook Profile</label>
+                              <div class="col-sm-10">
+                                <input type="url" class="Facebook form-control" id="inputName" placeholder="Enter Facebook Profile Link" value="{{project.facebook}}">
+                              </div>
+                            </div>
+                            <div class="form-group row">
+                              <label for="inputEmail" class="col-sm-2 col-form-label">Instagram Profile</label>
+                              <div class="col-sm-10">
+                                <input type="url" class="Instagram form-control" id="inputEmail" placeholder="Enter Instagram Profile Link" value="{{project.instagram}}">
+                              </div>
+                            </div>
+                            <div class="form-group row">
+                              <label for="inputName2" class="col-sm-2 col-form-label">YouTube Profile</label>
+                              <div class="col-sm-10">
+                                <input type="text" class="YouTube form-control" id="inputName2" placeholder="Enter YouTube Profile Link" value="{{project.youtube}}">
+                              </div>
+                            </div>
+                            <div class="form-group row">
+                              <label for="inputName2" class="col-sm-2 col-form-label">Linkedin Profile</label>
+                              <div class="col-sm-10">
+                                <input type="text" class="Linkedin form-control" id="inputName2" placeholder="Enter Linkedin Profile Link" value="{{project.linkedin}}">
+                              </div>
+                            </div>
+                            <div class="form-group row">
+                              <label for="inputName2" class="col-sm-2 col-form-label">Pintrest Profile</label>
+                              <div class="col-sm-10">
+                                <input type="text" class="Pintrest form-control" id="inputName2" placeholder="Enter Pintrest Profile Link" value="{{project.pintrest}}">
+                              </div>
+                            </div>
+                            <div class="form-group row">
+                              <label for="inputName2" class="col-sm-2 col-form-label">Twitter Profile</label>
+                              <div class="col-sm-10">
+                                <input type="text" class="Twitter form-control" id="inputName2" placeholder="Enter Twitter Profile Link" value="{{project.twitter}}">
+                              </div>
+                            </div>
+                            <div class="form-group row">
+                              <div class="offset-sm-2 col-sm-10">
+                                <button type="submit" class="btn btn-success" onclick="updatePROJECTSOCIALMedia()">Save & Change Media Setting</button>
+                            </div>
+                          </div>
+                          </div>   
+                      </div>
+                      </div>
+                      <!-- <div class="card-footer card-outline">
+                        <a href="javascript:void(0);" class="btn btn-success" data-toggle="tooltip" data-placement="top" title="" data-original-title="Hit For Live Preview">Live Preview <i class="fas fa-eye"></i></a>
+                      </div> -->
+                    </div>
+                  </div>                  
+                  
+                </div>
+                <div class="card-footer card-outline bg-primary">
+                </div>
+              </div>
+            <!-- ==================== -->
+            </div>
+          </div>
+        <!-- /.row -->
+      </div><!-- /.container-fluid -->
+    </section>
+    <!-- /.content -->
+  </div>
+  <!-- /.content-wrapper -->
+  <!-- ======================================================================== -->
+  {% include "includes/adminFooter.html" %} <!--Add this-->
+</div>
+<!-- ./wrapper -->
+<!-- jQuery -->
+<script src="{% static 'adminAAKRITICMS/plugins/jquery/jquery.min.js'%}"></script>
+<!-- Bootstrap 4 -->
+<script src="{% static 'adminAAKRITICMS/plugins/bootstrap/js/bootstrap.bundle.min.js'%}"></script>
+<!-- AakritiCMS JavaScript -->
+<script src="{% static 'adminAAKRITICMS/js/aakritiCMS.min.js'%}"></script>
+<!-- SweetAlert2 -->
+<script src="{% static 'adminAAKRITICMS/plugins/sweetalert2/sweetalert2.min.js'%}"></script>
+<!-- Toastr -->
+<script src="{% static 'adminAAKRITICMS/plugins/toastr/toastr.min.js'%}"></script>
+<!-- Summernote -->
+<script src="{% static 'adminAAKRITICMS/plugins/summernote/summernote-bs4.min.js' %}"></script>
+<!-- AakritiCMS Tags -->
+<script src="{% static 'adminAAKRITICMS/plugins/tags/tagsinput.js'%}"></script>
+<script src="{% static 'adminAAKRITICMS/plugins/overlayScrollbars/js/jquery.overlayScrollbars.min.js' %}"></script>
+<script src="{% static 'adminAAKRITICMS/plugins/aakritiCMS/js/additional-operations.js' %}"></script>
+{% include 'template/ImportExport/SETTINGImportExport.html' %} <!--Add this-->
+<script src="{% static 'adminAAKRITICMS/plugins/aakritiCMS/4IMGDisplay.js' %}"></script>
+<!-- Select2 -->
+<script src="{% static 'adminAAKRITICMS/plugins/select2/js/select2.full.min.js'%}"></script>
+<!-- SweetAlert2 -->
+
+<script>
+  function updateCHATGTPSettings(){
+    if ("{{request.session.SUPERADMIN}}" == ""){
+      Toast.fire({
+          icon: 'error',
+          title: '<p id="messages" style="margin-top:12px !important; margin-left:8px !important;"><b> Target Required* </b></p>'
+        }) 
+    }else{
+        const data = new FormData();
+        data.append('ChatGTP_API_KEY', $('.ChatGTP_API_KEY').val());
+        $.ajax({                      
+            type: "POST",                   
+            url: "{% url 'updateCHATGTPSettings' %}",                    
+            data: data,
+            cache: false,
+            processData: false,
+            contentType: false,
+            enctype: 'multipart/form-data',
+            headers: {'X-CSRFToken': "{{ csrf_token }}"},
+            success: function(data) {   
+                if (data.status == 1){
+                    Toast.fire({
+                      icon: 'success',
+                      title: '<p id="messages" style="margin-top: 12px !important; margin-left:8px !important;"><b>'+ data.message +'</b></p>'
+                    }) 
+                }else if (data.status == 0){
+                    Toast.fire({
+                    icon: 'error',
+                    title: '<p id="messages" style="margin-top: 12px !important; margin-left:8px !important;"><b>'+ data.message +'</b></p>'
+                    }) 
+                }       
+            },
+        });
+    }
+}
+</script>
+
+<script>
+  function updateCHATBOTSettings(){
+    if ("{{request.session.SUPERADMIN}}" == ""){
+      Toast.fire({
+          icon: 'error',
+          title: '<p id="messages" style="margin-top:12px !important; margin-left:8px !important;"><b> Target Required* </b></p>'
+        }) 
+    }else{
+        const data = new FormData();
+        data.append('tawk', $('.tawk').val());
+        $.ajax({                      
+            type: "POST",                   
+            url: "{% url 'UpdateCHATBOTSettings' %}",                    
+            data: data,
+            cache: false,
+            processData: false,
+            contentType: false,
+            enctype: 'multipart/form-data',
+            headers: {'X-CSRFToken': "{{ csrf_token }}"},
+            success: function(data) {   
+                if (data.status == 1){
+                    Toast.fire({
+                      icon: 'success',
+                      title: '<p id="messages" style="margin-top: 12px !important; margin-left:8px !important;"><b>'+ data.message +'</b></p>'
+                    }) 
+                }else if (data.status == 0){
+                    Toast.fire({
+                    icon: 'error',
+                    title: '<p id="messages" style="margin-top: 12px !important; margin-left:8px !important;"><b>'+ data.message +'</b></p>'
+                    }) 
+                }       
+            },
+        });
+    }
+}
+</script>
+
+
+<script>
+  function updateGOOGLESettings(){
+    if ("{{request.session.SUPERADMIN}}" == ""){
+      Toast.fire({
+          icon: 'error',
+          title: '<p id="messages" style="margin-top:12px !important; margin-left:8px !important;"><b> Target Required* </b></p>'
+        }) 
+    }else{
+        const data = new FormData();
+        
+        data.append('google_analytics', $('.google_analytics').val());
+        data.append('google_meta', $('.google_meta').val());
+        data.append('google_developer_token', $('.google_developer_token').val());
+        data.append('google_client_id', $('.google_client_id').val());
+        data.append('google_secret_key', $('.google_secret_key').val());
+        data.append('google_refresh_token', $('.google_refresh_token').val());
+        data.append('google_login_customer_id', $('.google_login_customer_id').val());
+
+        $.ajax({                      
+            type: "POST",                   
+            url: "{% url 'UpdateGOOGLEPSettings' %}",                    
+            data: data,
+            cache: false,
+            processData: false,
+            contentType: false,
+            enctype: 'multipart/form-data',
+            headers: {'X-CSRFToken': "{{ csrf_token }}"},
+            success: function(data) {   
+                if (data.status == 1){
+                    Toast.fire({
+                      icon: 'success',
+                      title: '<p id="messages" style="margin-top: 12px !important; margin-left:8px !important;"><b>'+ data.message +'</b></p>'
+                    }) 
+                }else if (data.status == 0){
+                    Toast.fire({
+                    icon: 'error',
+                    title: '<p id="messages" style="margin-top: 12px !important; margin-left:8px !important;"><b>'+ data.message +'</b></p>'
+                    }) 
+                }       
+            },
+        });
+    }
+}
+</script>
+
+
+<script type="text/javascript">
+  $(function () {
+    // Summernote
+    $('#inputDescription').summernote({
+    placeholder: 'type starting with : Project Description',
+    tabsize: 2,
+    height:250,
+    toolbar: [
+          ['style', ['style']],
+          ['highlight', ['highlight']],
+          ['font', ['bold', 'underline', 'clear']],
+          ['color', ['color']],
+          ['para', ['ul', 'ol', 'paragraph']],
+          ['table', ['table']],
+          ['insert', ['link', 'picture', 'video']],
+          ['view', ['fullscreen', 'codeview', 'help']]
+        ],
+    lang:'tr-TR'
+    });
+  })
+</script>
+
+<script>
+  function updatePROJECTInformation(){
+    var DEBUG = [];
+    $.each($("input[name='DEBUG']:checked"), function(){
+      DEBUG.push($(this).val());
+    });
+
+
+    var mode = [];
+    $.each($("input[name='mode']:checked"), function(){
+      mode.push($(this).val());
+    });
+    
+    if ("{{request.user.is_superadmin}}" == ""){
+      Toast.fire({
+          icon: 'error',
+          title: '<p id="messages" style="margin-top:12px !important; margin-left:8px !important;"><b> Target Required* </b></p>'
+        }) 
+    }else{
+        const data = new FormData();
+        data.append('name', $('.name').val());
+        data.append('title', $('.title').val());
+        data.append('baseURL', $('.baseURL').val());
+        data.append('mail', $('.mail').val());
+        data.append('contact', $('.contact').val());
+        data.append('address', $('.address').val());
+        data.append('SECRET_KEY', $('.SECRET_KEY').val());
+        data.append('ALLOWED_HOSTS', $('.ALLOWED_HOSTS').val());
+        data.append('description', $('.description').val());
+        data.append('DEBUG', DEBUG);
+
+        $.ajax({                      
+            type: "POST",                   
+            url: "{% url 'UpdatePROJECTInformation' %}",                    
+            data: data,
+            cache: false,
+            processData: false,
+            contentType: false,
+            enctype: 'multipart/form-data',
+            headers: {'X-CSRFToken': "{{ csrf_token }}"},
+            success: function(data) {   
+                if (data.status == 1){
+                    Toast.fire({
+                      icon: 'success',
+                      title: '<p id="messages" style="margin-top: 12px !important; margin-left:8px !important;"><b>'+ data.message +'</b></p>'
+                    }) 
+                }else if (data.status == 0){
+                    Toast.fire({
+                    icon: 'error',
+                    title: '<p id="messages" style="margin-top: 12px !important; margin-left:8px !important;"><b>'+ data.message +'</b></p>'
+                    }) 
+                }       
+            },
+        });
+    }
+}
+</script>
+
+<script>
+  function updatePROJECTLogoIcons(){
+    if ("{{request.user.is_superadmin}}" == ""){
+      Toast.fire({
+          icon: 'error',
+          title: '<p id="messages" style="margin-top:12px !important; margin-left:8px !important;"><b> Target Required* </b></p>'
+        }) 
+    }else{
+        const data = new FormData();
+        data.append('headerLogo', $('.IMG1')[0].files[0]);
+        data.append('footerLogo', $('.IMG2')[0].files[0]);
+        data.append('favicon', $('.IMG3')[0].files[0]);
+        $.ajax({                      
+            type: "POST",                   
+            url: "{% url 'UpdateLOGOANDICONS' %}",                    
+            data: data,
+            cache: false,
+            processData: false,
+            contentType: false,
+            enctype: 'multipart/form-data',
+            headers: {'X-CSRFToken': "{{ csrf_token }}"},
+            success: function(data) {   
+                if (data.status == 1){
+                    Toast.fire({
+                      icon: 'success',
+                      title: '<p id="messages" style="margin-top: 12px !important; margin-left:8px !important;"><b>'+ data.message +'</b></p>'
+                    }) 
+                }else if (data.status == 0){
+                    Toast.fire({
+                    icon: 'error',
+                    title: '<p id="messages" style="margin-top: 12px !important; margin-left:8px !important;"><b>'+ data.message +'</b></p>'
+                    }) 
+                }       
+            },
+        });
+    }
+}
+</script>
+
+<script>
+  function updatePROJECTPAYPALSettings(){
+    var PAYPAL_PAY_STATUS = [];
+    $.each($("input[name='PAYPAL_PAY_STATUS']:checked"), function(){
+      PAYPAL_PAY_STATUS.push($(this).val());
+    });
+    if ("{{request.user.is_superadmin}}" == ""){
+      Toast.fire({
+          icon: 'error',
+          title: '<p id="messages" style="margin-top:12px !important; margin-left:8px !important;"><b> Target Required* </b></p>'
+        }) 
+    }else{
+        const data = new FormData();
+        data.append('PAYPAL_KEY', $('.PAYPAL_KEY').val());
+        data.append('PAYPAL_SECRET', $('.PAYPAL_SECRET').val());
+        data.append('PAYPAL_PAY_STATUS', PAYPAL_PAY_STATUS);
+
+        $.ajax({                      
+            type: "POST",                   
+            url: "{% url 'UpdatePROJECPAYWithPAYPAL' %}",                    
+            data: data,
+            cache: false,
+            processData: false,
+            contentType: false,
+            enctype: 'multipart/form-data',
+            headers: {'X-CSRFToken': "{{ csrf_token }}"},
+            success: function(data) {   
+                if (data.status == 1){
+                    Toast.fire({
+                      icon: 'success',
+                      title: '<p id="messages" style="margin-top: 12px !important; margin-left:8px !important;"><b>'+ data.message +'</b></p>'
+                    }) 
+                }else if (data.status == 0){
+                    Toast.fire({
+                    icon: 'error',
+                    title: '<p id="messages" style="margin-top: 12px !important; margin-left:8px !important;"><b>'+ data.message +'</b></p>'
+                    }) 
+                }       
+            },
+        });
+    }
+}
+</script>
+
+
+<script>
+  function updatePROJECTRAZORPAYSettings(){
+    var RAZORPAY_PAY_STATUS = [];
+    $.each($("input[name='RAZORPAY_PAY_STATUS']:checked"), function(){
+      RAZORPAY_PAY_STATUS.push($(this).val());
+    });
+
+    if ("{{request.user.is_superadmin}}" == ""){
+      Toast.fire({
+          icon: 'error',
+          title: '<p id="messages" style="margin-top:12px !important; margin-left:8px !important;"><b> Target Required* </b></p>'
+        }) 
+    }else{
+        const data = new FormData();
+        data.append('RAZORPAY_KEY', $('.RAZORPAY_KEY').val());
+        data.append('RAZORPAY_SECRET', $('.RAZORPAY_SECRET').val());
+        data.append('RAZORPAY_PAY_STATUS', RAZORPAY_PAY_STATUS);
+        $.ajax({                      
+            type: "POST",                   
+            url: "{% url 'UpdatePROJECPAYWithRAZORPAY' %}",                    
+            data: data,
+            cache: false,
+            processData: false,
+            contentType: false,
+            enctype: 'multipart/form-data',
+            headers: {'X-CSRFToken': "{{ csrf_token }}"},
+            success: function(data) {   
+                if (data.status == 1){
+                    Toast.fire({
+                      icon: 'success',
+                      title: '<p id="messages" style="margin-top: 12px !important; margin-left:8px !important;"><b>'+ data.message +'</b></p>'
+                    }) 
+                }else if (data.status == 0){
+                    Toast.fire({
+                    icon: 'error',
+                    title: '<p id="messages" style="margin-top: 12px !important; margin-left:8px !important;"><b>'+ data.message +'</b></p>'
+                    }) 
+                }       
+            },
+        });
+    }
+}
+</script>
+
+
+
+<script>
+  function updatePROJECTPAYMENTSettings(){
+    var RAZORPAY_PAY_STATUS = [];
+    $.each($("input[name='RAZORPAY_PAY_STATUS']:checked"), function(){
+      RAZORPAY_PAY_STATUS.push($(this).val());
+    });
+
+    if ("{{request.user.is_superadmin}}" == ""){
+      Toast.fire({
+          icon: 'error',
+          title: '<p id="messages" style="margin-top:12px !important; margin-left:8px !important;"><b> Target Required* </b></p>'
+        }) 
+    }else{
+        const data = new FormData();
+        data.append('KEY', $('.KEY').val());
+        data.append('SECRET', $('.SECRET').val());
+        data.append('RAZORPAY_PAY_STATUS', RAZORPAY_PAY_STATUS);
+
+        $.ajax({                      
+            type: "POST",                   
+            url: "{% url 'UpdatePROJECPAYWithRAZORPAY' %}",                    
+            data: data,
+            cache: false,
+            processData: false,
+            contentType: false,
+            enctype: 'multipart/form-data',
+            headers: {'X-CSRFToken': "{{ csrf_token }}"},
+            success: function(data) {   
+                if (data.status == 1){
+                    Toast.fire({
+                      icon: 'success',
+                      title: '<p id="messages" style="margin-top: 12px !important; margin-left:8px !important;"><b>'+ data.message +'</b></p>'
+                    }) 
+                }else if (data.status == 0){
+                    Toast.fire({
+                    icon: 'error',
+                    title: '<p id="messages" style="margin-top: 12px !important; margin-left:8px !important;"><b>'+ data.message +'</b></p>'
+                    }) 
+                }       
+            },
+        });
+    }
+}
+</script>
+
+
+<script>
+  function updatePROJECTSMTPSettings(){
+    var EMAIL_USE_TLS = [];
+    $.each($("input[name='EMAIL_USE_TLS']:checked"), function(){
+      EMAIL_USE_TLS.push($(this).val());
+    });
+    if ("{{request.user.is_superadmin}}" == ""){
+      Toast.fire({
+          icon: 'error',
+          title: '<p id="messages" style="margin-top:12px !important; margin-left:8px !important;"><b> Target Required* </b></p>'
+        }) 
+    }else{
+        const data = new FormData();
+        data.append('EMAIL_HOST', $('.EMAIL_HOST').val());
+        data.append('EMAIL_HOST_USER', $('.EMAIL_HOST_USER').val());
+        data.append('EMAIL_HOST_PASSWORD', $('.EMAIL_HOST_PASSWORD').val());
+        data.append('EMAIL_PORT', $('.EMAIL_PORT').val());
+        data.append('EMAIL_USE_TLS', EMAIL_USE_TLS);
+        $.ajax({                      
+            type: "POST",                   
+            url: "{% url 'UpdateSMTPSettings' %}",                    
+            data: data,
+            cache: false,
+            processData: false,
+            contentType: false,
+            enctype: 'multipart/form-data',
+            headers: {'X-CSRFToken': "{{ csrf_token }}"},
+            success: function(data) {   
+                if (data.status == 1){
+                    Toast.fire({
+                      icon: 'success',
+                      title: '<p id="messages" style="margin-top: 12px !important; margin-left:8px !important;"><b>'+ data.message +'</b></p>'
+                    }) 
+                }else if (data.status == 0){
+                    Toast.fire({
+                    icon: 'error',
+                    title: '<p id="messages" style="margin-top: 12px !important; margin-left:8px !important;"><b>'+ data.message +'</b></p>'
+                    }) 
+                }       
+            },
+        });
+    }
+}
+</script>
+
+
+
+<script>
+  function updatePROJECTNOReplySMTPSettings(){
+
+    var EMAIL_USE_TLS_NO_REPLY = [];
+    $.each($("input[name='EMAIL_USE_TLS_NO_REPLY']:checked"), function(){
+      EMAIL_USE_TLS_NO_REPLY.push($(this).val());
+    });
+
+    if ("{{request.user.is_superadmin}}" == ""){
+      Toast.fire({
+          icon: 'error',
+          title: '<p id="messages" style="margin-top:12px !important; margin-left:8px !important;"><b> Target Required* </b></p>'
+        }) 
+    }else{
+        const data = new FormData();
+        data.append('EMAIL_HOST_NO_REPLY', $('.EMAIL_HOST_NO_REPLY').val());
+        data.append('EMAIL_HOST_USER_NO_REPLY', $('.EMAIL_HOST_USER_NO_REPLY').val());
+        data.append('EMAIL_HOST_PASSWORD_NO_REPLY', $('.EMAIL_HOST_PASSWORD_NO_REPLY').val());
+        data.append('EMAIL_PORT_NO_REPLY', $('.EMAIL_PORT_NO_REPLY').val());
+        data.append('EMAIL_USE_TLS_NO_REPLY', EMAIL_USE_TLS_NO_REPLY);
+
+        $.ajax({                      
+            type: "POST",                   
+            url: "{% url 'UpdateNOReplySMTPSettings' %}",                    
+            data: data,
+            cache: false,
+            processData: false,
+            contentType: false,
+            enctype: 'multipart/form-data',
+            headers: {'X-CSRFToken': "{{ csrf_token }}"},
+            success: function(data) {   
+                if (data.status == 1){
+                    Toast.fire({
+                      icon: 'success',
+                      title: '<p id="messages" style="margin-top: 12px !important; margin-left:8px !important;"><b>'+ data.message +'</b></p>'
+                    }) 
+                }else if (data.status == 0){
+                    Toast.fire({
+                    icon: 'error',
+                    title: '<p id="messages" style="margin-top: 12px !important; margin-left:8px !important;"><b>'+ data.message +'</b></p>'
+                    }) 
+                }       
+            },
+        });
+    }
+}
+</script>
+
+
+<script>
+  function updatePROJECTSOCIALMedia(){
+    if ("{{request.user.is_superadmin}}" == ""){
+      Toast.fire({
+          icon: 'error',
+          title: '<p id="messages" style="margin-top:12px !important; margin-left:8px !important;"><b> Target Required* </b></p>'
+        }) 
+    }else{
+        const data = new FormData();
+
+        data.append('facebook', $('.Facebook').val());
+        data.append('instagram', $('.Instagram').val());
+        data.append('youtube', $('.YouTube').val());
+        data.append('linkedin', $('.Linkedin').val());
+        data.append('pintrest', $('.Pintrest').val());
+        data.append('twitter', $('.Twitter').val());
+
+        $.ajax({                      
+            type: "POST",                   
+            url: "{% url 'UpdateSocailMedia' %}",                    
+            data: data,
+            cache: false,
+            processData: false,
+            contentType: false,
+            enctype: 'multipart/form-data',
+            headers: {'X-CSRFToken': "{{ csrf_token }}"},
+            success: function(data) {   
+                if (data.status == 1){
+                    Toast.fire({
+                      icon: 'success',
+                      title: '<p id="messages" style="margin-top: 12px !important; margin-left:8px !important;"><b>'+ data.message +'</b></p>'
+                    }) 
+                }else if (data.status == 0){
+                    Toast.fire({
+                    icon: 'error',
+                    title: '<p id="messages" style="margin-top: 12px !important; margin-left:8px !important;"><b>'+ data.message +'</b></p>'
+                    }) 
+                }       
+            },
+        });
+    }
+}
+</script>
+
+<!-- ===================END============================= -->
+{% include 'includes/adminToster.html' %} <!--Add this-->
+</body>
+</html>
+{% else %}
+<script>
+  setTimeout(
+        function(){
+            window.location = "{{project.baseURL}}"; 
+        },
+    100);
+</script>
+{% endif %}

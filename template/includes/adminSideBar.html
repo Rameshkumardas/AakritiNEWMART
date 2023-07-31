@@ -1,0 +1,1236 @@
+{% load static %}
+{% load AdminInformation %}
+<!-- Main Sidebar Container -->
+<aside class="main-sidebar sidebar-dark-primary elevation-4">
+    <!-- Brand Logo -->
+    <a href="{% url 'DefaultDashboard' %}" class="brand-link">
+        <img src="{% if project.favicon %}{{project.favicon.url}}{% else %}{% static 'admineMARTSHOT/img/default/mrdas.jpg' %}{% endif %}"
+            alt="{{project.name}}" class="brand-image img-circle  elevation-3" style="opacity: .8">
+        <span class="brand-text font-weight-light">{{project.name}}</span>
+    </a>
+    <!-- Sidebar -->
+    <div class="sidebar">
+        <!-- Sidebar user panel (optional) -->
+        <div class="user-panel mt-3 pb-3 mb-3 d-flex">
+            <div class="image">
+                <img src="{% if request.user.img %}{{request.user.img.url}}{% endif %}" class="img-circle elevation-2"
+                    alt="User Image">
+            </div>
+            <div class="info">
+                <a href="{% url 'AdminProfile' %}" class="d-block">{{request.user.name}}</a>
+            </div>
+        </div>
+        <!-- SidebarSearch Form -->
+        <div class="form-inline">
+            <form action="" method="POST">
+                <div class="input-group" data-widget="sidebar-search">
+                    <input class="form-control form-control-sidebar" type="search" placeholder="Search"
+                        aria-label="Search">
+                    <div class="input-group-append">
+                        <button class="btn btn-sidebar">
+                            <i class="fas fa-search fa-fw"></i>
+                        </button>
+                    </div>
+                </div>
+            </form>
+        </div>
+
+        <!-- Sidebar Menu -->
+        <nav class="mt-2">
+            <ul class="nav nav-pills nav-sidebar flex-column" data-widget="treeview" role="menu" data-accordion="false">
+
+
+                {% if dashboard %}
+                <li class="nav-item active">
+                    <a href="{% url 'DefaultDashboard' %}" class="nav-link active"><i
+                            class="fas fa-tachometer-alt nav-icon"></i>
+                        <p><b>Dashboard</b></p>
+                    </a>
+                </li>
+                {% else %}
+                <li class="nav-item">
+                    <a href="{% url 'DefaultDashboard' %}" class="nav-link">
+                        <i class="fas fa-tachometer-alt nav-icon"></i>
+                        <p>Dashboard</p>
+                    </a>
+                </li>
+                {% endif %}
+
+                {% if CMSManager %}
+                <li class="nav-item menu-open">
+                {% else %}
+                <li class="nav-item">
+                {% endif %}
+                    {% if CMSManager %}
+                    <a href="#" class="nav-link active">
+                        <i class="nav-icon fas fa-cogs"></i>
+                        <p>CMS Manager<i class="fas fa-angle-left right"></i></p>
+                    </a>
+                    {% else %}
+                    <a href="#" class="nav-link">
+                        <i class="nav-icon fas fa-cogs"></i>
+                        <p>CMS Manager<i class="fas fa-angle-left right"></i></p>
+                    </a>
+                    {% endif %}
+
+                    <ul class="nav nav-treeview">
+                        {% if CMSManager and updatePAGE %}
+                        <li class="nav-item " >
+                            <a href="{% url 'createPAGE' %}" class="nav-link active">
+                                <i class="fas fa-edit nav-icon text-primary"></i>
+                                <p><b>Page Update..</b></p>
+                            </a>                                
+                        </li>
+                        {% endif %}
+                        {% if CMSManager and updateSECTION %}
+                        <li class="nav-item sidebar-control">
+                            <a href="" class="nav-link active">
+                                <i class="fas fa-edit fa-pin nav-icon"></i>
+                                <p>Section Updating...</p>
+                            </a>
+                        </li>
+                        {% endif %}
+
+                        <li class="nav-item sidebar-control">
+                            {% if CMSManager and CMSSettings %}
+                            <a href="{% url 'CMSSettings' %}" class="nav-link active">
+                                <i class="fas fa-cog nav-icon text-primary"></i>
+                                <p><b>CMS Settings</b></p>
+                            </a>
+                            {% else %}
+                            <a href="{% url 'CMSSettings' %}" class="nav-link">
+                                <i class="fas fa-cog nav-icon"></i>
+                                <p>CMS Settings</p>
+                            </a>
+                            {% endif %}
+                        </li>
+                        <li class="nav-item sidebar-control">
+                            {% if CMSManager and allSECTIONList %}
+                            <a href="{% url 'SECTIONList' %}" class="nav-link active">
+                                <i class="far fa-edit nav-icon text-primary"></i>
+                                <p><b>Section</b></p>
+                            </a>
+                            {% else %}
+                            <a href="{% url 'SECTIONList' %}" class="nav-link">
+                                <i class="fas fa-th nav-icon"></i>
+                                <p>Section</p>
+                            </a>
+                            {% endif %}
+                        </li>
+                        <li class="nav-item " >
+                            {% if CMSManager and createPAGE %}
+                            <a href="{% url 'createPAGE' %}" class="nav-link active">
+                                <i class="fas fa-edit nav-icon text-primary"></i>
+                                <p><b>Create Page</b></p>
+                            </a>
+                            {% else %}
+                            <a href="{% url 'createPAGE' %}" class="nav-link">
+                                <i class="fas fa-edit nav-icon"></i>
+                                <p>Create Page</p>
+                            </a>
+                            {% endif %}
+                        </li>
+
+
+                        {% if CMSManager and allPAGE and request.GET.is_draft %}
+                        <li class="nav-item " >
+                            <a href="{% url 'PAGEList' %}?is_draft=True" class="nav-link active">
+                                <i class="fas fa-th-list nav-icon text-primary"></i>
+                                <p><b>Draft Pages</b></p>
+                            </a>
+                        </li>
+                        {% elif CMSManager and allPAGE and request.GET.is_verified %}
+                        <li class="nav-item " >
+                            <a href="{% url 'PAGEList' %}?is_verified=True" class="nav-link  active">
+                                <i class="fas fa-check-circle nav-icon text-success"></i>
+                                <p><b>Active Pages</b></p>
+                            </a>
+                        </li>
+                        {% elif CMSManager and allPAGE and request.GET.is_active %}
+                        <li class="nav-item " >
+                            <a href="{% url 'PAGEList' %}?is_active=False" class="nav-link {% if request.GET.is_active %} active {% endif %}">
+                                <i class="fas fa-exclamation-triangle nav-icon text-warning"></i>
+                                <p><b>Deactive Pages</b></p>
+                            </a>
+                        </li>
+                        {% elif CMSManager and allPAGE and request.GET.is_deleted %}
+                        <li class="nav-item " >
+                            <a href="{% url 'PAGEList' %}?is_deleted=True" class="nav-link active ">
+                                <i class="fas fa-trash-alt nav-icon text-danger"></i>
+                                <p><b>Deleted Pages</b></p>
+                            </a>
+                        </li>
+                        {% else %}
+                        <li class="nav-item " >
+                            <a href="{% url 'PAGEList' %}?is_draft=True" class="nav-link ">
+                                <i class="fas fa-th-list nav-icon"></i>
+                                <p><b>All Pages</b></p>
+                            </a>
+                        </li>
+                        {% endif %}
+
+                    </ul>
+                </li>
+
+               
+
+                {% if request.user.is_accountant %}
+                <li class="nav-header text-light"><b>PRODUCT MANAGER</b></li>
+
+                {% if CATEGORYManager %}
+                    <li class="nav-item menu-open">
+                {% else %}
+                    <li class="nav-item">
+                {% endif %}
+                    {% if CATEGORYManager %}
+                        <a href="#" class="nav-link active"><i class="fas fa-laptop nav-icon"></i><p>Category Manager<i class="fas fa-angle-left right"></i></p>
+                    {% else %}
+                        <a href="#" class="nav-link"><i class="fas fa-laptop nav-icon"></i><p>Category Manager<i class="fas fa-angle-left right"></i></p>{% endif %}</a>
+                        <ul class="nav nav-treeview drop-menu category-view">
+                            
+                            {% if updateMainCat %}
+                            <li class="nav-item sidebar-control">
+                                <a href="" class="nav-link active"> <i class="fas fa-edit nav-icon text-primary"></i><p><b>Update MainCat..</b></p></a>
+                            </li>
+                            {% endif %}
+                            {% if updateSubCat %}
+                            <li class="nav-item sidebar-control">
+                                <a href="" class="nav-link active"> <i class="fas fa-edit nav-icon text-primary"></i><p><b>Update SubCat..</b></p></a>
+                            </li>
+                            {% endif %}
+                            {% if updateSubSubCat %}
+                            <li class="nav-item sidebar-control">
+                                <a href="" class="nav-link active"> <i class="fas fa-edit nav-icon text-primary"></i><p><b>Update SubSubCat..</b></p></a>
+                            </li>
+                            {% endif %}
+
+                            <li class="nav-item " id="" link="Main-Category">
+                                {% if MainCategory %}
+                                <a href="{%url 'createMainCategory' %}" class="nav-link active"><i class="fas fa-edit nav-icon text-primary"></i><p><b>MainCategory</b></p></a>
+                                {% else %}
+                                <a href="{%url 'createMainCategory' %}" class="nav-link"><i class="fas fa-th-large nav-icon"></i><p>MainCategory</p></a>
+                                {% endif %}
+                            </li>
+                            <li class="nav-item " id="" link="Sub-Category">
+                                {% if SubCategory %}
+                                <a href="{% url 'createSubCategory' %}" class="nav-link active">
+                                    <i class="fas fa-edit nav-icon text-primary"></i>
+                                    <p><b>SubCategory</b></p>
+                                </a>
+                                {% else %}
+                                <a href="{% url 'createSubCategory' %}" class="nav-link">
+                                    <i class="fas fa-th nav-icon"></i>
+                                    <p>SubCategory</p>
+                                </a>
+                                {% endif %}
+                            </li>
+                            <li class="nav-item " id="" link="Sub-Category">
+                                {% if SubSubCategory %}
+                                <a href="{% url 'createSubSubCategory' %}" class="nav-link active">
+                                    <i class="fas fa-edit nav-icon text-primary"></i>
+                                    <p><b>SubSubCategory</b></p>
+                                </a>
+                                {% else %}
+                                <a href="{% url 'createSubSubCategory' %}" class="nav-link">
+                                    <i class="fas fa-th nav-icon"></i>
+                                    <p>SubSubCategory</p>
+                                </a>
+                                {% endif %}
+                            </li>
+                        </ul>
+                    </li>
+
+
+
+                    
+                {% if CommonModules %}
+                <li class="nav-item menu-open">
+                {% else %}
+                <li class="nav-item">
+                {% endif %}
+                {% if CommonModules %}
+                    <a href="#" class="nav-link active"><i class="fas fa-laptop nav-icon"></i><p>Attribute Manager <i class="fas fa-angle-left right"></i></p>
+                {% else %}
+                    <a href="#" class="nav-link"><i class="fas fa-laptop nav-icon"></i><p>Attribute Manager <i class="fas fa-angle-left right"></i></p>{% endif %}</a>
+                    <ul class="nav nav-treeview drop-menu category-view">
+                        <li class="nav-item " id="" link="Main-Category">
+                            {% if COLORManager %}
+                            <a href="{%url 'COLORList' %}" class="nav-link active"><i class="fas fa-edit nav-icon text-primary"></i><p><b>Color Manager</b></p></a>
+                            {% else %}
+                            <a href="{%url 'COLORList' %}" class="nav-link"><i class="fas fa-th-large nav-icon"></i><p>Color Manager</p></a>
+                            {% endif %}
+                        </li>
+                        <li class="nav-item sidebar-control">
+                            {% if REGIONManage %}
+                            <a href="{%url 'REGIONList' %}" class="nav-link active"><i class="fas fa-th-list nav-icon text-primary"></i><p><b>Region Manager</b></p></a>
+                            {% else %}
+                            <a href="{%url 'REGIONList' %}" class="nav-link"><i class="fas fa-th-list nav-icon"></i><p>Region Manager</p></a>
+                            {% endif %}
+                        </li>
+                        <li class="nav-item sidebar-control">
+                            {% if SHIPPINGManage %}
+                            <a href="{%url 'SHIPPINGList' %}" class="nav-link active"><i class="fas fa-th-list nav-icon text-primary"></i><p><b>Shipping Manager</b></p></a>
+                            {% else %}
+                            <a href="{%url 'SHIPPINGList' %}" class="nav-link"><i class="fas fa-th-list nav-icon"></i><p>Shipping Manager</p></a>
+                            {% endif %}
+                        </li>
+                    </ul>
+                </li>
+
+
+                
+                {% if BRANDManager %}
+                <li class="nav-item menu-open">
+                    {% else %}
+                <li class="nav-item">
+                    {% endif %}
+                    {% if BRANDManager %}
+                    <a href="" class="nav-link active">
+                        <i class="fab fa-500px	 fa-10x nav-icon"></i>
+                        <p> Brand Manager <i class="fas fa-angle-left right"></i></p>
+                    </a>
+                    {% else %}
+                    <a href="" class="nav-link">
+                        <i class="fab fa-500px	 fa-10x nav-icon"></i>
+                        <p> Brand Manager <i class="fas fa-angle-left right"></i></p>
+                    </a>
+                    {% endif %}
+                    <ul class="nav nav-treeview">
+                        <li class="nav-item sidebar-control">
+                            {% if CreateBRAND %}
+                            <a href="{% url 'CreateBRAND' %}" class="nav-link active">
+                                <i class="fas fa-user-lock nav-icon text-primary"></i>
+                                <p><b>Create Brand</b></p>
+                            </a>
+                            {% else %}
+                            <a href="{% url 'CreateBRAND' %}" class="nav-link">
+                                <i class="fas fa-users nav-icon"></i>
+                                <p>Create Brand</p>
+                            </a>
+                            {% endif %}
+                        </li>
+                        <li class="nav-item sidebar-control">
+                            {% if BRANDListActive %}
+                            <a href="{% url 'BRANDList' %}?is_draft=True" class="nav-link active">
+                                <i class="fas fa-user-lock nav-icon text-primary"></i>
+                                <p><b> Brand List</b></p>
+                            </a>
+                            {% else %}
+                            <a href="{% url 'BRANDList' %}?is_draft=True" class="nav-link">
+                                <i class="fas fa-th-list nav-icon"></i>
+                                <p> Brand List</p>
+                            </a>
+                            {% endif %}
+                        </li>
+                    </ul>
+                </li>
+
+
+                    {% if PRODUCTManager %}
+                    <li class="nav-item menu-open">
+                        {% else %}
+                    <li class="nav-item">
+                        {% endif %}
+                        {% if PRODUCTManager %}
+                        <a href="#" class="nav-link active"><i class="fab fa-product-hunt nav-icon"></i>
+                            <p><b>Product Manager</b><i class="fas fa-angle-left right"></i></p>
+                        </a>
+                        {% else %}
+                        <a href="#" class="nav-link"><i class="fab fa-product-hunt nav-icon"></i>
+                            <p>Product Manager<i class="fas fa-angle-left right"></i></p>
+                        </a>
+                        {% endif %}
+                        <ul class="nav nav-treeview">
+
+                            <li class="nav-item sidebar-control">
+                            {% if updatePRODUCT %}
+                                <a href="" class="nav-link active">
+                                <i class="fas fa-edit nav-icon text-primary"></i><p><b>Update Product</b></p></a>
+                            {% endif %}
+                            </li>
+                            
+                            {% if request.GET.is_draft and PRODUCTManager and allPRODUCTS %}
+                            <li class="nav-item sidebar-control">
+                                <a href="{% url 'ALLPRODUCTList' %}?is_draft=True" class="nav-link active"><i
+                                        class="fas fa-drafting-compass nav-icon text-info"></i>
+                                    <p><b> Draft Products</b></p>
+                                </a>
+                            </li>
+                            {% elif request.GET.is_verified and PRODUCTManager and allPRODUCTS %}
+                            <li class="nav-item sidebar-control">
+                                <a href="{% url 'ALLPRODUCTList' %}?is_verified=True" class="nav-link active"><i
+                                        class="fas fa-check-circle nav-icon text-success"></i>
+                                    <p><b> Active Products</b></p>
+                                </a>
+                            </li>
+                            {% elif request.GET.is_out_of_stock and PRODUCTManager and allPRODUCTS %}
+                            <li class="nav-item sidebar-control">
+                                <a href="{% url 'ALLPRODUCTList' %}?is_out_of_stock=True" class="nav-link active"><i
+                                        class="fas fa-exclamation-triangle nav-icon text-warning"></i>
+                                    <p><b> Deactive Products</b></p>
+                                </a>
+                            </li>
+                            {% elif request.GET.is_deleted and PRODUCTManager and allPRODUCTS %}
+                            <li class="nav-item sidebar-control">
+                                <a href="{% url 'ALLPRODUCTList' %}?is_deleted=True" class="nav-link active"><i
+                                        class="fas fa-trash-alt nav-icon text-danger"></i>
+                                    <p><b> Deleted Products</b></p>
+                                </a>
+                            </li>
+                            {% else %}
+                            <li class="nav-item sidebar-control">
+                                <a href="{% url 'ALLPRODUCTList' %}?is_draft=True" class="nav-link"><i
+                                        class="fas fa-th-list nav-icon"></i>
+                                    <p> All Products</p>
+                                </a>
+                            </li>
+                            {% endif %}
+                        </ul>
+                    </li>
+
+                
+                    {% if SALESManager %}
+                    <li class="nav-item menu-open">
+                    {% else %}
+                    <li class="nav-item">
+                    {% endif %}
+                    {% if SALESManager %}
+                    <a href="#" class="nav-link active">
+                    {% else %}
+                    <a href="#" class="nav-link">
+                    {% endif %}
+                        <i class="fab fa-blogger-b fa-10x nav-icon"></i><p>Sales Manager<i class="fas fa-angle-left right"></i></p></a>
+                        <ul class="nav nav-treeview">
+
+                            {% if SALESManager and allORDERS and request.GET.is_confirmed %}
+                            <li class="nav-item sidebar-control">
+                                <a href="{% url 'ALLORDERList' %}?is_confirmed=True" class="nav-link active">
+                                <i class="fas fa-check-circle nav-icon text-success"></i><p><b>Confirmed Orders</b></p></a>
+                            </li>
+                            {% elif SALESManager and allORDERS and request.GET.is_shipped %}
+                            <li class="nav-item sidebar-control">
+                                <a href="{% url 'ALLORDERList' %}?is_shipped=True" class="nav-link active">
+                                <i class="fas fa-check-circle nav-icon text-success"></i><p><b>Shipped Orders</b></p></a>
+                            </li>
+                            {% elif SALESManager and allORDERS and request.GET.is_delivered %}
+                            <li class="nav-item sidebar-control">
+                                <a href="{% url 'ALLORDERList' %}?is_delivered=True" class="nav-link active">
+                                <i class="fas fa-check-circle nav-icon text-success"></i><p><b>Delivered Orders</b></p></a>
+                            </li>
+                            {% elif SALESManager and allORDERS and request.GET.is_deleted %}
+                            <li class="nav-item sidebar-control">
+                                <a href="{% url 'ALLORDERList' %}?is_deleted=True" class="nav-link active">
+                                    <i class="fas fa-check-circle nav-icon text-success"></i><p><b>Deleted Orders</b></p></a>
+                            </li>
+                            {% else %}
+                            <li class="nav-item sidebar-control">
+                                <a href="{% url 'ALLORDERList' %}?is_confirmed=True" class="nav-link">
+                                <i class="fas fa-check-circle nav-icon text-success"></i><p><b>Confirmed Orders</b></p></a>
+                            </li>
+                            {% endif %}
+                        </ul>
+                    </li>
+
+
+                    {% if RCRManager %}
+                    <li class="nav-item menu-open">
+                        {% else %}
+                    <li class="nav-item">
+                        {% endif %}
+                        {% if RCRManager %}
+                        <a href="#" class="nav-link active"><i class="fas fa-laptop-code nav-icon"></i>
+                            <p><b>RCR Manager</b><i class="fas fa-angle-left right"></i></p>
+                        </a>
+                        {% else %}
+                        <a href="#" class="nav-link"><i class="fas fa-laptop-code nav-icon"></i>
+                            <p>RCR Manager<i class="fas fa-angle-left right"></i></p>
+                        </a>
+                        {% endif %}
+                        <ul class="nav nav-treeview">
+                            <li class="nav-item sidebar-control">
+                            {% if request.GET.is_draft and RCRManager and allRETURNS %}
+                            <li class="nav-item sidebar-control">
+                                <a href="{% url 'RETURNList' %}?is_draft=True" class="nav-link active"><i
+                                        class="fas fa-drafting-compass nav-icon text-info"></i>
+                                    <p><b>Return Request</b></p>
+                                </a>
+                            </li>
+                            {% elif request.GET.is_verified and RCRManager and allRETURNS %}
+                            <li class="nav-item sidebar-control">
+                                <a href="{% url 'RETURNList' %}?is_verified=True" class="nav-link active"><i
+                                        class="fas fa-check-circle nav-icon text-success"></i>
+                                    <p><b>Return Approved</b></p>
+                                </a>
+                            </li>
+                            {% elif request.GET.is_active and RCRManager and allRETURNS %}
+                            <li class="nav-item sidebar-control">
+                                <a href="{% url 'RETURNList' %}?is_active=True" class="nav-link active"><i
+                                        class="fas fa-exclamation-triangle nav-icon text-warning"></i>
+                                    <p><b>Return Rejected </b></p>
+                                </a>
+                            </li>
+                            {% elif request.GET.is_deleted and RCRManager and allRETURNS %}
+                            <li class="nav-item sidebar-control">
+                                <a href="{% url 'RETURNList' %}?is_deleted=True" class="nav-link active"><i
+                                        class="fas fa-trash-alt nav-icon text-danger"></i>
+                                    <p><b>Return Deleted</b></p>
+                                </a>
+                            </li>
+                            {% else %}
+                            <li class="nav-item sidebar-control">
+                                <a href="{% url 'RETURNList' %}?is_draft=True" class="nav-link"><i
+                                        class="fas fa-th-list nav-icon"></i>
+                                    <p>Return Requests</p>
+                                </a>
+                            </li>
+                            {% endif %}
+
+                            {% if request.GET.is_draft and RCRManager and allCANCELS %}
+                            <li class="nav-item sidebar-control">
+                                <a href="{% url 'CANCELList' %}?is_draft=True" class="nav-link active"><i
+                                        class="fas fa-drafting-compass nav-icon text-info"></i>
+                                    <p><b>Cancel Request</b></p>
+                                </a>
+                            </li>
+                            {% elif request.GET.is_verified and RCRManager and allCANCELS %}
+                            <li class="nav-item sidebar-control">
+                                <a href="{% url 'CANCELList' %}?is_verified=True" class="nav-link active"><i
+                                        class="fas fa-check-circle nav-icon text-success"></i>
+                                    <p><b>Cancel Approved</b></p>
+                                </a>
+                            </li>
+                            {% elif request.GET.is_active and RCRManager and allCANCELS %}
+                            <li class="nav-item sidebar-control">
+                                <a href="{% url 'CANCELList' %}?is_active=True" class="nav-link active"><i
+                                        class="fas fa-exclamation-triangle nav-icon text-warning"></i>
+                                    <p><b>Cancel Rejected </b></p>
+                                </a>
+                            </li>
+                            {% elif request.GET.is_deleted and RCRManager and allCANCELS %}
+                            <li class="nav-item sidebar-control">
+                                <a href="{% url 'CANCELList' %}?is_deleted=True" class="nav-link active"><i
+                                        class="fas fa-trash-alt nav-icon text-danger"></i>
+                                    <p><b>Cancel Deleted</b></p>
+                                </a>
+                            </li>
+                            {% else %}
+                            <li class="nav-item sidebar-control">
+                                <a href="{% url 'CANCELList' %}?is_draft=True" class="nav-link"><i
+                                        class="fas fa-th-list nav-icon"></i>
+                                    <p>Cancel Requests</p>
+                                </a>
+                            </li>
+                            {% endif %}
+                            
+                            {% if request.GET.is_draft and RCRManager and allREPLACEMENTS %}
+                            <li class="nav-item sidebar-control">
+                                <a href="{% url 'REPLACEMENTList' %}?is_draft=True" class="nav-link active"><i
+                                        class="fas fa-drafting-compass nav-icon text-info"></i>
+                                    <p><b>Replacement Request</b></p>
+                                </a>
+                            </li>
+                            {% elif request.GET.is_verified and RCRManager and allREPLACEMENTS %}
+                            <li class="nav-item sidebar-control">
+                                <a href="{% url 'REPLACEMENTList' %}?is_verified=True" class="nav-link active"><i
+                                        class="fas fa-check-circle nav-icon text-success"></i>
+                                    <p><b>Replacement Approved</b></p>
+                                </a>
+                            </li>
+                            {% elif request.GET.is_active and RCRManager and allREPLACEMENTS %}
+                            <li class="nav-item sidebar-control">
+                                <a href="{% url 'REPLACEMENTList' %}?is_active=True" class="nav-link active"><i
+                                        class="fas fa-exclamation-triangle nav-icon text-warning"></i>
+                                    <p><b>Replacement Rejected </b></p>
+                                </a>
+                            </li>
+                            {% elif request.GET.is_deleted and RCRManager and allREPLACEMENTS %}
+                            <li class="nav-item sidebar-control">
+                                <a href="{% url 'REPLACEMENTList' %}?is_deleted=True" class="nav-link active"><i
+                                        class="fas fa-trash-alt nav-icon text-danger"></i>
+                                    <p><b>Replacement Deleted</b></p>
+                                </a>
+                            </li>
+                            {% else %}
+                            <li class="nav-item sidebar-control">
+                                <a href="{% url 'REPLACEMENTList' %}?is_draft=True" class="nav-link"><i
+                                        class="fas fa-th-list nav-icon"></i>
+                                    <p> Replacement Requests</p>
+                                </a>
+                            </li>
+                            {% endif %}
+                        </ul>
+                    </li>
+
+                   
+                    {% if REFUNDManager %}
+                    <li class="nav-item menu-open">
+                    {% else %}
+                    <li class="nav-item">
+                    {% endif %}
+                    {% if REFUNDManager %}
+                    <a href="#" class="nav-link active">
+                    {% else %}
+                    <a href="#" class="nav-link">
+                    {% endif %}
+                        <i class="fa fa-undo fa-10x nav-icon"></i><p>Refund Manager<i class="fas fa-angle-left right"></i></p></a>
+                        <ul class="nav nav-treeview">
+                            {% if request.GET.is_draft and REFUNDManager and allREFUNDS %}
+                            <li class="nav-item sidebar-control">
+                                <a href="{% url 'REFUNDList' %}?is_draft=True" class="nav-link active"><i
+                                        class="fas fa-drafting-compass nav-icon text-info"></i>
+                                    <p><b>Refund Requests</b></p>
+                                </a>
+                            </li>
+                            {% elif request.GET.is_verified and REFUNDManager and allREFUNDS %}
+                            <li class="nav-item sidebar-control">
+                                <a href="{% url 'REFUNDList' %}?is_verified=True" class="nav-link active"><i
+                                        class="fas fa-check-circle nav-icon text-success"></i>
+                                    <p><b>Refund Approved</b></p>
+                                </a>
+                            </li>
+                            {% elif request.GET.is_active and REFUNDManager and allREFUNDS %}
+                            <li class="nav-item sidebar-control">
+                                <a href="{% url 'REFUNDList' %}?is_active=True" class="nav-link active"><i
+                                        class="fas fa-exclamation-triangle nav-icon text-warning"></i>
+                                    <p><b>Refund Rejected </b></p>
+                                </a>
+                            </li>
+                            {% elif request.GET.is_deleted and REFUNDManager and allREFUNDS %}
+                            <li class="nav-item sidebar-control">
+                                <a href="{% url 'REFUNDList' %}?is_deleted=True" class="nav-link active"><i
+                                        class="fas fa-trash-alt nav-icon text-danger"></i>
+                                    <p><b>Refund Deleteds</b></p>
+                                </a>
+                            </li>
+                            {% else %}
+                            <li class="nav-item sidebar-control">
+                                <a href="{% url 'REFUNDList' %}?is_draft=True" class="nav-link"><i
+                                        class="fas fa-th-list nav-icon"></i>
+                                    <p> All Refunds</p>
+                                </a>
+                            </li>
+                            {% endif %}
+                           
+                        </ul>
+                    </li>
+                  
+
+
+
+                    <li class="nav-header text-light"><b>EMAIL MARKETING</b></li>
+                    {% if EMAILMarketing %}
+                    <li class="nav-item menu-open">
+                        {% else %}
+                    <li class="nav-item">
+                        {% endif %}
+                        {% if EMAILMarketing %}
+                        <a href="#" class="nav-link active"><i class="fas fa-envelope nav-icon"></i>
+                            <p><b>Email Marketing</b><i class="fas fa-angle-left right"></i></p>
+                        </a>
+                        {% else %}
+                        <a href="#" class="nav-link"><i class="fas fa-envelope nav-icon"></i>
+                            <p>Email Marketing<i class="fas fa-angle-left right"></i></p>
+                        </a>
+                        {% endif %}
+                        <ul class="nav nav-treeview">
+                            <li class="nav-item sidebar-control">
+                                {% if EMAILMarketing and updateEMAILTEMPLATE %}
+                                <li class="nav-item sidebar-control">
+                                    <a href="" class="nav-link active">
+                                        <i class="fas fa-edit nav-icon text-primary"></i>
+                                        <p><b>Update Template</b></p>
+                                    </a>
+                                </li>
+                                {% endif %}
+    
+                                
+    
+    
+                                <li class="nav-item sidebar-control">
+                                    {% if CreateEMAILs %}
+                                    <a href="{% url 'createEMAIL' %}" class="nav-link active">
+                                        <i class="fas fa-edit nav-icon text-primary"></i>
+                                        <p><b>Compose Email</b></p>
+                                    </a>
+                                    {% else %}
+                                    <a href="{% url 'createEMAIL' %}" class="nav-link">
+                                        <i class="fas fa-edit nav-icon"></i>
+                                        <p>Compose Email</p>
+                                    </a>
+                                    {% endif %}
+                                </li>
+    
+                                {% if request.GET.is_draft and EMAILMarketing and allEMAILS %}
+                                <li class="nav-item sidebar-control">
+                                    <a href="{% url 'EMAILList' %}?is_draft=True" class="nav-link active"><i
+                                            class="fas fa-drafting-compass nav-icon text-info"></i>
+                                        <p><b> Draft Emails</b></p>
+                                    </a>
+                                </li>
+                                {% elif request.GET.is_verified and EMAILMarketing and allEMAILS %}
+                                <li class="nav-item sidebar-control">
+                                    <a href="{% url 'EMAILList' %}?is_verified=True" class="nav-link active"><i
+                                            class="fas fa-check-circle nav-icon text-success"></i>
+                                        <p><b> Active Emails</b></p>
+                                    </a>
+                                </li>
+                                {% elif request.GET.is_active and EMAILMarketing and allEMAILS %}
+                                <li class="nav-item sidebar-control">
+                                    <a href="{% url 'EMAILList' %}?is_active=True" class="nav-link active"><i
+                                            class="fas fa-exclamation-triangle nav-icon text-warning"></i>
+                                        <p><b> Deactive Emails</b></p>
+                                    </a>
+                                </li>
+                                {% elif request.GET.is_deleted and EMAILMarketing and allEMAILS %}
+                                <li class="nav-item sidebar-control">
+                                    <a href="{% url 'EMAILList' %}?is_deleted=True" class="nav-link active"><i
+                                            class="fas fa-trash-alt nav-icon text-danger"></i>
+                                        <p><b> Deleted Emails</b></p>
+                                    </a>
+                                </li>
+                                {% else %}
+                                <li class="nav-item sidebar-control">
+                                    <a href="{% url 'EMAILList' %}?is_draft=True" class="nav-link"><i
+                                            class="fas fa-th-list nav-icon"></i>
+                                        <p> All Emails</p>
+                                    </a>
+                                </li>
+                                {% endif %}
+    
+
+                                {% if EMAILMarketing and allEMAILTEMPLATEList %}
+                                <li class="nav-item sidebar-control">
+                                    <a href="{% url 'EMAILTEMPLATEList' %}?is_draft=True" class="nav-link active"><i
+                                            class="fas fa-drafting-compass nav-icon text-info"></i>
+                                        <p><b> Email Templates</b></p>
+                                    </a>
+                                </li>
+                                {% else %}
+                                <li class="nav-item sidebar-control">
+                                    <a href="{% url 'EMAILTEMPLATEList' %}?is_draft=True" class="nav-link"><i
+                                            class="fas fa-th-list nav-icon"></i>
+                                        <p> Email Templates</p>
+                                    </a>
+                                </li>
+                                {% endif %}
+    
+                                <li class="nav-item sidebar-control">
+                                    {% if allEMAILSENDSTATUS %}
+                                    <a href="{% url 'ALLSENDEMAILSTATUSList' %}" class="nav-link active">
+                                        <i class="fas fa-envelope nav-icon text-primary"></i>
+                                        <p><b>Send Email Status</b></p>
+                                    </a>
+                                    {% else %}
+                                    <a href="{% url 'ALLSENDEMAILSTATUSList' %}" class="nav-link">
+                                        <i class="fas fa-envelope nav-icon"></i>
+                                        <p>Send Email Status</p>
+                                    </a>
+                                    {% endif %}
+                                </li>
+    
+    
+                               
+    
+                        </ul>
+                    </li>
+                   
+
+             
+    
+
+                <li class="nav-header text-light"><b>CONTENT MANAGER</b></li>
+                {% if BLOGManager %}
+                <li class="nav-item menu-open">
+                    {% else %}
+                <li class="nav-item">
+                    {% endif %}
+                    {% if BLOGManager %}
+                    <a href="#" class="nav-link active"><i class="fas fa-laptop-code nav-icon"></i>
+                        <p><b>Blog Manager</b><i class="fas fa-angle-left right"></i></p>
+                    </a>
+                    {% else %}
+                    <a href="#" class="nav-link"><i class="fas fa-laptop-code nav-icon"></i>
+                        <p>Blog Manager<i class="fas fa-angle-left right"></i></p>
+                    </a>
+                    {% endif %}
+                    <ul class="nav nav-treeview">
+                        <li class="nav-item sidebar-control">
+                            <li class="nav-item sidebar-control">
+
+                                
+                                {% if updateBLOG %}
+                                <a href="javascript:void();" class="nav-link active">
+                                    <i class="far fa-edit nav-icon text-primary"></i>
+                                    <p><b>Blog Updating..</b></p>
+                                </a>
+                                {% endif %}
+
+
+                                {% if blogMainCatActive %}
+                                <a href="{% url 'blogMainCategory' %}" class="nav-link active">
+                                    <i class="far fa-edit nav-icon text-primary"></i>
+                                    <p><b>Main Category</b></p>
+                                </a>
+                                {% else %}
+                                <a href="{% url 'blogMainCategory' %}" class="nav-link">
+                                    <i class="fas fa-th-list nav-icon"></i>
+                                    <p>Main Category</p>
+                                </a>
+                                {% endif %}
+                            </li>
+                         
+                            <li class="nav-item sidebar-control">
+                                {% if blogSubCat %}
+                                <a href="{% url 'blogSubCategory' %}" class="nav-link active">
+                                    <i class="far fa-edit nav-icon text-primary"></i>
+                                    <p><b>Sub Category</b></p>
+                                </a>
+                                {% else %}
+                                <a href="{% url 'blogSubCategory' %}" class="nav-link">
+                                    <i class="fas fa-th nav-icon"></i>
+                                    <p>Sub Category</p>
+                                </a>
+                                {% endif %}
+                            </li>
+                            <li class="nav-item sidebar-control">
+                                {% if CreateBlogs %}
+                                <a href="{% url 'createBLOG' %}" class="nav-link active">
+                                    <i class="fas fa-edit nav-icon text-primary"></i>
+                                    <p><b>Create Blog</b></p>
+                                </a>
+                                {% else %}
+                                <a href="{% url 'createBLOG' %}" class="nav-link">
+                                    <i class="fas fa-edit nav-icon"></i>
+                                    <p>Create Blog</p>
+                                </a>
+                                {% endif %}
+                            </li>
+                            
+                        {% if request.GET.is_draft and BLOGManager and allBLOGS %}
+                        <li class="nav-item sidebar-control">
+                            <a href="{% url 'BLOGList' %}?is_draft=True" class="nav-link active"><i
+                                    class="fas fa-drafting-compass nav-icon text-info"></i>
+                                <p><b> Draft Blogs</b></p>
+                            </a>
+                        </li>
+                        {% elif request.GET.is_verified and BLOGManager and allBLOGS %}
+                        <li class="nav-item sidebar-control">
+                            <a href="{% url 'BLOGList' %}?is_verified=True" class="nav-link active"><i
+                                    class="fas fa-check-circle nav-icon text-success"></i>
+                                <p><b> Active Blogs</b></p>
+                            </a>
+                        </li>
+                        {% elif request.GET.is_active and BLOGManager and allBLOGS %}
+                        <li class="nav-item sidebar-control">
+                            <a href="{% url 'BLOGList' %}?is_active=True" class="nav-link active"><i
+                                    class="fas fa-exclamation-triangle nav-icon text-warning"></i>
+                                <p><b> Deactive Blogs</b></p>
+                            </a>
+                        </li>
+                        {% elif request.GET.is_deleted and BLOGManager and allBLOGS %}
+                        <li class="nav-item sidebar-control">
+                            <a href="{% url 'BLOGList' %}?is_deleted=True" class="nav-link active"><i
+                                    class="fas fa-trash-alt nav-icon text-danger"></i>
+                                <p><b> Deleted Blogs</b></p>
+                            </a>
+                        </li>
+                        {% else %}
+                        <li class="nav-item sidebar-control">
+                            <a href="{% url 'BLOGList' %}?is_draft=True" class="nav-link"><i
+                                    class="fas fa-th-list nav-icon"></i>
+                                <p> All Blogs</p>
+                            </a>
+                        </li>
+                        {% endif %}
+                    </ul>
+                </li>
+                {% endif %}
+           
+
+
+                {% if FAQManager %}
+                <li class="nav-item menu-open">
+                {% else %}
+                <li class="nav-item">
+                {% endif %}
+                    
+                    {% if FAQManager %}
+                    <a href="#" class="nav-link active">
+                        <i class="nav-icon fa fa-rocket"></i>
+                        <p>FAQ Manager<i class="fas fa-angle-left right"></i></p>
+                    </a>
+                    {% else %}
+                    <a href="#" class="nav-link">
+                        <i class="nav-icon fas fa-copy"></i>
+                        <p>FAQ Manager<i class="fas fa-angle-left right"></i></p>
+                    </a>
+                    {% endif %}
+
+                    <ul class="nav nav-treeview">
+
+                        <li class="nav-item " >
+                            {% if FAQCategory %}
+                            <a href="" class="nav-link active">
+                                <i class="fas fa-edit nav-icon text-primary"></i>
+                                <p><b>FAQ Category</b></p>
+                            </a>
+                            {% else %}
+                            <a href="{% url 'FAQCatManager' %}" class="nav-link"><i class="fas fa-th-list nav-icon"></i>
+                                <p>FAQ Category</p>
+                            </a>
+                            {% endif %}
+                        </li>
+
+                        <li class="nav-item " >
+                            {% if createFAQ %}
+                            <a href="{% url 'createFAQ' %}" class="nav-link active">
+                                <i class="fas fa-edit nav-icon text-primary"></i>
+                                <p><b>Create FAQ</b></p>
+                            </a>
+                            {% else %}
+                            <a href="{% url 'createFAQ' %}" class="nav-link">
+                                <i class="fas fa-edit nav-icon"></i>
+                                <p>Create FAQ</p>
+                            </a>
+                            {% endif %}
+                        </li>
+
+                        {% if ViewFAQ %}
+                        <li class="nav-item " >
+                            <a href="" class="nav-link active">
+                                <i class="fas fa-eye nav-icon text-primary"></i>
+                                <p><b>View FAQ</b></p>
+                            </a>
+                        </li>
+                        {% endif %}
+
+                        {% if updateFAQ %}
+                        <li class="nav-item " >
+                            <a href="{% url 'createFAQ' %}" class="nav-link active">
+                                <i class="fas fa-edit nav-icon text-primary"></i>
+                                <p><b>Update FAQ</b></p>
+                            </a>                                
+                        </li>
+                        {% endif %}
+
+                        {% if FAQManager and allFAQ and request.GET.is_draft %}
+                        <li class="nav-item " >
+                            <a href="{% url 'FAQList' %}?is_draft=True" class="nav-link active">
+                                <i class="fas fa-th-list nav-icon text-primary"></i>
+                                <p><b>Draft FAQs</b></p>
+                            </a>
+                        </li>
+                        {% elif FAQManager and allFAQ and request.GET.is_verified %}
+                        <li class="nav-item " >
+                            <a href="{% url 'FAQList' %}?is_verified=True" class="nav-link  active">
+                                <i class="fas fa-check-circle nav-icon text-success"></i>
+                                <p><b>Active FAQs</b></p>
+                            </a>
+                        </li>
+                        {% elif FAQManager and allFAQ and request.GET.is_active %}
+                        <li class="nav-item " >
+                            <a href="{% url 'FAQList' %}?is_active=False" class="nav-link {% if request.GET.is_active %} active {% endif %}">
+                                <i class="fas fa-exclamation-triangle nav-icon text-warning"></i>
+                                <p><b>Deactive FAQs</b></p>
+                            </a>
+                        </li>
+                        {% elif FAQManager and allFAQ and request.GET.is_deleted %}
+                        <li class="nav-item " >
+                            <a href="{% url 'FAQList' %}?is_deleted=True" class="nav-link active ">
+                                <i class="fas fa-trash-alt nav-icon text-danger"></i>
+                                <p><b>Deleted FAQs</b></p>
+                            </a>
+                        </li>
+                        {% else %}
+                        <li class="nav-item " >
+                            <a href="{% url 'FAQList' %}?is_draft=True" class="nav-link ">
+                                <i class="fas fa-th-list nav-icon"></i>
+                                <p><b>All FAQs</b></p>
+                            </a>
+                        </li>
+                        {% endif %}
+                    </ul>
+                </li>
+
+             
+                {% if BANNERManager %}
+                <li class="nav-item menu-open">
+                    {% else %}
+                <li class="nav-item">
+                    {% endif %}
+
+                    {% if BANNERManager %}
+                    <a href="#" class="nav-link active"><i class="fas fa-laptop-code nav-icon"></i>
+                        <p><b>Banner Manager</b><i class="fas fa-angle-left right"></i></p>
+                    </a>
+                    {% else %}
+                    <a href="#" class="nav-link"><i class="fas fa-laptop-code nav-icon"></i>
+                        <p>Banner Manager<i class="fas fa-angle-left right"></i></p>
+                    </a>
+                    {% endif %}
+                    
+                    <ul class="nav nav-treeview">
+
+                        {% if BANNERManager and updateSECTION %}
+                        <li class="nav-item sidebar-control">
+                            <a href="" class="nav-link active">
+                                <i class="fas fa-edit fa-pin nav-icon"></i>
+                                <p>Section Updating...</p>
+                            </a>
+                        </li>
+                        {% endif %}
+
+             
+                        <li class="nav-item sidebar-control">
+                            {% if  BANNERCatList %}
+                            <a href="{% url 'BANNERCatList' %}" class="nav-link active">
+                                <i class="far fa-edit nav-icon text-primary"></i>
+                                <p><b>Main Category</b></p>
+                            </a>
+                            {% else %}
+                            <a href="{% url 'BANNERCatList' %}" class="nav-link">
+                                <i class="fas fa-th-list nav-icon"></i>
+                                <p>Main Category</p>
+                            </a>
+                            {% endif %}
+                        </li>
+                        
+
+                        <li class="nav-item sidebar-control">
+                            {% if CreateBANNERs %}
+                            <a href="{% url 'createBANNER' %}" class="nav-link active">
+                                <i class="fas fa-edit nav-icon text-primary"></i>
+                                <p><b>Create Banner</b></p>
+                            </a>
+                            {% else %}
+                            <a href="{% url 'createBANNER' %}" class="nav-link">
+                                <i class="fas fa-edit nav-icon"></i>
+                                <p>Create Banner</p>
+                            </a>
+                            {% endif %}
+                        </li>
+                        
+                        {% if request.GET.is_draft and BANNERManager and allBANNERS %}
+                        <li class="nav-item sidebar-control">
+                            <a href="{% url 'BANNERList' %}?is_draft=True" class="nav-link active"><i
+                                    class="fas fa-drafting-compass nav-icon text-info"></i>
+                                <p><b> Draft Banners</b></p>
+                            </a>
+                        </li>
+                        {% elif request.GET.is_verified and BANNERManager and allBANNERS %}
+                        <li class="nav-item sidebar-control">
+                            <a href="{% url 'BANNERList' %}?is_verified=True" class="nav-link active"><i
+                                    class="fas fa-check-circle nav-icon text-success"></i>
+                                <p><b> Active Banners</b></p>
+                            </a>
+                        </li>
+                        {% elif request.GET.is_active and BANNERManager and allBANNERS %}
+                        <li class="nav-item sidebar-control">
+                            <a href="{% url 'BANNERList' %}?is_active=True" class="nav-link active"><i
+                                    class="fas fa-exclamation-triangle nav-icon text-warning"></i>
+                                <p><b> Deactive Banners</b></p>
+                            </a>
+                        </li>
+                        {% elif request.GET.is_deleted and BANNERManager and allBANNERS %}
+                        <li class="nav-item sidebar-control">
+                            <a href="{% url 'BANNERList' %}?is_deleted=True" class="nav-link active"><i
+                                    class="fas fa-trash-alt nav-icon text-danger"></i>
+                                <p><b> Deleted Banners</b></p>
+                            </a>
+                        </li>
+                        {% else %}
+                        <li class="nav-item sidebar-control">
+                            <a href="{% url 'BANNERList' %}?is_draft=True" class="nav-link"><i
+                                    class="fas fa-th-list nav-icon"></i>
+                                <p> All Banners</p>
+                            </a>
+                        </li>
+                        {% endif %}
+                    </ul>
+                </li>
+
+
+                
+
+
+
+
+          
+
+                <li class="nav-header text-light text-uppercase"><b>MESSAGE MANAGER</b></li>
+                {% if Message %}
+                <li class="nav-item menu-open">
+                    {% else %}
+                <li class="nav-item">
+                    {% endif %}
+
+                    {% if Message %}
+                    <a href="#" class="nav-link active">
+                        <i class=" fas fa-th-list nav-icon "></i>
+                        <p>Message Manager<i class="fas fa-angle-left right"></i></p>
+                    </a>
+                    {% else %}
+                    <a href="#" class="nav-link">
+                        <i class=" fa fa-comments nav-icon "></i>
+                        <p>Message Manager<i class="fas fa-angle-left right"></i></p>
+                    </a>
+                    {% endif %}
+                    <ul class="nav nav-treeview">
+                        
+                        <li class="nav-item " id="" link="Main-Category">
+                            {% if Announcements %}
+                            <a href="{% url 'Announcements' %}" class="nav-link active">
+                                <i class="fa fa-bullhorn nav-icon text-primary"></i>
+                                <p><b>Announcements</b></p>
+                            </a>
+                            {% else %}
+                            <a href="{% url 'Announcements' %}" class="nav-link">
+                                <i class="fa fa-bullhorn nav-icon"></i>
+                                <p>Announcements</p>
+                            </a>
+                            {% endif %}
+                        </li>
+                       
+
+                        <li class="nav-item " id="" link="Main-Category">
+                            {% if Contacted %}
+                            <a href="{% url 'ContactedList' %}" class="nav-link active">
+                                <i class="fas fa-users nav-icon text-primary"></i>
+                                <p><b>Contacted List</b></p>
+                            </a>
+                            {% else %}
+                            <a href="{% url 'ContactedList' %}" class="nav-link">
+                                <i class="fas fa-th-list nav-icon"></i>
+                                <p>Contacted List</p>
+                            </a>
+                            {% endif %}
+                        </li>     
+                               
+                    </ul>
+                </li> 
+
+
+                {% if request.user.is_superadmin %}
+                <!-- ==========Start-USER-Manager===================== -->
+                <li class="nav-header text-light text-uppercase"><b>USER MANAGERS</b></li>
+                {% if staff %}
+                <li class="nav-item menu-open">
+                    {% else %}
+                <li class="nav-item">
+                    {% endif %}
+                    {% if staff %}
+                    <a href="" class="nav-link active">
+                        <i class="fas fa-users fa-10x nav-icon"></i>
+                        <p> Staff Manager <i class="fas fa-angle-left right"></i></p>
+                    </a>
+                    {% else %}
+                    <a href="" class="nav-link">
+                        <i class="fas fa-users fa-10x nav-icon"></i>
+                        <p> Staff Manager <i class="fas fa-angle-left right"></i></p>
+                    </a>
+                    {% endif %}
+                    <ul class="nav nav-treeview">
+                        <li class="nav-item sidebar-control">
+                            {% if allStaffs %}
+                            <a href="{% url 'AllStaffs' %}" class="nav-link active">
+                                <i class="fas fa-user-lock nav-icon text-primary"></i>
+                                <p><b>All Staffs</b></p>
+                            </a>
+                            {% else %}
+                            <a href="{% url 'AllStaffs' %}" class="nav-link">
+                                <i class="fas fa-users nav-icon"></i>
+                                <p>All Staffs</p>
+                            </a>
+                            {% endif %}
+                        </li>
+                    </ul>
+                </li>
+
+                {% if request.GET.is_draft and USERManager and ALLUSER %}
+                <li class="nav-item active">
+                    <a href="{% url 'ALLUSERList' %}?is_draft=True" class="nav-link active"><i class="fas fa-users nav-icon"></i>
+                        <p><b>All Users</b></p>
+                    </a>
+                </li>
+                {% elif request.GET.is_verified and USERManager and ALLUSER %}
+                <li class="nav-item active">
+                    <a href="{% url 'ALLUSERList' %}?is_verified=True" class="nav-link active"><i class="fas fa-users nav-icon"></i>
+                        <p><b>All Users</b></p>
+                    </a>
+                </li>
+                {% elif request.GET.is_login and USERManager and ALLUSER %}
+                <li class="nav-item active">
+                    <a href="{% url 'ALLUSERList' %}?is_login=True" class="nav-link active"><i class="fas fa-users nav-icon"></i>
+                        <p><b>All Users</b></p>
+                    </a>
+                </li>
+                {% elif request.GET.is_deleted and USERManager and ALLUSER %}
+                <li class="nav-item active">
+                    <a href="{% url 'ALLUSERList' %}?is_deleted=True" class="nav-link active"><i class="fas fa-users nav-icon"></i>
+                        <p><b>All Users</b></p>
+                    </a>
+                </li>
+                {% else %}
+                <li class="nav-item">
+                    <a href="{% url 'ALLUSERList' %}?is_draft=True" class="nav-link"><i class="fas fa-users nav-icon"></i>
+                        <p>Users</p>
+                    </a>
+                </li>
+                {% endif %}
+
+                <li class="nav-header text-light"><b>Extra Settings</b></li>
+                <!-- ==========Start-Extra-Manager===================== -->
+                {% if extraSettings %}
+                <li class="nav-item menu-open">
+                    {% else %}
+                <li class="nav-item">
+                    {% endif %}
+                    {% if extraSettings %}
+                    <a href="#" class="nav-link active">
+                        <i class="fas fa-cogs fa-10x nav-icon"></i>
+                        <p> Extra Settings <i class="fas fa-angle-left right"></i></p>
+                    </a>
+                    {% else %}
+                    <a href="#" class="nav-link">
+                        <i class="fas fa-cogs fa-10x nav-icon"></i>
+                        <p> Extra Settings <i class="fas fa-angle-left right"></i></p>
+                    </a>
+                    {% endif %}
+                    <ul class="nav nav-treeview">
+                        <li class="nav-item sidebar-control">
+                            {% if GeneralSettings %}
+                            <a href="{% url 'GeneralSettings' %}" class="nav-link active">
+                                <i class="fas fa-cog nav-icon text-primary"></i>
+                                <p><b>General Settings</b></p>
+                            </a>
+                            {% else %}
+                            <a href="{% url 'GeneralSettings' %}" class="nav-link">
+                                <i class="fas fa-cog nav-icon"></i>
+                                <p>General Settings</p>
+                            </a>
+                            {% endif %}
+                        </li>
+                    </ul>
+                </li>
+                {% endif %}
+
+
+
+                
+                <!-- ===========End-User-Manager======================== -->
+                <li class="nav-item sidebar-control bg-warning light" title="Delete Current Access Session"
+                    data-toggle="tooltip" style="border-radius: 3px !important;">
+                    <a href="{% url 'AdminLogOut' %}" class="nav-link ">
+                        <i class="fas fa-user-lock nav-icon"></i>
+                        <p><span class="text text-center text-uppercase"> &#160;&#160;&#160;Admin LogOut</span><i
+                                class="fas fa-sign-out-alt float-right"></i></p>
+                    </a>
+                </li>
+
+                <li class="nav-header text-success text-uppercase text-center">=====> {{project.name}} <=====</li>
+            </ul>
+        </nav>
+        <!-- /.sidebar-menu -->
+    </div>
+    <!-- /.sidebar -->
+</aside>

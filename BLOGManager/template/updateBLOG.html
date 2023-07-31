@@ -1,0 +1,400 @@
+<!DOCTYPE html>
+<html lang="en">
+  {% load static %}  
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+    <title>Update Blog: {{blog.name}} | {{project.title | safe | title }} || {{project.name}} </title>
+    <link rel="icon" type="image/png" href="{% if project.favicon %}{{project.favicon.url}}{% else %}{% static 'adminAAKRITICMS/img/default/mrdas.jpg' %}{% endif %}">
+    <!-- Select2 -->
+    <link rel="stylesheet" href="{% static 'adminAAKRITICMS/plugins/select2/css/select2.min.css'%}">
+    <link rel="stylesheet" href="{% static 'adminAAKRITICMS/plugins/select2-bootstrap4-theme/select2-bootstrap4.min.css'%}">
+    <!-- Font Awesome -->
+    <link rel="stylesheet" href="{% static 'adminAAKRITICMS/plugins/fontawesome-free/css/all.min.css'%}">
+    <!-- SweetAlert2 -->
+    <link rel="stylesheet" href="{% static 'adminAAKRITICMS/plugins/sweetalert2-theme-bootstrap-4/bootstrap-4.min.css' %}">
+    <!-- adminRKMTech Theme style -->
+    <link rel="stylesheet" href="{% static 'adminAAKRITICMS/css/aakriticms.min.css'%}">
+    <link rel="stylesheet" href="{% static 'adminAAKRITICMS/css/aakriti.ui.css'%}">
+    <!-- iCheck for checkboxes and radio inputs -->
+    <link rel="stylesheet" href="{% static 'adminAAKRITICMS/plugins/icheck-bootstrap/icheck-bootstrap.min.css'%}">
+    <!-- summernote -->
+    <link rel="stylesheet" href="{% static 'adminAAKRITICMS/plugins/summernote/summernote-bs4.min.css' %}">
+    <link rel="stylesheet" href="{% static 'adminAAKRITICMS/plugins/bootstrap/bootstrap-tagsinput.css' %}"/>
+    <link rel="stylesheet" href="{% static 'adminAAKRITICMS/plugins/tags/tagsinput.css' %}"/>
+    <link rel="stylesheet" href="{% static 'adminAAKRITICMS/plugins/summernote/prettify.css' %}"/>
+    <link rel="stylesheet" href="{% static 'adminAAKRITICMS/plugins/prism/prism.css' %}">
+    <link rel="stylesheet" href="{% static 'adminAAKRITICMS/plugins/overlayScrollbars/css/OverlayScrollbars.min.css' %}">
+</head>
+<body class="hold-transition sidebar-mini layout-fixed">
+  <div class="wrapper">
+  {% include 'includes/adminNavBar.html' %} <!--Add this-->
+  {% include 'includes/adminSideBar.html' %} <!--Add this-->
+
+  <!-- Content Wrapper. Contains page content -->
+  <div class="content-wrapper">
+    <!-- Content Header (Page header) -->
+    <section class="content-header">
+      <div class="container-fluid">
+        <div class="row mb-2">
+          <div class="col-sm-6">
+            <h1>Update Blog ( <b><span class="text-success">Auto Save {{blog.last_update | timesince }}</span></b> )</h1>
+          </div>
+          <div class="col-sm-6">
+            <ol class="breadcrumb float-sm-right">
+              <li class="breadcrumb-item"><a href="{% url 'DefaultDashboard' %}">Home</a></li>
+              <li class="breadcrumb-item"><a href="{% url 'BLOGList' %}?is_draft=True">Blogs</a></li>
+              <li class="breadcrumb-item active">Update</b>   </li>
+            </ol>
+          </div>
+        </div>
+      </div><!-- /.container-fluid -->
+    </section>    
+    <!-- Main content -->
+    <section class="content">
+      <div class="container-fluid">
+        <div class="row">
+          <div class="col-md-12">
+
+            <div class="card card-primary">
+              <div class="card-header ">
+                  <h3 class="card-title">{{blog.name}}</h3>
+              </div>
+              <!-- /.card-header -->
+              <div class="card-body">
+                <div class="row">
+                    <div class="col-md-3">
+                        <div class="form-group">
+                          <label>Main Category</label>
+                          <select class="mainCat form-control select2" style="width: 100%;" name="mainCat" id="mainCat" required>
+                            <option value="{{blog.mainCat.pk}}"> {{blog.mainCat.name | safe | title }} - Selected</option>
+                            {% if BLOGmainCatList %}
+                                {% for obj in BLOGmainCatList %}
+                                  <option value="{{obj.pk}}"> {{obj.name}} </option>
+                                {% endfor %}
+                              {% else %}
+                              <option>{{project.name}} No BLOGMainCat</option>
+                            {% endif %}
+                          </select>
+                      </div>
+                      <div class="form-group">
+                          <label>Sub Category</label>
+                          <select class="subCat form-control select2" style="width: 100%;" name="subCat" id="subCatLoaded" required onchange="autoUPDATEBLOG();">
+                            <option value="{{blog.SubCat.pk}}">{{blog.SubCat.name | safe | title}} - Selected</option>
+                          </select>
+                      </div>
+                        <label for="exampleInputFile">Select Image </label>
+                        <div class="card card-outline card-info">
+                          <div class="card-body"> 
+                            <div id="display_image" style="height:150px; width:100% !important; border-radius: 10px; border: 2px solid rgb(9, 135, 238); display: none; visibility: hidden; background-size:contain; background-repeat:no-repeat;"></div>
+                            <img src="{% if blog.img %}{{blog.img.url}}{% else %}{% static 'adminAAKRITICMS/img/default/AakritiLiteWebDeveloper.jpg'%}{% endif %}" class="img_display img-thumbnail" alt="{{blog.img}}" id="NoObject" style="height:150px; width:100% !important; border-radius: 10px; border: 2px solid rgb(9, 135, 238);" data-toggle="tooltip" data-placement="top" title="Select Blog Thumbnail"/>
+                          </div>
+                          <div class="card-footer">
+                              <span class="btn btn-primary col fileinput-button " data-toggle="tooltip" data-placement="top" title="Hit For Select Blog Thumbnail">
+                                  <input type="file" accept="image/png, image/jpg , image/jpeg" name="img"   id="image_input"  style="display: none;" class="img_input" onchange="autoUPDATEBLOG();"/>
+                                  <label for="image_input" style="cursor: pointer;" ><i class="fas fa-plus"></i><span>Add Thumbnail </span></label>
+                              </span>
+                          </div>
+                        </div>
+                    </div>
+                    <!-- ------------------------------------------------------- -->
+                    <div class="col-md-9">
+                        <div class="card-body">
+                            <div class="form-group">
+                                <label for="main-category">Headline</label>
+                                <div class="input-group">
+                                    <div class="input-group-prepend">
+                                    <span class="input-group-text"><i class="fas fa-laptop"></i></span>
+                                    </div>
+                                    <input type="text" name="name" class="name form-control" id="input-field" placeholder="Create Blog Title"  value="{{blog.name}}" autocomplete="off" onchange="autoUPDATEBLOG();">
+                                    <div class="input-group-prepend">
+                                      <span class="input-group-text" for="input-field" id="NameStringCount"></span>
+                                    </div>
+                                </div>
+                            </div>
+                            <div class="form-group">
+                              <label for="main-category">Slug</label>
+                              <div class="input-group">
+                                  <div class="input-group-prepend">
+                                  <span class="input-group-text"><i class="fas fa-laptop"></i></span>
+                                  </div>
+                                  <input type="text" name="slug" class="slug form-control" id="input-field" placeholder="Create Blog Title"  value="{{blog.slug}}" autocomplete="off" onchange="autoUPDATEBLOG();">
+                                  <div class="input-group-prepend">
+                                    <span class="input-group-text" for="input-field" id="NameStringCount"></span>
+                                  </div>
+                              </div>
+                          </div>
+                          
+                            <div class="form-group">
+                              <label for="">Short Intro </label>
+                              <textarea name="intro" onchange="autoUPDATEBLOG();" class="intro form-control" id="exampleFormControlTextarea4" rows="3" placeholder="Short Description should be 200 t0 300 between" autocomplete="off">{{blog.intro}}</textarea>
+                            </div>
+                            <div class="card card-outline card-info">
+                                <div class="card-header">
+                                  <h3 class="card-title" ><b>Blog Description</b></h3>
+                                </div>
+                                <!-- /.card-header -->
+                                <div class="card-body p-0">
+                                <textarea class="description" onchange="autoUPDATEBLOG();" name="description" id="summernote"  width="100%" height="100 px"  autocomplete="off" >
+                                  {{blog.description}}
+                                </textarea>
+                                </div>
+                                <div class="card-footer card-outline">
+                                  <input type="text" data-role="tagsinput" value="{{blog.summary}}" placeholder="Add Blog Summary..." data-role="tagsinput" name="summary" class="summary form-control" onchange="autoUPDATEBLOG();"> 
+                                </div>
+                            </div>
+                            <div class="card card-outline card-info">
+                              <div class="card-header">
+                                <h3 class="card-title">Add Reference ( Optional )</h3>
+                              </div>
+                              <div class="card-body p-0">
+                                <textarea id="References" class="references"  width="100%" height="100 px" name="reference" onchange="autoUPDATEBLOG();">{{blog.reference}}</textarea>
+                              </div>
+                              <div class="card-footer bg-info">
+                              </div>
+                            </div>
+                            <div class="card card-outline card-info">
+                              <div class="card-header">
+                                <input type="text" class="meta_title form-control" id="input-field" placeholder="Meta Title" name="meta_title" value="{{blog.meta_title}}" onchange="autoUPDATEBLOG();">
+                              </div>
+                              <div class="card-body p-0">
+                                  <textarea class="meta_description form-control"  rows="5" id="meta_description" placeholder="Write Meta Description..." name="meta_description" onchange="autoUPDATEBLOG();">{{blog.meta_description}}</textarea>
+                              </div>
+                              <div class="card-footer card-outline bg-info">
+                                <input type="text" data-role="tagsinput" value="{{blog.meta_keywords}}" placeholder="Add Blog Meta Keywords" data-role="tagsinput" name="meta_keywords" class="meta_keywords form-control" onchange="autoUPDATEBLOG();"> 
+                              </div>
+                            </div>
+                        </div>
+                        <!-- /.card-body -->
+                    </div>
+                    <!-- end col-md-8 -->
+                </div>
+                
+              </div>
+              <div class="card-footer bg-primary">
+                <a href="{% url 'BLOGVIEW' blog.slug %}" target="_blank" class="btn btn-dark float-right ml-3" title="Hit For: Live Preview" data-toggle="tooltip"><i class="fas fa-eye"></i>&nbsp;&nbsp; Live Priview</a>
+                <button type="submit" class="btn btn-light float-right ml-3" title="Hit For: Blog Publish" data-toggle="tooltip" onclick="autoUPDATEBLOG();"><i class="fas fa-upload"></i>&nbsp;&nbsp; Update Now</button>
+              </div> 
+              <!-- /.card-body And Default Form-->
+            </div>
+            </div>
+            <!-- /.card -->
+          </div>
+          <!-- /.col -->
+        </div>
+        <!-- /.row -->
+      </div>
+      <!-- /.container-fluid -->
+    </section>
+    <!-- /.content -->
+  </div>
+  <!-- /.content-wrapper -->
+
+  {% include 'includes/adminFooter.html' %} <!--Add this-->
+
+
+  <!-- Control Sidebar -->
+  <aside class="control-sidebar control-sidebar-dark">
+    <!-- Control sidebar content goes here -->
+  </aside>
+  <!-- /.control-sidebar -->
+</div>
+<!-- ./wrapper -->
+
+<!-- jQuery -->
+<!-- <script src="{% static 'adminAAKRITICMS/plugins/jquery/jquery.js'%}"></script> -->
+<script src="{% static 'adminAAKRITICMS/plugins/jquery/jquery.min.js'%}"></script>
+<!-- Bootstrap 4 -->
+<script src="{% static 'adminAAKRITICMS/plugins/bootstrap/js/bootstrap.bundle.min.js'%}"></script>
+<!-- Select2 -->
+<script src="{% static 'adminAAKRITICMS/plugins/select2/js/select2.full.min.js'%}"></script>
+<!-- SweetAlert2 -->
+<script src="{% static 'adminAAKRITICMS/plugins/sweetalert2/sweetalert2.min.js'%}"></script>
+<!-- Toastr -->
+<script src="{% static 'adminAAKRITICMS/plugins/toastr/toastr.min.js'%}"></script>
+<!-- AakritiCMS JavaScript -->
+<script src="{% static 'adminAAKRITICMS/js/aakritiCMS.min.js'%}"></script>
+<!-- Summernote -->
+<script src="{% static 'adminAAKRITICMS/plugins/summernote/summernote-bs4.min.js' %}"></script>
+<!-- AakritiCMS Tags -->
+<script src="{% static 'adminAAKRITICMS/plugins/tags/tagsinput.js'%}"></script>
+<script src="{% static 'adminAAKRITICMS/plugins/summernote/summernote-ext-highlight.js' %}"></script>
+<script src="{% static 'adminAAKRITICMS/plugins/summernote/prettify.js' %}"></script>
+<!-- AakritiCMS Prism JS -->
+<script src="{% static 'adminAAKRITICMS/plugins/prism/prism.js'%}" data-manual></script>
+
+<script src="{% static 'adminAAKRITICMS/plugins/overlayScrollbars/js/jquery.overlayScrollbars.min.js' %}"></script>
+<script src="{% static 'adminAAKRITICMS/plugins/aakritiCMS/js/additional-operations.js' %}"></script>
+
+<!-- Page specific script -->
+<script>
+
+$(function () {
+    $('#summernote').summernote({
+    placeholder: 'type starting with : Blog Description',
+    tabsize: 4,
+    spellCheck: true,
+    codeviewFilter: false,
+    codeviewIframeFilter: true,
+    height: 270,
+    disableGrammar: false,
+    toolbar: [
+          ['style', ['style']],
+          ['highlight', ['highlight']],
+          ['font', ['bold', 'underline', 'clear']],
+          ['para', ['undo', 'redo']],
+          ['color', ['forecolor', 'backcolor' ]],
+
+          ['para', ['ul', 'ol', 'paragraph', 'height']],          
+          ['table', ['table']],
+          ['insert', ['link', 'picture', 'video']],
+          ['view', ['fullscreen', 'codeview', 'help']],          
+        ],
+    lang:'tr-TR',
+    });
+  })
+  $(function () {
+    $('.intro').summernote({
+    placeholder: 'type starting with : Short Intro',
+    tabsize: 4,
+    spellCheck: true,
+    codeviewFilter: false,
+    codeviewIframeFilter: true,
+    height: 150,
+    disableGrammar: false,
+    toolbar: [
+          ['style', ['style']],
+          ['highlight', ['highlight']],
+
+          ['font', ['bold', 'underline', 'clear']],
+          ['para', ['undo', 'redo']],
+          ['color', ['forecolor', 'backcolor' ]],
+          ['para', ['ul', 'ol', 'paragraph', 'height']],          
+          ['insert', ['link', 'picture', 'video']],
+          ['view', ['fullscreen', 'codeview']],          
+        ],
+    lang:'tr-TR',
+    });
+  })
+
+  $(function () {
+    $('#References').summernote({
+    placeholder: 'type starting with : Write References',
+    tabsize: 4,
+    spellCheck: true,
+    codeviewFilter: false,
+    codeviewIframeFilter: true,
+    height: 150,
+    disableGrammar: false,
+    toolbar: [
+          ['style', ['style']],
+          ['font', ['bold', 'underline', 'clear']],
+          ['para', ['undo', 'redo']],
+          ['color', ['forecolor', 'backcolor' ]],
+          ['para', ['ul', 'ol', 'paragraph', 'height']],          
+          ['insert', ['link', 'picture', 'video']],
+          ['view', ['fullscreen', 'codeview',]],          
+        ],
+    lang:'tr-TR',
+    });
+  })
+
+  
+  $(function () {
+    //Initialize Select2 Elements
+    $('.select2').select2()
+
+    //Initialize Select2 Elements
+    $('.select2bs4').select2({
+      theme: 'bootstrap4'
+    })
+  })
+ 
+  $(function () {
+  $('[data-toggle="tooltip"]').tooltip()
+})
+
+
+$("#mainCat").change(function () {
+  const mainCatID = $(this).val(); 
+  $.ajax({                      
+      type: "POST",                   
+      url: "{% url 'LoadBLOGSubCatLIST' %}",                    
+      data: {
+        csrfmiddlewaretoken: "{{ csrf_token }}",
+        'mainCat': mainCatID       
+      },
+      success: function (data) {  
+          $("#subCatLoaded").html(data); 
+      }
+  });
+});
+
+</script>
+
+<script>
+  function autoUPDATEBLOG(){
+    
+    var mainCat =  $('.mainCat').val();
+    var subCat =  $('.subCat').val();
+    var name =  $('.name').val();    
+    var slug =  $('.slug').val();
+
+    var img =  $('.img_input')[0].files[0];
+    var intro =  $('.intro').val();
+    var description =  $('.description').val();
+    var summary =  $('.summary').val();
+    var references =  $('.references').val();
+    var meta_title =  $('.meta_title').val();
+    var meta_keywords =  $('.meta_keywords').val();
+    var meta_description =  $('.meta_description').val();
+  
+    const data = new FormData();
+    
+    data.append('target', "{{blog.pk}}");
+    
+    data.append('mainCat', mainCat);
+    data.append('subCat', subCat);
+    data.append('name', name);   
+    data.append('slug', slug);    
+    data.append('img', img);    
+    data.append('intro', intro);    
+    data.append('description', description);    
+    data.append('summary', summary);    
+    data.append('references', references);    
+    
+    data.append('meta_title', meta_title);    
+    data.append('meta_keywords', meta_keywords);    
+    data.append('meta_description', meta_description);    
+    
+    $.ajax({                      
+        type: "POST",                   
+        url: "{% url 'AUTOUPDATEBLOG' %}",                    
+        data: data,
+        cache: false,
+        processData: false,
+        contentType: false,
+        enctype: 'multipart/form-data',
+        headers: {'X-CSRFToken': "{{ csrf_token }}"},
+        success: function(data) {   
+            if (data.status == 1){
+                Toast.fire({
+                  icon: 'success',
+                  title: '<p id="messages" style="margin-top: 12px !important; margin-left:8px !important;"><b>'+ data.message +'</b></p>'
+                }) 
+              
+            }else if (data.status == 0){
+                Toast.fire({
+                icon: 'error',
+                title: '<p id="messages" style="margin-top: 12px !important; margin-left:8px !important;"><b>'+ data.message +'</b></p>'
+                }) 
+            }       
+        },
+    });
+  }
+</script>
+
+<!-- ==============END=============== -->
+{% include 'includes/adminToster.html' %}
+</body>
+</html>

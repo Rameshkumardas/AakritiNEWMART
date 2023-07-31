@@ -1,0 +1,240 @@
+<!DOCTYPE html>
+<html lang="en">
+  {% load static%}
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>Update Email Template | {{project.title | safe | title }} || {{project.name}} </title>
+  <link rel="icon" type="image/png" href="{% if project.favicon %}{{project.favicon.url}}{% else %}{% static 'adminAAKRITICMS/img/default/mrdas.jpg' %}{% endif %}">
+     <!-- Select2 -->
+     <link rel="stylesheet" href="{% static 'adminAAKRITICMS/plugins/select2/css/select2.min.css'%}">
+     <link rel="stylesheet" href="{% static 'adminAAKRITICMS/plugins/select2-bootstrap4-theme/select2-bootstrap4.min.css'%}">
+    <!-- Font Awesome -->
+    <link rel="stylesheet" href="{% static 'adminAAKRITICMS/plugins/fontawesome-free/css/all.min.css'%}">
+    <!-- SweetAlert2 -->
+    <link rel="stylesheet" href="{% static 'adminAAKRITICMS/plugins/sweetalert2-theme-bootstrap-4/bootstrap-4.min.css' %}">
+    <!-- OZYMed Theme style -->
+    <link rel="stylesheet" href="{% static 'adminAAKRITICMS/css/aakriticms.min.css'%}">
+    <link rel="stylesheet" href="{% static 'adminAAKRITICMS/css/aakriti.ui.css'%}">
+    
+    <!-- iCheck for checkboxes and radio inputs -->
+    <link rel="stylesheet" href="{% static 'adminAAKRITICMS/plugins/icheck-bootstrap/icheck-bootstrap.min.css'%}">
+   
+    <!-- summernote -->
+    <link rel="stylesheet" href="{% static 'adminAAKRITICMS/plugins/summernote/summernote-bs4.min.css' %}">
+    <link rel="stylesheet" href="{% static 'adminAAKRITICMS/plugins/bootstrap/bootstrap-tagsinput.css' %}"/>
+    <link rel="stylesheet" href="{% static 'adminAAKRITICMS/plugins/tags/tagsinput.css' %}"/>
+    <link rel="stylesheet" href="{% static 'adminAAKRITICMS/plugins/summernote/prettify.css' %}"/>
+    <link rel="stylesheet" href="{% static 'adminAAKRITICMS/plugins/prism/prism.css' %}">
+    <link rel="stylesheet" href="{% static 'adminAAKRITICMS/plugins/overlayScrollbars/css/OverlayScrollbars.min.css' %}">
+
+
+    <link rel="stylesheet" href="https://rawgit.com/google/code-prettify/master/src/prettify.css"/>
+
+</head>
+<body class="hold-transition sidebar-mini layout-fixed">
+  <div class="wrapper">
+  {% include 'includes/adminNavBar.html' %} <!--Add this-->
+  {% include 'includes/adminSideBar.html' %} <!--Add this-->
+  <!-- Content Wrapper. Contains page content -->
+  <div class="content-wrapper">
+    <!-- Content Header (Page header) -->
+    <section class="content-header">
+      <div class="container-fluid">
+        <div class="row mb-2">
+          <div class="col-sm-6">
+            <h1>Update Email Template</h1>
+          </div>
+          <div class="col-sm-6">
+            <ol class="breadcrumb float-sm-right">
+              <li class="breadcrumb-item"><a href="{% url 'DefaultDashboard' %}">Home</a></li>
+              <li class="breadcrumb-item active">Email</li>
+            </ol>
+          </div>
+        </div>
+      </div><!-- /.container-fluid -->
+    </section>
+    
+    <!-- Main content -->
+    <section class="content">
+      <div class="container-fluid">
+        <div class="row">
+          <div class="col-md-12">
+            <div class="card card-primary">
+              <div class="card-header card-primary"></div>
+              <!-- /.card-header -->
+              <div class="card-body">
+                <form action="" method="POST" enctype="multipart/form-data" id="FormData">
+                    {% csrf_token %}
+                <div class="row">
+                    <div class="col-md-3 d-none">
+                        <div class="form-group">
+                          <label>Target Set</label>
+                          <select class="form-control select2" style="width: 100%;" name="target_set" id="target_set" required>
+                              <option value="50">Select [ 50 ] Emails</option>
+                              <option value="75">Select [ 75 ] Emails</option>
+                              <option value="100">Select [ 100 ] Emails</option>
+                              <option value="150">Select [ 150 ] Emails</option>
+                              <option value="200">Select [ 200 ] Emails</option>
+                              <option value="250">Select [ 250 ] Emails</option>
+                              <option value="350">Select [ 350 ] Emails</option>
+                              <option value="500">Select [ 500 ] Emails</option>
+                              <option value="100">Select [ 1K ] Emails</option>
+                            </select>
+                        </div>
+                        <div class="form-group">
+                          <label>Send For</label>
+                          <select class="form-control select2" style="width: 100%;" name="status" id="status" required>
+                            <option value="is_draft">Send To Draft User</option>
+                            <option value="is_verified">Send To Active & Verified User</option>
+                            <option value="is_deactive">Send To Dective User</option>
+                            <option value="is_deleted">Send To Deleted User</option>
+                          </select>
+                        </div>
+                        <div class="form-group">
+                          <label>Select Sender</label>
+                          <select class="form-control select2" style="width: 100%;" name="sender" id="sender" required>
+                            <option value="noreply">Sending By Noreply</option>
+                            <option value="support">Sending By Support</option>
+                          </select>
+                        </div>                   
+                    </div>
+                    <!-- ------------------------------------------------------- -->
+                    <div class="col-md-12">
+                        <div class="card-body">
+                            <div class="form-group">
+                                <label for="main-category">Subject</label>
+                                <div class="input-group">
+                                    <div class="input-group-prepend">
+                                    <span class="input-group-text"><i class="fas fa-laptop"></i></span>
+                                    </div>
+                                    <input type="text" class="form-control" id="input-field" onkeyup="NameStringCount()" placeholder="Write Your Subject" name="subject" value="{{obj.subject}}">
+                                    <div class="input-group-prepend">
+                                      <span class="input-group-text" for="input-field" id="NameStringCount"></span>
+                                    </div>
+                                </div>
+                            </div>
+                         
+                            
+                            <div class="card card-outline card-info">
+                              <div class="card-header">
+                                <h3 class="card-title">Email Template Description</h3>
+                              </div>
+                              <div class="card-body p-0">
+                                <textarea id="summernote"  width="100%" height="100 px" name="description">{{obj.description}}</textarea>
+                              </div>
+                            </div>
+
+                        </div>
+                        <!-- /.card-body -->
+                    </div>
+                    <!-- end col-md-8 -->
+                </div>
+              </div>
+              <div class="card-footer bg-primary">
+                <!-- <button type="submit" class="btn btn-light float-right ml-3" title="Hit For: Sent Bulk Email & Save Email Template" data-toggle="tooltip"><i class="fas fa-paper-plane"></i>&nbsp;&nbsp; Save & Sent Email</button> -->
+                <button type="submit"  name="SaveOnly" value="SaveOnly" class="btn btn-light float-right ml-3" title="Hit For:  Save & Make Changes Email Template" data-toggle="tooltip"><i class="fas fa-save"></i>&nbsp;&nbsp; Save & Make Changes</button>
+              </div> 
+              <!-- /.card-body And Default Form-->
+            </form>
+            </div>
+            </div>
+            <!-- /.card -->
+          </div>
+          <!-- /.col -->
+        </div>
+        <!-- /.row -->
+      </div>
+      <!-- /.container-fluid -->
+    </section>
+    <!-- /.content -->
+  </div>
+  <!-- /.content-wrapper -->
+
+  {% include 'includes/adminFooter.html' %} <!--Add this-->
+
+</div>
+<!-- ./wrapper -->
+
+<!-- ./wrapper -->
+<script src="{% static 'adminAAKRITICMS/plugins/jquery/jquery.min.js'%}"></script>
+<!-- Bootstrap 4 -->
+<script src="{% static 'adminAAKRITICMS/plugins/bootstrap/js/bootstrap.bundle.min.js'%}"></script>
+<!-- Select2 -->
+<script src="{% static 'adminAAKRITICMS/plugins/select2/js/select2.full.min.js'%}"></script>
+<!-- SweetAlert2 -->
+<script src="{% static 'adminAAKRITICMS/plugins/sweetalert2/sweetalert2.min.js'%}"></script>
+<!-- Toastr -->
+<script src="{% static 'adminAAKRITICMS/plugins/toastr/toastr.min.js'%}"></script>
+<!-- AakritiCMS Plugins Themes Events-->
+<script src="{% static 'adminAAKRITICMS/plugins/aakriticms/js/functions.js'%}"></script>
+<script src="{% static 'adminAAKRITICMS/plugins/aakriticms/js/additional-operations.js'%}"></script>
+<!-- AakritiCMS JavaScript -->
+<script src="{% static 'adminAAKRITICMS/js/aakritiCMS.min.js'%}"></script>
+<!-- Summernote -->
+<script src="{% static 'adminAAKRITICMS/plugins/summernote/summernote-bs4.min.js' %}"></script>
+<!-- AakritiCMS Tags -->
+<script src="{% static 'adminAAKRITICMS/plugins/tags/tagsinput.js'%}"></script>
+<script src="{% static 'adminAAKRITICMS/plugins/summernote/summernote-ext-highlight.js' %}"></script>
+<script src="{% static 'adminAAKRITICMS/plugins/summernote/prettify.js' %}"></script>
+<script src="{% static 'adminAAKRITICMS/plugins/summernote/summernote-audio.js' %}"></script>
+
+<!-- AakritiCMS Prism JS -->
+<script src="{% static 'adminAAKRITICMS/plugins/prism/prism.js'%}" data-manual></script>
+<script src="{% static 'adminAAKRITICMS/plugins/overlayScrollbars/js/jquery.overlayScrollbars.min.js' %}"></script>
+<script src="{% static 'adminAAKRITICMS/plugins/aakritiCMS/js/additional-operations.js' %}"></script>
+<!-- SweetAlert2 -->
+<script src="{% static 'adminAAKRITICMS/plugins/sweetalert2/sweetalert2.min.js'%}"></script>
+<!-- Toastr -->
+<script src="{% static 'adminAAKRITICMS/plugins/toastr/toastr.min.js'%}"></script>
+<script>
+  $(function () {
+    $('#summernote').summernote({
+    placeholder: 'type starting with : Email Template Description',
+    tabsize: 4,
+    prettifyHtml: true,
+    spellCheck: true,
+    // codeviewFilter: false,
+    // codeviewIframeFilter: true,
+    height: 270,
+    disableGrammar: false,
+    toolbar: [
+          ['style', ['style']],
+          ['highlight', ['highlight']],
+          ['para', ['undo', 'redo']],
+          ['font', ['bold', 'underline', 'clear']],
+          ['color', ['forecolor', 'backcolor' ]],
+          ['para', ['ul', 'ol', 'paragraph', 'height']],          
+          ['table', ['table']],
+          ['insert', ['link', 'picture', 'video']],
+          ['view', ['fullscreen', 'codeview', 'help']],          
+        ],
+    lang:'tr-TR',
+    });
+  })
+
+
+
+
+  $(function () {
+    //Initialize Select2 Elements
+    $('.select2').select2()
+
+    //Initialize Select2 Elements
+    $('.select2bs4').select2({
+      theme: 'bootstrap4'
+    })
+  })
+ 
+  $(function () {
+  $('[data-toggle="tooltip"]').tooltip()
+})
+</script>
+<!-- SweetAlert2 -->
+<script src="{% static 'adminAAKRITICMS/plugins/sweetalert2/sweetalert2.min.js'%}"></script>
+<!-- Toastr -->
+<script src="{% static 'adminAAKRITICMS/plugins/toastr/toastr.min.js'%}"></script>
+<!-- ==============END=============== -->
+{% include 'includes/adminToster.html' %}
+</body>
+</html>

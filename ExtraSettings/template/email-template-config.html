@@ -1,0 +1,140 @@
+<!DOCTYPE html>
+{% load static%}
+<html lang="en">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+    <title>Email Template Settings - General Settings | {{project.title | safe | title }} || {{project.name}} </title>
+    <link rel="icon" type="image/png" href="{% if project.favicon %}{{project.favicon.url}}{% else %}{% static 'adminAAKRITICMS/img/default/mrdas.jpg' %}{% endif %}">
+    
+    <!-- summernote -->
+    <link rel="stylesheet" href="{% static 'adminAAKRITICMS/plugins/summernote/summernote-bs4.min.css' %}">
+
+    <!-- Font Awesome -->
+    <link rel="stylesheet" href="{% static 'adminAAKRITICMS/plugins/fontawesome-free/css/all.min.css'%}">
+    <!-- SweetAlert2 -->
+    <link rel="stylesheet" href="{% static 'adminAAKRITICMS/plugins/sweetalert2-theme-bootstrap-4/bootstrap-4.min.css' %}">
+    <!-- adminAAKRITICMS Theme style -->
+    <link rel="stylesheet" href="{% static 'adminAAKRITICMS/css/aakriticms.min.css'%}">
+    <link rel="stylesheet" href="{% static 'adminAAKRITICMS/css/aakriti.ui.css'%}">
+    
+</head>
+<body class="hold-transition sidebar-mini layout-fixed">
+  <div class="wrapper">
+
+    {% include 'admin.navbar.html' %} <!--Add this-->
+    {% include 'admin-sidebar.html' %} <!--Add this-->
+
+  <!-- Content Wrapper. Contains page content -->
+  <div class="content-wrapper">
+    <!-- Content Header (Page header) -->
+    <section class="content-header">
+      <div class="container-fluid">
+        <div class="row mb-2">
+          <div class="col-sm-6">
+            <h1>Email Template Settings</h1>
+          </div>
+          <div class="col-sm-6">
+            <ol class="breadcrumb float-sm-right">
+              <li class="breadcrumb-item"><a href="{% url 'DefaultDashboard' %}">Home</a></li>
+              <li class="breadcrumb-item active">Email Template Setting</li>
+            </ol>
+          </div>
+        </div>
+      </div><!-- /.container-fluid -->
+    </section>
+
+    <!-- Main content -->
+    <section class="content">
+      <div class="container-fluid">
+        
+        <div class="row">
+            <div class="col-md-3">
+                <div class="card card-widget widget-user">
+                    <div class="card-body p-1">
+                      <a href="{% url 'GeneralSettings' %}" class="btn btn-light btn-block " style="text-align: left !important;"><i class="fas fa-home"></i>&nbsp;&nbsp; &nbsp;<b>General Settings</b></a>
+                      <a href="{% url 'TermsConditionSettings' %}" class="btn btn-light btn-block " style="text-align: left !important;"><i class="fas fa-gavel"></i>&nbsp;&nbsp; &nbsp;<b>Terms & Condition</b></a>
+                      <a href="{% url 'PrivacyPolicySettings' %}" class="btn btn-light btn-block " style="text-align: left !important;"><i class="fas fa-shield-alt"></i>&nbsp;&nbsp; &nbsp;<b>Privacy Policy</b></a>
+                      <a href="{% url 'CopyrightPolicy' %}" class="btn btn-light btn-block " style="text-align: left !important;"><i class="far fa-copyright"></i>&nbsp;&nbsp; &nbsp;<b>Copyright Policy</b></a>
+                      <a href="{% url 'AboutUsSettings' %}" class="btn btn-success btn-block " style="text-align: left !important;"><i class="far fa-user-circle"></i>&nbsp;&nbsp; &nbsp;<b>About Us</b></a>
+                      <a href="{% url 'HowitWorks' %}" class="btn btn-light btn-block " style="text-align: left !important;"><i class="fas fa-tasks"></i>&nbsp;&nbsp; &nbsp;<b>How it Works</b></a>
+                      <a href="{% url 'Security' %}" class="btn btn-light btn-block " style="text-align: left !important;"><i class="fas fa-lock" aria-hidden="true"></i>&nbsp;&nbsp; &nbsp;<b>Security</b></a>
+                    </div>    
+                </div>
+            </div>
+            
+            <div class="col-md-9 ">
+
+              <div class="card card-outline card-primary">
+                <div class="card-header">
+                  <h3 class="card-title"><b><strong>Create Account Mail</strong></b></h3>
+                </div>
+                <div class="card-body">
+                  <form class="form-horizontal">
+                    <div class="form-group">
+                      <label for="main-category">Subject</label>
+                      <div class="input-group">
+                          <div class="input-group-prepend">
+                          <span class="input-group-text"><i class="fas fa-envelope nav-icon"></i></span>
+                          </div>
+                          <input type="text" class="form-control input-field" id="input-field" placeholder="Create Account Successful:- Subject" name="tutorial-title">
+                      </div>
+                    </div>
+                    <textarea id="summernote" class="DescriptionStringCount"  width="100%" height="400%" name="description"></textarea>
+
+                </div>
+                <div class="card-footer card-outline">
+                  <span class="float-left text-danger">**NB : Do Not Change The Variables Like [[ ____ ]].</span>
+                      <button type="submit" class="btn btn-primary float-right"><i class="fas fa-upload"></i> Save</button>
+                </div>
+              </div>
+              </form>
+              <!-- ==================== -->
+            </div>
+          </div>
+        <!-- /.row -->
+      </div><!-- /.container-fluid -->
+    </section>
+    <!-- /.content -->
+  </div>
+  <!-- /.content-wrapper -->
+  {% include 'admin-footer.html' %} <!--Add this-->
+</div>
+<!-- ./wrapper -->
+<!-- jQuery -->
+<script src="{% static 'adminAAKRITICMS/plugins/jquery/jquery.min.js'%}"></script>
+<!-- Bootstrap 4 -->
+<script src="{% static 'adminAAKRITICMS/plugins/bootstrap/js/bootstrap.bundle.min.js'%}"></script>
+<!-- AakritiCMS JavaScript -->
+<script src="{% static 'adminAAKRITICMS/js/aakritiCMS.min.js'%}"></script>
+<!-- Summernote -->
+<script src="{% static 'adminAAKRITICMS/plugins/summernote/summernote-bs4.min.js' %}"></script>
+
+<!-- SweetAlert2 -->
+<script src="{% static 'adminAAKRITICMS/plugins/sweetalert2/sweetalert2.min.js'%}"></script>
+<!-- Toastr -->
+<script src="{% static 'adminAAKRITICMS/plugins/toastr/toastr.min.js'%}"></script>
+
+
+<script>
+  $(function () {
+    // Summernote
+    $('#summernote').summernote({
+    placeholder: 'Account Create Successful Message',
+    tabsize: 2,
+    height:200,
+ 
+    lang:'tr-TR'
+    });
+
+    $('.preview-btn').click(function () {
+        $('#preview-box').html($('#summernote').summernote('code'));
+        prettyPrint();
+    });
+
+  })
+</script>
+<!-- ======================END============================= -->
+{% include 'admin-toster.html' %} <!--Toster Add-->
+</body>
+</html>

@@ -1,0 +1,258 @@
+<!DOCTYPE html>
+<html lang="en">
+  {% load static%}
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>Update Banner Cat | {{project.title | safe | title }} || {{project.name}} </title>
+  <link rel="icon" type="image/png" href="{% if project.favicon %}{{project.favicon.url}}{% else %}{% static 'adminAAKRITICMS/img/default/mrdas.jpg' %}{% endif %}">
+  <!-- Font Awesome -->
+  <link rel="stylesheet" href="{% static 'adminAAKRITICMS/plugins/fontawesome-free/css/all.min.css'%}">
+  <!-- SweetAlert2 -->
+  <link rel="stylesheet" href="{% static 'adminAAKRITICMS/plugins/sweetalert2-theme-bootstrap-4/bootstrap-4.min.css' %}">
+  <!-- adminKlickbazar Theme style -->
+  <link rel="stylesheet" href="{% static 'adminAAKRITICMS/css/aakriticms.min.css'%}">
+  <link rel="stylesheet" href="{% static 'adminAAKRITICMS/css/aakriti.ui.css'%}">
+  <!-- DataTables -->
+  <link rel="stylesheet" href="{% static 'adminAAKRITICMS/plugins/datatables-bs4/css/dataTables.bootstrap4.min.css'%}">
+  <link rel="stylesheet" href="{% static 'adminAAKRITICMS/plugins/datatables-responsive/css/responsive.bootstrap4.min.css'%}">
+  <link rel="stylesheet" href="{% static 'adminAAKRITICMS/plugins/datatables-buttons/css/buttons.bootstrap4.min.css'%}">
+  <link rel="stylesheet" href="{% static 'adminAAKRITICMS/plugins/select2/css/select2.min.css'%}">
+  <link rel="stylesheet" href="{% static 'adminAAKRITICMS/plugins/select2-bootstrap4-theme/select2-bootstrap4.min.css'%}">
+  <link rel="stylesheet" href="{% static 'adminAAKRITICMS/plugins/overlayScrollbars/css/OverlayScrollbars.min.css' %}">
+
+  <link rel="stylesheet" href="{% static 'adminAAKRITICMS/plugins/bootstrap/bootstrap-tagsinput.css' %}"/>
+  <link rel="stylesheet" href="{% static 'adminAAKRITICMS/plugins/tags/tagsinput.css' %}"/>
+
+</head>
+<body class="hold-transition sidebar-mini layout-fixed layout-navbar-fixed">
+<div class="wrapper">
+  {% include 'includes/adminNavBar.html' %} <!--Add this-->
+  {% include 'includes/adminSideBar.html' %} <!--Add this-->
+  <!-- Content Wrapper. Contains page content -->
+  <div class="content-wrapper">
+    <!-- Content Header (Page header) -->
+    <section class="content-header">
+      <div class="container-fluid">
+        <div class="row mb-2">
+          <div class="col-sm-6">
+            <h1>Update:- {{attribute.name}}</h1>
+          </div>
+          <div class="col-sm-6 d-flex " style="justify-content: right;">
+            <a href="{% url 'BANNERList' %}" class="btn btn-success " data-toggle="tooltip" title="BANNER Manager" ><i class="fas fa-th-list"></i>&nbsp;&nbsp; BANNER Manager</a>
+            &emsp;
+            <a href="{% url 'BANNERCATList' %}" class="btn btn-primary " data-toggle="tooltip" title="Create Banner Cat" ><i class="fas fa-edit"></i>&nbsp;&nbsp; Create Banner Cat</a>
+          </div>
+        </div>
+      </div><!-- /.container-fluid -->
+    </section>
+
+    <!-- Main content -->
+    <section class="content">
+      <div class="container-fluid">
+        <div class="row">
+          <div class="col-md-4">
+            <!-- general form elements -->
+            <div class="card card-primary">
+              <div class="card-header">
+                <h3 class="card-title">Update  Attribute</h3>
+              </div>
+              <!-- /.card-header -->
+              <!-- form start -->
+                <div class="card-body">
+                  <div class="form-group">
+                    <label for="BANNERCATListegory"> Attribute Name</label>
+                    <input type="text" class="name form-control" value="{{bCat.name}}" id="input-field" placeholder="Update  Attribute" data-toggle="tooltip" data-placement="top" title="Update  Attribute Name" name="name"  autocomplete="off" required>
+                  </div>
+                  <div class="form-group">
+                    <label for="BANNERCATListegory"> Attribute Value</label>
+                    <input type="text" class="tags" data-role="tagsinput" value="{{bCat.attribute}}" placeholder="Add Attribute Value" data-role="tagsinput" name="tags" class="form-control"> 
+                  </div>
+                </div>
+              
+                <div class="card-footer card-outline">
+                </div>
+                <!-- /.card-body -->
+                <div class="card-footer bg-primary">
+                  <div class="container">
+                    <div class="row">
+                      <div class="col text-center">
+                        <button type="submit" onclick="updateATTRIBUTE()" class="btn btn-light" data-toggle="tooltip" data-placement="top" title="Hit For Update  Attribute">Update  Attribute</button>
+                      </div>
+                    </div>
+                  </div>
+                </div><!-- End Card Footer -->
+            </div>
+            <!-- /.card -->
+          </div>
+          <div class="col-md-8">
+
+            <div class="card card-primary">
+              <div class="card-header ">
+                <h3 class="card-title">Manager  Attributes</h3>
+              </div>
+              <!-- /.card-header -->
+              <div class="card-body">
+                {% if allBANNERCATList %}
+
+                <table id="BANNERCATList" class="table table-bordered table-striped" style="text-align: center !important;">
+                  <thead>
+                  <tr>
+                    <th>Id</th>
+                    <th>Name</th>
+                    <th>Attributes</th>
+
+                    <th>Actions</th>
+                  </tr>
+                  </thead>
+                  <tbody>
+                  {% for bCat in allBANNERCATList %}
+                    <tr>
+                      <td>{{bCat.id}}</td>
+                      <td>{{bCat.name}}</td>
+                      <td>{{bCat.bCats}}</td>
+
+                      <td> 
+                        <div class="btn-group btn-group-sm">
+                          {% if bCat.is_active == False %}
+                          <a href="javascript:void(0)" targetROW="{{bCat.pk}}" class="targetROW btn btn-success btn-sm"  data-toggle="modal" data-target="#ACTIVATE" class="btn btn-success btn-sm" data-toggle="tooltip" title="Hit For Approved Now"><i class="fas fa-plus"></i></a>                                
+                          <a href="{% url 'updateBANNERCAT' bCat.pk %}" class="btn btn-dark"  data-toggle="tooltip" title="Update brnad" ><i class="fas fa-edit"></i></a>
+                          <a href="javascript:void(0)" targetROW="{{bCat.pk}}" class="targetROW btn btn-danger"  data-toggle="modal" data-target="#DELETE"  data-toggle="tooltip" title="Delete brnad" ><i class="fas fa-trash"></i></a>
+                        {% elif bCat.is_active == True %}
+                          <a href="javascript:void(0)" targetROW="{{bCat.pk}}" class="targetROW btn btn-danger btn-sm" data-toggle="modal" data-target="#DEACTIVATE"  data-toggle="tooltip" title="Hit For Deactivated"><i class="fas fa-minus"></i></a>                                
+                        {% endif %}
+                        </div>
+                      </td>
+                    </tr>
+                  {% endfor %}
+                  </tbody>
+                  <tfoot>
+                    <tr>
+                      <th>Id</th>
+                      <th>Name</th>
+                      <th>Attributes</th>
+
+                      <th>Actions</th>
+                    </tr>
+                  </tfoot>
+                </table>
+                {% else %}
+                <h4 class="alert text-center text-danger">Klickbazar has No --<span class="text-dark"> Attribute</span>-- Data</h4>
+
+                {% endif %}
+              </div>
+              <!-- /.card-body -->
+              <div class="card-footer bg-primary d-flex justify-content-center">
+            </div>
+            </div>
+            </div>
+            <!-- /.card -->
+          </div>
+          <!-- /.col -->
+        </div>
+        <!-- /.row -->
+      </div>
+      <!-- /.container-fluid -->
+    </section>
+    <!-- /.content -->
+  </div>
+  <!-- /.content-wrapper -->
+  {% include 'includes/adminFooter.html' %} <!--Add this-->
+  <!-- /.control-sidebar -->
+</div>
+<!-- ./wrapper -->
+
+<!-- jQuery -->
+<script src="{% static 'adminAAKRITICMS/plugins/jquery/jquery.min.js'%}"></script>
+<!-- Bootstrap 4 -->
+<script src="{% static 'adminAAKRITICMS/plugins/bootstrap/js/bootstrap.bundle.min.js'%}"></script>
+<!-- DataTables  & Plugins -->
+<script src="{% static 'adminAAKRITICMS/plugins/datatables/jquery.dataTables.min.js'%}"></script>
+<script src="{% static 'adminAAKRITICMS/plugins/datatables-bs4/js/dataTables.bootstrap4.min.js'%}"></script>
+<script src="{% static 'adminAAKRITICMS/plugins/datatables-responsive/js/dataTables.responsive.min.js'%}"></script>
+<script src="{% static 'adminAAKRITICMS/plugins/datatables-responsive/js/responsive.bootstrap4.min.js'%}"></script>
+<script src="{% static 'adminAAKRITICMS/plugins/datatables-buttons/js/dataTables.buttons.min.js'%}"></script>
+<script src="{% static 'adminAAKRITICMS/plugins/datatables-buttons/js/buttons.bootstrap4.min.js'%}"></script>
+<script src="{% static 'adminAAKRITICMS/plugins/jszip/jszip.min.js'%}"></script>
+<script src="{% static 'adminAAKRITICMS/plugins/pdfmake/pdfmake.min.js'%}"></script>
+<script src="{% static 'adminAAKRITICMS/plugins/pdfmake/vfs_fonts.js'%}"></script>
+<script src="{% static 'adminAAKRITICMS/plugins/datatables-buttons/js/buttons.html5.min.js'%}"></script>
+<script src="{% static 'adminAAKRITICMS/plugins/datatables-buttons/js/buttons.print.min.js'%}"></script>
+<script src="{% static 'adminAAKRITICMS/plugins/datatables-buttons/js/buttons.colVis.min.js'%}"></script>
+<!-- SweetAlert2 -->
+<script src="{% static 'adminAAKRITICMS/plugins/sweetalert2/sweetalert2.min.js'%}"></script>
+<!-- Toastr -->
+<script src="{% static 'adminAAKRITICMS/plugins/toastr/toastr.min.js'%}"></script>
+<!-- Klickbazar JavaScript -->
+<script src="{% static 'adminAAKRITICMS/js/aakritiCMS.min.js'%}"></script>
+<script src="{% static 'adminAAKRITICMS/plugins/overlayScrollbars/js/jquery.overlayScrollbars.min.js' %}"></script>
+<!-- AakritiCMS Tags -->
+<script src="{% static 'adminAAKRITICMS/plugins/tags/tagsinput.js'%}"></script>
+{% include './CRUDOperation/operation.html' %}
+
+<script>
+  $(function () {
+    $("#BANNERCATList").DataTable({
+      "responsive": true, "lengthChange": false, "autoWidth": false,
+      "buttons": ["csv", "excel", "pdf", "print", "colvis"]
+    }).buttons().container().appendTo('#BANNERCATList_wrapper .col-md-6:eq(0)');
+  });
+</script>
+<script>
+  $(document).ready(function() {
+    $(".targetROW").click(function(){
+        $('.targetVAL').val($(this).attr('targetROW'))
+    });
+  });
+</script>
+
+
+
+<script>
+  function updateATTRIBUTE(){
+    const name = $(".name").val()
+    const tags = $('.tags').val()
+
+    if ("{{bCat.pk}}" == ""){
+      Toast.fire({
+          icon: 'error',
+          title: '<p id="messages" style="margin-top:12px !important; margin-left:8px !important;"><b> Target Required </b></p>'
+        }) 
+    }else{
+
+      const data = new FormData();
+        data.append('name', name);
+        data.append('tags', tags);
+        data.append('target', "{{bCat.pk}}");
+        $.ajax({                      
+            type: "POST",                   
+            url: "{% url 'updateBANNERCATAJAX' %}",                    
+            data: data,
+            cache: false,
+            processData: false,
+            contentType: false,
+            headers: {'X-CSRFToken': "{{ csrf_token }}"},
+            success: function(data) {   
+                if (data.status == 1){
+                    Toast.fire({
+                        icon: 'success',
+                        title: '<p id="messages" style="margin-top: 12px !important; margin-left:8px !important;"><b>'+ data.message +'</b></p>'
+                    }) 
+                }
+                else if (data.status == 0){
+                    Toast.fire({
+                    icon: 'error',
+                    title: '<p id="messages" style="margin-top: 12px !important; margin-left:8px !important;"><b>'+ data.message +'</b></p>'
+                    }) 
+                }       
+            },
+
+        });
+    }
+}
+</script>
+
+<!-- ======================END============================= -->
+{% include 'includes/adminToster.html' %} <!--Add this-->
+</body>
+</html>

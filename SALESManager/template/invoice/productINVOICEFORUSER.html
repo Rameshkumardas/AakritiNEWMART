@@ -1,0 +1,272 @@
+<!DOCTYPE html>
+<html lang="en">
+    {% load static%}
+<head>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <title>Invoice  | {{project.title | safe | title }} || {{project.name}} </title>
+    <link rel="icon" type="image/png" href="{% if project.favicon %}{{project.favicon.url}}{% else %}{% static 'adminAAKRITICMS/img/default/mrdas.jpg' %}{% endif %}">    
+      <!-- DropDown -->
+    <link rel="stylesheet" href="{% static 'adminAAKRITICMS/plugins/select2/css/select2.min.css'%}">
+    <link rel="stylesheet" href="{% static 'adminAAKRITICMS/plugins/select2-bootstrap4-theme/select2-bootstrap4.min.css'%}">
+    <!-- Font Awesome -->
+    <link rel="stylesheet" href="{% static 'adminAAKRITICMS/plugins/fontawesome-free/css/all.min.css'%}">
+    <!-- SweetAlert2 -->
+    <link rel="stylesheet" href="{% static 'adminAAKRITICMS/plugins/sweetalert2-theme-bootstrap-4/bootstrap-4.min.css' %}">
+    <!-- adminKlickbazar Theme style -->
+    <link rel="stylesheet" href="{% static 'adminAAKRITICMS/css/aakriticms.min.css'%}">
+    <link rel="stylesheet" href="{% static 'adminAAKRITICMS/css/aakriti.ui.css'%}">
+   
+    
+</head>
+
+<body class="">
+    <div class="wrapper">
+        {% include 'template/account/dashboard/includes/userNavBar.html' %} 
+        {% include 'template/account/dashboard/includes/userSideBar.html' %}
+        
+
+        <!-- Content Wrapper. Contains page content -->
+        <div class="content-wrapper">
+            <!-- Content Header (Page header) -->
+            <section class="content-header">
+                <div class="container-fluid">
+                    <div class="row mb-2">
+                        <div class="col-sm-6">
+                            <h1>Product Invoice</h1>
+                        </div>
+                        <div class="col-sm-6">
+                            <ol class="breadcrumb float-sm-right">
+                                <li class="breadcrumb-item"><a href="{% url 'DefaultDashboard' %}">Home</a></li>
+                                <li class="breadcrumb-item"><a href="{% url 'Orders' %}">Orders</a></li>
+
+                                <li class="breadcrumb-item active">Invoice</li>
+                            </ol>
+                        </div>
+                    </div>
+                </div><!-- /.container-fluid -->
+            </section>
+            <section class="content">
+                <div class="container-fluid">
+                    <div class="row">
+                        <div class="col-12">
+
+                            <div class="invoice p-3 mb-3">
+
+                                
+
+                                <div class="row invoice-info">
+                                    <div class="col-sm-4 invoice-col">
+                                        <h4>
+                                            <!-- <i class="fas fa-globe"></i>                                              -->
+                                            <img src="{% if project.headerLogo %}{{project.headerLogo.url}}{% endif %}" alt="Online Mangao" class="brand-image  elevation-3" style="opacity: .8; width:auto; height:100px;" >                                       
+                                        </h4>
+                                            {{orders.shipping}}
+                                            {{orders.shipping.state}}
+                                        <address>
+                                            {{project.address | title}}
+                                            <br>
+                                            Phone: {{project.contact}}<br>
+                                            Email: {{project.mail}}
+                                        </address>
+                                    </div>
+
+                                    <div class="col-sm-4 invoice-col">
+                                        To
+                                        <address>
+    
+                                            <strong>{{order.user.fullname}}</strong><br>
+                                            <strong>Billing Address</strong><br>
+                                            {{order.bhouse_no}}, <br>
+                                            {{order.blandmark}} {{order.bcolony}} <br>
+                                            <b> {{order.bcity}} - {{order.bstate}}, {{order.bpCode}}</b>    <br>
+                                            <strong>Shipping Address</strong><br>
+
+                                            {{order.shouse_no}}, <br>
+                                            {{order.slandmark}} {{order.scolony}} <br> 
+                                            <b> {{order.scity}} - {{order.sstate}}, {{order.scode}} ( {{order.scountry}} ) </b><br>
+                                                    
+                                            Phone: {{order.user.mobileN}}<br>
+                                            Email: {{order.user.email}}
+                                        </address>
+                                    </div>
+
+                                    <div class="col-sm-4 invoice-col">
+                                        <b>Invoice #{{order.pk}}</b><br>
+                                        <br>
+                                        <b>Order ID:</b> {{orderId}}<br>
+                                        <b>Payment Status:</b> {% if order.is_payment %}<i class="fas fa-check-circle text-success"></i>&nbsp;&nbsp;Paid {% else %}<i class="fas fa-check-circle text-danger"></i>&nbsp;&nbsp;Not Paid {% endif %}<br>
+                                        <!--<b>Payment Status:</b> <i class="fas fa-exclamation-triangle"></i>&nbsp;&nbsp;Unpaid <br>-->
+                                        <b>Payment Method:</b>&nbsp;&nbsp;{% if order.is_payment %}Online Method{% else %}COD{% endif %}<br>
+                                    </div>
+                                </div>
+                                {% if orders %}
+                                <div class="row">
+                                    <div class="col-12 table-responsive">
+                                        <table class="table table-striped">
+                                            <thead>
+                                                <tr>
+                                                    <th>Name</th>
+                                                    <th>Qty</th>
+                                                    <th>Color</th>
+                                                    <th>Price</th>
+                                                    <th>Discount</th>
+                                                    <th>PayStatus</th>
+                                                </tr>
+                                            </thead>
+                                            <tbody>
+                                                {% for order in orders %}
+                                                    <tr>
+                                                        <td>{{order.product.name}}</td>
+                                                        <td>{{order.qty}}</td>
+                                                        <td>{{order.color}}</td>
+                                                        <td>$ {{order.amount}}</td>
+                                                        <td>$ {{order.discount}}</td>
+                                                        {% if order.is_payment %}
+                                                        <td><i class="fas fa-check-circle text-success"></i>&nbsp;&nbsp;Paid <br></td>
+                                                        {% else %}
+                                                        <td><i class="fas fa-check-circle text-danger"></i>&nbsp;&nbsp;Not Paid <br></td>
+                                                        {% endif %}
+                                                    </tr>
+                                                {% endfor %}
+                                            </tbody>
+                                        </table>
+                                    </div>
+                                </div>
+                                {% else %}
+
+                                    <table class="table table-striped">
+                                            <thead>
+                                                <tr>
+                                                    <th>Name</th>
+                                                    <th>Qty</th>
+                                                    <th>Color</th>
+                                                    <th>Price</th>
+                                                    <th>Discount</th>
+                                                    <th>PayStatus</th>
+                                                </tr>
+                                            </thead>
+                                            <tbody>
+                                                    <tr>
+                                                        <td>0</td>
+                                                        <td>0</td>
+                                                        <td>$ 0</td>
+                                                        <td>0</td>
+                                                        <td>0</td>
+                                                    </tr>
+                                            </tbody>
+                                        </table>
+                                {% endif %}
+                                <div class="row">
+                                    <div class="col-6">
+                                        <p class="lead">Payment Methods:</p>
+                                        <img src="{% static 'adminAAKRITICMS/img/credit/visa.png' %}" alt="Visa">
+                                        <img src="{% static 'adminAAKRITICMS/img/credit/mastercard.png' %}"
+                                            alt="Mastercard">
+                                        <img src="{% static 'adminAAKRITICMS/img/credit/american-express.png' %}"
+                                            alt="American Express">
+                                        <img src="{% static 'adminAAKRITICMS/img/credit/paypal2.png' %}"
+                                            alt="Paypal">
+                                        <p class="text-muted well well-sm shadow-none" style="margin-top: 10px;">
+                                            We have multiple payment gateway to make payments 100% <b>More</b> Safe and
+                                            Sucured
+                                        </p>
+                                    </div>
+                                    <div class="col-6">
+                                        <p class="lead">{{today}}</p>
+                                        <div class="table-responsive">
+                                            <table class="table">
+                                                <tbody>
+                                                    <tr>
+                                                        <th style="width:50%">Subtotal: </th>
+                                                        <td>$ {{subTotal}} </td>
+                                                    </tr>
+                                               
+                                                    <tr>
+                                                        <th>Total Shipping:</th>
+                                                        <td>$ {{ShippingTotal}} </td>
+                                                    </tr>
+                                                    <tr>
+                                                        <th>Net Payable Amount:</th>
+                                                        <td>$ {{Total}} </td>
+                                                    </tr>
+                                                </tbody>
+                                                
+
+
+                                            </table>
+                                            
+                                        </div>
+                                    </div>
+                                </div>
+                                <div class="row no-print">
+                                    <div class="col-12">
+                                        <a href="JavaScript:void(0);" rel="noopener"
+                                            class="btn btn-default MakePrint"><i class="fas fa-print"></i> Print</a>
+                                        <!-- <button type="button" class="btn btn-success float-right"><i
+                                                class="far fa-credit-card"></i> Submit
+                                            Payment
+                                        </button> -->
+                                        <button type="button" class="btn btn-primary float-right MakePrint"
+                                            style="margin-right: 5px;">
+                                            <i class="fas fa-download"></i> Generate PDF
+                                        </button>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </section>
+
+            <!-- /.content -->
+        </div>
+        <!-- /.content-wrapper -->
+        {% include 'includes/adminFooter.html' %}
+        <!--Add this-->
+    </div>
+    <!-- ./wrapper -->
+    <!-- !-- jQuery  -->
+    <script src="{% static 'adminAAKRITICMS/plugins/jquery/jquery.min.js'%}"></script>
+    <!-- Bootstrap 4 -->
+    <script src="{% static 'adminAAKRITICMS/plugins/bootstrap/js/bootstrap.bundle.min.js'%}"></script>
+    <!-- DataTables  & Plugins -->
+    <script src="{% static 'adminAAKRITICMS/plugins/datatables/jquery.dataTables.min.js'%}"></script>
+    <script src="{% static 'adminAAKRITICMS/plugins/datatables-bs4/js/dataTables.bootstrap4.min.js'%}"></script>
+    <script src="{% static 'adminAAKRITICMS/plugins/datatables-responsive/js/dataTables.responsive.min.js'%}"></script>
+    <script src="{% static 'adminAAKRITICMS/plugins/datatables-responsive/js/responsive.bootstrap4.min.js'%}"></script>
+    <script src="{% static 'adminAAKRITICMS/plugins/datatables-buttons/js/dataTables.buttons.min.js'%}"></script>
+    <script src="{% static 'adminAAKRITICMS/plugins/datatables-buttons/js/buttons.bootstrap4.min.js'%}"></script>
+    <script src="{% static 'adminAAKRITICMS/plugins/jszip/jszip.min.js'%}"></script>
+    <script src="{% static 'adminAAKRITICMS/plugins/pdfmake/pdfmake.min.js'%}"></script>
+    <script src="{% static 'adminAAKRITICMS/plugins/pdfmake/vfs_fonts.js'%}"></script>
+    <script src="{% static 'adminAAKRITICMS/plugins/datatables-buttons/js/buttons.html5.min.js'%}"></script>
+    <script src="{% static 'adminAAKRITICMS/plugins/datatables-buttons/js/buttons.print.min.js'%}"></script>
+    <script src="{% static 'adminAAKRITICMS/plugins/datatables-buttons/js/buttons.colVis.min.js'%}"></script>
+    <!-- AakritiCMS JavaScript -->
+    <script src="{% static 'adminAAKRITICMS/js/aakritiCMS.min.js'%}"></script>
+    <!-- SweetAlert2 -->
+    <script src="{% static 'adminAAKRITICMS/plugins/sweetalert2/sweetalert2.min.js'%}"></script>
+    <!-- Toastr -->
+    <script src="{% static 'adminAAKRITICMS/plugins/toastr/toastr.min.js'%}"></script>
+    <!-- Select2 -->
+    <script src="{% static 'adminAAKRITICMS/plugins/select2/js/select2.full.min.js'%}"></script>
+    <script src="{% static 'adminAAKRITICMS/plugins/overlayScrollbars/js/jquery.overlayScrollbars.min.js' %}"></script>
+    
+ 
+    <script src="{% static 'adminAAKRITICMS/plugins/infinite-scroll/jquery.waypoints.min.js'%}"></script>
+    <script src="{% static 'adminAAKRITICMS/plugins/infinite-scroll/infinite.min.js'%}"></script>
+    
+    <script>
+        $(".MakePrint").click(function () {
+            window.addEventListener("load", window.print());
+        });
+    </script>
+
+
+    <!-- ======================END========================== -->
+    {% include 'includes/adminToster.html' %}
+    <!--Add this-->
+</body>
+
+</html>

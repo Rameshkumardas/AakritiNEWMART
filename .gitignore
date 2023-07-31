@@ -1,0 +1,28 @@
+### Django ###
+*.log
+*.pot
+*.pyc
+
+_pycache_/
+
+#settings file
+slide_management/settings.py
+
+#environment
+python-app-venv/
+env/
+venv/
+nohup.out
+
+
+# Installer logs
+log.txt
+passenger_wsgi.py
+requirements.txt
+
+.env
+.ftpquota
+.htaccess
+.htaccess.bkp
+.vscode/
+.well-known/

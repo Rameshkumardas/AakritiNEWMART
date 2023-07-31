@@ -1,0 +1,99 @@
+{%load static %}
+{% comment %} <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap@4.6.2/dist/css/bootstrap.min.css"> {% endcomment %}
+<script src="https://cdn.jsdelivr.net/npm/jquery@3.6.1/dist/jquery.slim.min.js"></script>
+{% comment %} <script src="https://cdn.jsdelivr.net/npm/popper.js@1.16.1/dist/umd/popper.min.js"></script> {% endcomment %}
+<script src="https://cdn.jsdelivr.net/npm/bootstrap@4.6.2/dist/js/bootstrap.bundle.min.js"></script>
+
+<!-- The Modal -->
+<div class="modal" id="PinCode">
+    <div class="modal-dialog">
+      <div class="modal-content">
+        <!-- Modal Header -->
+        <div class="modal-header">
+          <h4 class="modal-title">Check Delivery Available</h4>
+          <button type="button" class="btn-close" data-dismiss="modal">&times;</button>
+        </div> 
+        <!-- Modal body -->
+        <div class="modal-body p-0">          
+            <div class="onlinemangao-newsletter-area onlinemangao-section-gap p-0">
+                <div class="container">
+                    <div class="etrade-newsletter-wrapper bg_image bg_image--5">
+                        <div class="newsletter-content">
+                            <div class="input-group newsletter-form">
+                                <div class="position-relative newsletter-inner mb--15">
+                                    <input placeholder="Enter PinCode" type="text" maxlength="6" name="UserPinCode" value="{% if request.session.PinCode %}{{request.session.PinCode}}{% endif %}" class="UserPinCode">
+                                </div>
+                                <button type="submit" class="SavePinCode onlinemangao-btn mb--15">Save & Load Offers</button>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                <!-- End .container -->
+            </div>
+        </div>
+        <!-- Modal footer -->
+      </div>
+    </div>
+  </div>
+
+{% comment %}
+{% if request.session.PinCode %}
+<script>
+    $('#PinCode').modal('hide');
+</script>
+{% else %}
+<script>
+    $('#PinCode').modal('show');
+</script>
+{% endif %}
+{% endcomment %}
+<script>
+    $(".SavePinCode").click(function() {
+        const PinCode = $('.UserPinCode').val();
+            if (PinCode == ""){
+                Toast.fire({
+                    icon: 'error',
+                    title: '<p id="messages" style="margin-top:0px !important; margin-left:8px !important;"><b> PinCode Required* </b></p>'
+                })
+            }else{
+                const data = new FormData();
+                data.append('PinCode', PinCode);
+                $.ajax({                      
+                    type: "POST",                   
+                    url: "{% url 'SAVEPINCODE' %}", 
+                    data: data,
+                    cache: false,
+                    processData: false,
+                    contentType: false,
+                    enctype: 'multipart/form-data',
+                    headers: {'X-CSRFToken': "{{ csrf_token }}"},
+                    success: function(data) {   
+                        if (data.status == 1){
+
+                            Toast.fire({
+                                icon: 'success',
+                                title: '<p id="messages" style="margin-top: 0px !important; margin-left:8px !important;"><b>'+ data.message +'</b></p>'
+                            }) 
+
+                         setTimeout(function () {
+                                const queryString = window.location.search;
+                                const urlParams = new URLSearchParams(queryString);
+                                const targetURL = urlParams.get('next')
+                                if(targetURL){
+                                    window.location.href =data.home+targetURL;
+                                }else{
+                                    window.location.href =data.home;
+                                }
+                            }, 500); 
+
+                        }else if (data.status == 0){
+                            Toast.fire({
+                                icon: 'error',
+                                title: '<p id="messages" style="margin-top: 0px !important; margin-left:8px !important;"><b>'+ data.message +'</b></p>'
+                            }) 
+                        }       
+                    },
+                });
+            }
+        });
+</script>

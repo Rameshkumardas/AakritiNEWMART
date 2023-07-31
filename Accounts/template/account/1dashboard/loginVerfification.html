@@ -1,0 +1,254 @@
+{% load static %}
+
+<!doctype html>
+<html class="no-js" lang="en">
+
+<head>
+    <meta charset="utf-8">
+    <meta http-equiv="x-ua-compatible" content="ie=edge">
+    <title>LOGIN WITH OTP || eMARTSHOP || Sign In with OTP</title>
+    <meta name="robots" content="noindex, follow" />
+    <meta name="description" content="">
+    <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
+    <!-- Favicon -->
+    <link rel="icon" type="image/png" href="{% if project.favicon %}{{project.favicon.url}}{% else %}{% static 'admineMARTSHOT/img/default/mrdas.jpg' %}{% endif %}">
+
+    <!-- ============================================ -->
+    <!-- Bootstrap CSS -->
+    <link rel="stylesheet" href="{% static 'eMARTSHOPWEB/css/vendor/bootstrap.min.css' %}">
+    <link rel="stylesheet" href="{% static 'eMARTSHOPWEB/css/vendor/font-awesome.css' %}">
+    <link rel="stylesheet" href="{% static 'eMARTSHOPWEB/css/vendor/flaticon/flaticon.css' %}">
+    <link rel="stylesheet" href="{% static 'eMARTSHOPWEB/css/vendor/slick.css' %}">
+    <link rel="stylesheet" href="{% static 'eMARTSHOPWEB/css/vendor/slick-theme.css' %}">
+    <link rel="stylesheet" href="{% static 'eMARTSHOPWEB/css/vendor/jquery-ui.min.css' %}">
+    <link rel="stylesheet" href="{% static 'eMARTSHOPWEB/css/vendor/sal.css' %}">
+    <link rel="stylesheet" href="{% static 'eMARTSHOPWEB/css/vendor/magnific-popup.css' %}">
+    <link rel="stylesheet" href="{% static 'eMARTSHOPWEB/css/vendor/base.css' %}">
+    <link rel="stylesheet" href="{% static 'eMARTSHOPWEB/css/style.min.css' %}">
+  <!-- SweetAlert2 -->
+  <link rel="stylesheet" href="{% static 'admineMARTSHOT/plugins/sweetalert2-theme-bootstrap-4/bootstrap-4.min.css' %}">
+
+</head>
+<body>
+    <div class="onlinemangao-signin-area">
+
+        <!-- Start Header -->
+        <div class="signin-header">
+            <div class="row align-items-center">
+                <div class="col-sm-4">
+                    <a href="{% url 'eMARTSHOPWEB' %}" class="{{project.title}}">
+                        <img style="width: 250px;" src="{% if project.headerLogo %}{{project.headerLogo.url}}{% else %}{% static 'admineMARTSHOT/img/default/mrdas.jpg' %}{% endif %}" alt="{{project.title}}">
+                    </a>
+                </div>
+                <div class="col-sm-8">
+                    <div class="singin-header-btn">
+                        <p>Not a member?</p>
+                        <a href="{% url 'SIGNUP' %}" class="onlinemangao-btn btn-bg-secondary sign-up-btn">Sign Up Now</a>
+                    </div>
+                </div>
+            </div>
+        </div>
+        <!-- End Header -->
+
+        <div class="row">
+            <div class="col-xl-4 col-lg-6">
+                <div class="onlinemangao-signin-banner bg_image bg_image--9">
+                    <h3 class="title">We Offer the Best Products</h3>
+                </div>
+            </div>
+            <div class="col-lg-6 offset-xl-2">
+                <div class="onlinemangao-signin-form-wrap">
+                    <div class="onlinemangao-signin-form">
+                            <style>
+                            body {
+                                text-align: center;
+                                padding: 40px 0;
+                            }
+                                h1 {
+                                color: #88B04B;
+                                font-family: "Nunito Sans", "Helvetica Neue", sans-serif;
+                                font-weight: 900;
+                                font-size: 40px;
+                                margin-bottom: 10px;
+                                }
+                                p {
+                                color: #404F5E;
+                                font-family: "Nunito Sans", "Helvetica Neue", sans-serif;
+                                font-size:20px;
+                                margin: 0;
+                                }
+                            .checkmark {
+                                color: #9ABC66;
+                                font-size: 100px;
+                                line-height: 200px;
+                                margin-left:-15px;
+                            }
+                            .card {
+                                background: white;
+                                border-radius: 4px;
+                                box-shadow: 0 2px 3px #C8D0D8;
+                                display: inline-block;
+                                margin: 0 auto;
+                            }
+                            </style>
+                        <section id="OPENMESSAGE" style="display: none;">
+                            <div>
+                                <i class="checkmark">✓</i>
+                                <h1>Login Success</h1> 
+                                <p>Redirect To Home Page.<br/></p>
+                            </div>
+                        </section>
+                        <section id="CLOSEDMESSAGE" >
+                            <h3 class="title">Login With OTP Verification.</h3>
+                            <p class="b2 mb--55">Enter your Mobile No Or Email</p>
+                            <div class="form-group" id="GetVCode">
+                                <label>Email Or Mobile No</label>
+                                <input type="text" class="target form-control" name="target" value="" placeholder="Email Id Or Mobile Number">
+                            </div>
+                            <div class="form-group" id="VerifyNow" style="display:none !important;">
+                                <label>Enter Verification Code</label>
+                                <input type="text" class="vCode form-control" name="vCode" value="" placeholder="Enter OTP From Email & Mobile ">
+                            </div>
+                            <div class="form-group d-flex align-items-center justify-content-between">
+                                <button type="submit" onclick="GETVERIFICATIONCODE()" class="onlinemangao-btn btn-bg-primary submit-btn" id="GetVCodeBTN">Get Verification Code</button>
+                                <button type="submit" onclick="VerifyVCode()" class="onlinemangao-btn btn-bg-primary submit-btn" id="VerifyNowBTN" style="display:none !important;">Verify Now</button>
+                                <a href="{% url 'SIGNIN' %}{% if request.GET.next %}?next={{request.GET.next}}{% endif %}" class="onlinemangao-btn btn-bg-primary submit-btn">LOGIN</a>
+                            </div>
+                        </section>
+
+
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <!-- ============================================ -->
+    <!-- Modernizer JS -->
+    <script src="{% static 'eMARTSHOPWEB/js/vendor/modernizr.min.js' %}"></script>
+    <!-- jQuery JS -->
+    <script src="{% static 'eMARTSHOPWEB/js/vendor/jquery.js' %}"></script>
+    <!-- Bootstrap JS -->
+    <script src="{% static 'eMARTSHOPWEB/js/vendor/popper.min.js' %}"></script>
+    <script src="{% static 'eMARTSHOPWEB/js/vendor/bootstrap.min.js' %}"></script>
+    <script src="{% static 'eMARTSHOPWEB/js/vendor/slick.min.js' %}"></script>
+    <script src="{% static 'eMARTSHOPWEB/js/vendor/js.cookie.js' %}"></script>
+    <!-- <script src="{% static 'eMARTSHOPWEB/js/vendor/jquery.style.switcher.js' %}"></script> -->
+    <script src="{% static 'eMARTSHOPWEB/js/vendor/jquery-ui.min.js' %}"></script>
+    <script src="{% static 'eMARTSHOPWEB/js/vendor/jquery.countdown.min.js' %}"></script>
+    <script src="{% static 'eMARTSHOPWEB/js/vendor/sal.js' %}"></script>
+    <script src="{% static 'eMARTSHOPWEB/js/vendor/jquery.magnific-popup.min.js' %}"></script>
+    <script src="{% static 'eMARTSHOPWEB/js/vendor/imagesloaded.pkgd.min.js' %}"></script>
+    <script src="{% static 'eMARTSHOPWEB/js/vendor/isotope.pkgd.min.js' %}"></script>
+    <script src="{% static 'eMARTSHOPWEB/js/vendor/counterup.js' %}"></script>
+    <script src="{% static 'eMARTSHOPWEB/js/vendor/waypoints.min.js' %}"></script>
+    <!-- Main JS -->
+    <script src="{% static 'eMARTSHOPWEB/js/main.js' %}"></script>
+    
+    
+
+
+<script>
+    function GETVERIFICATIONCODE(){
+        const target = $('.target').val();
+            if (target == ""){
+                Toast.fire({
+                    icon: 'error',
+                    title: '<p id="messages" style="margin-top:0px !important; margin-left:8px !important;"><b> Target Required* </b></p>'
+                }) 
+            }else{
+                const data = new FormData();
+                data.append('target', $('.target').val());
+                $.ajax({                      
+                    type: "POST",                   
+                    url: "{% url 'GetVerificationCode' %}",                    
+                    data: data,
+                    cache: false,
+                    processData: false,
+                    contentType: false,
+                    enctype: 'multipart/form-data',
+                    headers: {'X-CSRFToken': "{{ csrf_token }}"},
+                    success: function(data) {   
+                        if (data.status == 1){
+        
+                          document.getElementById("VerifyNow").style.display = "";
+                          document.getElementById("VerifyNowBTN").style.display = "";
+
+                          document.getElementById("GetVCode").style.display = "none";
+                          document.getElementById("GetVCodeBTN").style.display = "none";
+                          
+                          Toast.fire({
+                            icon: 'success',
+                            title: '<p id="messages" style="margin-top: 0px !important; margin-left:8px !important;"><b>'+ data.message +'</b></p>'
+                          })                    
+                        }else if (data.status == 0){
+                            Toast.fire({
+                            icon: 'error',
+                            title: '<p id="messages" style="margin-top: 0px !important; margin-left:8px !important;"><b>'+ data.message +'</b></p>'
+                            }) 
+                        }       
+                    },
+                });
+            }
+        }
+</script>
+<script>
+    function VerifyVCode(){
+        const code = $('.vCode').val();
+            if (code == ""){
+                Toast.fire({
+                    icon: 'error',
+                    title: '<p id="messages" style="margin-top:0px !important; margin-left:8px !important;"><b> Code Required* </b></p>'
+                }) 
+            }else{
+                const data = new FormData();
+                data.append('vCode', $('.vCode').val());
+                $.ajax({                      
+                    type: "POST",                   
+                    url: "{% url 'VerifyCode' %}",                    
+                    data: data,
+                    cache: false,
+                    processData: false,
+                    contentType: false,
+                    enctype: 'multipart/form-data',
+                    headers: {'X-CSRFToken': "{{ csrf_token }}"},
+                    success: function(data) {   
+                        
+                        if (data.status == 1){
+                            document.getElementById("OPENMESSAGE").style.display = "";
+                            document.getElementById("CLOSEDMESSAGE").style.display = "none";
+                            Toast.fire({
+                                icon: 'success',
+                                title: '<p id="messages" style="margin-top: 0px !important; margin-left:8px !important;"><b>'+ data.message +'</b></p>'
+                            }) 
+                            "{% if request.GET.next %}"
+                            setTimeout(function () {
+                                const queryString = window.location.search;
+                                const urlParams = new URLSearchParams(queryString);
+                                const targetURL = urlParams.get('next')
+                                window.location.href =data.home+targetURL;
+                             }, 3000); //will call the function after 2 secs.
+                             "{% else %}"
+                             setTimeout(function () {
+                                window.location.href =data.home;
+                             }, 3000); //will call the function after 2 secs.
+                             "{% endif %}"
+                        }else if (data.status == 0){
+                            Toast.fire({
+                            icon: 'error',
+                            title: '<p id="messages" style="margin-top: 0px !important; margin-left:8px !important;"><b>'+ data.message +'</b></p>'
+                            }) 
+                        }       
+                    },
+                });
+            }
+        }
+</script>
+<!-- SweetAlert2 -->
+<script src="{% static 'admineMARTSHOT/plugins/sweetalert2/sweetalert2.min.js'%}"></script>
+<!-- Toastr -->
+<script src="{% static 'admineMARTSHOT/plugins/toastr/toastr.min.js'%}"></script>
+<!-- ======================END========================== -->
+{% include 'includes/Toster.html' %}
+</body>
+</html>

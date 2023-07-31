@@ -1,0 +1,210 @@
+<!DOCTYPE html>
+<html lang="en">
+{% load static %}
+{% load RetailerTags %}
+{% load Colors %}
+
+<head>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <title>{{product.name}}  | {{project.title | safe | title }} || {{project.name}} </title>
+    <link rel="icon" type="image/png" href="{% if project.favicon %}{{project.favicon.url}}{% else %}{% static 'adminAAKRITICMS/img/default/mrdas.jpg' %}{% endif %}">    
+    <!-- DropDown -->
+    <link rel="stylesheet" href="{% static 'adminAAKRITICMS/plugins/select2/css/select2.min.css'%}">
+    <link rel="stylesheet"
+        href="{% static 'adminAAKRITICMS/plugins/select2-bootstrap4-theme/select2-bootstrap4.min.css'%}">
+    <!-- Font Awesome -->
+    <link rel="stylesheet" href="{% static 'adminAAKRITICMS/plugins/fontawesome-free/css/all.min.css'%}">
+    <!-- SweetAlert2 -->
+    <link rel="stylesheet"
+        href="{% static 'adminAAKRITICMS/plugins/sweetalert2-theme-bootstrap-4/bootstrap-4.min.css' %}">
+    <!-- adminKlickbazar Theme style -->
+    <link rel="stylesheet" href="{% static 'adminAAKRITICMS/css/aakriticms.min.css'%}">
+    <link rel="stylesheet" href="{% static 'adminAAKRITICMS/css/aakriti.ui.css'%}">
+    <!-- DataTables -->
+    <link rel="stylesheet"
+        href="{% static 'adminAAKRITICMS/plugins/datatables-bs4/css/dataTables.bootstrap4.min.css'%}">
+    <link rel="stylesheet"
+        href="{% static 'adminAAKRITICMS/plugins/datatables-responsive/css/responsive.bootstrap4.min.css'%}">
+    <link rel="stylesheet"
+        href="{% static 'adminAAKRITICMS/plugins/datatables-buttons/css/buttons.bootstrap4.min.css'%}">
+    <link rel="stylesheet"
+        href="{% static 'adminAAKRITICMS/plugins/overlayScrollbars/css/OverlayScrollbars.min.css' %}">
+</head>
+
+<body class="hold-transition sidebar-mini layout-fixed">
+    <div class="wrapper">
+        {% include 'includes/adminNavBar.html' %}
+        <!--Add this-->
+        {% include 'includes/adminSideBar.html' %}
+        <!--Add this-->
+        <div class="content-wrapper">
+            <section class="content-header">
+                <div class="container-fluid">
+                    <div class="row mb-2">
+                        <div class="col-sm-6">
+                            <h1>{{product.name}}</h1>
+                        </div>
+                        <div class="col-sm-6">
+                            <ol class="breadcrumb float-sm-right">
+                                <li class="breadcrumb-item"><a href="#">Home</a></li>
+                                <li class="breadcrumb-item active">E-commerce</li>
+                            </ol>
+                        </div>
+                    </div>
+                </div>
+            </section> 
+            <section class="content">
+                <div class="card card-solid">
+                    <div class="card-body">
+                        <div class="row">
+                            <div class="col-12 col-sm-6">
+                                <h3 class="d-inline-block d-sm-none">{{product}}</h3>
+                                <div class="col-12">
+                                    <img src="{% if productIMG.img %}{{productIMG.img.url}}{% else %}{% static 'adminAAKRITICMS/img/favicon.png' %}{% endif %}" class="product-image" alt="{{product.name}}">
+                                </div>
+                                <div class="col-12 product-image-thumbs">
+                                    <div class="product-image-thumb active"><img src="{% if productIMG.img %}{{productIMG.img.url}}{% else %}{% static 'adminAAKRITICMS/img/favicon.png' %}{% endif %}" alt="{{product.name}}"></div>
+                                    <div class="product-image-thumb"><img src="{% if productIMG.img1 %}{{productIMG.img1.url}}{% else %}{% static 'adminAAKRITICMS/img/favicon.png' %}{% endif %}" alt="{{product.name}}"></div>
+                                    <div class="product-image-thumb"><img src="{% if productIMG.img2 %}{{productIMG.img2.url}}{% else %}{% static 'adminAAKRITICMS/img/favicon.png' %}{% endif %}" alt="{{product.name}}"></div>
+                                    <div class="product-image-thumb"><img  src="{% if productIMG.img3 %}{{productIMG.img3.url}}{% else %}{% static 'adminAAKRITICMS/img/favicon.png' %}{% endif %}" alt="{{product.name}}"></div>
+                                    <div class="product-image-thumb"><img src="{% if productIMG.img4 %}{{productIMG.img4.url}}{% else %}{% static 'adminAAKRITICMS/img/favicon.png' %}{% endif %}" alt="{{product.name}}"></div>
+                                </div>
+                            </div>
+                            <div class="col-12 col-sm-6">
+                                <h3 class="my-3">{{product.name}}</h3>
+                                <p>{{product.ProductName}}</p>
+                                <hr>
+                                {% if ProductColorCodeArray %}
+                                    <h4>Available Colors</h4>
+                                    <div class="btn-group btn-group-toggle" data-toggle="buttons">
+                                    {% for color in ProductColorCodeArray %}
+                                    <label class="btn btn-default text-center ">
+                                        <input type="radio" name="color_option" id="color_option_a1" autocomplete="off"  >
+                                            {% if color %}{% colorName color %}{% endif %}
+                                        <br> <i class="fas fa-circle fa-2x" style="color: {{color}};"></i>
+                                    </label>
+                                    {% endfor %}
+                                {% endif %}
+                                </div>
+                                {% if prices %}
+                                <h4 class="mt-3">Wholesaler<small> Price</small></h4>
+                                {% for minQTYArray, maxQTYArray, pppQTYArray in prices %}
+                                <div class="btn-group btn-group-toggle" data-toggle="buttons">
+                                        <label class="btn btn-default text-center">
+                                            <input type="radio" name="color_option" id="color_option_b1" autocomplete="off">
+                                            <span class="text-xl">{{minQTYArray}}</span> <br> Min QTY
+                                        </label>
+                                        <label class="btn btn-default text-center">
+                                            <input type="radio" name="color_option" id="color_option_b2" autocomplete="off">
+                                            <span class="text-xl">{{maxQTYArray}}</span>  <br> Max QTY
+                                        </label>
+                                        <label class="btn btn-default text-center">
+                                            <input type="radio" name="color_option" id="color_option_b3" autocomplete="off">
+                                            <span class="text-xl">{{pppQTYArray}}</span> <br> PPP
+                                        </label>
+                                    </div><br>
+                                    {% endfor %}
+                                {% endif %}
+                                <h4 class="mt-3">GST<small> Percentage</small></h4>
+                                <div class="btn-group btn-group-toggle" data-toggle="buttons">
+                                    <label class="btn btn-default text-center">
+                                        <input type="radio" name="color_option" id="color_option_b3" autocomplete="off">
+                                        <span class="text-xl">{% HSNCode product.pk %}</span> <br>  HSN Code
+                                    </label>
+                                    <label class="btn btn-default text-center">
+                                        <input type="radio" name="color_option" id="color_option_b1" autocomplete="off">
+                                        <span class="text-xl">{% igst product.pk %}</span> <br> IGST
+                                    </label>
+                                    <label class="btn btn-default text-center">
+                                        <input type="radio" name="color_option" id="color_option_b2" autocomplete="off">
+                                        <span class="text-xl">{% cgst product.pk %}</span>  <br> CGST
+                                    </label>
+                                    <label class="btn btn-default text-center">
+                                        <input type="radio" name="color_option" id="color_option_b3" autocomplete="off">
+                                        <span class="text-xl">{% sgst product.pk %}</span> <br> SGST
+                                    </label>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="row mt-4">
+                            <nav class="w-100">
+                                <div class="nav nav-tabs" id="product-tab" role="tablist">
+                                    <a class="nav-item nav-link active" id="product-desc-tab" data-toggle="tab"
+                                        href="#product-desc" role="tab" aria-controls="product-desc"
+                                        aria-selected="true">Description</a>
+                                    <a class="nav-item nav-link" id="product-comments-tab" data-toggle="tab"
+                                        href="#product-comments" role="tab" aria-controls="product-comments"
+                                        aria-selected="false">Comments</a>
+                                    <a class="nav-item nav-link" id="product-rating-tab" data-toggle="tab" href="#product-rating" role="tab" aria-controls="product-rating" aria-selected="false">Rating</a>
+                                </div>
+                            </nav>
+                            <div class="tab-content p-3" id="nav-tabContent">
+                                <div class="tab-pane fade show active" id="product-desc" role="tabpanel"
+                                    aria-labelledby="product-desc-tab"> {% proDescription product.pk %} </div>
+                                <div class="tab-pane fade" id="product-comments" role="tabpanel"
+                                    aria-labelledby="product-comments-tab"> Comments. </div>
+                                <div class="tab-pane fade" id="product-rating" role="tabpanel"
+                                    aria-labelledby="product-rating-tab"> Description. </div>
+                            </div>
+                        </div>
+                    </div>
+
+                </div>
+
+            </section>
+        </div>
+        <!-- /.content-wrapper -->
+        {% include 'includes/adminFooter.html' %}
+        <!--Add this-->
+    </div>
+    <!-- ./wrapper -->
+    <!-- jQuery -->
+    <script src="{% static 'adminAAKRITICMS/plugins/jquery/jquery.min.js'%}"></script>
+    <!-- Bootstrap 4 -->
+    <script src="{% static 'adminAAKRITICMS/plugins/bootstrap/js/bootstrap.bundle.min.js'%}"></script>
+    <!-- AakritiCMS JavaScript -->
+    <script src="{% static 'adminAAKRITICMS/js/aakritiCMS.min.js'%}"></script>
+    <!-- SweetAlert2 -->
+    <script src="{% static 'adminAAKRITICMS/plugins/sweetalert2/sweetalert2.min.js'%}"></script>
+    <!-- Toastr -->
+    <script src="{% static 'adminAAKRITICMS/plugins/toastr/toastr.min.js'%}"></script>
+    <!-- Select2 -->
+    <script src="{% static 'adminAAKRITICMS/plugins/select2/js/select2.full.min.js'%}"></script>
+
+    <script
+        src="{% static 'adminAAKRITICMS/plugins/overlayScrollbars/js/jquery.overlayScrollbars.min.js' %}"></script>
+
+    {% include './AddProduct.html' %}
+    <!--Add this-->
+    <script>
+
+        $(function () {
+            $('[data-toggle="tooltip"]').tooltip()
+        })
+
+        $(function () {
+            //Initialize Select2 Elements
+            $('.select2').select2();
+            //Initialize Select2 Elements
+            $('.select2bs4').select2({
+                theme: 'bootstrap4'
+            })
+        })
+    </script>
+
+    <script>
+        $(document).ready(function () {
+            $('.product-image-thumb').on('click', function () {
+                var $image_element = $(this).find('img')
+                $('.product-image').prop('src', $image_element.attr('src'))
+                $('.product-image-thumb.active').removeClass('active')
+                $(this).addClass('active')
+            })
+        })
+    </script>
+    <!-- ======================END========================== -->
+    {% include 'includes/adminToster.html' %}
+    <!--Add this-->
+</body>
+</html>

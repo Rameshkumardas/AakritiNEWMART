@@ -1,0 +1,10 @@
+
+
+{% if subCatList %}
+    {% for subcat in subCatList %}
+    <a href="" class="dropdown-item">{{subcat.name}}</a>
+    {% endfor %}
+{% else %}
+<a href="javascript:void(0);" class="dropdown-item">You Don't Have Sub Category</a>
+
+{% endif %}

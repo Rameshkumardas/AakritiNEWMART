@@ -1,0 +1,43 @@
+{% load static %}
+{% load MEGAMENUTAG %}
+
+{% if SubCatMenuList %}
+    {% for subcat in SubCatMenuList %}
+        <li class="has-dropdown">
+            <a href="{% url 'subCatProductList' subcat.mainCat.slug subcat.slug %}" class="mega-menu-title">{{subcat.name}}</a>
+            <ul class="aakriticm-submenu">
+                {% SubSubCatMenuList subcat.pk 5 %}
+            </ul>
+        </li>
+    {% endfor %}
+{% endif %}
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+

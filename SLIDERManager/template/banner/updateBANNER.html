@@ -1,0 +1,306 @@
+<!DOCTYPE html>
+<html lang="en">
+  {% load static %}  
+<head>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <title>Update Banner - {% if data %} {% endif %}  | {{project.title | safe | title }} || {{project.name}} </title>
+    <link rel="icon" type="image/png" href="{% if project.favicon %}{{project.favicon.url}}{% else %}{% static 'adminAAKRITICMS/img/default/mrdas.jpg' %}{% endif %}">
+    <!-- iCheck for checkboxes and radio inputs -->
+    <link rel="stylesheet" href="{% static 'adminAAKRITICMS/plugins/icheck-bootstrap/icheck-bootstrap.min.css'%}">
+    <!-- Select2 -->
+    <link rel="stylesheet" href="{% static 'adminAAKRITICMS/plugins/select2/css/select2.min.css'%}">
+    <link rel="stylesheet" href="{% static 'adminAAKRITICMS/plugins/select2-bootstrap4-theme/select2-bootstrap4.min.css'%}">
+
+    <!-- Font Awesome -->
+    <link rel="stylesheet" href="{% static 'adminAAKRITICMS/plugins/fontawesome-free/css/all.min.css'%}">
+    <!-- SweetAlert2 -->
+    <link rel="stylesheet" href="{% static 'adminAAKRITICMS/plugins/sweetalert2-theme-bootstrap-4/bootstrap-4.min.css' %}">
+    <!-- webreakFree Theme style -->
+    <link rel="stylesheet" href="{% static 'adminAAKRITICMS/css/aakriticms.min.css'%}">
+    <link rel="stylesheet" href="{% static 'adminAAKRITICMS/css/aakriti.ui.css'%}">
+
+ 
+</head>
+<body class="hold-transition sidebar-mini layout-fixed">
+  <div class="wrapper">
+  {% include 'includes/adminNavBar.html' %} <!--Add this-->
+  {% include 'includes/adminSideBar.html' %} <!--Add this-->
+
+  <!-- Content Wrapper. Contains page content -->
+  <div class="content-wrapper">
+    <!-- Content Header (Page header) -->
+    <section class="content-header">
+      <div class="container-fluid">
+        <div class="row mb-2">
+          <div class="col-sm-6">
+            <h1>Update {{BANNER.name}}</h1>
+
+          </div>
+          <div class="col-sm-6">
+            <ol class="breadcrumb float-sm-right">
+              <li class="breadcrumb-item"><a href="{% url 'DefaultDashboard' %}">Home</a></li>
+              <li class="breadcrumb-item active">Update </li>
+            </ol>
+          </div>
+        </div>
+      </div><!-- /.container-fluid -->
+    </section>
+    
+    <!-- Main content -->
+    <section class="content">
+      <div class="container-fluid">
+        <div class="row">
+          <div class="col-md-12">
+            <div class="card card-primary">
+              <div class="card-header ">
+                  <h3 class="card-title"></h3>
+              </div>
+              <!-- /.card-header -->
+              <div class="card-body">
+                <form action="" method="POST" enctype="multipart/form-data" id="FormData">
+                    {% csrf_token %}
+                <div class="row">
+                    <div class="col-md-4">
+                      <div class="form-group">
+                        <label>BANNERCat List ( Optional ):</label>
+                        <select class="BANNERCat form-control select2" style="width: 100%;" name="BANNERCat" id="BANNERCat" >
+                            {% if BANNER.BANNERCat %}
+                            <option value="{{BANNER.BANNERCat.pk}}">Selected [ {{BANNER.BANNERCat.name}} ] BANNERCat</option>
+                            {% else %}
+                            <option value="">Select [ {{project.name}} ] BANNERCat</option>
+                            {% endif %}
+
+                            {% if ALLBANNERList %}
+                              {% for BANNERCat in ALLBANNERList %}
+                                <option value="{{BANNERCat.id}}"> {{BANNERCat.name}} </option>
+                              {% endfor %}
+                            {% else %}
+                            <option>[ {{project.name}} ] Has No BANNERCat</option>
+                          {% endif %}
+                        </select>
+                      </div>
+                      <div class="form-group">
+                        <label>PAGE List ( Optional ):</label>
+                        <select class="PAGEList form-control select2" style="width: 100%;" name="PAGEList" id="PAGEList">
+                            {% if BANNER.page %}
+                              <option value="{{BANNER.page.pk}}">THIS BANNER FOR [ {{BANNER.page.name | upper }}  ] PAGE</option>
+                            {% else %}
+                              <option value="">Select [ {{project.name}} ] PAGES</option>
+                            {% endif %}
+                            {% if ALLPAGEList %}
+                              {% for page in ALLPAGEList %}
+                                <option value="{{page.id}}"> {{page.name}} </option>
+                              {% endfor %}
+                            {% else %}
+                            <option>[ {{project.name}} ] Has No PAGES.</option>
+                          {% endif %}
+                        </select>
+                      </div>
+                      <div class="form-group">
+                        <label>BANNER TYPE:</label>
+                        <select class="BANNER_TYPE form-control select2" style="width: 100%;" name="BANNER_TYPE" id="BANNER_TYPE" >
+                          {% if BANNER.is_video %}
+                          <option value="is_video">Selected {% if BANNER.is_video  %}  VIDEO {% elif not BANNER.is_video %}IMG {% endif %} TYPE</option>
+                          {% else %}
+                          <option value="is_img">Selected [ IMG ] TYPE</option>
+                          {% endif %}
+                          <option value="is_img"> IMG BANNER</option>
+                          <option value="is_video"> VIDEO BANNER </option>
+                        </select>
+                      </div>
+                      <div class="form-group">
+                        <label for="main-category">Redirect URL</label>
+                        <div class="input-group">
+                            <div class="input-group-prepend">
+                            <span class="input-group-text"><i class="fas fa-laptop"></i></span>
+                            </div>
+                            <input type="text" name="target"value="{{BANNER.target}}" class="form-control" id="input-field" placeholder="Redirect to URL" autocomplete="off" >
+                            <div class="input-group-prepend">
+                              <span class="input-group-text" for="input-field" id="NameStringCount"></span>
+                            </div>
+                        </div>
+                      </div>
+                    </div>
+                    <div class="col-md-4">  
+                        
+                        <div class="form-group">
+                            <label for="main-category">BANNER Name ( Optional ):</label>
+                            <div class="input-group">
+                                <div class="input-group-prepend">
+                                <span class="input-group-text"><i class="fas fa-laptop"></i></span>
+                                </div>
+                                <input type="text" name="name" class="form-control" id="input-field" onkeyup="NameStringCount()"  value="{{BANNER.name}}" autocomplete="off" >
+                                <div class="input-group-prepend">
+                                  <span class="input-group-text" for="input-field" id="NameStringCount"></span>
+                                </div>
+                            </div>
+                        </div>
+
+                        <div class="form-group">
+                          <label for="BANNER_TITLE">BANNER Title ( Optional ):</label>
+                          <div class="input-group">
+                              <div class="input-group-prepend">
+                              <span class="input-group-text"><i class="fas fa-laptop"></i></span>
+                              </div>
+                              <input type="text" name="title" class="form-control" placeholder="Add BANNER Title" id="input-field" onkeyup="NameStringCount()"  value="{{BANNER.title}}" autocomplete="off" >
+                              <div class="input-group-prepend">
+                                <span class="input-group-text" for="input-field" id="NameStringCount"></span>
+                              </div>
+                          </div>
+                        </div>
+                        <div class="form-group">
+                          <label for="use-code">USE CODE ( Optional ): </label>
+                          <div class="input-group">
+                              <div class="input-group-prepend">
+                              <span class="input-group-text"><i class="fas fa-laptop"></i></span>
+                              </div>
+                              <input type="text" name="code" class="form-control" placeholder="Add Code For User" id="input-field" onkeyup="NameStringCount()"  value="{{BANNER.code}}" autocomplete="off" >
+                              <div class="input-group-prepend">
+                                <span class="input-group-text" for="input-field" id="NameStringCount"></span>
+                              </div>
+                          </div>
+                        </div>
+                        
+
+                        <section class="IMGSECTION" {% if BANNER.is_video %} style="display: none;" {% endif %}>
+                          <label for="exampleInputFile">Select Banner Image </label>
+                          <div class="card card-outline card-info">
+                            <div class="card-body"> 
+                              <div id="display_image" style="height:150px; width:100% !important; border-radius: 10px; border: 2px solid rgb(9, 135, 238); display: none; visibility: hidden; background-size:contain; background-repeat:no-repeat;"></div>
+                              <img src="{% if BANNER.img %}{{BANNER.img.url}}{% else %}{% static 'adminAAKRITICMS/img/default/AakritiLiteWebDeveloper.jpg'%}{% endif %}" class="img_display img-thumbnail" id="NoObject" style="height:150px; width:100% !important; border-radius: 10px; border: 2px solid rgb(9, 135, 238);" data-toggle="tooltip" data-placement="top" title="Select Banner IMG"/>
+                            </div>
+                            <div class="card-footer">
+                                <span class="btn btn-primary col fileinput-button " data-toggle="tooltip" data-placement="top" title="Hit For Select IMG Thumbnail">
+                                    <input type="file" value="" accept="image/png, image/jpg , image/jpeg" name="img" multiple  id="image_input"  style="display: none;" class="img_input"/>
+                                    <label for="image_input" style="cursor: pointer;" ><i class="fas fa-plus"></i><span>Add Thumbnail </span></label>
+                                </span>
+                            </div>
+                          </div>
+                        </section>
+
+                        <section class="VIDEOSECTION" {% if not BANNER.is_video %} style="display: none;" {% endif %}>
+                          <div class="form-group">
+                            <label>Select Video Type</label>
+                            <select class="VIDEO_TYPE form-control select2 " id="VIDEO_TYPE" name="VIDEO_TYPE" style="width: 100%;">
+                                <option value="">Selected {% if BANNER.is_video and BANNER.is_youtube  %} YouTube {% elif BANNER.is_video and BANNER.is_vimeo  %}Vimeo {% endif %} BANNER</option>
+                                <option value="youtube">YouTube</option>
+                                <option value="vimeo">Vimeo</option>
+                            </select>
+                          </div> 
+                          <div class="YOUTUBEBOX form-group {% if not BANNER.is_youtube %} d-none {% endif %}">
+                            <div class="input-group">
+                                <div class="input-group-prepend">
+                                  <span class="input-group-text"><i class="fab fa-youtube-square text-danger"></i></span>
+                                </div>
+                                <input type="text" class="youtube form-control" id="input-field" placeholder="Past YouTube Link" name="youtube" value="{% if BANNER.is_video and BANNER.is_youtube  %}{{BANNER.video_url}}{% endif %}">
+                            </div>
+                          </div>
+                          <div class="VIMEOBOX form-group {% if not BANNER.is_vimeo %} d-none {% endif %}">
+                            <div class="input-group">
+                                <div class="input-group-prepend">
+                                  <span class="input-group-text"><i class="fa fas fa-bars"></i></span>
+                                </div>
+                                <input type="text" class="form-control Topic" id="input-field" placeholder="Past Vimeo Link" name="vimeo" value="{% if BANNER.is_video and BANNER.is_vimeo %}{{BANNER.video_url}}{% endif %}">
+                            </div>
+                          </div>
+                        </section>
+
+                        <div class="card-footer bg-primary">
+                            <div class="col text-center">
+                                <button type="submit" id="publisher" class="btn btn-light  ml-3" title="Hit For: Update Banner" data-toggle="tooltip"><i class="fas fa-upload"></i>&nbsp;&nbsp; Update Banner Now</button>
+                            </div>
+                        </div>
+          
+                    </div>
+                    <!-- ------------------------------------------------------- -->
+                    <!-- end col-md-8 -->
+                    <div class="col-md-4">
+                        <!-- /.card-body -->
+                    </div>
+                    <!-- end col-md-8 -->
+                </div>
+                
+              </div>
+              <div class="card-footer bg-primary">
+
+              </div> 
+              <!-- /.card-body And Default Form-->
+            </form>
+
+            </div>
+            </div>
+            <!-- /.card -->
+          </div>
+          <!-- /.col -->
+        </div>
+        <!-- /.row -->
+      </div>
+      <!-- /.container-fluid -->
+    </section>
+    <!-- /.content -->
+  </div>
+  <!-- /.content-wrapper -->
+
+  {% include 'includes/adminFooter.html' %} <!--Add this-->
+
+<!-- jQuery -->
+<script src="{% static 'adminAAKRITICMS/plugins/jquery/jquery.min.js'%}"></script>
+<!-- Bootstrap 4 -->
+<script src="{% static 'adminAAKRITICMS/plugins/bootstrap/js/bootstrap.bundle.min.js'%}"></script>
+<!-- Select2 -->
+<script src="{% static 'adminAAKRITICMS/plugins/select2/js/select2.full.min.js'%}"></script>
+
+<!-- AakritiCMS JavaScript -->
+<script src="{% static 'adminAAKRITICMS/js/aakritiCMS.min.js'%}"></script>
+<!-- SweetAlert2 -->
+<script src="{% static 'adminAAKRITICMS/plugins/sweetalert2/sweetalert2.min.js'%}"></script>
+<!-- Toastr -->
+<script src="{% static 'adminAAKRITICMS/plugins/toastr/toastr.min.js'%}"></script>
+<script src="{% static 'adminAAKRITICMS/plugins/aakritiCMS/js/additional-operations.js' %}"></script>
+<script> 
+
+  $(function () {
+    //Initialize Select2 Elements
+    $('.select2').select2()
+
+    //Initialize Select2 Elements
+    $('.select2bs4').select2({
+      theme: 'bootstrap4'
+    })
+  })
+
+$(function () {
+  $('[data-toggle="tooltip"]').tooltip()
+})
+
+$(".BANNER_TYPE").change(function(){
+  var page_type = $(this).val();
+  if (page_type == 'is_video'){
+    $('.VIDEOSECTION').show();
+    $('.IMGSECTION').hide();
+
+  }else{
+    $('.IMGSECTION').show();
+    $('.VIDEOSECTION').hide();
+  }
+});
+
+  $(document).ready(function() {
+      $('.VIDEO_TYPE').change(function(){
+          var target = $(this).val();
+          if (target == 'youtube'){
+            $(".YOUTUBEBOX").removeClass("d-none");
+            $(".VIMEOBOX").addClass("d-none");
+            console.log("target:", target);
+          }else if(target == 'vimeo'){
+            $(".VIMEOBOX").removeClass("d-none");
+            $(".YOUTUBEBOX").addClass("d-none");
+          }
+      });
+  });
+</script>
+<!-- ==============END=============== -->
+{% include 'includes/adminToster.html' %}
+</body>
+</html>

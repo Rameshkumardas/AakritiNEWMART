@@ -1,0 +1,49 @@
+       {% load static %}
+       <div class="onlinemangao-breadcrumb-area">
+        <div class="container">
+            <div class="row align-items-center">
+                <div class="col-lg-6 col-md-8">
+                    <div class="inner">
+                        <ul class="onlinemangao-breadcrumb">
+                            <li class="onlinemangao-breadcrumb-item"><a href="index.html">Home</a></li>
+                            <li class="separator"></li>
+                            <li class="onlinemangao-breadcrumb-item active" aria-current="page">My Account</li>
+                        </ul>
+                        <h3 class="">Ramesh Member Since 20 JAN 2018</h3>
+                    </div>
+                </div>
+                <div class="col-lg-6 col-md-4">
+                    <div class="inner">
+                        <div class="bradcrumb-thumb">
+                            <img src="{% static 'eMARTSHOPWEB/images/product/author1.png' %}" alt="Hello Ramesh Kuamr Das">
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+       <!-- Start My Account Area  -->
+       <div class="onlinemangao-dashboard-area onlinemangao-section-gap p-3">
+        <div class="container">
+            <div class="onlinemangao-dashboard-warp">
+                <div class="row">
+                    <div class="col-xl-3 col-md-4">
+                        <aside class="onlinemangao-dashboard-aside">
+                            <nav class="onlinemangao-dashboard-nav">
+                                <div class="nav nav-tabs" role="tablist">
+
+                                    
+
+
+                                                     
+                                    <a class="nav-item nav-link {% if dashboard %}active{% endif %}" href="{% url 'USERDashboard' %}"><i class="fas fa-th-large"></i>Dashboard</a>
+                                    <a class="nav-item nav-link {% if order %}active{% endif %}" href="{% url 'USEROrders' %}"><i class="fas fa-shopping-basket"></i>Orders</a>
+                                    <a class="nav-item nav-link " href="{% url 'GoToMyCartList' %}"><i class="far fa-shopping-cart"></i>My Cart</a>
+                                    <a class="nav-item nav-link " href="{% url 'GoToWishList' %}" ><i class="far fa-heart"></i>Wishlist</a>                                        
+                                    <a class="nav-item nav-link {% if address %}active{% endif %}" href="{% url 'USERAddress' %}"><i class="fas fa-home"></i>Addresses</a>
+                                    <a class="nav-item nav-link {% if account %}active{% endif %}" href="{% url 'USERAccount' %}"><i class="fas fa-user"></i>Account Details</a>
+                                    <a class="nav-item nav-link " href="{% url 'LOGOUTUSER' %}"><i class="fal fa-sign-out"></i>Logout</a>
+                                </div>
+                            </nav>
+                        </aside>
+                    </div>

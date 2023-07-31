@@ -1,0 +1,264 @@
+<!DOCTYPE html>
+<html lang="en">
+  {% load static%} 
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+
+    <title>Newsletter| {{project.title | safe | title }} || {{project.name}} </title>
+    <link rel="icon" type="image/png" href="{% if project.favicon %}{{project.favicon.url}}{% else %}{% static 'adminAAKRITICMS/img/default/mrdas.jpg' %}{% endif %}">
+    <!-- Font Awesome -->
+    <link rel="stylesheet" href="{% static 'adminAAKRITICMS/plugins/fontawesome-free/css/all.min.css'%}">
+    <!-- SweetAlert2 -->
+    <link rel="stylesheet" href="{% static 'adminAAKRITICMS/plugins/sweetalert2-theme-bootstrap-4/bootstrap-4.min.css' %}">
+    <!-- adminAAKRITICMS Theme style -->
+    <link rel="stylesheet" href="{% static 'adminAAKRITICMS/css/aakriticms.min.css'%}">
+    <link rel="stylesheet" href="{% static 'adminAAKRITICMS/css/aakriti.ui.css'%}">
+
+
+    <!-- DataTables -->
+    <link rel="stylesheet" href="{% static 'adminAAKRITICMS/plugins/datatables-bs4/css/dataTables.bootstrap4.min.css'%}">
+    <link rel="stylesheet" href="{% static 'adminAAKRITICMS/plugins/datatables-responsive/css/responsive.bootstrap4.min.css'%}">
+    <link rel="stylesheet" href="{% static 'adminAAKRITICMS/plugins/datatables-buttons/css/buttons.bootstrap4.min.css'%}">
+    <link rel="stylesheet" href="{% static 'adminAAKRITICMS/plugins/select2/css/select2.min.css'%}">
+
+  <link rel="stylesheet" href="{% static 'adminAAKRITICMS/plugins/overlayScrollbars/css/OverlayScrollbars.min.css' %}">
+
+
+</head>
+
+<body class="hold-transition sidebar-mini layout-fixed">
+  <div class="wrapper">
+  {% include 'includes/adminNavBar.html' %} <!--Add this-->
+  {% include 'includes/adminSideBar.html' %} <!--Add this-->
+  <!-- Content Wrapper. Contains page content -->
+  <div class="content-wrapper">
+    <!-- Content Header (Page header) -->
+    {% comment %}
+
+    <section class="content-header">
+      <div class="container-fluid">
+        <div class="row mb-2">
+          <div class="col-sm-6">
+            <h1>Number Newsletter List</h1>
+          </div>
+          <div class="col-sm-6">
+            <a href="{% url 'sendMESSAGEWITHNumber' %}" target="_blank" class="btn btn-dark float-right mr-2" data-toggle="tooltip" title="Add Message For Number" ><i class="fas fa-edit"></i>&nbsp;&nbsp; Add Message For Number</a>
+          </div>
+        </div>
+      </div><!-- /.container-fluid -->
+    </section>
+    <!-- Main content -->
+    <section class="content">
+      <div class="container-fluid">
+        <div class="row">
+          <div class="col-md-12" id="EMPTYAREA">
+            <div class="card card-info">
+              <div class="card-header ">
+                <h1 class="card-title text-center text-bold text-uppercase">  Number&nbsp; Newsletter&nbsp; List </h1>
+              </div>
+              <!-- /.card-header -->
+              <div class="card-body" >
+                {% if phoneLIST %}
+                <table id="allPNUMBER" class="table table-bordered table-striped" style="text-align: center !important;">
+                  <thead>
+                    <tr>
+                      <th>Number</th>
+                      <th>status</th>
+                      <th>Date</th>
+                      <th>Actions</th>
+
+                    </tr>
+                  </thead>
+                  <tbody>
+                    {% for phone in phoneLIST %}
+                    <tr>
+                      <td>
+                        {{phone.number}}
+                      </td>
+                      {% if phone.status == 1 %}
+                        <td class="text-center text-success"><span class="text-success">Subscribed</span></td>
+                      {% elif phone.status == 0 %}
+                        <td class="text-center text-danger"><span class="text-danger">Unsubscribed </span></td>
+                      {% endif %}
+                      <td class="text-center">
+                        {{phone.date}}
+                      </td>
+                      <td>
+                        Actions
+                      </td>
+                    </tr>
+                    
+                    {% endfor %}
+                  </tbody>
+                  <tfoot>
+                    <tr>
+                      <tr>
+                        <th>Number</th>
+                        <th>status</th>
+                        <th>Date</th>
+                        <th>Actions</th>
+                      </tr>
+                    </tr>
+                  </tfoot>
+                </table>
+                {% else %}
+                <option class="text-center">No Newsletter Are Avaliable {{project.name}}</option>  
+                {% endif %}
+              </div>
+              <div class="card-footer bg-info">
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+    </section>
+    {% endcomment %}
+    <section class="content-header">
+      <div class="container-fluid">
+        <div class="row mb-2">
+          <div class="col-sm-6">
+            <h1>Email Newsletter List</h1>
+          </div>
+          <!-- <div class="col-sm-6">
+            <a href="{% url 'sendMESSAGEWITHEMAIL' %}" target="_blank" class="btn btn-dark float-right mr-2" data-toggle="tooltip" title="Add Message For Email" ><i class="fas fa-edit"></i>&nbsp;&nbsp; Add Message For Email</a>
+          </div> -->
+        </div>
+      </div><!-- /.container-fluid -->
+    </section>
+    <!-- Main content -->
+    <section class="content">
+      <div class="container-fluid">
+        <div class="row">
+          <div class="col-md-12" id="EMPTYAREA">
+            <div class="card card-info">
+              <div class="card-header ">
+                <h1 class="card-title text-center text-bold text-uppercase">  Email&nbsp; Newsletter&nbsp; List </h1>
+              </div>
+              <!-- /.card-header -->
+              <div class="card-body" >
+                {% if emailLIST %}
+                <table id="allEMAIL" class="table table-bordered table-striped" style="text-align: center !important;">
+                  <thead>
+                      <tr>
+                        <th>Email</th>
+                        <th>status</th>
+                        <th>Date</th>
+                        <th>Actions</th>
+
+                      </tr>
+                  </thead>
+                  <tbody>
+                    {% for email in emailLIST %}
+                      <tr>
+                        <td>
+                          {{email.email}}
+                        </td>
+                        {% if email.status == 1 %}
+                          <td class="text-center text-success"><span class="text-success">Subscribed</span></td>
+                        {% elif email.status == 0 %}
+                          <td class="text-center text-danger"><span class="text-danger">Unsubscribed </span></td>
+                        {% endif %}
+                        <td class="text-center">
+                          {{email.date}}
+                        </td>   
+                        <td class="text-center">
+                          Actions
+                        </td>   
+                      </tr>
+                      {% endfor %}
+                  </tbody>
+                  <tfoot>
+                    <tr>
+                      <tr>
+                        <th>Email</th>
+                        <th>status</th>
+                        <th>Date</th>
+                        <th>Actions</th>
+
+                      </tr>
+                    </tr>
+                  </tfoot>
+                </table>
+                {% else %}
+                <option class="text-center">No Newsletter Are Avaliable</option>  
+                {% endif %}
+              </div>
+              <div class="card-footer bg-info">
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+    </section>
+</div>
+  <!-- ================================================ -->
+  {% include 'includes/adminFooter.html' %} <!--Add this-->
+</div>
+<!-- ./wrapper -->
+<!-- jQuery -->
+<script src="{% static 'adminAAKRITICMS/plugins/jquery/jquery.min.js'%}"></script>
+<!-- Bootstrap 4 -->
+<script src="{% static 'adminAAKRITICMS/plugins/bootstrap/js/bootstrap.bundle.min.js'%}"></script>
+<!-- DataTables  & Plugins -->
+<script src="{% static 'adminAAKRITICMS/plugins/datatables/jquery.dataTables.min.js'%}"></script>
+<script src="{% static 'adminAAKRITICMS/plugins/datatables-bs4/js/dataTables.bootstrap4.min.js'%}"></script>
+<script src="{% static 'adminAAKRITICMS/plugins/datatables-responsive/js/dataTables.responsive.min.js'%}"></script>
+<script src="{% static 'adminAAKRITICMS/plugins/datatables-responsive/js/responsive.bootstrap4.min.js'%}"></script>
+<script src="{% static 'adminAAKRITICMS/plugins/datatables-buttons/js/dataTables.buttons.min.js'%}"></script>
+<script src="{% static 'adminAAKRITICMS/plugins/datatables-buttons/js/buttons.bootstrap4.min.js'%}"></script>
+<script src="{% static 'adminAAKRITICMS/plugins/jszip/jszip.min.js'%}"></script>
+<script src="{% static 'adminAAKRITICMS/plugins/pdfmake/pdfmake.min.js'%}"></script>
+<script src="{% static 'adminAAKRITICMS/plugins/pdfmake/vfs_fonts.js'%}"></script>
+<script src="{% static 'adminAAKRITICMS/plugins/datatables-buttons/js/buttons.html5.min.js'%}"></script>
+<script src="{% static 'adminAAKRITICMS/plugins/datatables-buttons/js/buttons.print.min.js'%}"></script>
+<script src="{% static 'adminAAKRITICMS/plugins/datatables-buttons/js/buttons.colVis.min.js'%}"></script>
+<!-- AakritiCMS JavaScript -->
+<script src="{% static 'adminAAKRITICMS/js/aakritiCMS.min.js'%}"></script>
+<!-- SweetAlert2 -->
+<script src="{% static 'adminAAKRITICMS/plugins/sweetalert2/sweetalert2.min.js'%}"></script>
+<!-- Toastr -->
+<script src="{% static 'adminAAKRITICMS/plugins/toastr/toastr.min.js'%}"></script>
+<script src="{% static 'adminAAKRITICMS/plugins/overlayScrollbars/js/jquery.overlayScrollbars.min.js' %}"></script>
+
+<script>
+  $(function () {
+    $("#allPNUMBER").DataTable({
+      "responsive": true, "lengthChange": false, "autoWidth": false,
+      "buttons": ["copy", "csv", "excel", "pdf", "print", "colvis"]
+    }).buttons().container().appendTo('#allPNUMBER_wrapper .col-md-6:eq(0)');
+    $('#example2').DataTable({
+      "paging": true,
+      "lengthChange": false,
+      "searching": false,
+      "ordering": true,
+      "info": true,
+      "autoWidth": false,
+      "responsive": true,
+    });
+  });
+
+  $(function () {
+    $("#allEMAIL").DataTable({
+      "responsive": true, "lengthChange": false, "autoWidth": false,
+      "buttons": ["copy", "csv", "excel", "pdf", "print", "colvis"]
+    }).buttons().container().appendTo('#allEMAIL_wrapper .col-md-6:eq(0)');
+    $('#example2').DataTable({
+      "paging": true,
+      "lengthChange": false,
+      "searching": false,
+      "ordering": true,
+      "info": true,
+      "autoWidth": false,
+      "responsive": true,
+    });
+  });
+
+$(function () {
+  $('[data-toggle="tooltip"]').tooltip()
+})
+</script>
+<!-- ===================END============================= -->
+{% include 'includes/adminToster.html' %} <!--Add this-->
+</body>
+</html>

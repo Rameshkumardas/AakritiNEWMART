@@ -1,0 +1,184 @@
+<!DOCTYPE html>
+{% load static%}
+<html lang="en">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+    <title>RCR Policy  - General Settings | {{project.title | safe | title }} || {{project.name}} </title>
+    <link rel="icon" type="image/png" href="{% if project.favicon %}{{project.favicon.url}}{% else %}{% static 'adminAAKRITICMS/img/default/mrdas.jpg' %}{% endif %}">
+    <!-- Font Awesome -->
+    <link rel="stylesheet" href="{% static 'adminAAKRITICMS/plugins/fontawesome-free/css/all.min.css'%}">
+    <!-- adminAAKRITICMS Theme style -->
+    <link rel="stylesheet" href="{% static 'adminAAKRITICMS/css/aakriticms.min.css'%}">
+    <link rel="stylesheet" href="{% static 'adminAAKRITICMS/css/aakriti.ui.css'%}">
+    <!-- SweetAlert2 -->
+    <link rel="stylesheet" href="{% static 'adminAAKRITICMS/plugins/sweetalert2-theme-bootstrap-4/bootstrap-4.min.css' %}">
+    <!-- summernote -->
+    <link rel="stylesheet" href="{% static 'adminAAKRITICMS/plugins/summernote/summernote-bs4.min.css' %}">
+   <link rel="stylesheet" href="{% static 'adminAAKRITICMS/plugins/overlayScrollbars/css/OverlayScrollbars.min.css' %}">
+</head>
+<body class="sidebar-mini layout-fixed">
+  <div class="wrapper">
+
+  {% include 'includes/adminNavBar.html' %} <!--Add this-->
+  {% include 'includes/adminSideBar.html' %} <!--Add this-->
+
+  <!-- Content Wrapper. Contains page content -->
+  <div class="content-wrapper">
+    <!-- Content Header (Page header) -->
+    <section class="content-header">
+      <div class="container-fluid">
+        <div class="row mb-2">
+          <div class="col-sm-6">
+            <h1>General Settings</h1>
+          </div>
+          <div class="col-sm-6">
+            <ol class="breadcrumb float-sm-right">
+              <li class="breadcrumb-item"><a href="{% url 'DefaultDashboard' %}">Home</a></li>
+              <li class="breadcrumb-item active">General Setting</li>
+            </ol>
+          </div>
+        </div>
+      </div><!-- /.container-fluid -->
+    </section>
+
+    <!-- Main content -->
+    <section class="content">
+      <div class="container-fluid">
+        
+        <div class="row">
+            <div class="col-md-3">
+                <div class="card card-widget widget-user">
+                    <div class="card-body p-1">
+                 
+                      <a href="{% url 'CMSSettings' %}" class="btn btn-light btn-block " style="text-align: left !important;"><i class="fas fa-home"></i>&nbsp;&nbsp; &nbsp;<b>CMS Manager</b></a>
+                      <a href="{% url 'HowitWorks' %}" class="btn btn-light btn-block " style="text-align: left !important;"><i class="fas fa-tasks"></i>&nbsp;&nbsp; &nbsp;<b>How it Works</b></a>
+                      <a href="{% url 'AboutUsSettings' %}" class="btn btn-light btn-block " style="text-align: left !important;"><i class="far fa-user-circle"></i>&nbsp;&nbsp; &nbsp;<b>About Us</b></a>
+                      <a href="{% url 'TermsConditionSettings' %}" class="btn btn-light btn-block " style="text-align: left !important;"><i class="fas fa-gavel"></i>&nbsp;&nbsp; &nbsp;<b>Terms & Condition</b></a>
+                      <a href="{% url 'PrivacyPolicySettings' %}" class="btn btn-light btn-block " style="text-align: left !important;"><i class="fas fa-shield-alt"></i>&nbsp;&nbsp; &nbsp;<b>Privacy Policy</b></a>
+                      <a href="{% url 'CopyrightPolicy' %}" class="btn btn-light btn-block " style="text-align: left !important;"><i class="far fa-copyright"></i>&nbsp;&nbsp; &nbsp;<b>Copyright Policy</b></a>
+                      <a href="{% url 'CookiesPolicy' %}" class="btn btn-light btn-block " style="text-align: left !important;"><i class="fas fas fa-gavel"></i>&nbsp;&nbsp; &nbsp;<b>Cookies Policy</b></a>
+                      <a href="{% url 'RCRPolicy' %}" class="btn btn-light btn-block " style="text-align: left !important;"><i class="fas fas fa-gavel"></i>&nbsp;&nbsp; &nbsp;<b>RCR Policy</b></a>
+                      <a href="{% url 'Maintenance' %}" class="btn btn-success btn-block " style="text-align: left !important;"><i class="fas fa-tasks"></i>&nbsp;&nbsp; &nbsp;<b>Maintenance</b></a>
+                      <a href="{% url 'Security' %}" class="btn btn-light btn-block " style="text-align: left !important;"><i class="fas fa-lock" aria-hidden="true"></i>&nbsp;&nbsp; &nbsp;<b>Security</b></a>
+                      <a href="{% url 'Disclaimer' %}" class="btn btn-light btn-block " style="text-align: left !important;"><i class="fas fa-exclamation-triangle "></i>&nbsp;&nbsp; &nbsp;<b>Disclaimer</b></a>
+
+
+                      <a href="{% url 'HowToShopOnlineSettings' %}" class="btn btn-light btn-block " style="text-align: left !important;"><i class="fas fa-tasks "></i>&nbsp;&nbsp; &nbsp;<b>How To Shop Online</b></a>
+                      <a href="{% url 'OurFabricsSettings' %}" class="btn btn-light btn-block " style="text-align: left !important;"><i class="fas fa-tasks "></i>&nbsp;&nbsp; &nbsp;<b>Our Fabrics</b></a>
+                      <a href="{% url 'OurGarmentQualitySettings' %}" class="btn btn-light btn-block " style="text-align: left !important;"><i class="fas fa-tasks "></i>&nbsp;&nbsp; &nbsp;<b>Our Garment Quality</b></a>
+                      <a href="{% url 'PerfectFitGuaranteeSettings' %}" class="btn btn-light btn-block " style="text-align: left !important;"><i class="fas fa-tasks "></i>&nbsp;&nbsp; &nbsp;<b>Perfect Fit Guarantee</b></a>
+                      <a href="{% url 'WeddingsSettings' %}" class="btn btn-light btn-block " style="text-align: left !important;"><i class="fas fa-tasks "></i>&nbsp;&nbsp; &nbsp;<b>Weddings</b></a>
+
+
+                    </div>    
+                </div>
+            </div>
+            <div class="col-md-9 ">
+              <!-- ==================== -->
+              <div class="card card-outline card-primary">
+                <div class="card-header">
+                  <h3 class="card-title"><b><strong>Maintenance Settings</strong></b></h3>
+                </div>
+                <div class="card-body p-0">
+                  <textarea id="summernote" class="description"  width="100%" height="100 px" name="description">{{description}}</textarea>
+                </div>
+                <div class="card-footer card-outline card-primary">
+                    <a href="" target="_blank" class="btn btn-dark float-right ml-3" title="Hit For: Live Preview" data-toggle="tooltip"><i class="fas fa-eye"></i>&nbsp;&nbsp; Live Preview</a>
+                  <button type="submit" id="publisher" class="btn btn-primary float-right ml-3" title="Hit For: Terms & Condition  Publish" data-toggle="tooltip"><i class="fas fa-upload"></i>&nbsp;&nbsp; Update Now</button>
+                </div>
+              </div>
+            <!-- ==================== -->
+            </div>
+          </div>
+        <!-- /.row -->
+      </div><!-- /.container-fluid -->
+    </section>
+    <!-- /.content -->
+  </div>
+  <!-- /.content-wrapper -->
+  {% include 'includes/adminFooter.html' %} <!--Add this-->
+</div>
+<!-- ./wrapper -->
+<!-- jQuery -->
+<script src="{% static 'adminAAKRITICMS/plugins/jquery/jquery.min.js'%}"></script>
+<!-- Bootstrap 4 -->
+<script src="{% static 'adminAAKRITICMS/plugins/bootstrap/js/bootstrap.bundle.min.js'%}"></script>
+<!-- AakritiCMS JavaScript -->
+<script src="{% static 'adminAAKRITICMS/js/aakritiCMS.min.js'%}"></script>
+<!-- Summernote -->
+<script src="{% static 'adminAAKRITICMS/plugins/summernote/summernote-bs4.min.js' %}"></script>
+<!-- SweetAlert2 -->
+<script src="{% static 'adminAAKRITICMS/plugins/sweetalert2/sweetalert2.min.js'%}"></script>
+<!-- Toastr -->
+<script src="{% static 'adminAAKRITICMS/plugins/toastr/toastr.min.js'%}"></script>
+<script src="{% static 'adminAAKRITICMS/plugins/overlayScrollbars/js/jquery.overlayScrollbars.min.js' %}"></script>
+<!-- Page specific script -->
+<script>
+
+$(function () {
+    // Summernote
+    $('#summernote').summernote({
+    placeholder: 'type starting with : Maintenance',
+    tabsize: 2,
+    height:365,
+    toolbar: [
+          ['style', ['style']],
+          ['highlight', ['highlight']],
+          ['para', ['undo', 'redo']],
+          ['font', ['bold', 'underline', 'clear']],
+          ['color', ['forecolor', 'backcolor' ]],
+          ['para', ['ul', 'ol', 'paragraph', 'height']],          
+          ['table', ['table']],
+          ['insert', ['link', 'picture', 'video']],
+          ['view', ['fullscreen', 'codeview', 'help']],          
+        ],
+    lang:'tr-TR'
+    });
+
+
+  })
+
+ 
+  $(function () {
+  $('[data-toggle="tooltip"]').tooltip()
+})
+</script>
+
+
+<script>
+  $("#publisher").click(function () {
+
+  const url = "{% url 'UpdateDetails' %}";  
+  const description = $('.description').val()
+
+  $.ajax({                      
+      type: "POST",                   
+      url: url,                    
+      data: {
+        csrfmiddlewaretoken: "{{ csrf_token }}",
+        'Terms_Condition': description,  
+        'target':'maintenance'           
+      },
+      success: function(data) {   
+          if (data.status == 1){
+              console.log(data.message)
+              Toast.fire({
+              icon: 'success',
+              title: '<p id="messages" style="margin-top:12px !important; margin-left:8px !important;"><b>'+ data.message +'</b></p>'
+              }) 
+          }
+          else{
+              Toast.fire({
+              icon: 'error',
+              title: '<p id="messages" style="margin-top:12px !important;  margin-left:8px !important;"><b>'+ data.message +'</b></p>'
+              }) 
+          }       
+      },
+  });
+});
+</script>
+<!-- ======================END============================= -->
+{% include 'includes/adminToster.html' %} <!--Add this-->
+</body>
+</html>

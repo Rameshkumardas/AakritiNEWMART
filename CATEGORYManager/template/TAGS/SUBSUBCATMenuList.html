@@ -1,0 +1,8 @@
+{% load static %}
+
+<ul>
+    {% for row in SubSubCatMenuList %}
+        <li><a href="{% url 'SubSubCatProductList' row.subCat.mainCat.slug row.subCat.slug row.slug %}">{{row.name | title }}</a></li>
+    {% endfor %}
+</ul>
+

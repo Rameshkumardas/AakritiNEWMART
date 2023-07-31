@@ -1,0 +1,28 @@
+{% load static %}
+
+{% for replyComment in REPLYCHILDCOMMENTList %}
+<li>
+    <div class="aakriticm-postbox-details-comment-box d-sm-flex align-items-start">
+       <div class="aakriticm-postbox-details-comment-thumb">
+          <img src="{{replyComment.author.img.url}}" alt="">
+       </div>
+       <div class="aakriticm-postbox-details-comment-content">
+          <div class="aakriticm-postbox-details-comment-top d-flex justify-content-between align-items-start">
+             <div class="aakriticm-postbox-details-comment-avater">
+                <h4 class="aakriticm-postbox-details-comment-avater-title">{{replyComment.author.fname}}</h4>
+                <span class="aakriticm-postbox-details-avater-meta">{{replyComment.date}}</span>
+             </div>
+             
+             <div class="aakriticm-postbox-details-comment-reply">
+                {% if request.user.pk == replyComment.author.pk  %}
+                  <a href="javascript:void(0);" class="deleteCOMMENT" commentFOR="subchild" commentVAL="{{replyComment.pk}}" onclick="DELETECommentRequest();">Delete  </a>
+               {% endif %}
+
+            </div>            
+          </div>
+          <p>{{replyComment.description | safe }}</p>
+       </div>
+    </div>
+ </li>
+
+ {% endfor %}

@@ -1,0 +1,440 @@
+<!DOCTYPE html>
+<html lang="en">
+  {% load static%}
+  {% load SHIPPINGTags %}
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>All shippings | {{project.title | safe | title }} || {{project.name}} </title>
+  <link rel="icon" type="image/png" href="{% if project.favicon %}{{project.favicon.url}}{% else %}{% static 'adminAAKRITICMS/img/default/mrdas.jpg' %}{% endif %}">
+
+  <!-- DropDown -->
+  <link rel="stylesheet" href="{% static 'adminAAKRITICMS/plugins/select2/css/select2.min.css'%}">
+  <link rel="stylesheet" href="{% static 'adminAAKRITICMS/plugins/select2-bootstrap4-theme/select2-bootstrap4.min.css'%}">  
+  <!-- Font Awesome -->
+  <link rel="stylesheet" href="{% static 'adminAAKRITICMS/plugins/fontawesome-free/css/all.min.css'%}">
+  <!-- SweetAlert2 -->
+  <link rel="stylesheet" href="{% static 'adminAAKRITICMS/plugins/sweetalert2-theme-bootstrap-4/bootstrap-4.min.css' %}">
+  <!-- adminKlickbazar Theme style -->
+  <link rel="stylesheet" href="{% static 'adminAAKRITICMS/css/aakriticms.min.css'%}">
+  <link rel="stylesheet" href="{% static 'adminAAKRITICMS/css/aakriti.ui.css'%}">
+  <!-- DataTables -->
+  <link rel="stylesheet" href="{% static 'adminAAKRITICMS/plugins/datatables-bs4/css/dataTables.bootstrap4.min.css'%}">
+  <link rel="stylesheet" href="{% static 'adminAAKRITICMS/plugins/datatables-responsive/css/responsive.bootstrap4.min.css'%}">
+  <link rel="stylesheet" href="{% static 'adminAAKRITICMS/plugins/datatables-buttons/css/buttons.bootstrap4.min.css'%}">
+  <link rel="stylesheet" href="{% static 'adminAAKRITICMS/plugins/overlayScrollbars/css/OverlayScrollbars.min.css' %}">
+</head>
+<body class="hold-transition sidebar-mini layout-fixed">
+  <div class="wrapper">
+  {% include 'includes/adminNavBar.html' %} <!--Add this-->
+  {% include 'includes/adminSideBar.html' %} <!--Add this-->
+  <!-- Content Wrapper. Contains page content -->
+  <div class="content-wrapper">
+    <!-- Content Header (Page header) -->
+    <section class="content-header">
+      <div class="container-fluid">
+        <div class="row mb-2">
+          <div class="col-sm-6">
+            <h1>Shipping Price Chart</h1>
+          </div>
+          <div class="col-sm-6 d-flex " style="justify-content: right;">
+            <a href="javascript:void(0)" data-toggle="modal" data-target="#SHIPPINGImport" class="SHIPPINGImport btn btn-primary " data-toggle="tooltip" title="Import MainCat" ><i class="fas fa-upload"></i>&nbsp;&nbsp; Shipping Import</a>
+            &emsp;
+            <a href="javascript:void(0)" data-toggle="modal" data-target="#SHIPPINGExport" class="SHIPPINGExport btn btn-success " data-toggle="tooltip" title="Export MainCat" ><i class="fas fa-download"></i>&nbsp;&nbsp; Shipping Export</a>
+          </div>
+        </div>
+      </div><!-- /.container-fluid -->
+    </section>
+    <!-- <section class="content">
+      <div class="container-fluid">
+      </div>
+    </section> -->
+    <section class="content">
+      <div class="container-fluid">
+        <div class="row">
+          <div class="col-md-12">
+            <div class="card card-info">
+                <div class="card-header ">
+                    <form action="" method="get" class="priceOptionForm" name="priceOptionForm">
+                      <div class="row">
+                        <div class="col-lg-8">
+                          <h1 class="card-title text-center text-bold text-uppercase">  Shipping Price Chart</dt></h1>
+                          <a href="javascript:void(0)" data-toggle="modal" data-target="#AddShipping" class="AddShipping btn btn-dark float-right" data-toggle="tooltip" title="Create New Shipping" ><i class="fas fa-edit"></i>&nbsp;&nbsp; Create New Shipping</a>
+                        </div>
+                        <div class="col-lg-4">
+                          <div class="form-group">
+                            <select class="form-control select2" style="width: 100%;" name="filter" id="filter" required onchange="this.form.submit()">
+                              {% if request.GET.filter %}
+                              <option  value="{{request.GET.filter}}">[ {{request.GET.filter}} ] Filtered Rows </option>
+                              {% else %}
+                              <option  value="20">Filter Rows</option>
+                              {% endif %}
+                              <option value="5"> Show 5 </option>
+                              <option value="10"> Show 10 </option>
+                              <option value="20"> Show 20 </option>
+                              <option value="50"> Show 50 </option>
+                              <option value="100"> Show 100 </option>
+                              <option value="200"> Show 200 </option>
+                              <option value="500"> Show 500 </option>
+                            </select>
+                        </div>
+                        </div>
+                       
+                      </div>
+                    </form>
+                    <div class="bulk_section btn-group btn-group-sm" style="display: none;">
+                      <a href="javascript:void(0);" id="BTN_ACTIVEList" class="BTN_ACTIVEList btn btn-success" data-toggle="modal" data-target="#ACTIVEList" data-placement="top" title="Hit For Bulk Active Region"> <i class="fas fa-plus"></i> Active</a>                          
+                      <a href="javascript:void(0);" id="BTN_DEACTIVEList" class="BTN_DEACTIVEList btn btn-dark" data-toggle="modal" data-target="#DEACTIVEList" data-placement="top" title="Hit For Bulk Deactive Region"> <i class="fas fa-minus"></i> Deactive</a>                          
+                      <a href="javascript:void(0);" id="BTN_DELETEList" class="BTN_DELETEList btn btn-danger btn-sm" data-toggle="modal" data-target="#DELETEList" title="Hit For Bulk Delete Region"><i class="fas fa-trash-alt"></i> Delete</a>
+                    </div>
+
+              </div>
+              <!-- /.card-header -->
+              <div class="card-body p-0">
+                {% if AllShippingList  %}
+                <table id="ShippingList1" class="table table-bordered table-striped" style="text-align: center !important;">
+                  <thead>
+                  <tr>
+                    <th style="width: 12px;">Sn</th>
+                    <th>Type</th>
+                    <th>KG Range</th>
+                    <th>Local</th>
+                    <th>Region</th>
+                    <th>National</th>
+                    <th>Special</th>
+                    <th>Actions</th>
+                    <th style="width: 12px;">
+                      <div class="form-group clearfix">
+                        <div class="icheck-primary d-inline">
+                          <input type="checkbox" id="checkAll" getVal="all" class="checkAll" onchange="checkSELECT()">
+                        </div>
+                      </div>
+                    </th>
+                  </tr>
+                  </thead>
+                  <tbody>
+                    {% for shipping in AllShippingList %}
+                    <tr>
+                      <td>{{forloop.counter}}</td>
+
+                      <td class="text-center">{{shipping.type}} </td>
+                      <td class="text-center"> {{shipping.kg_range}} </td>
+                      <td class="text-center">
+                        {{shipping.local}}
+                      </td>
+                      <td class="text-center"> {{shipping.regional}} </td>
+                      <td class="text-center"> {{shipping.national}} </td>
+                      <td class="text-center"> {{shipping.special}} </td>
+              
+                      <td> 
+                        <div class="btn-group btn-group-sm">
+                          <div class="btn-group btn-group-sm">
+                            {% if shipping.is_active == False %}
+                              <a href="javascript:void(0)" targetATTR="{{shipping.pk}}" class="targetATTR btn btn-success btn-sm"  data-toggle="modal" data-target="#ACTIVATE" class="btn btn-success btn-sm" data-toggle="tooltip" title="Hit For Approved Now"><i class="fas fa-plus"></i> Active</a>                                
+                              
+                              <a href="javascript:void(0);" 
+                              targetTYPE="{{shipping.type}}"  
+                              targetKG_MIN_RANGE="{% getMINRNAGE shipping.pk %}"  
+                              targetKG_MAX_RANGE="{% getMAXRANGE shipping.pk %}"  
+                              targetLOCAL="{{shipping.local}}"  
+                              targetREGIONAL="{{shipping.regional}}" 
+                              targetNATIONAL="{{shipping.national}}"  
+                              targetSPECIAL="{{shipping.special}}" 
+                              targetUPDATE="{{shipping.pk}}" 
+
+                              class="targetUPDATE btn btn-dark" data-toggle="modal" data-target="#UPDATE"  data-toggle="tooltip" title="Update Shipping" ><i class="fas fa-edit"></i> Edit</a>
+
+                              <a href="javascript:void(0)" targetATTR="{{shipping.pk}}" class="targetATTR btn btn-danger"  data-toggle="modal" data-target="#DELETE"  data-toggle="tooltip" title="Delete brnad" ><i class="fas fa-trash"></i> Delete</a>
+                              {% elif shipping.is_active == True %}
+                              <a href="javascript:void(0)" targetATTR="{{shipping.pk}}" class="targetATTR btn btn-danger btn-sm" data-toggle="modal" data-target="#DEACTIVATE"  data-toggle="tooltip" title="Hit For Deactivated"><i class="fas fa-minus"></i> Deactive</a>                                
+                            {% endif %}
+                          </div>
+                        </div>
+                      </td>
+                      <td>
+                        <div class="form-group clearfix">
+                          <div class="icheck-primary d-inline">
+                            <input type="checkbox" id="{{shipping.slug}}" getVal="{{shipping.pk}}" onchange="checkSELECT()">
+                          </div>
+                        </div>
+                      </td>
+
+                    </tr>
+                    {% endfor %}
+                  </tbody>
+                  <tfoot>
+                    <tr>
+                      <th>Sn</th>
+                        <th>Type</th>
+                        <th>KG Range</th>
+                        <th>Local</th>
+                        <th>Region</th>
+                        <th>National</th>
+                        <th>Special</th>
+                        <th>Actions</th>
+                        <th>...</th>
+                    </tr>
+                  </tfoot>
+                </table>
+                {% else %}
+                  <h4 class="alert text-center">{{project.name}} Has - No Shipping Data</h4>
+                {% endif %}
+              </div>
+              <div class="card-footer bg-info d-flex justify-content-center">
+                {% if AllShippingList.has_other_pages %}
+                <nav>
+                  <ul class="pagination justify-content-center">
+                    {% if AllShippingList.has_previous %}
+                      <li class="page-item">
+                        <a class="page-link" href="?page={{ AllShippingList.previous_page_number }}" aria-label="Previous">
+                          <span aria-hidden="true">&laquo;</span>
+                        </a>
+                      </li>
+                    {% else %}
+                      <li class="page-item disabled">
+                          <span class="page-link" aria-hidden="true">&laquo;</span>
+                      </li>
+                    {% endif %}
+  
+                    {% for p in AllShippingList.paginator.page_range %}
+                      {% if AllShippingList.number == p %}
+                        <li class="page-item"><a class="page-link" style="color: red;" href="#">{{ p }}</a></li>
+                      {% else %}
+                        <li class="page-item"><a class="page-link" href="?page={{ p }}">{{ p }}</a></li>
+                      {% endif %}
+                    {% endfor %}
+  
+                    {% if AllShippingList.has_next %}
+                      <li class="page-item">
+                        <a class="page-link" href="?page={{ AllShippingList.next_page_number }}" aria-label="Next">
+                          <span aria-hidden="true">&raquo;</span>
+                        </a>
+                      </li>
+                    {% else %}
+                      <li class="page-item disabled">
+                        <span class="page-link" aria-hidden="true">&raquo;</span>
+                      </li>
+                    {% endif %}
+                </ul>
+                </nav>
+                {% endif %}
+
+              </div>
+              <!-- /.card-body -->
+            </div>
+            </div>
+            <!-- /.card -->
+          </div>
+          <!-- /.col -->
+        </div>
+        <!-- /.row -->
+      </div>
+      <!-- /.container-fluid -->
+    </section>
+    <!-- /.content -->
+  </div>
+  <!-- /.content-wrapper -->
+  {% include 'includes/adminFooter.html' %} <!--Add this-->
+
+</div>
+<!-- ./wrapper -->
+<!-- jQuery -->
+<script src="{% static 'adminAAKRITICMS/plugins/jquery/jquery.min.js'%}"></script>
+<!-- Bootstrap 4 -->
+<script src="{% static 'adminAAKRITICMS/plugins/bootstrap/js/bootstrap.bundle.min.js'%}"></script>
+<!-- DataTables  & Plugins -->
+<script src="{% static 'adminAAKRITICMS/plugins/datatables/jquery.dataTables.min.js'%}"></script>
+<script src="{% static 'adminAAKRITICMS/plugins/datatables-bs4/js/dataTables.bootstrap4.min.js'%}"></script>
+<script src="{% static 'adminAAKRITICMS/plugins/datatables-responsive/js/dataTables.responsive.min.js'%}"></script>
+<script src="{% static 'adminAAKRITICMS/plugins/datatables-responsive/js/responsive.bootstrap4.min.js'%}"></script>
+<script src="{% static 'adminAAKRITICMS/plugins/datatables-buttons/js/dataTables.buttons.min.js'%}"></script>
+<script src="{% static 'adminAAKRITICMS/plugins/datatables-buttons/js/buttons.bootstrap4.min.js'%}"></script>
+<script src="{% static 'adminAAKRITICMS/plugins/jszip/jszip.min.js'%}"></script>
+<script src="{% static 'adminAAKRITICMS/plugins/pdfmake/pdfmake.min.js'%}"></script>
+<script src="{% static 'adminAAKRITICMS/plugins/pdfmake/vfs_fonts.js'%}"></script>
+<script src="{% static 'adminAAKRITICMS/plugins/datatables-buttons/js/buttons.html5.min.js'%}"></script>
+<script src="{% static 'adminAAKRITICMS/plugins/datatables-buttons/js/buttons.print.min.js'%}"></script>
+<script src="{% static 'adminAAKRITICMS/plugins/datatables-buttons/js/buttons.colVis.min.js'%}"></script>
+<!-- AakritiCMS JavaScript -->
+<script src="{% static 'adminAAKRITICMS/js/aakritiCMS.min.js'%}"></script>
+<!-- SweetAlert2 -->
+<script src="{% static 'adminAAKRITICMS/plugins/sweetalert2/sweetalert2.min.js'%}"></script>
+<!-- Toastr -->
+<script src="{% static 'adminAAKRITICMS/plugins/toastr/toastr.min.js'%}"></script>
+<!-- Select2 -->
+<script src="{% static 'adminAAKRITICMS/plugins/select2/js/select2.full.min.js'%}"></script>
+<script src="{% static 'adminAAKRITICMS/plugins/overlayScrollbars/js/jquery.overlayScrollbars.min.js' %}"></script>
+<script src="{% static 'adminAAKRITICMS/plugins/overlayScrollbars/js/jquery.overlayScrollbars.min.js' %}"></script>
+
+{% include './AddShipping.html' %} <!--Add this-->
+{% include './CRUDOperation/operation.html' %} <!--Add this-->
+{% include './bulk/SHIPPINGImportExport.html' %}
+{% include './bulk/BULKSHIPPINGModel.html' %}
+
+
+<script>
+  
+  $('#checkAll').click(function () {    
+    $('input:checkbox').prop('checked', this.checked);  
+});
+
+$('.BTN_ACTIVEList').click(function () {    
+  $('#ACTIVEList').model('show')
+  $('#DEACTIVEList').model('hide')
+  $('#DELETEList').model('hide')
+});
+
+$('.BTN_DEACTIVEList').click(function () {    
+  $('#DEACTIVEList').model('show')
+  $('#DELETEList').model('hide')
+  $('#ACTIVEList').model('hide')
+});
+
+$('.BTN_DELETEList').click(function () {    
+  $('#DELETEList').model('show')
+  $('#DEACTIVEList').model('hide')
+  $('#ACTIVEList').model('hide')
+});
+
+function checkSELECT(){
+  var id = [];
+  $(':checkbox:checked').each(function(i){
+    id[i] = $(this).attr("getVal");
+  })
+  if (id.length===0){
+    $('.priceOptionForm').show()
+    $('.bulk_section').hide()
+  }else{
+    $('.priceOptionForm').hide()
+    $('.bulk_section').show()
+  }
+}
+
+
+
+  $(function () {
+    $("#ShippingList").DataTable({
+      "responsive": true, "lengthChange": false, "autoWidth": false,
+      "buttons": ["csv", "excel", "pdf", "print", "colvis"]
+    }).buttons().container().appendTo('#ShippingList_wrapper .col-md-6:eq(0)');
+
+  });
+$(function () {
+  $('[data-toggle="tooltip"]').tooltip()
+})
+$(function () {
+    //Initialize Select2 Elements
+    $('.select2').select2();
+    $('#brandName').select2();
+    $('#shippingColors').select2();
+    //Initialize Select2 Elements
+    $('.select2bs4').select2({
+      theme: 'bootstrap4'
+    })
+  })
+</script>
+<script>
+  $(document).ready(function() {
+    $(".targetATTR").click(function(){
+        $('.targetVAL').val($(this).attr('targetATTR'))
+    });
+  });
+</script>
+
+<script>
+  $(document).ready(function() {
+    $(".targetUPDATE").click(function(){
+        $('.targetVAL').val($(this).attr('targetUPDATE'))
+        $('.type').val($(this).attr('targetTYPE'))
+        $('.kg_min_range').val($(this).attr('targetKG_MIN_RANGE'))
+        $('.kg_max_range').val($(this).attr('targetKG_MAX_RANGE'))
+        $('.local').val($(this).attr('targetLOCAL'))
+        $('.regional').val($(this).attr('targetREGIONAL'))
+        $('.national').val($(this).attr('targetNATIONAL'))
+        $('.special').val($(this).attr('targetSPECIAL'))
+
+      });
+  });
+</script>
+
+
+<script type="text/javascript">
+  function CREATESHIPPING() {
+    const type = $(".type").val()
+    const kg_min_range = $(".kg_min_range").val()
+    const kg_max_range = $(".kg_max_range").val()
+    const local = $(".local").val()
+    const regional = $(".regional").val()
+    const national = $(".national").val()
+    const special = $(".special").val()
+    if (type == ""){
+        Toast.fire({
+            icon: 'error',
+            title: '<p id="messages" style="margin-top:12px !important; margin-left:8px !important;"><b> Type Not Define </b></p>'
+        }) 
+    }
+    else if (local == ""){
+        Toast.fire({
+            icon: 'error',
+            title: '<p id="messages" style="margin-top:12px !important; margin-left:8px !important;"><b> Local is Empty </b></p>'
+        }) 
+    }
+    else if (regional == ""){
+        Toast.fire({
+            icon: 'error',
+            title: '<p id="messages" style="margin-top:12px !important; margin-left:8px !important;"><b> Region is Empty </b></p>'
+        }) 
+    }
+    else if (national == ""){
+        Toast.fire({
+            icon: 'error',
+            title: '<p id="messages" style="margin-top:12px !important; margin-left:8px !important;"><b> National is Empty </b></p>'
+        }) 
+    }
+    else if (kg_min_range == ""){
+        Toast.fire({
+            icon: 'error',
+            title: '<p id="messages" style="margin-top:12px !important; margin-left:8px !important;"><b> KG Min is Empty </b></p>'
+        }) 
+    }
+    else if (kg_max_range == ""){
+        Toast.fire({
+            icon: 'error',
+            title: '<p id="messages" style="margin-top:12px !important; margin-left:8px !important;"><b> KG Max is Empty </b></p>'
+        }) 
+    }else{
+        $.ajax({                      
+        type: "POST",                   
+        url: "{% url 'createSHIPPING' %}",                    
+        data: {
+            csrfmiddlewaretoken: "{{ csrf_token }}",
+            'type': type,
+            'kg_min_range':kg_min_range,       
+            'kg_max_range':kg_max_range,               
+            'local':local, 
+            'regional':regional, 
+            'national':national, 
+            'special':special, 
+            },
+            success: function(data) {   
+                if (data.status == 1){
+                    Toast.fire({
+                    icon: 'success',
+                    title: '<p id="messages" style="margin-top: 12px !important; margin-left:8px !important;"><b>'+ data.message +'</b></p>'
+                    }) 
+                }
+                else if (data.status == 0){
+                    Toast.fire({
+                    icon: 'error',
+                    title: '<p id="messages" style="margin-top: 12px !important; margin-left:8px !important;"><b>'+ data.message +'</b></p>'
+                    }) 
+                }       
+            },
+        });
+    }
+  }
+</script>
+<!-- ======================END========================== -->
+{% include 'includes/adminToster.html' %} <!--Add this-->
+</body>
+</html>

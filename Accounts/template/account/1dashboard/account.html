@@ -1,0 +1,179 @@
+{% load static %}
+<!doctype html>
+<html class="no-js" lang="en">
+
+<head>
+    <meta charset="utf-8">
+    <meta http-equiv="x-ua-compatible" content="ie=edge">
+    <title>eMARTSHOP || My Account</title>
+    <meta name="robots" content="noindex, follow" />
+    <meta name="description" content="">
+    <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
+    <!-- Favicon -->
+    <link rel="icon" type="image/png" href="{% if project.favicon %}{{project.favicon.url}}{% else %}{% static 'admineMARTSHOT/img/default/mrdas.jpg' %}{% endif %}">
+
+    <!-- CSS ============================================ -->
+
+    <!-- Bootstrap CSS -->
+    <link rel="stylesheet" href="{% static 'eMARTSHOPWEB/css/vendor/bootstrap.min.css' %}">
+    <link rel="stylesheet" href="{% static 'eMARTSHOPWEB/css/vendor/font-awesome.css' %}">
+    <link rel="stylesheet" href="{% static 'eMARTSHOPWEB/css/vendor/flaticon/flaticon.css' %}">
+    <link rel="stylesheet" href="{% static 'eMARTSHOPWEB/css/vendor/slick.css' %}">
+    <link rel="stylesheet" href="{% static 'eMARTSHOPWEB/css/vendor/slick-theme.css' %}">
+    <link rel="stylesheet" href="{% static 'eMARTSHOPWEB/css/vendor/jquery-ui.min.css' %}">
+    <link rel="stylesheet" href="{% static 'eMARTSHOPWEB/css/vendor/sal.css' %}">
+    <link rel="stylesheet" href="{% static 'eMARTSHOPWEB/css/vendor/magnific-popup.css' %}">
+    <link rel="stylesheet" href="{% static 'eMARTSHOPWEB/css/vendor/base.css' %}">
+    <link rel="stylesheet" href="{% static 'eMARTSHOPWEB/css/style.min.css' %}">
+
+</head>
+<body class="sticky-header">
+    {% include 'templates/includes/miniHEADER.html' %}
+    <main class="main-wrapper">
+
+                         {% include './miniHeader.html' %}
+                        <div class="col-xl-9 col-md-8">
+                            <div class="tab-content">
+                                <div class="tab-pane fade show active" id="nav-account" role="tabpanel">
+                                    <div class="col-lg-9">
+                                        <div class="onlinemangao-dashboard-account">
+                                                <div class="row">
+                                                    <p class="b3 mt--10">This will be how your name will be displayed in the account section and in reviews</p>
+                                                    <div class="col-lg-6">
+                                                        <div class="form-group">
+                                                            <label>Full Name</label>
+                                                            <input type="text" class="form-control" value="{{user.fullname}}">
+                                                        </div>
+                                                    </div>
+                                                    <div class="col-lg-6">
+                                                        <div class="form-group">
+                                                            <label>Contact No</label>
+                                                            <input type="text" class="form-control" value="{{user.mobileN}}" {% if user.mobileN %} disabled {% endif %}>
+                                                        </div>
+                                                    </div>
+                                                    <div class="col-lg-6">
+                                                        <div class="form-group">
+                                                            <label>USERNAME</label>
+                                                            <input type="text" class="form-control" value="{{user.username}}" {% if user.username %} disabled {% endif %}>
+                                                        </div>
+                                                    </div>
+                                                    <div class="col-lg-6">
+                                                        <div class="form-group">
+                                                            <label>EMAIL ID</label>
+                                                            <input type="text" class="form-control" value="{{user.email}}" {% if user.email %} disabled {% endif %}>
+                                                        </div>
+                                                    </div>
+                                                    <div class="col-lg-12">
+                                                        <div class="form-group">
+                                                            <label>IMAGE</label>
+                                                            <input type="file" class="form-control" >
+                                                        </div>
+                                                    </div>
+                                                    <div class="form-group mb--0">
+                                                        <input type="submit" onclick="updateUSERINFORMATION();" class="onlinemangao-btn" value="Information Save Changes">
+                                                    </div>
+                                                    <div class="col-12">
+                                                        <h5 class="title">Password Change</h5>
+                                                        <div class="form-group">
+                                                            <label>Password</label>
+                                                            <input type="password" class="form-control" value="123456789101112131415">
+                                                        </div>
+                                                        <div class="form-group">
+                                                            <label>New Password</label>
+                                                            <input type="password" class="form-control">
+                                                        </div>
+                                                        <div class="form-group">
+                                                            <label>Confirm New Password</label>
+                                                            <input type="password" class="form-control">
+                                                        </div>
+                                                        <div class="form-group mb--0">
+                                                            <input type="submit" onclick="updateUSERINFORMATION();" class="onlinemangao-btn" value="Password Save Changes">
+                                                        </div>
+                                                    </div>
+                                                </div>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+        <!-- End My Account Area  -->
+
+    </main>
+    {% include 'templates/includes/footer.html' %}
+    <!-- ============================================ -->
+    <!-- Modernizer JS -->
+    <script src="{% static 'eMARTSHOPWEB/js/vendor/modernizr.min.js' %}"></script>
+    <!-- jQuery JS -->
+    <script src="{% static 'eMARTSHOPWEB/js/vendor/jquery.js' %}"></script>
+    <!-- Bootstrap JS -->
+    <script src="{% static 'eMARTSHOPWEB/js/vendor/popper.min.js' %}"></script>
+    <script src="{% static 'eMARTSHOPWEB/js/vendor/bootstrap.min.js' %}"></script>
+    <script src="{% static 'eMARTSHOPWEB/js/vendor/slick.min.js' %}"></script>
+    <script src="{% static 'eMARTSHOPWEB/js/vendor/js.cookie.js' %}"></script>
+    <!-- <script src="{% static 'eMARTSHOPWEB/js/vendor/jquery.style.switcher.js' %}"></script> -->
+    <script src="{% static 'eMARTSHOPWEB/js/vendor/jquery-ui.min.js' %}"></script>
+    <script src="{% static 'eMARTSHOPWEB/js/vendor/jquery.countdown.min.js' %}"></script>
+    <script src="{% static 'eMARTSHOPWEB/js/vendor/sal.js' %}"></script>
+    <script src="{% static 'eMARTSHOPWEB/js/vendor/jquery.magnific-popup.min.js' %}"></script>
+    <script src="{% static 'eMARTSHOPWEB/js/vendor/imagesloaded.pkgd.min.js' %}"></script>
+    <script src="{% static 'eMARTSHOPWEB/js/vendor/isotope.pkgd.min.js' %}"></script>
+    <script src="{% static 'eMARTSHOPWEB/js/vendor/counterup.js' %}"></script>
+    <script src="{% static 'eMARTSHOPWEB/js/vendor/waypoints.min.js' %}"></script>
+
+    <!-- Main JS -->
+    <script src="{% static 'eMARTSHOPWEB/js/main.js' %}"></script>
+    <script>
+        function updateUSERINFORMATION(){
+                const code = $('.vCode').val();
+           
+                if (code == ""){
+                    Toast.fire({
+                        icon: 'error',
+                        title: '<p id="messages" style="margin-top:0px !important; margin-left:8px !important;"><b> Code Required* </b></p>'
+                    })
+                }else{
+
+                    const data = new FormData();
+                    data.append('vCode', $('.vCode').val());
+                    $.ajax({                      
+                        type: "POST",                   
+                        url: "{% url 'VerifyCode' %}",                    
+                        data: data,
+                        cache: false,
+                        processData: false,
+                        contentType: false,
+                        enctype: 'multipart/form-data',
+                        headers: {'X-CSRFToken': "{{ csrf_token }}"},
+                        success: function(data) {   
+                            if (data.status == 1){
+                                Toast.fire({
+                                    icon: 'success',
+                                    title: '<p id="messages" style="margin-top: 0px !important; margin-left:8px !important;"><b>'+ data.message +'</b></p>'
+                                })  
+                                setTimeout(function () {
+                                    window.location.href = data.home;
+                                 }, 5000); //will call the function after 2 secs.
+    
+                            }else if (data.status == 0){
+                                Toast.fire({
+                                icon: 'error',
+                                title: '<p id="messages" style="margin-top: 0px !important; margin-left:8px !important;"><b>'+ data.message +'</b></p>'
+                                }) 
+                            }       
+                        },
+                    });
+                }
+            }
+    </script>
+    <!-- SweetAlert2 -->
+    <script src="{% static 'admineMARTSHOT/plugins/sweetalert2/sweetalert2.min.js'%}"></script>
+    <!-- Toastr -->
+    <script src="{% static 'admineMARTSHOT/plugins/toastr/toastr.min.js'%}"></script>
+    <!-- ======================END========================== -->
+    {% include 'includes/Toster.html' %}
+    </body>
+    </html>

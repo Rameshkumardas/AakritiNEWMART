@@ -1,0 +1,333 @@
+<!DOCTYPE html>
+<html lang="en">
+  {% load static%}
+  {% load orderTAGS %}
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>All Orders | {{project.title | safe | title }} || {{project.name}} </title>
+  <link rel="icon" type="image/png" href="{% if project.favicon %}{{project.favicon.url}}{% else %}{% static 'adminAAKRITICMS/img/default/mrdas.jpg' %}{% endif %}">
+  <!-- DropDown -->
+  <link rel="stylesheet" href="{% static 'adminAAKRITICMS/plugins/select2/css/select2.min.css'%}">
+  <link rel="stylesheet" href="{% static 'adminAAKRITICMS/plugins/select2-bootstrap4-theme/select2-bootstrap4.min.css'%}">  
+  <!-- Font Awesome -->
+  <link rel="stylesheet" href="{% static 'adminAAKRITICMS/plugins/fontawesome-free/css/all.min.css'%}">
+  <!-- SweetAlert2 -->
+  <link rel="stylesheet" href="{% static 'adminAAKRITICMS/plugins/sweetalert2-theme-bootstrap-4/bootstrap-4.min.css' %}">
+  <!-- adminKlickbazar Theme style -->
+  <link rel="stylesheet" href="{% static 'adminAAKRITICMS/css/aakriticms.min.css'%}">
+  <link rel="stylesheet" href="{% static 'adminAAKRITICMS/css/aakriti.ui.css'%}">
+  <!-- DataTables -->
+  <link rel="stylesheet" href="{% static 'adminAAKRITICMS/plugins/datatables-bs4/css/dataTables.bootstrap4.min.css'%}">
+  <link rel="stylesheet" href="{% static 'adminAAKRITICMS/plugins/datatables-responsive/css/responsive.bootstrap4.min.css'%}">
+  <link rel="stylesheet" href="{% static 'adminAAKRITICMS/plugins/datatables-buttons/css/buttons.bootstrap4.min.css'%}">
+  <link rel="stylesheet" href="{% static 'adminAAKRITICMS/plugins/overlayScrollbars/css/OverlayScrollbars.min.css' %}">
+</head>
+<body class="hold-transition sidebar-mini layout-fixed">
+<div class="wrapper">
+  {% include 'includes/adminNavBar.html' %} 
+  {% include 'includes/adminSideBar.html' %} 
+  <!-- Content Wrapper. Contains page content -->
+  <div class="content-wrapper">
+    <!-- Content Header (Page header) -->
+    <section class="content-header">
+      <div class="container-fluid">
+        <div class="row mb-2">
+          <div class="col-sm-6">
+            <h1>Manage Products</h1>
+          </div>
+          <div class="col-sm-6">
+            <ol class="breadcrumb float-sm-right">
+              <li class="breadcrumb-item"><a href="{% url 'DefaultDashboard' %}">Home</a></li>
+              <li class="breadcrumb-item active">Orders</li>
+            </ol>
+          </div>
+        </div>
+      </div><!-- /.container-fluid -->
+    </section>
+
+    {% include 'template/SALESDashboard/GridBox.html' %} 
+    <!-- ======================================= -->
+    <!-- ======================================= -->
+    <!-- ======================================= -->
+    <!-- ======================================= -->
+    <!-- ======================================= -->
+    <section class="content">
+        <div class="container-fluid">
+          <div class="row">
+            <div class="col-md-12">
+              <div class="card {% if request.GET.is_confirmed %}card-success{% elif request.GET.is_shipped %}card-info{% elif request.GET.is_delivered %}card-primary{% elif request.GET.is_deleted %}card-danger{% endif %} ">
+                <div class="card-header">
+                  <form action="" method="get" class="priceOptionForm" name="priceOptionForm">
+                    <div class="row">
+                      <div class="col-lg-5">
+                        <h2 class="card-title text-center text-bold text-uppercase">  All&nbsp; {% if request.GET.is_confirmed %}Confirmed{% elif request.GET.is_shipped %}Shipped{% elif request.GET.is_delivered %}Delivered{% elif request.GET.is_deleted %}Deleted{% endif %}&nbsp; Orders</dt></h2>               
+                      </div>
+                      <div class="col-lg-3">
+                        <input type="text" style="display: none;" value="True" name="{% if request.GET.is_confirmed %}is_confirmed{% elif request.GET.is_shipped %}is_shipped{% elif request.GET.is_delivered %}is_delivered{% elif request.GET.is_deleted %}is_deleted{% endif %}">
+
+                        <div class="form-group">
+                          <select class="form-control select2" style="width: 100%;" name="filter" id="filter" required onchange="this.form.submit()">
+                            {% if request.GET.filter %}
+                            <option  value="{{request.GET.filter}}">[ {{request.GET.filter}} ] Filtered Rows </option>
+                            {% else %}
+                            <option  value="20">Filter Rows</option>
+                            {% endif %}
+                            <option value="5"> Show 5 </option>
+                            <option value="10"> Show 10 </option>
+                            <option value="20"> Show 20 </option>
+                            <option value="50"> Show 50 </option>
+                            <option value="100"> Show 100 </option>
+                            <option value="200"> Show 200 </option>
+                            <option value="500"> Show 500 </option>
+                          </select>
+                      </div>
+                      </div>
+                      <div class="col-lg-4">
+                        <div class="input-group mb-3">
+                          <input onchange="this.form.submit()" type="text" class="form-control" placeholder="Search Orders" data-toggle="tooltip" data-placement="top" title="Search Main Category Name" name="search" value="{{request.GET.search}}"  autocomplete="off" required aria-label="BlogMainCat" aria-describedby="basic-addon1">
+                          <div class="input-group-prepend">
+                            <span class="input-group-text" id="basic-addon1">
+                              {% if request.GET.search %}
+                              <a href="{% url 'ALLORDERList' %}?{% if request.GET.is_confirmed %}is_confirmed=True{% elif request.GET.is_shipped %}is_shipped=True{% elif request.GET.is_delivered %}is_delivered=True{% elif request.GET.is_deleted %}is_deleted=True{% endif %}" class="text-dark"  data-toggle="tooltip" data-placement="top" title="Reset Filter & Search">  <i class="fas fa-times" style="font-size:20px;"></i> </a>
+                              {% else %}
+                              <a class="text-dark" onclick="this.form.submit()" data-toggle="tooltip" data-placement="top" title="Reset Filter & Search">  <i class="fas fa-search" style="font-size:20px;"></i> </a>
+                              {% endif %}
+                            </span>
+                          </div>
+                        </div>
+    
+                        </div>
+                   
+                    </div>
+                  </form>
+                  </div>
+                <!-- /.card-header -->
+                <div class="card-body p-0">
+                  {% if ORDERList  %}
+                  <table id="allORDERS" class="table table-bordered table-striped" style="text-align: center !important;">
+                    <thead>
+                      <tr>
+                        <th>Name</th>
+                        <th>Color</th>
+                        <th>Qty</th>
+                        <th>Total</th>
+                        <th>Date</th>
+                        <th>Payment</th>
+                        <th>Actions</th>
+                      </tr>
+                    </thead>
+                    <tbody class="infinite-container p-0">
+                      {% for order in ORDERList %}
+                      <tr class="infinite-item">
+                        <td class="text-left">
+                          {{order.product.name | title}}
+                        </td>
+                        <td class="text-center">
+                          {{order.color}}
+                        </td>  
+
+                        <td class="text-center">
+                          {{order.qty}}
+                        </td>
+
+                        <td class="text-left">
+                          <a href="JavaScript:void(0);" class="" data-toggle="tooltip" title="100% Safe & Secured" >$ {{order.total}}</a>
+                        </td>
+                        <td class="text-left">
+                          {{order.date | timesince }}
+                        </td>
+                        <td class="text-center">
+                          {{order.payMethod}} <br>
+                          {% if order.is_payment %}
+                            <span class="text-success"><b>Paid</b></span>
+                          {% else %}
+                          <span class="text-danger"><b>Not Paid</b></span>
+                          {% endif %}
+                        </td>
+                       
+                          <td> 
+                            <div class="btn-group btn-group-sm">
+                              {% if order.is_confirmed and order.is_shipped and order.is_delivered %}
+                              <a href="{% url 'shippedORDER' order.pk %}" class="targetPRODUCT btn btn-success btn-sm" productVAL="{{order.pk}}" data-toggle="modal" data-target="#SHIPPEDOrder"   data-toggle="tooltip" title="Hit For Shipped"><i class="fas fa-shipping-fast"></i> Shipp</a>                               
+                              <a href="{% url 'productADMININVOICE' order.orderId order.user.pk  order.pk %}" class="btn btn-primary" data-toggle="tooltip" data-placement="left" title="Views And Download Invoice"><i class="fas fa-file-invoice"></i> Invoice</a>
+                              <a href="{% url 'MoveToTrash' order.pk %}" class="btn btn-danger" data-toggle="tooltip" title="Delete Products" ><i class="fas fa-trash"></i> Delete</a>
+                              <a href="{% url 'ViewConfirmOrder' order.orderId %}" target="_blank" class="btn btn-dark" data-toggle="tooltip" title="Hit For View Product Details"><i class="fas fa-eye"></i> View</a>
+                              {% elif order.is_confirmed and order.is_shipped %}
+                              <a href="{% url 'productADMININVOICE' order.orderId order.user.pk  order.pk %}" class="btn btn-primary" data-toggle="tooltip" data-placement="left" title="Views And Download Invoice"><i class="fas fa-file-invoice"></i> Invoice</a>
+                                <a href="{% url 'ViewConfirmOrder' order.orderId %}" target="_blank" class="btn btn-dark" data-toggle="tooltip" title="Hit For View Product Details"><i class="fas fa-eye"></i> View</a>
+                              {% elif order.is_confirmed %}
+                              <a href="{% url 'shippedORDER' order.pk %}" class="targetPRODUCT btn btn-success btn-sm" productVAL="{{order.pk}}" data-toggle="modal" data-target="#SHIPPEDOrder"   data-toggle="tooltip" title="Hit For Shipped"><i class="fas fa-shipping-fast"></i> Shipp</a>                                                               
+                              <a href="{% url 'MoveToTrash' order.pk %}" class="btn btn-danger" data-toggle="tooltip" title="Delete Products" ><i class="fas fa-trash"></i> Delete</a>
+                              <a href="{% url 'ViewConfirmOrder' order.orderId %}" target="_blank" class="btn btn-dark" data-toggle="tooltip" title="Hit For View Product Details"><i class="fas fa-eye"></i> View</a>
+                              {% elif order.is_deleted %}
+                              <a href="{% url 'RestoreFromTrash' order.pk %}" class="targetPRODUCT btn btn-success btn-sm"   data-toggle="tooltip" title="Hit For Restore From Trash"><i class="fas fa-plus"></i> Restore</a>                               
+                              <a href="{% url 'ViewConfirmOrder' order.orderId %}" target="_blank" class="btn btn-dark" data-toggle="tooltip" title="Hit For View Product Details"><i class="fas fa-eye"></i> View</a>
+                              <a href="{% url 'deleteORDER' order.pk %}" class="btn btn-danger" data-toggle="tooltip" title="Delete Products" ><i class="fas fa-trash"></i> Delete</a>
+                              {% else %}
+                              <a href="{% url 'MoveToTrash' order.pk %}" class="btn btn-danger" data-toggle="tooltip" title="Delete Products" ><i class="fas fa-trash"></i> Delete</a>
+                              <a href="{% url 'RestoreFromTrash' order.pk %}" class="targetPRODUCT btn btn-success btn-sm"   data-toggle="tooltip" title="Hit For Restore From Trash"><i class="fas fa-plus"></i> Restore</a>                               
+
+                              {% endif %}                              
+                            </div>
+                        </td>
+                      </tr>
+                      {% endfor %}
+                    </tbody>
+                  
+                    <tfoot>
+                      <tr>
+                        <th>Name</th>
+                        
+                        <th>Color</th>
+                        <th>Qty</th>
+                        <th>Total</th>
+                        <th>Date</th>
+                        <th>Payment</th>
+                        <th>Actions</th>
+                      </tr>
+                    </tfoot>
+                  </table>
+                  {% else %}
+                    <h4 class="alert text-center">{{project.name}} Has - No Data</h4>
+                  {% endif %}
+                </div>
+                <div class="card-footer d-flex justify-content-center {% if request.GET.is_confirmed %}bg-success{% elif request.GET.is_shipped %}bg-info{% elif request.GET.is_delivered %}bg-primary{% elif request.GET.is_deleted %}bg-danger{% endif %} ">
+                
+                  {% if page_obj.has_other_pages %}
+                  <nav>
+                    <ul class="pagination justify-content-center">
+                      {% if page_obj.has_previous %}
+                        <li class="page-item">
+                          <a class="page-link" href="?{% if request.GET.is_confirmed %}is_confirmed=True{% elif request.GET.is_shipped %}is_shipped=True{% elif request.GET.is_delivered %}is_delivered=True{% elif request.GET.is_deleted %}is_deleted=True{% endif %}{% if request.GET.filter %}&filter={{request.GET.filter}}{% endif %}&page={{ page_obj.previous_page_number }}" aria-label="Previous">
+                            <span aria-hidden="true">&laquo;</span>
+                          </a>
+                        </li>
+                      {% else %}
+                        <li class="page-item disabled">
+                            <span class="page-link" aria-hidden="true">&laquo;</span>
+                        </li>
+                      {% endif %}
+
+                      {% for p in page_obj.paginator.page_range %}
+                        {% if page_obj.number == p %}
+                          <li class="page-item"><a class="page-link" style="color: red;" href="#">{{ p }}</a></li>
+                        {% else %}
+                          <li class="page-item"><a class="page-link" href="?{% if request.GET.is_confirmed %}is_confirmed=True{% elif request.GET.is_shipped %}is_shipped=True{% elif request.GET.is_delivered %}is_delivered=True{% elif request.GET.is_deleted %}is_deleted=True{% endif %}{% if request.GET.filter %}&filter={{request.GET.filter}}{% endif %}&page={{ p }}">{{ p }}</a></li>
+                        {% endif %}
+                      {% endfor %}
+
+                      {% if page_obj.has_next %}
+                        <li class="page-item">
+                          <a class="page-link" href="?{% if request.GET.is_confirmed %}is_confirmed=True{% elif request.GET.is_shipped %}is_shipped=True{% elif request.GET.is_delivered %}is_delivered=True{% elif request.GET.is_deleted %}is_deleted=True{% endif %}{% if request.GET.filter %}&filter={{request.GET.filter}}{% endif %}&page={{ page_obj.next_page_number }}" aria-label="Next">
+                            <span aria-hidden="true">&raquo;</span>
+                          </a>
+                        </li>
+                      {% else %}
+                        <li class="page-item disabled">
+                          <span class="page-link" aria-hidden="true">&raquo;</span>
+                        </li>
+                      {% endif %}
+                  </ul>
+                  </nav>
+                  {% endif %}
+                </div>
+                <!-- /.card-body -->
+              </div>
+              </div>
+              <!-- /.card -->
+            </div>
+            <!-- /.col -->
+          </div>
+          <!-- /.row -->
+        <!-- /.container-fluid -->
+      </section>
+
+    </div>
+  <!-- /.content-wrapper -->
+  {% include 'includes/adminFooter.html' %} 
+</div>
+
+<!-- ./wrapper -->
+<!-- jQuery -->
+<script src="{% static 'adminAAKRITICMS/plugins/jquery/jquery.min.js'%}"></script>
+<!-- Bootstrap 4 -->
+<script src="{% static 'adminAAKRITICMS/plugins/bootstrap/js/bootstrap.bundle.min.js'%}"></script>
+<!-- DataTables  & Plugins -->
+<script src="{% static 'adminAAKRITICMS/plugins/datatables/jquery.dataTables.min.js'%}"></script>
+<script src="{% static 'adminAAKRITICMS/plugins/datatables-bs4/js/dataTables.bootstrap4.min.js'%}"></script>
+<script src="{% static 'adminAAKRITICMS/plugins/datatables-responsive/js/dataTables.responsive.min.js'%}"></script>
+<script src="{% static 'adminAAKRITICMS/plugins/datatables-responsive/js/responsive.bootstrap4.min.js'%}"></script>
+<script src="{% static 'adminAAKRITICMS/plugins/datatables-buttons/js/dataTables.buttons.min.js'%}"></script>
+<script src="{% static 'adminAAKRITICMS/plugins/datatables-buttons/js/buttons.bootstrap4.min.js'%}"></script>
+<script src="{% static 'adminAAKRITICMS/plugins/jszip/jszip.min.js'%}"></script>
+<script src="{% static 'adminAAKRITICMS/plugins/pdfmake/pdfmake.min.js'%}"></script>
+<script src="{% static 'adminAAKRITICMS/plugins/pdfmake/vfs_fonts.js'%}"></script>
+<script src="{% static 'adminAAKRITICMS/plugins/datatables-buttons/js/buttons.html5.min.js'%}"></script>
+<script src="{% static 'adminAAKRITICMS/plugins/datatables-buttons/js/buttons.print.min.js'%}"></script>
+<script src="{% static 'adminAAKRITICMS/plugins/datatables-buttons/js/buttons.colVis.min.js'%}"></script>
+<!-- AakritiCMS JavaScript -->
+<script src="{% static 'adminAAKRITICMS/js/aakritiCMS.min.js'%}"></script>
+<!-- SweetAlert2 -->
+<script src="{% static 'adminAAKRITICMS/plugins/sweetalert2/sweetalert2.min.js'%}"></script>
+<!-- Toastr -->
+<script src="{% static 'adminAAKRITICMS/plugins/toastr/toastr.min.js'%}"></script>
+<!-- Select2 -->
+<script src="{% static 'adminAAKRITICMS/plugins/select2/js/select2.full.min.js'%}"></script>
+<script src="{% static 'adminAAKRITICMS/plugins/overlayScrollbars/js/jquery.overlayScrollbars.min.js' %}"></script>
+<script src="{% static 'adminAAKRITICMS/plugins/overlayScrollbars/js/jquery.overlayScrollbars.min.js' %}"></script>
+
+<script src="{% static 'adminAAKRITICMS/plugins/infinite-scroll/jquery.waypoints.min.js'%}"></script>
+<script src="{% static 'adminAAKRITICMS/plugins/infinite-scroll/infinite.min.js'%}"></script>
+
+{% include './operation/orderOPERATION.html' %} <!--Add this-->
+
+
+
+<script>
+  var infinite = new Waypoint.Infinite({
+      element: $('.infinite-container')[0],
+      handler: function(direction) {
+      },
+      offset: 'bottom-in-view',
+        onBeforePageLoad: function () {
+          $('.spinner-border').show();
+      },
+        onAfterPageLoad: function () {
+          $('.spinner-border').hide();
+      }   
+  });
+  //$(function () {
+    //$("#allORDERS").DataTable({
+      //"responsive": true, "lengthChange": false, "autoWidth": false,
+     // "buttons": ["csv", "excel", "pdf", "print", "colvis"]
+    //}).buttons().container().appendTo('#allORDERS_wrapper .col-md-6:eq(0)');
+    
+  //});
+
+$(function () {
+  $('[data-toggle="tooltip"]').tooltip()
+})
+$(function () {
+    //Initialize Select2 Elements
+    $('.select2').select2();
+    $('#brandName').select2();
+    $('#productColors').select2();
+    //Initialize Select2 Elements
+    $('.select2bs4').select2({
+      theme: 'bootstrap4'
+    })
+  })
+</script>
+<script>
+  $(document).ready(function() {
+    $(".targetPRODUCT").click(function(){
+        $('.targetVAL').val($(this).attr('productVAL'))
+        
+    });
+  });
+</script>
+<!-- ======================END========================== -->
+{% include 'includes/adminToster.html' %} 
+</body>
+</html>

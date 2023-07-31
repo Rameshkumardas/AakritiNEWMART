@@ -1,0 +1,84 @@
+{% load static %}
+{% load SHIPPINGTags %}
+
+<div class="modal fade" id="AddShipping">
+    <div class="modal-dialog modal-md">
+        <div class="modal-content">
+        <div class="modal-header bg-dark">
+            <h4 class="modal-title"><b>Shipping Management</b></h4>
+            <button type="button" class="close" data-dismiss="modal" aria-label="Close"><span aria-hidden="true">&times;</span></button>
+        </div>
+        <div class="modal-body">
+            <div class="form-group">
+                <label> Shipping Type</label>
+                <select class="type form-control select2" style="width: 100%;" name="type" id="discountType" required>
+                    <option value="Dimensions">Dimensions</option>
+                    <option value="Weight">Weight</option>
+                </select>
+            </div>
+            <div class="input-group remove-skills mt-2" style="cursor:pointer;">
+                <div class="input-group-prepend remove_skill" >
+                    <span class="input-group-text"> 
+                        <i class="fas fa-shipping-fast nav-icon" style='font-size:22px;'></i> 
+                    </span>
+                </div>
+                <input type="text" class="kg_min_range form-control" id="input-field" placeholder="Min Kg" name="kg_min_range">
+                <input type="text" class="kg_max_range form-control" id="input-field" placeholder="Max Kg" name="kg_max_range">
+                <div class="input-group-prepend">
+                    <span class="input-group-text"> 
+                        <a href="JavaScript:void(0);" class="AddPrice">
+                            <i class="fas fa-plus"></i>
+                        </a>
+                    </span>
+                </div>
+            </div>
+            <div class="form-group">
+                <label for="main-category">Local Shipping Charge* </label>
+                <div class="input-group">
+                  <div class="input-group-prepend">
+                    <span class="input-group-text"><i class="fas fa-rupee-sign "></i> </span>                                  
+                  </div>
+                    <input type="text" value="" class="local form-control" id="input-field" onkeyup="NameStringCount()" placeholder="Local Shipping Charge" name="name">
+                </div>
+            </div>
+            <div class="form-group">
+                <label for="main-category">Regional Shipping Charge* </label>
+                <div class="input-group">
+                  <div class="input-group-prepend">
+                    <span class="input-group-text"><i class="fas fa-rupee-sign "></i> </span>
+                  </div>
+                    <input type="text" value="" class="regional form-control" id="input-field" onkeyup="NameStringCount()" placeholder="Regional Shipping Charge" name="name" >
+                </div>
+            </div>
+            <div class="form-group">
+                <label for="main-category">National Shipping Charge* </label>
+                <div class="input-group">
+                  <div class="input-group-prepend">
+                    <span class="input-group-text"><i class="fas fa-rupee-sign "></i> </span>
+                  </div>
+                    <input type="text" value="" class="national form-control" id="input-field" onkeyup="NameStringCount()" placeholder="National Shipping Charge" name="name" >
+                </div>
+            </div>
+            <div class="form-group">
+                <label for="main-category">Special Shipping Charge* </label>
+                <div class="input-group">
+                  <div class="input-group-prepend">
+                    <span class="input-group-text"><i class="fas fa-rupee-sign "></i> </span>
+                  </div>
+                    <input type="text" value="" class="special form-control" id="input-field" onkeyup="NameStringCount()" placeholder="Special Shipping Charge" name="name">
+                </div>
+            </div>
+        </div>
+        <div class="card-footer bg-primary">
+            <div class="container">
+              <div class="row">
+                <div class="col text-center">
+                  <button type="submit" onclick="CREATESHIPPING()" class=" btn btn-light" data-toggle="tooltip" data-placement="top" title="Create Shipping Charge">Create Shipping Charge</button>
+                </div>
+              </div>
+            </div>
+          </div>
+        </div>
+    </div>
+</div>
+

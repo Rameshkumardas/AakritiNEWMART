@@ -1,0 +1,6 @@
+
+{% if mainCatList %}
+    {% for mainCat in mainCatList %}
+        <li><a href="{% url 'ExploreCourse' %}?cat_id={{mainCat.pk}}" class="ct_item"><i class='far fa-arrow-alt-circle-right	'></i>{{mainCat.name}}</a></li>
+    {% endfor%}
+{% endif %}

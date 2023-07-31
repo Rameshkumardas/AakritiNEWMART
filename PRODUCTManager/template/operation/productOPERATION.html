@@ -1,0 +1,344 @@
+
+{% load static %}
+
+
+<div class="modal fade" id="ACTIVATEProduct">
+    <div class="modal-dialog modal-md">
+        <div class="modal-content">
+        <div class="modal-header">
+            <h4 class="modal-title text-center text-uppercase"><b> Product Activate Alert</b></h4>
+            <button type="button" class="close" data-dismiss="modal" aria-label="Close"><span aria-hidden="true">&times;</span></button>
+        </div>
+        <div class="modal-body ">
+            <div class="row justify-content-center">
+                <i class='fas fa-check-circle' style='font-size:68px;color:rgb(43, 146, 65)'></i>
+            </div>
+            <input type="text" style="display:none" class="targetVAL form-control" id="input-field" onkeyup="NameStringCount()">
+
+        </div>
+        <div class="modal-footer justify-content-center ">
+            <button type="button"  class="btn btn-outline-dark" data-dismiss="modal">Cancel</button>
+            <button type="button" id="activateREQUESTFORTHISPRODUCT" class="activateREQUESTFORTHISPRODUCT btn btn-outline-success">Confirm </button>
+        </div>
+        </div>
+    </div>
+</div>
+
+<div class="modal fade" id="DEACTIVATEProduct">
+    <div class="modal-dialog modal-md">
+        <div class="modal-content">
+        <div class="modal-header">
+            <h4 class="modal-title text-center text-uppercase"><b> Product Deactivate Alert</b></h4>
+            <button type="button" class="close" data-dismiss="modal" aria-label="Close"><span aria-hidden="true">&times;</span></button>
+        </div>
+        <div class="modal-body ">
+            <div class="row justify-content-center">
+                <i class='fas fa-exclamation-triangle text-danger' style='font-size:68px;'></i>
+            </div>
+            <input type="text" style="display:none"  class="targetVAL form-control" id="input-field" onkeyup="NameStringCount()">
+
+        </div>
+        <div class="modal-footer justify-content-center ">
+            <button type="button"  class="btn btn-outline-dark" data-dismiss="modal">Cancel</button>
+            <button type="button" id="deactivateREQUESTFORTHISPRODUCT" class="deactivateREQUESTFORTHISPRODUCT btn btn-outline-danger">Confirm </button>
+        </div>
+        </div>
+    </div>
+</div>
+
+<div class="modal fade" id="CLOSEProduct">
+    <div class="modal-dialog modal-md">
+        <div class="modal-content">
+        <div class="modal-header">
+            <h4 class="modal-title text-center text-uppercase targetVAL"><b> Product Close Alert</b></h4>
+            <button type="button" class="close" data-dismiss="modal" aria-label="Close"><span aria-hidden="true">&times;</span></button>
+        </div>
+        <div class="modal-body ">
+            <div class="row justify-content-center">
+                <i class='fa fa-ban text-danger' style='font-size:68px;'></i>
+            </div>
+            <input type="text" style="display:none" class="targetVAL form-control" id="input-field" onkeyup="NameStringCount()">
+
+        </div>
+        <div class="modal-footer justify-content-center ">
+            <button type="button"  class="btn btn-outline-dark" data-dismiss="modal">Cancel</button>
+            <button type="button" id="closeREQUESTFORTHISPRODUCT" class="closeREQUESTFORTHISPRODUCT btn btn-outline-danger">Confirm </button>
+        </div>
+        </div>
+    </div>
+</div>
+
+<div class="modal fade" id="DELETEProduct">
+    <div class="modal-dialog modal-md">
+        <div class="modal-content">
+        <div class="modal-header justify-content-center">
+            <h4 class="modal-title text-center text-justify"><b>Product Permanently Delete Alert</b></h4>
+            <button type="button" class="close" data-dismiss="modal" aria-label="Close"><span aria-hidden="true">&times;</span></button>
+        </div>
+        <div class="modal-body ">
+            <div class="row justify-content-center">
+                <i class='fas fa-trash-alt' style='font-size:48px;color:red'></i>
+            </div>
+            <input type="text" style="display:none" class="targetVAL form-control" id="input-field" onkeyup="NameStringCount()">
+        </div>
+        <div class="modal-footer justify-content-center ">
+            <button type="button"  class="btn btn-outline-dark" data-dismiss="modal">Cancel</button>
+            <button type="button" id="deleteREQUESTFORTHISPRODUCT" class="deleteREQUESTFORTHISPRODUCT btn btn-outline-danger">Confirm </button>
+        </div>
+        </div>
+    </div>
+</div>
+
+
+
+
+
+<script>
+    $(".activateREQUESTFORTHISPRODUCT").click(function () {
+        const targetPRODCUT = $(".targetVAL").val()
+        if (targetPRODCUT == ""){
+            Toast.fire({
+                icon: 'error',
+                title: '<p id="messages" style="margin-top:12px !important; margin-left:8px !important;"><b> Target Not Define </b></p>'
+                }) 
+        }else{
+            $.ajax({                      
+                type: "POST",                   
+                url: "{% url 'ACTIVATEProduct' %}",                    
+                data: {
+                csrfmiddlewaretoken: "{{ csrf_token }}",
+                'targetPRODCUT': targetPRODCUT,
+                },
+                success: function(data) {   
+                    if (data.status == 1){
+                        $('#ACTIVATEProduct').modal('hide');
+                        $(this).closest('.productVAL').remove();
+                        Toast.fire({
+                            icon: 'success',
+                            title: '<p id="messages" style="margin-top: 12px !important; margin-left:8px !important;"><b>'+ data.message +'</b></p>'
+                        }) 
+
+                        setTimeout(function () {
+                            window.location.href =data.AFTERTask;
+                        }, 3000); 
+                    }
+                    else if (data.status == 0){
+                        Toast.fire({
+                        icon: 'error',
+                        title: '<p id="messages" style="margin-top: 12px !important; margin-left:8px !important;"><b>'+ data.message +'</b></p>'
+                        }) 
+                    }       
+                },
+            });
+        }
+    });
+</script>
+
+<script>
+    $(".deactivateREQUESTFORTHISPRODUCT").click(function () {
+        const targetPRODCUT = $(".targetVAL").val()
+        if (targetPRODCUT == ""){
+            Toast.fire({
+                icon: 'error',
+                title: '<p id="messages" style="margin-top:12px !important; margin-left:8px !important;"><b> Target Not Define </b></p>'
+                }) 
+        }else{
+            $.ajax({                      
+                type: "POST",                   
+                url: "{% url 'DEACTIVATEProduct' %}",                    
+                data: {
+                csrfmiddlewaretoken: "{{ csrf_token }}",
+                'targetPRODCUT': targetPRODCUT,
+                },
+                success: function(data) {   
+                    if (data.status == 1){
+                        $('#DEACTIVATEProduct').modal('hide');
+                        $(this).closest('.productVAL').remove();
+                        Toast.fire({
+                            icon: 'success',
+                            title: '<p id="messages" style="margin-top: 12px !important; margin-left:8px !important;"><b>'+ data.message +'</b></p>'
+                        }) 
+                        setTimeout(function () {
+                            window.location.href =data.AFTERTask;
+                        }, 3000); 
+                    }
+                    else if (data.status == 0){
+                        Toast.fire({
+                        icon: 'error',
+                        title: '<p id="messages" style="margin-top: 12px !important; margin-left:8px !important;"><b>'+ data.message +'</b></p>'
+                        }) 
+                    }       
+                },
+            });
+        }
+    });
+</script>
+
+<script>
+    $(".closeREQUESTFORTHISPRODUCT").click(function () {
+        const targetPRODCUT = $(".targetVAL").val()
+        if (targetPRODCUT == ""){
+            Toast.fire({
+                icon: 'error',
+                title: '<p id="messages" style="margin-top:12px !important; margin-left:8px !important;"><b> Target Not Define </b></p>'
+                }) 
+        }else{
+            $.ajax({                      
+                type: "POST",                   
+                url: "{% url 'CLOSEDProduct' %}",                    
+                data: {
+                csrfmiddlewaretoken: "{{ csrf_token }}",
+                'targetPRODCUT': targetPRODCUT,
+                },
+                success: function(data) {   
+                    if (data.status == 1){
+                        $('#CLOSEProduct').modal('hide');
+                        $(this).closest('.productVAL').remove();
+                        Toast.fire({
+                            icon: 'success',
+                            title: '<p id="messages" style="margin-top: 12px !important; margin-left:8px !important;"><b>'+ data.message +'</b></p>'
+                        }) 
+                        setTimeout(function () {
+                            window.location.href =data.AFTERTask;
+                        }, 3000); 
+                    }
+                    else if (data.status == 0){
+                        Toast.fire({
+                        icon: 'error',
+                        title: '<p id="messages" style="margin-top: 12px !important; margin-left:8px !important;"><b>'+ data.message +'</b></p>'
+                        }) 
+                    }       
+                },
+            });
+        }
+    });
+</script>
+
+<script>
+    $(".deleteREQUESTFORTHISPRODUCT").click(function () {
+        const targetPRODCUT = $(".targetVAL").val()
+        if (targetPRODCUT == ""){
+            Toast.fire({
+                icon: 'error',
+                title: '<p id="messages" style="margin-top:12px !important; margin-left:8px !important;"><b> Target Not Define </b></p>'
+                }) 
+        }else{
+            $.ajax({                      
+                type: "POST",                   
+                url: "{% url 'DELETEProduct' %}",                    
+                data: {
+                csrfmiddlewaretoken: "{{ csrf_token }}",
+                'targetPRODCUT': targetPRODCUT,
+                },
+                success: function(data) {   
+                    if (data.status == 1){
+                        $('#DELETEProduct').modal('hide');
+                        $(this).closest('.productVAL').remove();
+                        Toast.fire({
+                            icon: 'success',
+                            title: '<p id="messages" style="margin-top: 12px !important; margin-left:8px !important;"><b>'+ data.message +'</b></p>'
+                        }) 
+
+                        setTimeout(function () {
+                            window.location.href =data.AFTERTask;
+                        }, 3000); 
+                    }
+                    else if (data.status == 0){
+                        Toast.fire({
+                        icon: 'error',
+                        title: '<p id="messages" style="margin-top: 12px !important; margin-left:8px !important;"><b>'+ data.message +'</b></p>'
+                        }) 
+                    }       
+                },
+            });
+        }
+    });
+</script>
+
+<div class="modal fade" id="BOOSTProduct">
+    <div class="modal-dialog modal-md">
+        <div class="modal-content">
+        <div class="modal-header justify-content-center">
+            <h4 class="modal-title text-center text-justify"><b>Boost Your Product </b></h4>
+            <button type="button" class="close" data-dismiss="modal" aria-label="Close"><span aria-hidden="true">&times;</span></button>
+        </div>
+        <div class="modal-body ">
+            <div class="form-group clearfix d-flex justify-content-between align-items-center">
+                <!-- <br>
+                <div class="icheck-primary d-inline">
+                  <input type="checkbox" class="Flash_Sales" id="CheckForFlashSales" value="false" name="Flash_Sales">
+                  <label for="CheckForFlashSales"> Flash Sales</label>
+                </div> -->
+                <br>
+                <div class="icheck-primary d-inline">
+                  <input type="checkbox" class="Best_Selling" id="CheckForBestSelling" value="false" name="Best_Selling">
+                  <label for="CheckForBestSelling"> Best Selling</label>
+                </div>
+                <br>
+                <div class="icheck-primary d-inline">
+                  <input type="checkbox" class="New_Arrivals" id="CheckForNewArrivals" value="false" name="New_Arrivals">
+                  <label for="CheckForNewArrivals"> New Arrivals</label>
+                </div>
+                <!-- <div class="icheck-primary d-inline">
+                    <input type="checkbox" class="Today_Deals" id="CheckForTodayDeal" value="false" name="Today_Deals">
+                    <label for="CheckForTodayDeal"> Today Deals</label>
+                  </div> -->
+              </div>
+            <input type="text" style="display:none" class="targetVAL form-control" id="input-field" onkeyup="NameStringCount()">
+        </div>
+        <div class="modal-footer justify-content-center ">
+            <button type="button"  class="btn btn-outline-dark" data-dismiss="modal">Cancel</button>
+            <button type="button" id="BOOSTTHISProduct" class="BOOSTTHISProduct btn btn-outline-success">Confirm </button>
+        </div>
+        </div>
+    </div>
+</div>
+<script>
+    $(".BOOSTTHISProduct").click(function () {
+        const targetPRODCUT = $(".targetVAL").val()
+        const Flash_Sales = $(".Flash_Sales").val()
+        const Best_Selling = $(".Best_Selling").val()
+        const New_Arrivals = $(".New_Arrivals").val()
+        const Today_Deals = $(".Today_Deals").val()
+        if (targetPRODCUT == ""){
+            Toast.fire({
+                icon: 'error',
+                title: '<p id="messages" style="margin-top:12px !important; margin-left:8px !important;"><b> Target Not Define </b></p>'
+                }) 
+        }else{
+            $.ajax({                      
+                type: "POST",                   
+                url: "{% url 'BOOSTREQUESTFORTHISPRODUCT' %}",                    
+                data: {
+                csrfmiddlewaretoken: "{{ csrf_token }}",
+                'targetPRODCUT': targetPRODCUT,
+                'Flash_Sales': Flash_Sales,
+                'Best_Selling': Best_Selling,
+                'New_Arrivals': New_Arrivals,
+                'Today_Deals': Today_Deals,
+                },
+                success: function(data) {   
+                    if (data.status == 1){
+                        $('#BOOSTProduct').modal('hide');
+                        $('#BOOSTProduct').hide();
+                        $(this).closest('.productVAL').remove();
+                        Toast.fire({
+                            icon: 'success',
+                            title: '<p id="messages" style="margin-top: 12px !important; margin-left:8px !important;"><b>'+ data.message +'</b></p>'
+                        }) 
+                        setTimeout(function () {
+                            window.location.href =data.AFTERTask;
+                        }, 3000); 
+                    }
+                    else if (data.status == 0){
+                        Toast.fire({
+                        icon: 'error',
+                        title: '<p id="messages" style="margin-top: 12px !important; margin-left:8px !important;"><b>'+ data.message +'</b></p>'
+                        }) 
+                    }       
+                },
+            });
+        }
+    });
+</script>
+

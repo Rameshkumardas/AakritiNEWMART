@@ -1,0 +1,65 @@
+{% load static %}
+{% load RETURNTAGS %}
+
+<section class="content">
+    <div class="container-fluid">
+      <!-- Small boxes (Stat box) -->
+      <div class="row">
+        <div class="col-lg-3 col-6">
+          <!-- small box -->
+          <div class="small-box bg-info">
+            <div class="inner">
+              <h3>{% draftRETURN %}</h3>
+              <p><b>Return Requests</b></p>
+            </div>
+            <div class="icon">
+              <i class="fa fa-undo"></i>
+            </div>
+            <a href="{% url 'RETURNList' %}?is_draft=True" class="small-box-footer">More info <i class="fas fa-arrow-circle-right"></i></a>
+          </div>
+        </div>
+        <div class="col-lg-3 col-6">
+          <!-- small box -->
+          <div class="small-box bg-success">
+            <div class="inner">
+              <h3>{% activeRETURN %}</h3>
+              <p><b>Return Approved</b></p>
+            </div>
+            <div class="icon">
+              <i class="fas fa-check-circle"></i>
+            </div>
+            <a href="{% url 'RETURNList' %}?is_verified=True" class="small-box-footer">More info <i class="fas fa-arrow-circle-right"></i></a>
+          </div>
+        </div>
+        <div class="col-lg-3 col-6">
+          <!-- small box -->
+          <div class="small-box bg-warning">
+            <div class="inner">
+              <h3>{% deactivateRETURN %}</h3>
+              <p><b>Rejected Requests</b></p>
+            </div>
+            <div class="icon">
+              <i class="fa fa-ban nav-icon"></i>
+            </div>
+            <a href="{% url 'RETURNList' %}?is_active=False" class="small-box-footer">More info <i class="fas fa-arrow-circle-right"></i></a>
+          </div>
+        </div>
+        <div class="col-lg-3 col-6">
+          <!-- small box -->
+          <div class="small-box bg-danger">
+            <div class="inner">
+              <h3>{% deletedRETURN %}</h3>
+              <p><b>Deleted Request</b></p>
+            </div>
+            <div class="icon">
+              <i class="fa fa-trash-alt nav-icon"></i>
+            </div>
+            <a href="{% url 'RETURNList' %}?is_deleted=True" class="small-box-footer">More info <i class="fas fa-arrow-circle-right"></i></a>
+          </div>
+        </div>           
+        <!-- ./col -->
+    </div>
+    <!-- /.row -->
+  </div>
+  </section>
+ 

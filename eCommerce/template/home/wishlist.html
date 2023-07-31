@@ -1,0 +1,103 @@
+{% load static %}
+<!doctype html>
+<html class="no-js" lang="en">
+<head>
+    <meta charset="utf-8">
+    <meta http-equiv="x-ua-compatible" content="ie=edge">
+    <title>{{project.name}} || Wishlist</title>
+    <meta name="robots" content="noindex, follow" />
+    <meta name="description" content="">
+    <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
+    <!-- Favicon -->
+    <link rel="icon" type="image/png" href="{% if project.favicon %}{{project.favicon.url}}{% else %}{% static 'admineKHANTAILOR/img/default/mrdas.jpg' %}{% endif %}">
+    <!-- ============================================ -->
+    <!-- Bootstrap CSS -->
+    <link rel="stylesheet" href="{% static 'kahntailors/css/bootstrap.min.css' %}">
+    <link rel="stylesheet" href="{% static 'kahntailors/css/font-awesome.css' %}">
+    <link rel="stylesheet" href="{% static 'kahntailors/css/flaticon/flaticon.css' %}">
+    <link rel="stylesheet" href="{% static 'kahntailors/css/slick.css' %}">
+    <link rel="stylesheet" href="{% static 'kahntailors/css/slick-theme.css' %}">
+    <link rel="stylesheet" href="{% static 'kahntailors/css/jquery-ui.min.css' %}">
+    <link rel="stylesheet" href="{% static 'kahntailors/css/sal.css' %}">
+    <link rel="stylesheet" href="{% static 'kahntailors/css/magnific-popup.css' %}">
+    <link rel="stylesheet" href="{% static 'kahntailors/css/base.css' %}">
+    <link rel="stylesheet" href="{% static 'kahntailors/css/style.min.css' %}">
+    <!-- SweetAlert2 -->
+    <link rel="stylesheet" href="{% static 'admineKHANTAILOR/plugins/sweetalert2-theme-bootstrap-4/bootstrap-4.min.css' %}">
+</head>
+
+
+<body class="sticky-header">
+    {% include 'templates/includes/miniHEADER.html' %}
+    <main class="main-wrapper">
+
+        <!-- Start Wishlist Area  -->
+        <div class="khantailor-wishlist-area khantailor-section-gap">
+            <div class="container">
+                <div class="product-table-heading">
+                    <h4 class="title">My Wish List on {{project.name | safe | title}}</h4>
+                </div>
+                <div class="table-responsive">
+                    <table class="table khantailor-product-table khantailor-wishlist-table">
+                        <thead>
+                            <tr>
+                                <th scope="col" class="product-remove"></th>
+                                <th scope="col" class="product-thumbnail">Product</th>
+                                <th scope="col" class="product-title"></th>
+                                <th scope="col" class="product-price">Unit Price</th>
+                                <th scope="col" class="product-stock-status">Stock Status</th>
+                                <th scope="col" class="product-add-cart"></th>
+                            </tr>
+                        </thead>
+                        <tbody>
+                            {% for wish in wishlist %}
+                            <tr>
+                                <td class="product-remove"><a href="{% url 'deleteSINGLEPRODUCTFROMWISHLIST' wish.pk %}" class="remove-wishlist"><i class="fal fa-times"></i></a></td>
+                                <td class="product-thumbnail"><a href="{% url 'VIEWProduct' wish.product.slug %}"><img src="{% if wish.product.img %}{{wish.product.img.url}}{% else %}{% static 'kahntailors/images/product/electric/product-01.png' %}{% endif %}" alt="Digital Product"></a></td>
+                                <td class="product-title"><a href="{% url 'VIEWProduct' wish.product.slug %}">{{wish.product.name}}</a></td>
+                                <td class="product-price" data-title="Price"><span class="currency-symbol"><i class="fas fa-rupee-sign"></i> </span> {{wish.product.sp}}</td>
+                                <td class="product-stock-status" data-title="Status">In Stock</td>
+                                <td class="product-add-cart"><a href="javascript:void(0);" class="AddToCart khantailor-btn btn-outline" AddToCartThisProduct="{{wish.product.pk}}">Add to Cart</a></td>
+                            </tr>
+                            {% endfor %}
+                        </tbody>
+                    </table>
+                </div>
+            </div>
+        </div>
+        <!-- End Wishlist Area  -->
+    </main>
+    {% include 'templates/includes/footer.html' %}
+    <!-- ============================================ -->
+    <!-- Modernizer JS -->
+    <script src="{% static 'kahntailors/js/modernizr.min.js' %}"></script>
+    <!-- jQuery JS -->
+    <script src="{% static 'kahntailors/js/jquery.js' %}"></script>
+    <!-- Bootstrap JS -->
+    <script src="{% static 'kahntailors/js/popper.min.js' %}"></script>
+    <script src="{% static 'kahntailors/js/bootstrap.min.js' %}"></script>
+    <script src="{% static 'kahntailors/js/slick.min.js' %}"></script>
+    <script src="{% static 'kahntailors/js/js.cookie.js' %}"></script>
+    <!-- <script src="{% static 'kahntailors/js/jquery.style.switcher.js' %}"></script> -->
+    <script src="{% static 'kahntailors/js/jquery-ui.min.js' %}"></script>
+    <script src="{% static 'kahntailors/js/jquery.countdown.min.js' %}"></script>
+    <script src="{% static 'kahntailors/js/sal.js' %}"></script>
+    <script src="{% static 'kahntailors/js/jquery.magnific-popup.min.js' %}"></script>
+    <script src="{% static 'kahntailors/js/imagesloaded.pkgd.min.js' %}"></script>
+    <script src="{% static 'kahntailors/js/isotope.pkgd.min.js' %}"></script>
+    <script src="{% static 'kahntailors/js/counterup.js' %}"></script>
+    <script src="{% static 'kahntailors/js/waypoints.min.js' %}"></script>
+
+    <!-- Main JS -->
+    <script src="{% static 'kahntailors/js/main.js' %}"></script>
+
+    
+    {% include 'includes/COMBOOperation.html' %}
+    <!-- SweetAlert2 -->
+    <script src="{% static 'admineKHANTAILOR/plugins/sweetalert2/sweetalert2.min.js'%}"></script>
+    <!-- Toastr -->
+    <script src="{% static 'admineKHANTAILOR/plugins/toastr/toastr.min.js'%}"></script>
+    <!-- ======================END========================== -->
+    {% include 'includes/Toster.html' %}
+</body>
+</html>

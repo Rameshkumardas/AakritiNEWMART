@@ -1,0 +1,196 @@
+<!DOCTYPE html>
+<html lang="en">
+{% load static %}
+<head>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <title>Sub Sub Category | {{project.title | safe | title }} || {{project.name}} </title>
+    <link rel="icon" type="image/png" href="{% if project.favicon %}{{project.favicon.url}}{% else %}{% static 'adminAAKRITICMS/img/default/mrdas.jpg' %}{% endif %}">
+    <!-- Select2 -->
+    <link rel="stylesheet" href="{% static 'adminAAKRITICMS/plugins/select2/css/select2.min.css'%}">
+    <link rel="stylesheet" href="{% static 'adminAAKRITICMS/plugins/select2-bootstrap4-theme/select2-bootstrap4.min.css'%}">
+    <!-- Font Awesome -->
+    <link rel="stylesheet" href="{% static 'adminAAKRITICMS/plugins/fontawesome-free/css/all.min.css'%}">
+    <!-- SweetAlert2 -->
+    <link rel="stylesheet" href="{% static 'adminAAKRITICMS/plugins/sweetalert2-theme-bootstrap-4/bootstrap-4.min.css' %}">
+    <!-- KHANTAILOR Theme style -->
+    <link rel="stylesheet" href="{% static 'adminAAKRITICMS/css/aakriticms.min.css'%}">
+    <link rel="stylesheet" href="{% static 'adminAAKRITICMS/css/aakriti.ui.css'%}">
+    <link rel="stylesheet" href="{% static 'adminAAKRITICMS/plugins/overlayScrollbars/css/OverlayScrollbars.min.css' %}">
+    <!-- DataTables -->
+    <link rel="stylesheet" href="{% static 'adminAAKRITICMS/plugins/datatables-bs4/css/dataTables.bootstrap4.min.css'%}">
+    <link rel="stylesheet" href="{% static 'adminAAKRITICMS/plugins/datatables-responsive/css/responsive.bootstrap4.min.css'%}">
+    <link rel="stylesheet" href="{% static 'adminAAKRITICMS/plugins/datatables-buttons/css/buttons.bootstrap4.min.css'%}">
+</head>
+<body class="hold-transition sidebar-mini layout-fixed">
+  <div class="wrapper">
+  {% include 'includes/adminNavBar.html' %} <!--Add this-->
+  {% include 'includes/adminSideBar.html' %} <!--Add this-->
+  <!-- Content Wrapper. Contains page content -->
+  <div class="content-wrapper">
+    <!-- Content Header (Page header) -->
+   
+
+    <br>
+    <!-- Sub content -->
+    <section class="content">
+      <div class="container-fluid">
+        <div class="row">
+            <div class="col-lg-2">
+            
+            </div>
+          <div class="col-md-5">
+            <!-- general form elements -->
+            <div class="card card-primary">
+              <div class="card-header">
+                <h3 class="card-title">Update Sub SubCategory</h3>
+              </div>
+              <!-- /.card-header -->
+              <!-- form start -->
+              <form action="{% url 'UpdateSubSubCategory' data.pk %}" method="POST" enctype="multipart/form-data">
+                {% csrf_token %}
+                <div class="card-body">
+                    <div class="form-group">
+                        <label for="label">Main Category</label>
+                        <select class="mainCat form-control select2" id="label" name="mainCat" data-toggle="tooltip" data-placement="top" title="Select Main Category" autocomplete="off" required>
+                            <option value="{{data.subCat.mainCat.pk}}">Selected [ {{data.subCat.mainCat.name}} ] </option>
+                            {% if mainCatList %}
+                              {% for MainCategory in mainCatList %}
+                                <option value="{{MainCategory.pk}}"> {{MainCategory.name}} </option>
+                              {% endfor %}
+                            {% else %}
+                              <option disabled>{{project.name}} has No MainCat</option>
+                            {% endif %}
+                        </select>
+                    </div>
+                    <div class="form-group">
+                        <label for="label">Sub Category</label>
+                        <select class="SubCat form-control select2" id="SubCat" name="SubCat" data-toggle="tooltip" data-placement="top" title="Select Sub Category" autocomplete="off" required>
+                            <option value="{{data.subCat.pk}}">Selected [ {{data.subCat.name}} ] </option>
+                        </select>
+                    </div>
+                    <div class="form-group">
+                      <label for="SubSubCategory">Sub SubCategory Name</label>
+                      <input value="{{data.name}}" type="text" class="form-control" id="input-field" placeholder="Update Sub SubCategory" name="name" data-toggle="tooltip" data-placement="top" title="Update Sub SubCategory Name" autocomplete="off" required>
+                    </div>
+                    <label for="exampleInputFile">Select Image </label>
+                    <div class="card card-outline card-info">
+                      <div class="card-body"> 
+                        <div id="display_image" style="height:150px; width:100% !important; border-radius: 10px; border: 2px solid rgb(9, 135, 238); display: none; visibility: hidden; background-size:contain; background-repeat:no-repeat;"></div>
+                        <img src="{% if data.img %}{{data.img.url}}{% else %}{% static 'adminAAKRITICMS/img/default/AakritiLiteWebDeveloper.jpg'%}{% endif %}" class="img_display img-thumbnail" id="NoObject" style="height:150px; width:100% !important; border-radius: 10px; border: 2px solid rgb(9, 135, 238);" data-toggle="tooltip" data-placement="top" title="Select Sub SubCategory Image"/>
+                      </div>
+                      <div class="card-footer">
+                          <span class="btn btn-primary col fileinput-button " data-toggle="tooltip" data-placement="top" title="Hit For Select Image">
+                              <input type="file" accept="image/png, image/jpg , image/jpeg" name="img" id="image_input"  style="display: none;" class="img_input"/>
+                              <label for="image_input" style="cursor: pointer;" ><i class="fas fa-plus"></i><span>Add Thumbnail </span></label>
+                          </span>
+                      </div>
+                    </div>
+                </div>
+                <!-- /.card-body -->
+                <div class="card-footer bg-primary">
+                  <div class="container">
+                    <div class="row">
+                      <div class="col text-center">
+                        <button type="submit" class="btn btn-light" data-toggle="tooltip" data-placement="top" title="Hit For Update Sub SubCategory">Update Sub SubCategory</button>
+                      </div>
+                    </div>
+                  </div>
+                </div>
+               
+              </form>
+            </div>
+            <!-- /.card -->
+          </div>
+          
+          <div class="col-lg-3">
+
+          </div>
+          </div>
+          <!-- /.col -->
+        </div>
+        <!-- /.row -->
+      </div>
+      <!-- /.container-fluid -->
+    </section>
+    <!-- /.content -->
+  </div>
+  <!-- /.content-wrapper -->
+  {% include 'includes/adminFooter.html' %} <!--Add this-->
+  <!-- /.control-sidebar -->
+</div>
+<!-- ./wrapper -->
+<!-- jQuery -->
+<script src="{% static 'adminAAKRITICMS/plugins/jquery/jquery.min.js'%}"></script>
+<!-- Bootstrap 4 -->
+<script src="{% static 'adminAAKRITICMS/plugins/bootstrap/js/bootstrap.bundle.min.js'%}"></script>
+
+<script src="{% static 'adminAAKRITICMS/js/aakritiCMS.min.js'%}"></script>
+<script src="{% static 'adminAAKRITICMS/plugins/overlayScrollbars/js/jquery.overlayScrollbars.min.js' %}"></script>
+<!-- SweetAlert2 -->
+<script src="{% static 'adminAAKRITICMS/plugins/sweetalert2/sweetalert2.min.js'%}"></script>
+<!-- Toastr -->
+<script src="{% static 'adminAAKRITICMS/plugins/toastr/toastr.min.js'%}"></script>
+<!-- Select2 -->
+<script src="{% static 'adminAAKRITICMS/plugins/select2/js/select2.full.min.js'%}"></script>
+<script src="{% static 'adminAAKRITICMS/plugins/aakritiCMS/js/additional-operations.js' %}"></script>
+<!-- Page specific script -->
+<script>
+  $(document).ready(function() {
+    $(".targetSubSubCat").click(function(){
+      $('.targetSUBSUBCATVAL').val($(this).attr('targetOBJVAL'));
+    });
+  });
+
+  $(function () {
+    $("#SubSubCat").DataTable({
+      "responsive": true,
+      "lengthChange": false, 
+      "autoWidth": false,
+      "bPaginate": false,
+      "paging": false,
+      "paging":   false,
+      "ordering": false,
+      "info":     false,
+
+      "buttons": ["excel", "pdf", "colvis"]
+    }).buttons().container().appendTo('#SubSubCat_wrapper .col-md-6:eq(0)');
+
+  });
+  $(function () {
+    //Initialize Select2 Elements
+    $('.select2').select2()
+    //Initialize Select2 Elements
+    $('.select2bs4').select2({
+      theme: 'bootstrap4'
+    })
+    //Date and time picker
+  })
+</script>
+<script>
+
+
+    $(document).ready(function() {
+        $('.mainCat').change(function(){
+            var target = $(this).val();
+            $.ajax({                      
+                type: "POST",                   
+                url: "{% url 'LoadSubCatList' %}",                    
+                data: {
+                  csrfmiddlewaretoken: "{{ csrf_token }}",
+                  'mainCat': target,    
+                },
+                success: function(result) {   
+                    $('.SubCat').html(result);
+                },
+            });
+        });
+    });
+
+    </script>
+<!-- ======================END============================= -->
+{% include 'includes/adminToster.html' %} <!--Add this-->
+</body>
+</html>
+
+<!--  -->

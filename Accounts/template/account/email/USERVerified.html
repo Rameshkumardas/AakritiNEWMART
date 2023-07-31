@@ -1,0 +1,33 @@
+<!DOCTYPE html>
+{% load static %}
+<html lang="en">
+<head>
+    <meta charset="utf-8">
+    <title>Refrences | {{project.title | safe | title }} || {{project.name | safe | title}} </title>
+    {% include 'includes/CSSBase.html' %}
+</head>
+<body id="top">
+
+    {% include 'includes/MainHeader.html' %}
+    <section class="banner-2">
+        <div class="container">
+            <div class="row justify-content-center">
+                <div class="col-lg-12">
+                <div class="text-center">
+                    <!-- <h3 class="font-weight-500 text-tertiary">Subscribe To Premium Plan</h3> -->
+                    <h2 class="text-lg mt-20 mb-40 text-secondary">User Verified.</h2>
+                </div>
+                </div>
+            </div>
+        </div>
+    </section>    
+<!-- ============================================== -->
+{% include 'includes/MainFooter.html' %}
+<br>
+<a href="#top" class="scroll-to-top">
+    <span class="fas fa-chevron-up"></span>
+</a>
+{% include 'includes/JSBase.html' %}
+{% include 'templates/includes/COMBOOperation.html' %}
+</body>
+</html>

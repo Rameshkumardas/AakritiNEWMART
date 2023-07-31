@@ -1,0 +1,176 @@
+<html lang="en">
+    {% load static %}
+    {% load adminDashboardTags %}
+    {% load USERTag %}
+
+    {% load BLOGTAGS %}
+  <head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>Manage Address | {{project.title | safe | title }} || {{project.name}} </title>
+  <link rel="icon" type="image/png" href="{% if project.favicon %}{{project.favicon.url}}{% else %}{% static 'adminKHANTAILOR/img/default/mrdas.jpg' %}{% endif %}">
+  <!-- Font Awesome -->
+  <link rel="stylesheet" href="{% static 'adminKHANTAILOR/plugins/fontawesome-free/css/all.min.css'%}">
+  <!-- SweetAlert2 -->
+  <link rel="stylesheet" href="{% static 'adminKHANTAILOR/plugins/sweetalert2-theme-bootstrap-4/bootstrap-4.min.css' %}">
+  <!-- adminKlickbazar Theme style -->
+  <link rel="stylesheet" href="{% static 'adminKHANTAILOR/css/aakriticms.min.css'%}">
+  <link rel="stylesheet" href="{% static 'adminKHANTAILOR/css/aakriti.ui.css'%}">
+  <link rel="stylesheet" href="{% static 'adminKHANTAILOR/plugins/icheck-bootstrap/icheck-bootstrap.min.css'%}">
+  <!-- Tempusdominus Bootstrap 4 -->
+  <link rel="stylesheet" href="{% static 'adminKHANTAILOR/plugins/tempusdominus-bootstrap-4/css/tempusdominus-bootstrap-4.min.css'%}">
+  <link rel="stylesheet" href="{% static 'adminKHANTAILOR/plugins/overlayScrollbars/css/OverlayScrollbars.min.css' %}">
+</head>
+<body class="hold-transition sidebar-mini layout-fixed">
+  <div class="wrapper">
+    {% include 'template/account/dashboard/includes/userNavBar.html' %} 
+    {% include 'template/account/dashboard/includes/userSideBar.html' %}
+    
+    <div class="content-wrapper">
+      <!-- Content Header (Page header) -->
+      <div class="content-header">
+        <div class="container-fluid">
+          <div class="row mb-2">
+            <div class="col-sm-6">
+              <h1 class="m-0">Manage Orders</h1>
+            </div><!-- /.col -->
+            <div class="col-sm-6">
+              <ol class="breadcrumb float-sm-right">
+                <li class="breadcrumb-item"><a href="{% url 'Dashboard' %}">Home</a></li>
+                <li class="breadcrumb-item active">Account</li>
+              </ol>
+            </div><!-- /.col -->
+          </div><!-- /.row -->
+        </div><!-- /.container-fluid -->
+      </div>
+      <!-- /.content-header -->
+      <section class="content">
+        <div class="container-fluid">
+          <div class="row">
+            <div class="col-md-12" id="EMPTYAREA">
+              <div class="card card-info">
+                <div class="card-header ">
+                  <h1 class="card-title text-center text-bold text-uppercase">Order  &nbsp; List </h1>
+                </div>
+                {{allORDERList}}
+                <!-- /.card-header -->
+                <div class="card-body p-0" >
+                  {% if ODERList %}
+                  <table id="allPNUMBER" class="table table-bordered table-striped" style="text-align: center !important;">
+                    <thead>
+                      <tr>
+                        <th>IMG</th>
+                        <th>Name</th>
+                        <th>QTY</th>
+                        <th>Amount</th>
+                        <th>Date</th>
+
+                        <th>Actions</th>
+                      </tr>
+                    </thead>
+                    <tbody>
+                      {% for order in ODERList %}
+                      <tr>
+                        {% if order.product.img %}
+                        <td style="background-image: url('{{order.product.img.url}}'); background-size:contain;background-repeat:no-repeat; "></td>
+                        {% else %}
+                        <td> No IMG</td>
+                        {% endif %}
+                        <!-- {{order.is_confirmed}}
+                        {{order.is_cancel}}
+                        {{order.is_shipped}}
+                        {{order.is_way}}
+                        {{order.is_delivered}} -->
+
+
+
+
+
+
+
+                        <td> {{order.product.name}}</td>
+                        <td class="text-center">{{order.qty}}</td>
+                        <td class="text-center">$ {{order.amount}}</td>
+                        <td class="text-center">$ {{order.date}}</td>
+
+                        <td class="text-center">
+
+                          <div class="btn-group btn-group-sm">
+                              {% if order.is_confirmed and order.is_shipped %}
+                              <a href="{% url 'productINVOICEFORUser' order.orderId order.user.pk order.pk %} " class="btn btn-dark" data-toggle="tooltip" data-placement="top" title="Hit For View Invoice"><i class="fas fa-file-invoice-dollar"></i> Invoice</a>
+  
+                              <!-- <a href="" class="btn btn-warning" data-toggle="tooltip" data-placement="top" title="Hit For Return Product"><i class="fa fa-truck"></i> Return</a> -->
+                                <a href="{{order.track}}" target="_blank" class="btn btn-primary" data-toggle="tooltip" data-placement="top" title="Hit For Track Product"><i class="fa fa-truck"></i> Track </a>
+                                {% elif not order.is_cancel %}
+                                <a href="{% url 'cancelORDER' order.pk %}" class="btn btn-danger" data-toggle="tooltip" data-placement="top" title="Hit For Cancel Product"><i class="fas fa-window-close"></i> Cancel</a>
+                                {% endif %}
+
+                                {% if order.is_delivered %}
+                                <a href="" class="btn btn-info" data-toggle="tooltip" data-placement="top" title="Hit For Replace Product"><i class="fa fa-truck"></i> Replace</a>
+                                {% endif %}
+
+                                <a href="{% url 'VIEWProduct' order.product.slug %}" class="btn btn-success" data-toggle="tooltip" data-placement="top" title="Hit For Cancelled Product"><i class="fas fa-eye"></i> View</a>
+                                {% if order.is_cancel %}
+                                <a href="javascript:void(0);" class="btn btn-warning" data-toggle="tooltip" data-placement="top" title="Hit For Cancelled Product"><i class="fas fa-window-close"></i> Cancelled</a>
+                                {% endif %}
+                            </div>
+                        </td>
+                      </tr>                      
+                      {% endfor %}
+                    </tbody>
+                    <tfoot>
+                      <tr>
+                        <tr>
+                            <th>IMG</th>
+                            <th>Name</th>
+                            <th>QTY</th>
+                            <th>Amount</th>
+                            <th>Date</th>
+
+                            <th>Actions</th>
+                        </tr>
+                      </tr>
+                    </tfoot>
+                  </table>
+                  {% else %}
+                  <option class="text-center  text-uppercase">No Order Are Avaliable {{request.user.fname}}</option>  
+                  {% endif %}
+                </div>
+                <div class="card-footer bg-info">
+                </div>
+              </div>
+            </div>
+          </div>
+        </div>
+      </section>
+ 
+   
+
+    </div>
+
+
+    {% include 'template/account/dashboard/includes/userFooter.html' %} 
+    {% include 'template/account/dashboard/includes/addressJAVASCRIPT.html' %} 
+
+</div>
+  <!-- ./wrapper -->
+<!-- jQuery -->
+<script src="{% static 'adminKHANTAILOR/plugins/jquery/jquery.min.js'%}"></script>
+<!-- jQuery UI 1.11.4 -->
+<script src="{% static 'adminKHANTAILOR/plugins/jquery-ui/jquery-ui.min.js'%}"></script>
+<!-- Resolve conflict in jQuery UI tooltip with Bootstrap tooltip -->
+<script>
+  $.widget.bridge('uibutton', $.ui.button)
+</script>
+<!-- Bootstrap 4 -->
+<script src="{% static 'adminKHANTAILOR/plugins/bootstrap/js/bootstrap.bundle.min.js'%}"></script>
+<!-- AakritiCMS JavaScript -->
+<script src="{% static 'adminKHANTAILOR/js/aakritiCMS.min.js'%}"></script>
+<!-- SweetAlert2 -->
+<script src="{% static 'adminKHANTAILOR/plugins/sweetalert2/sweetalert2.min.js'%}"></script>
+<!-- Toastr -->
+<script src="{% static 'adminKHANTAILOR/plugins/toastr/toastr.min.js'%}"></script>
+<script src="{% static 'adminKHANTAILOR/plugins/overlayScrollbars/js/jquery.overlayScrollbars.min.js' %}"></script>
+</body>
+{% include 'includes/adminToster.html' %} 
+</html>

@@ -1,0 +1,428 @@
+<!DOCTYPE html>
+<html lang="en">
+{% load static %}
+<head>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <title>Sub Sub Category | {{project.title | safe | title }} || {{project.name}} </title>
+    <link rel="icon" type="image/png" href="{% if project.favicon %}{{project.favicon.url}}{% else %}{% static 'adminAAKRITICMS/img/default/mrdas.jpg' %}{% endif %}">
+    <!-- Select2 -->
+    <link rel="stylesheet" href="{% static 'adminAAKRITICMS/plugins/select2/css/select2.min.css'%}">
+    <link rel="stylesheet" href="{% static 'adminAAKRITICMS/plugins/select2-bootstrap4-theme/select2-bootstrap4.min.css'%}">
+    <!-- Font Awesome -->
+    <link rel="stylesheet" href="{% static 'adminAAKRITICMS/plugins/fontawesome-free/css/all.min.css'%}">
+    <!-- SweetAlert2 -->
+    <link rel="stylesheet" href="{% static 'adminAAKRITICMS/plugins/sweetalert2-theme-bootstrap-4/bootstrap-4.min.css' %}">
+    <!-- KHANTAILOR Theme style -->
+    <link rel="stylesheet" href="{% static 'adminAAKRITICMS/css/aakriticms.min.css'%}">
+    <link rel="stylesheet" href="{% static 'adminAAKRITICMS/css/aakriti.ui.css'%}">
+    <link rel="stylesheet" href="{% static 'adminAAKRITICMS/plugins/overlayScrollbars/css/OverlayScrollbars.min.css' %}">
+    <!-- DataTables -->
+    <link rel="stylesheet" href="{% static 'adminAAKRITICMS/plugins/datatables-bs4/css/dataTables.bootstrap4.min.css'%}">
+    <link rel="stylesheet" href="{% static 'adminAAKRITICMS/plugins/datatables-responsive/css/responsive.bootstrap4.min.css'%}">
+    <link rel="stylesheet" href="{% static 'adminAAKRITICMS/plugins/datatables-buttons/css/buttons.bootstrap4.min.css'%}">
+</head>
+<body class="hold-transition sidebar-mini layout-fixed">
+  <div class="wrapper">
+  {% include 'includes/adminNavBar.html' %} <!--Add this-->
+  {% include 'includes/adminSideBar.html' %} <!--Add this-->
+  <!-- Content Wrapper. Contains page content -->
+  <div class="content-wrapper">
+    <!-- Content Header (Page header) -->
+    <section class="content-header">
+      <div class="container-fluid">
+        <div class="row mb-2">
+          <div class="col-sm-6">
+            <h1>Manage & Create Sub Sub Category</h1>
+          </div>          
+          <div class="col-sm-6 d-flex " style="justify-content: right;">
+            <a href="javascript:void(0)" data-toggle="modal" data-target="#SubSubCatImport" class="SubSubCatImport btn btn-primary " data-toggle="tooltip" title="Import  SubSubCat" ><i class="fas fa-upload"></i>&nbsp;&nbsp; Sub Sub Category Import</a>
+            &emsp;
+            <a href="javascript:void(0)" data-toggle="modal" data-target="#SubSubCatExport" class="SubSubCatExport btn btn-success " data-toggle="tooltip" title="Export  SubSubCat" ><i class="fas fa-download"></i>&nbsp;&nbsp; Sub Sub Category Export</a>
+          </div>  
+        </div>
+      </div><!-- /.container-fluid -->
+    </section>
+
+
+    <!-- Sub content -->
+    <section class="content">
+      <div class="container-fluid">
+        <div class="row">
+          <div class="col-md-4">
+            <!-- general form elements -->
+            <div class="card card-primary">
+              <div class="card-header">
+                <h3 class="card-title">Create Sub Sub Category</h3>
+              </div>
+              <!-- /.card-header -->
+              <!-- form start -->
+              <form action="{% url 'createSubSubCategory' %}" method="POST" enctype="multipart/form-data">
+                {% csrf_token %}
+                <div class="card-body">
+                    <div class="form-group">
+                        <label for="label">Main Category</label>
+                        <select class="mainCat form-control select2" id="label" name="mainCat" data-toggle="tooltip" data-placement="top" title="Select Main Category" autocomplete="off" required>
+                            <option value="">Select Main Category</option>
+                            {% if mainCatList %}
+                              {% for MainCategory in mainCatList %}
+                                <option value="{{MainCategory.pk}}"> {{MainCategory.name}} </option>
+                              {% endfor %}
+                            {% else %}
+                              <option disabled>{{project.name}} has No MainCat</option>
+                            {% endif %}
+                        </select>
+                    </div>
+                    <div class="form-group">
+                        <label for="label">Sub Category</label>
+                        <select class="SubCat form-control select2" id="SubCat" name="SubCat" data-toggle="tooltip" data-placement="top" title="Select Sub Category" autocomplete="off" required>
+                            <option value="">Select Sub Category</option>
+                        </select>
+                    </div>
+                    <div class="form-group">
+                      <label for="SubSubCategory">Sub SubCategory Name</label>
+                      <input type="text" class="form-control" id="input-field" placeholder="Create Sub SubCategory" name="SubSubCat" data-toggle="tooltip" data-placement="top" title="Create Sub SubCategory Name" autocomplete="off" required>
+                    </div>
+                    <label for="exampleInputFile">Select Image </label>
+                    <div class="card card-outline card-info">
+                      <div class="card-body"> 
+                        <div id="display_image" style="height:150px; width:100% !important; border-radius: 10px; border: 2px solid rgb(9, 135, 238); display: none; visibility: hidden; background-size:contain; background-repeat:no-repeat;"></div>
+                        <img src="{% static 'adminAAKRITICMS/img/default/AakritiLiteWebDeveloper.jpg'%}" class="img_display img-thumbnail" id="NoObject" style="height:150px; width:100% !important; border-radius: 10px; border: 2px solid rgb(9, 135, 238);" data-toggle="tooltip" data-placement="top" title="Select Sub SubCategory Image"/>
+                      </div>
+                      <div class="card-footer">
+                          <span class="btn btn-primary col fileinput-button " data-toggle="tooltip" data-placement="top" title="Hit For Select Image">
+                              <input type="file" accept="image/png, image/jpg , image/jpeg" name="img" id="image_input"  style="display: none;" class="img_input"/>
+                              <label for="image_input" style="cursor: pointer;" ><i class="fas fa-plus"></i><span>Add Thumbnail </span></label>
+                          </span>
+                      </div>
+                    </div>
+                </div>
+                <!-- /.card-body -->
+                <div class="card-footer bg-primary">
+                  <div class="container">
+                    <div class="row">
+                      <div class="col text-center">
+                        <button type="submit" class="btn btn-light" data-toggle="tooltip" data-placement="top" title="Hit For Create Sub SubCategory">Create Sub Sub Category</button>
+                      </div>
+                    </div>
+                  </div>
+                </div>
+              </form>
+            </div>
+            <!-- /.card -->
+          </div>
+          
+          <div class="col-md-8">
+            <div class="card card-primary">
+              <div class="card-header ">
+                <form action="" method="get" class="priceOptionForm" name="priceOptionForm">
+                  <div class="row">
+                    <div class="col-lg-5">
+                      <h3 class="card-title">Manage Sub SubCategory</h3>
+                    </div>
+                    <div class="col-lg-3">
+                      <div class="form-group">
+                        <select class="form-control select2" style="width: 100%;" name="filter" id="filter" required onchange="this.form.submit()">
+                          {% if request.GET.filter %}
+                          <option  value="{{request.GET.filter}}">[ {{request.GET.filter}} ] Filtered Rows </option>
+                          {% else %}
+                          <option  value="20">Filter Rows</option>
+                          {% endif %}
+                          <option value="5"> Show 5 </option>
+                          <option value="10"> Show 10 </option>
+                          <option value="20"> Show 20 </option>
+                          <option value="50"> Show 50 </option>
+                          <option value="100"> Show 100 </option>
+                          <option value="200"> Show 200 </option>
+                          <option value="500"> Show 500 </option>
+                        </select>
+                    </div>
+                    </div>
+                    <div class="col-lg-4">
+                      <div class="input-group mb-3">
+                        <input onchange="this.form.submit()" type="text" class="form-control" placeholder="Search Sub Sub Category" data-toggle="tooltip" data-placement="top" title="Search Sub Sub Category Name" name="search" value="{{request.GET.search}}"  autocomplete="off" required aria-label="BlogMainCat" aria-describedby="basic-addon1">
+                        <div class="input-group-prepend">
+                          <span class="input-group-text" id="basic-addon1">
+                            {% if request.GET.search %}
+                            <a href="{% url 'createSubSubCategory' %}" class="text-dark"  data-toggle="tooltip" data-placement="top" title="Reset Filter & Search">  <i class="fas fa-times" style="font-size:20px;"></i> </a>
+                            {% else %}
+                            <a class="text-dark" onclick="this.form.submit()" data-toggle="tooltip" data-placement="top" title="Reset Filter & Search">  <i class="fas fa-search" style="font-size:20px;"></i> </a>
+                            {% endif %}
+                          </span>
+                        </div>
+                      </div>
+  
+                      </div>
+                 
+                  </div>
+                </form>
+                <div class="bulk_section btn-group btn-group-sm" style="display: none;">
+                  <a href="javascript:void(0);" id="BTN_ACTIVEList" class="BTN_ACTIVEList btn btn-success" data-toggle="modal" data-target="#ACTIVEList" data-placement="top" title="Hit For Bulk Active Main Category"> <i class="fas fa-plus"></i> Active</a>                          
+                  <a href="javascript:void(0);" id="BTN_DEACTIVEList" class="BTN_DEACTIVEList btn btn-dark" data-toggle="modal" data-target="#DEACTIVEList" data-placement="top" title="Hit For Bulk Deactive Main Category"> <i class="fas fa-minus"></i> Deactive</a>                          
+                  <a href="javascript:void(0);" id="BTN_DELETEList" class="BTN_DELETEList btn btn-danger btn-sm" data-toggle="modal" data-target="#DELETEList" title="Hit For Bulk Delete Main Category"><i class="fas fa-trash-alt"></i> Delete</a>
+                </div>
+              </div>
+              <!-- /.card-header -->
+              <div class="card-body p-0">
+                {% if SubSubCats %}
+                <table id="SubSubCat1" class="table table-bordered table-striped" style="text-align: center !important;">
+                  <thead>
+                  <tr>
+                    <th>Sn</th>
+                    <th>Main Category</th>
+                    <th>Sub Category</th>
+                    <th>Name</th>
+                    <th>Images</th>
+                    <th>Actions</th>
+                    <th style="width: 12px;">
+                      <div class="form-group clearfix">
+                        <div class="icheck-primary d-inline">
+                          <input type="checkbox" id="checkAll" getVal="all" class="checkAll" onchange="checkSELECT()">
+                        </div>
+                      </div>
+                  </th>
+                  </tr>
+                  </thead>
+                  <tbody>
+                  {% for subsubCat in SubSubCats %}
+                  <tr>
+                    <td> {{ forloop.counter }} </td>
+                  
+                    <td>{{subsubCat.subCat.mainCat.name}}</td>
+                    <td>{{subsubCat.subCat.name}}</td>
+                    <td>{{subsubCat.name}}</td>
+                    <td >
+                      <div class="image">
+                        {% if subsubCat.img %}
+                        <a href="{% if subsubCat.img %} {{subsubCat.img.url}} {% endif %}" target="_blank">
+                          <img src="{% if subsubCat.img %} {{subsubCat.img.url}} {% endif %} " class="img-" style="height: 50px !important; width: 100px !important;" alt="{{sub_cat.name}}">
+                        </a>
+                        {% else %}
+                          <span>No IMG</span>
+                        {% endif %}
+                      </div>
+                    </td>
+                    <td class="text-right py-0 align-middle">
+                      <div class="btn-group btn-group-sm">
+                          {% if subsubCat.is_active %}
+                          <a href="{% url 'DeactivatedSubSubCategory' subsubCat.pk %}" class="btn btn-danger" data-toggle="tooltip" data-placement="top" title="Hit For  Deactivate Sub Sub Category"><i class="fas fa-minus"></i> Deactive</a>                          
+                          {% else %}
+                          <a href="{% url 'ActivatedSubSubCategory' subsubCat.pk %}" class="btn btn-success" data-toggle="tooltip" data-placement="top" title="Hit For Activate Sub Sub Category"><i class="fas fa-plus"></i> Active</a>                          
+                          <a href="{% url 'UpdateSubSubCategory' subsubCat.pk %}" class="btn btn-primary" data-toggle="tooltip" data-placement="top" title="Hit For Edit Sub Sub Sub Category"><i class="fas fa-edit"></i> Edit</a>
+                          <a href="javascript:void(0);" class="targetSubSubCat btn btn-danger btn-sm" targetOBJVAL="{{subsubCat.pk}}" data-toggle="modal" data-target="#DELETESubSubCat" data-toggle="tooltip" data-placement="top" title="Hit For Delete Sub Sub Category"><i class="fas fa-trash-alt"></i> {{subSubSubCat.pk}} Delete</a>
+                          <!-- <a href="{% url 'DeleteSubSubCategory' subsubCat.pk %}" class="btn btn-danger" data-toggle="tooltip" data-placement="top" title="Hit For Delete Sub SubCategory"><i class="fas fa-trash-alt"></i></a> -->
+                          {% endif%}
+                      </div>
+                    </td>
+                    <td>
+                      <div class="form-group clearfix">
+                        <div class="icheck-primary d-inline">
+                          <input type="checkbox" id="{{subsubCat.slug}}" getVal="{{subsubCat.pk}}" onchange="checkSELECT()">
+                        </div>
+                      </div>
+                    </td>
+                  </tr>
+                  {% endfor %}
+                  </tbody>
+                  <tfoot>
+                    <tr>
+                      <th>Sn</th>
+                      <th>Main Category</th>
+                      <th>Sub Category</th>
+                      <th>Name</th>
+                      <th>Images</th>
+                      <th>Actions</th>
+                      <th>...</th>
+                    </tr>
+                  </tfoot>
+                </table>
+                {% else %}
+                <h4 class="alert text-center text-danger">{{product.name}} has No --<span class="text-dark">Sub Sub Category</span>-- Data</h4>
+                {% endif %}
+              </div>
+              <div class="card-footer bg-primary">
+                {% if SubSubCats.has_other_pages %}
+                <nav>
+                  <ul class="pagination justify-content-center">
+                    {% if SubSubCats.has_previous %}
+                      <li class="page-item">
+                        <a class="page-link" href="?page={{ SubSubCats.previous_page_number }}" aria-label="Previous">
+                          <span aria-hidden="true">&laquo;</span>
+                        </a>
+                      </li>
+                    {% else %}
+                      <li class="page-item disabled">
+                          <span class="page-link" aria-hidden="true">&laquo;</span>
+                      </li>
+                    {% endif %}
+
+                    {% for p in SubSubCats.paginator.page_range %}
+                      {% if SubSubCats.number == p %}
+                        <li class="page-item"><a class="page-link" style="color: red;" href="#">{{ p }}</a></li>
+                      {% else %}
+                        <li class="page-item"><a class="page-link" href="?page={{ p }}">{{ p }}</a></li>
+                      {% endif %}
+                    {% endfor %}
+
+                    {% if SubSubCats.has_next %}
+                      <li class="page-item">
+                        <a class="page-link" href="?page={{ SubSubCats.next_page_number }}" aria-label="Next">
+                          <span aria-hidden="true">&raquo;</span>
+                        </a>
+                      </li>
+                    {% else %}
+                      <li class="page-item disabled">
+                        <span class="page-link" aria-hidden="true">&raquo;</span>
+                      </li>
+                    {% endif %}
+                </ul>
+                </nav>
+                {% endif %}
+                <!-- /.card-body -->
+              </div>
+            </div>
+            </div>
+            <!-- /.card -->
+          </div>
+          <!-- /.col -->
+        </div>
+        <!-- /.row -->
+      </div>
+      <!-- /.container-fluid -->
+    </section>
+    <!-- /.content -->
+  </div>
+  <!-- /.content-wrapper -->
+  {% include 'includes/adminFooter.html' %} <!--Add this-->
+  <!-- /.control-sidebar -->
+</div>
+<!-- ./wrapper -->
+<!-- jQuery -->
+<script src="{% static 'adminAAKRITICMS/plugins/jquery/jquery.min.js'%}"></script>
+<!-- Bootstrap 4 -->
+<script src="{% static 'adminAAKRITICMS/plugins/bootstrap/js/bootstrap.bundle.min.js'%}"></script>
+<!-- DataTables  & Plugins -->
+<script src="{% static 'adminAAKRITICMS/plugins/datatables/jquery.dataTables.min.js'%}"></script>
+<script src="{% static 'adminAAKRITICMS/plugins/datatables-bs4/js/dataTables.bootstrap4.min.js'%}"></script>
+<script src="{% static 'adminAAKRITICMS/plugins/datatables-responsive/js/dataTables.responsive.min.js'%}"></script>
+<script src="{% static 'adminAAKRITICMS/plugins/datatables-responsive/js/responsive.bootstrap4.min.js'%}"></script>
+<script src="{% static 'adminAAKRITICMS/plugins/datatables-buttons/js/dataTables.buttons.min.js'%}"></script>
+<script src="{% static 'adminAAKRITICMS/plugins/datatables-buttons/js/buttons.bootstrap4.min.js'%}"></script>
+<script src="{% static 'adminAAKRITICMS/plugins/jszip/jszip.min.js'%}"></script>
+<script src="{% static 'adminAAKRITICMS/plugins/pdfmake/pdfmake.min.js'%}"></script>
+<script src="{% static 'adminAAKRITICMS/plugins/pdfmake/vfs_fonts.js'%}"></script>
+<script src="{% static 'adminAAKRITICMS/plugins/datatables-buttons/js/buttons.html5.min.js'%}"></script>
+<script src="{% static 'adminAAKRITICMS/plugins/datatables-buttons/js/buttons.print.min.js'%}"></script>
+<script src="{% static 'adminAAKRITICMS/plugins/datatables-buttons/js/buttons.colVis.min.js'%}"></script>
+<!-- AakritiCMS JavaScript -->
+<script src="{% static 'adminAAKRITICMS/js/aakritiCMS.min.js'%}"></script>
+<script src="{% static 'adminAAKRITICMS/plugins/overlayScrollbars/js/jquery.overlayScrollbars.min.js' %}"></script>
+<!-- SweetAlert2 -->
+<script src="{% static 'adminAAKRITICMS/plugins/sweetalert2/sweetalert2.min.js'%}"></script>
+<!-- Toastr -->
+<script src="{% static 'adminAAKRITICMS/plugins/toastr/toastr.min.js'%}"></script>
+<!-- Select2 -->
+<script src="{% static 'adminAAKRITICMS/plugins/select2/js/select2.full.min.js'%}"></script>
+<script src="{% static 'adminAAKRITICMS/plugins/aakritiCMS/js/additional-operations.js' %}"></script>
+{% include 'template/CATEGORYCOMMONTask.html' %}
+{% include 'template/bulk/SubSubCatImportExport.html' %}
+{% include 'template/bulk/BULKSUBSUBCATModel.html' %}
+<!-- Page specific script -->
+<script>
+
+  $('#checkAll').click(function () {    
+    $('input:checkbox').prop('checked', this.checked);  
+});
+
+$('.BTN_ACTIVEList').click(function () {    
+  $('#ACTIVEList').model('show')
+  $('#DEACTIVEList').model('hide')
+  $('#DELETEList').model('hide')
+});
+
+$('.BTN_DEACTIVEList').click(function () {    
+  $('#DEACTIVEList').model('show')
+  $('#DELETEList').model('hide')
+  $('#ACTIVEList').model('hide')
+});
+
+$('.BTN_DELETEList').click(function () {    
+  $('#DELETEList').model('show')
+  $('#DEACTIVEList').model('hide')
+  $('#ACTIVEList').model('hide')
+});
+
+function checkSELECT(){
+  var id = [];
+  $(':checkbox:checked').each(function(i){
+    id[i] = $(this).attr("getVal");
+  })
+  if (id.length===0){
+    $('.priceOptionForm').show()
+    $('.bulk_section').hide()
+  }else{
+    $('.priceOptionForm').hide()
+    $('.bulk_section').show()
+  }
+}
+
+
+  $(document).ready(function() {
+    $(".targetSubSubCat").click(function(){
+      $('.targetSUBSUBCATVAL').val($(this).attr('targetOBJVAL'));
+    });
+  });
+
+  $(function () {
+    $("#SubSubCat").DataTable({
+      "responsive": true,
+      "lengthChange": false, 
+      "autoWidth": false,
+      "bPaginate": false,
+      "paging": false,
+      "paging":   false,
+      "ordering": false,
+      "info":     false,
+
+      "buttons": ["excel", "pdf", "colvis"]
+    }).buttons().container().appendTo('#SubSubCat_wrapper .col-md-6:eq(0)');
+
+  });
+  $(function () {
+    //Initialize Select2 Elements
+    $('.select2').select2()
+    //Initialize Select2 Elements
+    $('.select2bs4').select2({
+      theme: 'bootstrap4'
+    })
+    //Date and time picker
+  })
+</script>
+<script>
+
+
+    $(document).ready(function() {
+        $('.mainCat').change(function(){
+            var target = $(this).val();
+            $.ajax({                      
+                type: "POST",                   
+                url: "{% url 'LoadSubCatList' %}",                    
+                data: {
+                  csrfmiddlewaretoken: "{{ csrf_token }}",
+                  'mainCat': target,    
+                },
+                success: function(result) {   
+                    $('.SubCat').html(result);
+                },
+            });
+        });
+    });
+
+    
+    </script>
+<!-- ======================END============================= -->
+{% include 'includes/adminToster.html' %} <!--Add this-->
+</body>
+</html>
+
+<!--  -->

@@ -1,0 +1,66 @@
+{% load static %}
+{% load orderTAGS %}
+  
+<section class="content">
+  <div class="container-fluid">
+    <!-- Small boxes (Stat box) -->
+    <div class="row">
+      <!-- ./col -->
+      <div class="col-lg-3 col-6">
+        <!-- small box -->
+        <div class="small-box bg-success">
+          <div class="inner">
+            <h3>{% confirmedORDERS %}</h3>
+            <p>Confirmed Orders</p>
+          </div>
+          <div class="icon">
+            <i class="fas fa-shipping-fast"></i>
+          </div>
+          <a href="{% url 'ALLORDERList' %}?is_confirmed=True" class="small-box-footer">More info <i class="fas fa-arrow-circle-right"></i></a>
+        </div>
+      </div>
+      <!-- ./col -->
+      <div class="col-lg-3 col-6">
+        <!-- small box -->
+        <div class="small-box bg-info">
+          <div class="inner">
+            <h3>{% shippedORDERS %}</h3>
+            <p>Shipped Orders </p>
+          </div>
+          <div class="icon">
+            <i class="fas fa-shipping-fast"></i>
+          </div>
+          <a href="{% url 'ALLORDERList' %}?is_shipped=True" class="small-box-footer">More info <i class="fas fa-arrow-circle-right"></i></a>
+        </div>
+      </div>
+      <div class="col-lg-3 col-6">
+        <!-- small box -->
+        <div class="small-box bg-primary">
+          <div class="inner">
+            <h3>{% deliveryORDERS %}</h3>
+            <p>Success Delivery </p>
+          </div>
+          <div class="icon">
+            <i class="fas fa-check-circle"></i>
+          </div>
+          <a href="{% url 'ALLORDERList' %}?is_delivered=True" class="small-box-footer">More info <i class="fas fa-arrow-circle-right"></i></a>
+        </div>
+      </div>
+      <div class="col-lg-3 col-6">
+        <!-- small box -->
+        <div class="small-box bg-danger">
+          <div class="inner">
+            <h3>{% ontheWayORDERS %}</h3>
+            <p>Deleted Orders</p>
+          </div>
+          <div class="icon">
+            <i class="fa fa-trash-alt"></i>
+          </div>
+          <a href="{% url 'ALLORDERList' %}?is_deleted=True" class="small-box-footer">More info <i class="fas fa-arrow-circle-right"></i></a>
+        </div>
+      </div>
+      
+    </div>
+    <!-- /.row --> 
+  </div>
+</section>

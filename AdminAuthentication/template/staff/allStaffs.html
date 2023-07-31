@@ -1,0 +1,373 @@
+<!DOCTYPE html>
+<html lang="en">
+  {% load static %}
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>All Staff List | {{project.title | safe | title }} || {{project.name}} </title>
+  <link rel="icon" type="image/png" href="{% if project.favicon %}{{project.favicon.url}}{% else %}{% static 'adminAAKRITICMS/img/default/mrdas.jpg' %}{% endif %}">    
+  <!-- DropDown -->
+  <link rel="stylesheet" href="{% static 'adminAAKRITICMS/plugins/select2/css/select2.min.css'%}">
+  <link rel="stylesheet" href="{% static 'adminAAKRITICMS/plugins/select2-bootstrap4-theme/select2-bootstrap4.min.css'%}">  
+  <!-- Font Awesome -->
+  <link rel="stylesheet" href="{% static 'adminAAKRITICMS/plugins/fontawesome-free/css/all.min.css'%}">
+  <!-- SweetAlert2 -->
+  <link rel="stylesheet" href="{% static 'adminAAKRITICMS/plugins/sweetalert2-theme-bootstrap-4/bootstrap-4.min.css' %}">
+  <!-- adminKlickbazar Theme style -->
+  <link rel="stylesheet" href="{% static 'adminAAKRITICMS/css/aakriticms.min.css'%}">
+  <link rel="stylesheet" href="{% static 'adminAAKRITICMS/css/aakriti.ui.css'%}">
+  <!-- DataTables -->
+  <link rel="stylesheet" href="{% static 'adminAAKRITICMS/plugins/datatables-bs4/css/dataTables.bootstrap4.min.css'%}">
+  <link rel="stylesheet" href="{% static 'adminAAKRITICMS/plugins/datatables-responsive/css/responsive.bootstrap4.min.css'%}">
+  <link rel="stylesheet" href="{% static 'adminAAKRITICMS/plugins/datatables-buttons/css/buttons.bootstrap4.min.css'%}">
+  <link rel="stylesheet" href="{% static 'adminAAKRITICMS/plugins/overlayScrollbars/css/OverlayScrollbars.min.css' %}">
+</head>
+<body class="hold-transition sidebar-mini layout-fixed">
+<div class="wrapper">
+  {% include 'includes/adminNavBar.html' %} 
+  {% include 'includes/adminSideBar.html' %} 
+  <!-- Content Wrapper. Contains page content -->
+  <div class="content-wrapper">
+    <!-- Content Header (Page header) -->
+    <section class="content-header">
+      <div class="container-fluid">
+        <div class="row mb-2">
+          <div class="col-sm-6">
+            <h1>Manage Staffs</h1>
+          </div>
+          <div class="col-sm-6 d-flex " style="justify-content: right;">
+            <a href="javascript:void(0)" data-toggle="modal" data-target="#STAFFImport" class="STAFFImport btn btn-primary " data-toggle="tooltip" title="Import STAFF " ><i class="fas fa-upload"></i>&nbsp;&nbsp; STAFF Import </a>
+            &emsp;
+            <a href="javascript:void(0)" data-toggle="modal" data-target="#STAFFExport" class="STAFFExport btn btn-success " data-toggle="tooltip" title="Export STAFF " ><i class="fas fa-download"></i>&nbsp;&nbsp; STAFF Export</a>
+          </div>
+        </div>
+      </div><!-- /.container-fluid -->
+    </section>
+    
+    <!-- Main content -->
+    <section class="content">
+      <div class="container-fluid">
+        <div class="row">
+          <div class="col-md-12" id="EMPTYAREA">
+
+            <div class="card card-primary">
+              <div class="card-header ">
+                    <h1 class="card-title text-center text-bold text-uppercase">  All &nbsp; Staffs</h1>
+                    <buttonclass class="btn btn-light float-right mr-1" title="Create New Admin" data-toggle="modal" data-target="#AdminCreate" ><i class="fas fa-edit"></i>&nbsp;&nbsp; Create Admin</button>
+                </div>
+              <!-- /.card-header -->
+            <div class="card-body p-0" >
+              {% if Admins %}
+                <table id="allADMINList1" class="table table-bordered table-striped" style="text-align: center !important;">
+                  <thead>
+                    <tr>
+                        <th style="width: 10px;">Id</th>
+                        <th>Name</th>
+                        <th>Email</th>
+                        <th>Status</th>
+                        <th>Superadmin</th>
+                        <th>Admin</th>
+                        <th>Manager</th>
+                        <th>Accountant</th>
+                        {% if request.user.is_superadmin or request.user.is_admin %}
+                        <th>Actions</th>
+                        {% endif %}                    
+                  </thead>
+                  <tbody>
+                    {% for Admin in Admins %}
+                    <tr>
+                        <td >
+                          {{Admin.id}}
+                        </td>
+                        <td class="text-center">
+                          {{Admin.name}}
+                        </td>
+                        <td >
+                          {{Admin.email}}
+                        </td>
+                        <td >   
+                          {% if Admin.is_verified %}
+                            <b class="text-success">Verified</b>
+                          {% else %}
+                            <b class="text-danger">Not Verified</b>
+                          {% endif %}
+                        </td>
+                        <td >   
+                          {% if Admin.is_superadmin %}
+                            <b class="text-success"><i class="fas fa-check-circle"></i></b>
+                          {% else %}
+                            <i class="fas fa-exclamation-triangle nav-icon text-danger"></i>
+                          {% endif %}
+                        </td>
+                        <td >   
+                          {% if Admin.is_admin %}
+                            <b class="text-success"><i class="fas fa-check-circle"></i></b>
+                          {% else %}
+                            <i class="fas fa-exclamation-triangle nav-icon text-danger"></i>
+                          {% endif %}
+                        </td>
+                        <td >   
+                          {% if Admin.is_manager %}
+                            <b class="text-success"><i class="fas fa-check-circle"></i></b>
+                          {% else %}
+                            <i class="fas fa-exclamation-triangle nav-icon text-danger"></i>
+                          {% endif %}
+                        </td>
+                        <td >   
+                          {% if Admin.is_accountant %}
+                            <b class="text-success"><i class="fas fa-check-circle"></i></b>
+                          {% else %}
+                            <i class="fas fa-exclamation-triangle nav-icon text-danger"></i>
+                          {% endif %}
+                        </td>
+                        {% if request.user.is_superadmin or request.user.is_admin %}
+                        <td style="width: 180px; text-align: center !important;" class="col"> 
+                            <div class="btn-group btn-group-sm">
+                                <div class="btn-group btn-group-sm" role="group" aria-label="Basic example">                                      
+                                  {% if Admin.is_verified %}
+                                    <a href="{% url 'deactivateAdmin' Admin.id %}" class="btn btn-danger" data-toggle="tooltip" title="Deactive Staff"><i class="fas fa-minus"></i></a>          
+                                  {% else %}
+                                    <a href="{% url 'StaffUpdate' Admin.pk %}" class="btn btn-dark" data-toggle="tooltip" title="Update Staff"><i class="fas fa-edit"></i></a>                                
+                                    <a href="{% url 'activateAdmin' Admin.id %}" class="btn btn-success" data-toggle="tooltip" title="Activate Staff"><i class="fas fa-plus"></i></a>                                
+                                    {% if request.user.email == Admin.email %}
+                                    <a href="{% url 'DeleteAdminAccount' Admin.id %}" class="btn btn-danger" data-toggle="tooltip" title="Delete Staff"><i class="fas fa-trash"></i></a>                                
+                                    {% endif %}
+                                  {% endif %}                                      
+                                </div>
+                            </div>
+                        </td>
+                        {% endif %}
+                    </tr>
+                    {% endfor %}
+                  </tbody>
+                  <tfoot>
+                    <tr>
+                        <th style="width: 10px;">Id</th>
+                        <th>Name</th>
+                        <th>Email</th>
+                        <th>Status</th>
+                        <th>Superadmin</th>
+                        <th>Admin</th>
+                        <th>Manager</th>
+                        <th>Accountant</th>
+                        {% if request.user.is_superadmin or request.user.is_admin %}
+                        <th>Actions</th>
+                        {% endif %}
+                    </tr>
+                  </tfoot>
+                </table>
+                {% else %}
+                  <option class="text-center">Klickbazar No Admin Data</option>  
+              {% endif %}
+              </div>
+              <div class="card-footer bg-primary">
+               
+            </div>
+              <!-- /.card-body -->
+            </div>
+            </div>
+            <!-- /.card -->
+          </div>
+          <!-- /.col -->
+        </div>
+        <!-- /.row -->
+      </div>
+      <!-- /.container-fluid -->
+    </section>
+    <!-- /.content -->
+  </div>
+  <!-- /.content-wrapper -->
+ 
+  
+<!-- ======================================================================== -->
+  <!-- Create New Admin -->
+  <div class="modal fade" id="AdminCreate" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel" aria-hidden="true">
+    <div class="modal-dialog" role="document">
+      <div class="modal-content">
+        <div class="modal-header">
+          <h5 class="modal-title" id="exampleModalLabel">Create New Admin </h5>
+          <button type="button" class="close text-danger" data-dismiss="modal" aria-label="Close">
+            <span aria-hidden="true">&times;</span>
+          </button>
+        </div>
+        <div class="modal-body">
+          <form action="" method="POST" enctype="multipart/form-data">
+            {% csrf_token %}
+            <div class="form-group">
+              <label>Admin Referance Email</label>
+              <div class="input-group">
+                <div class="input-group-prepend">
+                  <span class="input-group-text"><i class="fas fa-plus"></i></span>
+                </div>
+                  <input type="email" class="form-control" value="{{request.user.email}}" name="Referance" autocomplete="OFF" placeholder="Admin Referance Email">
+                <div class="input-group-prepend">
+                  <span class="input-group-text"><i class="fas fa-plus"></i></span>
+                </div>
+              </div>
+            </div>
+            <div class="form-group">
+              <label for="label">Allow Admin Role</label>
+              <select class="form-control select2" id="label" name="role" data-toggle="tooltip" data-placement="top" title="Sellect Main Category" autocomplete="off" required>
+                  <option value="">SELECT ADMIN ROLE</option>
+                  <option value="is_admin"> Admin</option>
+                  {% if request.user.is_superadmin %}
+                  <option value="is_superadmin"> Superadmin </option>
+                  {% endif %}
+                  <option value="is_manager"> Mamnager</option>
+                  <option value="is_accountant"> Accountant </option>
+                  <option value="is_user"> Content User</option>
+              </select>
+          </div>
+
+            <div class="form-group">
+              <label>Staff Name</label>
+              <div class="input-group">
+                <div class="input-group-prepend">
+                  <span class="input-group-text"><i class="fas fa-plus"></i></span>
+                </div>
+                  <input type="text" class="form-control" name="name" autocomplete="OFF" placeholder="Admin Name">
+                <div class="input-group-prepend">
+                  <span class="input-group-text"><i class="fas fa-plus"></i></span>
+                </div>
+              </div>
+            </div>
+        <div class="form-group">
+          <label>Staff Email</label>
+          <div class="input-group">
+            <div class="input-group-prepend">
+              <span class="input-group-text"><i class="fas fa-plus"></i></span>
+            </div>
+              <input type="email" class="form-control" name="email" autocomplete="OFF" placeholder="Email Address">
+            <div class="input-group-prepend">
+              <span class="input-group-text"><i class="fas fa-plus"></i></span>
+            </div>
+          </div>
+        </div>
+        <div class="form-group">
+          <label>Staff Phone No.</label>
+          <div class="input-group">
+            <div class="input-group-prepend">
+              <span class="input-group-text"><i class="fas fa-plus"></i></span>
+            </div>
+              <input type="number" class="form-control" name="phone" autocomplete="OFF" placeholder="Phone Number">
+            <div class="input-group-prepend">
+              <span class="input-group-text"><i class="fas fa-plus"></i></span>
+            </div>
+          </div>
+        </div>
+        <div class="form-group">
+          <label>Staff IMG*</label>
+          <div class="input-group">
+            <div class="input-group-prepend">
+              <span class="input-group-text"><i class="fas fa-plus"></i></span>
+            </div>
+              <input type="file" class="form-control" name="img" autocomplete="OFF" placeholder="Staff IMG">
+            <div class="input-group-prepend">
+              <span class="input-group-text"><i class="fas fa-plus"></i></span>
+            </div>
+          </div>
+        </div>
+        <div class="form-group">
+          <label>Password.</label>
+          <div class="input-group">
+            <div class="input-group-prepend">
+              <span class="input-group-text"><i class="fas fa-plus"></i></span>
+            </div>
+              <input type="password" class="form-control" name="password" autocomplete="OFF" placeholder="Password">
+            <div class="input-group-prepend">
+              <span class="input-group-text"><i class="fas fa-plus"></i></span>
+            </div>
+          </div>
+        </div>
+
+        </div>
+        <div class="modal-footer">
+          <button type="submit" class="btn btn-primary" >Okay</button>
+          <button type="button" class="btn btn-dark"  data-dismiss="modal" aria-label="Close">Cancel</button>
+        </div>
+        </form>
+      </div>
+    </div>
+  </div>
+
+  <!-- ======================================================================== -->
+  {% include 'includes/adminFooter.html' %} 
+</div>
+<!-- ./wrapper -->
+
+<!-- jQuery -->
+<script src="{% static 'adminAAKRITICMS/plugins/jquery/jquery.min.js'%}"></script>
+<!-- Bootstrap 4 -->
+<script src="{% static 'adminAAKRITICMS/plugins/bootstrap/js/bootstrap.bundle.min.js'%}"></script>
+<!-- DataTables  & Plugins -->
+<script src="{% static 'adminAAKRITICMS/plugins/datatables/jquery.dataTables.min.js'%}"></script>
+<script src="{% static 'adminAAKRITICMS/plugins/datatables-bs4/js/dataTables.bootstrap4.min.js'%}"></script>
+<script src="{% static 'adminAAKRITICMS/plugins/datatables-responsive/js/dataTables.responsive.min.js'%}"></script>
+<script src="{% static 'adminAAKRITICMS/plugins/datatables-responsive/js/responsive.bootstrap4.min.js'%}"></script>
+<script src="{% static 'adminAAKRITICMS/plugins/datatables-buttons/js/dataTables.buttons.min.js'%}"></script>
+<script src="{% static 'adminAAKRITICMS/plugins/datatables-buttons/js/buttons.bootstrap4.min.js'%}"></script>
+<script src="{% static 'adminAAKRITICMS/plugins/jszip/jszip.min.js'%}"></script>
+<script src="{% static 'adminAAKRITICMS/plugins/pdfmake/pdfmake.min.js'%}"></script>
+<script src="{% static 'adminAAKRITICMS/plugins/pdfmake/vfs_fonts.js'%}"></script>
+<script src="{% static 'adminAAKRITICMS/plugins/datatables-buttons/js/buttons.html5.min.js'%}"></script>
+<script src="{% static 'adminAAKRITICMS/plugins/datatables-buttons/js/buttons.print.min.js'%}"></script>
+<script src="{% static 'adminAAKRITICMS/plugins/datatables-buttons/js/buttons.colVis.min.js'%}"></script>
+<!-- AakritiCMS JavaScript -->
+<script src="{% static 'adminAAKRITICMS/js/aakritiCMS.min.js'%}"></script>
+<!-- SweetAlert2 -->
+<script src="{% static 'adminAAKRITICMS/plugins/sweetalert2/sweetalert2.min.js'%}"></script>
+<!-- Toastr -->
+<script src="{% static 'adminAAKRITICMS/plugins/toastr/toastr.min.js'%}"></script>
+<!-- Select2 -->
+<script src="{% static 'adminAAKRITICMS/plugins/select2/js/select2.full.min.js'%}"></script>
+<script src="{% static 'adminAAKRITICMS/plugins/overlayScrollbars/js/jquery.overlayScrollbars.min.js' %}"></script>
+{% include 'template/admin/ImportExport/STAFFImportExport.html' %} 
+<script>
+  $(function () {
+    $("#allADMINList").DataTable({
+      "responsive": true, "lengthChange": false, "autoWidth": false,
+      "buttons": ["csv", "excel", "pdf", "print", "colvis"]
+    }).buttons().container().appendTo('#allADMINList_wrapper .col-md-6:eq(0)');
+  });
+  $(function () {
+    //Initialize Select2 Elements
+    $('.select2').select2()
+
+    //Initialize Select2 Elements
+    $('.select2bs4').select2({
+      theme: 'bootstrap4'
+    })
+  })
+
+
+$(function () {
+  $('[data-toggle="tooltip"]').tooltip()
+})
+
+$(".INFO").click(function () {
+  const url = $(".INFO").attr("Admin-Url");  // get the url of the `` view
+  const mainCatID = $(".INFO").attr("ADMIN-ID");
+  // const mainCatID = $(this).val();  // get the selected mainCat ID from the HTML input
+  alert(mainCatID);
+  alert(url);
+  console.log("URLs :-", url);
+  console.log("mainCatID :-", mainCatID);
+
+  $.ajax({                       // initialize an AJAX request
+      type: "POST",                   
+      url: url,                    // set the url of the request (= /persons/ajax/load-SubCategory/ )
+      data: {
+        csrfmiddlewaretoken: "{{ csrf_token }}",
+        'mainCat': mainCatID       // add the country id to the GET parameters
+      },
+      success: function (data) {   // `data` is the return of the `load_SubCategory` view function
+          $("#EMPTYAREA").html(data);  // replace the contents of the city input with the data that came from the server
+      }
+  });
+});
+
+</script>
+<!-- ===================END============================= -->
+{% include 'includes/adminToster.html' %} 
+</body>
+</html>

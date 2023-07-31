@@ -1,0 +1,180 @@
+
+{% load static %}
+
+<div class="modal fade" id="ACTIVATE">
+    <div class="modal-dialog modal-md">
+        <div class="modal-content">
+        <div class="modal-header">
+            <h4 class="modal-title text-center text-uppercase"><b> BANNER Activate Alert</b></h4>
+            <button type="button" class="close" data-dismiss="modal" aria-label="Close"><span aria-hidden="true">&times;</span></button>
+        </div>
+        <div class="modal-body ">
+            <div class="row justify-content-center">
+                <i class='fas fa-check-circle' style='font-size:68px;color:rgb(43, 146, 65)'></i>
+            </div>
+            <input type="text" style="display:none" class="targetVAL form-control" id="input-field" onkeyup="NameStringCount()">
+
+        </div>
+        <div class="modal-footer justify-content-center ">
+            <button type="button"  class="btn btn-outline-dark" data-dismiss="modal">Cancel</button>
+            <button type="button" id="activateREQUESTFORTHISBANNER" onclick="activateREQUESTFORTHISBANNER()" class="activateREQUESTFORTHISBANNER btn btn-outline-success">Confirm </button>
+        </div>
+        </div>
+    </div>
+</div>
+
+<div class="modal fade" id="DEACTIVATE">
+    <div class="modal-dialog modal-md">
+        <div class="modal-content">
+        <div class="modal-header">
+            <h4 class="modal-title text-center text-uppercase"><b> BANNER Deactivate Alert</b></h4>
+            <button type="button" class="close" data-dismiss="modal" aria-label="Close"><span aria-hidden="true">&times;</span></button>
+        </div>
+        <div class="modal-body ">
+            <div class="row justify-content-center">
+                <i class='fas fa-exclamation-triangle text-danger' style='font-size:68px;'></i>
+            </div>
+            <input type="text" style="display:none"  class="targetVAL form-control" id="input-field" onkeyup="NameStringCount()">
+
+        </div>
+        <div class="modal-footer justify-content-center ">
+            <button type="button"  class="btn btn-outline-dark" data-dismiss="modal">Cancel</button>
+            <button type="button" id="deactivateREQUESTFORTHISBANNER" onclick="deactivateREQUESTFORTHISBANNER()" class="deactivateREQUESTFORTHISBANNER btn btn-outline-danger">Confirm </button>
+        </div>
+        </div>
+    </div>
+</div>
+
+<div class="modal fade" id="DELETE">
+    <div class="modal-dialog modal-md">
+        <div class="modal-content">
+        <div class="modal-header justify-content-center">
+            <h4 class="modal-title text-center text-justify"><b>BANNER Permanently Delete Alert</b></h4>
+            <button type="button" class="close" data-dismiss="modal" aria-label="Close"><span aria-hidden="true">&times;</span></button>
+        </div>
+        <div class="modal-body ">
+            <div class="row justify-content-center">
+                <i class='fas fa-trash-alt' style='font-size:48px;color:red'></i>
+            </div>
+            <input type="text" style="display:none" class="targetVAL form-control" id="input-field" onkeyup="NameStringCount()">
+        </div>
+        <div class="modal-footer justify-content-center ">
+            <button type="button"  class="btn btn-outline-dark" data-dismiss="modal">Cancel</button>
+            <button type="button" id="deleteREQUESTFORTHISBANNER" onclick="deleteREQUESTFORTHISBANNER()" class="deleteREQUESTFORTHISBANNER btn btn-outline-danger">Confirm </button>
+        </div>
+        </div>
+    </div>
+</div>
+
+
+<script>
+    function activateREQUESTFORTHISBANNER(){
+        const targetPRODCUT = $(".targetVAL").val()
+        if (targetPRODCUT == ""){
+            Toast.fire({
+                icon: 'error',
+                title: '<p id="messages" style="margin-top:12px !important; margin-left:8px !important;"><b> Target Not Define </b></p>'
+                }) 
+        }else{
+            $.ajax({                      
+                type: "POST",                   
+                url: "{% url 'activatedBANNER' %}",                    
+                data: {
+                csrfmiddlewaretoken: "{{ csrf_token }}",
+                'target': targetPRODCUT,
+                },
+                success: function(data) {   
+                    if (data.status == 1){
+                        $('#ACTIVATE').modal('hide');
+
+                        Toast.fire({
+                            icon: 'success',
+                            title: '<p id="messages" style="margin-top: 12px !important; margin-left:8px !important;"><b>'+ data.message +'</b></p>'
+                        }) 
+                    }
+                    else if (data.status == 0){
+                        Toast.fire({
+                        icon: 'error',
+                        title: '<p id="messages" style="margin-top: 12px !important; margin-left:8px !important;"><b>'+ data.message +'</b></p>'
+                        }) 
+                    }       
+                },
+            });
+        }
+     }
+</script>
+
+<script>
+    function deactivateREQUESTFORTHISBANNER(){
+        const targetPRODCUT = $(".targetVAL").val()
+        if (targetPRODCUT == ""){
+            Toast.fire({
+                icon: 'error',
+                title: '<p id="messages" style="margin-top:12px !important; margin-left:8px !important;"><b> Target Not Define </b></p>'
+                }) 
+        }else{
+            $.ajax({                      
+                type: "POST",                   
+                url: "{% url 'deactivatedBANNER' %}",                    
+                data: {
+                csrfmiddlewaretoken: "{{ csrf_token }}",
+                'target': targetPRODCUT,
+                },
+                success: function(data) {   
+                    if (data.status == 1){
+                        $('#DEACTIVATE').modal('hide');
+                        Toast.fire({
+                            icon: 'success',
+                            title: '<p id="messages" style="margin-top: 12px !important; margin-left:8px !important;"><b>'+ data.message +'</b></p>'
+                        }) 
+                    }
+                    else if (data.status == 0){
+                        Toast.fire({
+                        icon: 'error',
+                        title: '<p id="messages" style="margin-top: 12px !important; margin-left:8px !important;"><b>'+ data.message +'</b></p>'
+                        }) 
+                    }       
+                },
+            });
+        }
+    }
+</script>
+
+
+
+<script>
+    function deleteREQUESTFORTHISBANNER(){
+        const targetPRODCUT = $(".targetVAL").val()
+        if (targetPRODCUT == ""){
+            Toast.fire({
+                icon: 'error',
+                title: '<p id="messages" style="margin-top:12px !important; margin-left:8px !important;"><b> Target Not Define </b></p>'
+                }) 
+        }else{
+            $.ajax({                      
+                type: "POST",                   
+                url: "{% url 'deleteBANNER' %}",                    
+                data: {
+                csrfmiddlewaretoken: "{{ csrf_token }}",
+                'target': targetPRODCUT,
+                },
+                success: function(data) {   
+                    if (data.status == 1){
+                        $('#DELETE').modal('hide');
+                        Toast.fire({
+                            icon: 'success',
+                            title: '<p id="messages" style="margin-top: 12px !important; margin-left:8px !important;"><b>'+ data.message +'</b></p>'
+                        }) 
+                    }
+                    else if (data.status == 0){
+                        Toast.fire({
+                        icon: 'error',
+                        title: '<p id="messages" style="margin-top: 12px !important; margin-left:8px !important;"><b>'+ data.message +'</b></p>'
+                        }) 
+                    }       
+                },
+            });
+        }
+}
+</script>
+

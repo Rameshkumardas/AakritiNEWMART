@@ -1,0 +1,931 @@
+   {% if CMSManager %}
+                <li class="nav-item menu-open">
+                {% else %}
+                <li class="nav-item">
+                {% endif %}
+                    {% if CMSManager %}
+                    <a href="#" class="nav-link active">
+                        <i class="nav-icon fas fa-cogs"></i>
+                        <p>CMS Manager<i class="fas fa-angle-left right"></i></p>
+                    </a>
+                    {% else %}
+                    <a href="#" class="nav-link">
+                        <i class="nav-icon fas fa-cogs"></i>
+                        <p>CMS Manager<i class="fas fa-angle-left right"></i></p>
+                    </a>
+                    {% endif %}
+
+                    <ul class="nav nav-treeview">
+                        {% if CMSManager and updatePAGE %}
+                        <li class="nav-item " >
+                            <a href="{% url 'createPAGE' %}" class="nav-link active">
+                                <i class="fas fa-edit nav-icon text-primary"></i>
+                                <p><b>Page Update..</b></p>
+                            </a>                                
+                        </li>
+                        {% endif %}
+                        {% if CMSManager and updateSECTION %}
+                        <li class="nav-item sidebar-control">
+                            <a href="" class="nav-link active">
+                                <i class="fas fa-edit fa-pin nav-icon"></i>
+                                <p>Section Updating...</p>
+                            </a>
+                        </li>
+                        {% endif %}
+
+                        <li class="nav-item sidebar-control">
+                            {% if CMSManager and CMSSettings %}
+                            <a href="{% url 'CMSSettings' %}" class="nav-link active">
+                                <i class="fas fa-cog nav-icon text-primary"></i>
+                                <p><b>CMS Settings</b></p>
+                            </a>
+                            {% else %}
+                            <a href="{% url 'CMSSettings' %}" class="nav-link">
+                                <i class="fas fa-cog nav-icon"></i>
+                                <p>CMS Settings</p>
+                            </a>
+                            {% endif %}
+                        </li>
+                        <li class="nav-item sidebar-control">
+                            {% if CMSManager and allSECTIONList %}
+                            <a href="{% url 'SECTIONList' %}" class="nav-link active">
+                                <i class="far fa-edit nav-icon text-primary"></i>
+                                <p><b>SECTIONList</b></p>
+                            </a>
+                            {% else %}
+                            <a href="{% url 'SECTIONList' %}" class="nav-link">
+                                <i class="fas fa-th nav-icon"></i>
+                                <p>SECTIONList</p>
+                            </a>
+                            {% endif %}
+                        </li>
+                        <li class="nav-item " >
+                            {% if CMSManager and createPAGE %}
+                            <a href="{% url 'createPAGE' %}" class="nav-link active">
+                                <i class="fas fa-edit nav-icon text-primary"></i>
+                                <p><b>Create PAGE</b></p>
+                            </a>
+                            {% else %}
+                            <a href="{% url 'createPAGE' %}" class="nav-link">
+                                <i class="fas fa-edit nav-icon"></i>
+                                <p>Create PAGE</p>
+                            </a>
+                            {% endif %}
+                        </li>
+
+
+                        {% if CMSManager and allPAGE and request.GET.is_draft %}
+                        <li class="nav-item " >
+                            <a href="{% url 'PAGEList' %}?is_draft=True" class="nav-link active">
+                                <i class="fas fa-th-list nav-icon text-primary"></i>
+                                <p><b>Draft PAGES</b></p>
+                            </a>
+                        </li>
+                        {% elif CMSManager and allPAGE and request.GET.is_verified %}
+                        <li class="nav-item " >
+                            <a href="{% url 'PAGEList' %}?is_verified=True" class="nav-link  active">
+                                <i class="fas fa-check-circle nav-icon text-success"></i>
+                                <p><b>Active PAGES</b></p>
+                            </a>
+                        </li>
+                        {% elif CMSManager and allPAGE and request.GET.is_active %}
+                        <li class="nav-item " >
+                            <a href="{% url 'PAGEList' %}?is_active=False" class="nav-link {% if request.GET.is_active %} active {% endif %}">
+                                <i class="fas fa-exclamation-triangle nav-icon text-warning"></i>
+                                <p><b>Deactive PAGES</b></p>
+                            </a>
+                        </li>
+                        {% elif CMSManager and allPAGE and request.GET.is_deleted %}
+                        <li class="nav-item " >
+                            <a href="{% url 'PAGEList' %}?is_deleted=True" class="nav-link active ">
+                                <i class="fas fa-trash-alt nav-icon text-danger"></i>
+                                <p><b>Deleted PAGES</b></p>
+                            </a>
+                        </li>
+                        {% else %}
+                        <li class="nav-item " >
+                            <a href="{% url 'PAGEList' %}?is_draft=True" class="nav-link ">
+                                <i class="fas fa-th-list nav-icon"></i>
+                                <p><b>All PAGES</b></p>
+                            </a>
+                        </li>
+                        {% endif %}
+
+                    </ul>
+                </li>
+
+               
+
+                {% if request.user.is_accountant %}
+                <li class="nav-header text-light"><b>PRODUCT MANAGER</b></li>
+
+                {% if CATEGORYManager %}
+                    <li class="nav-item menu-open">
+                {% else %}
+                    <li class="nav-item">
+                {% endif %}
+                    {% if CATEGORYManager %}
+                        <a href="#" class="nav-link active"><i class="fas fa-laptop nav-icon"></i><p>Category Manager<i class="fas fa-angle-left right"></i></p>
+                    {% else %}
+                        <a href="#" class="nav-link"><i class="fas fa-laptop nav-icon"></i><p>Category Manager<i class="fas fa-angle-left right"></i></p>{% endif %}</a>
+                        <ul class="nav nav-treeview drop-menu category-view">
+                            
+                            {% if updateMainCat %}
+                            <li class="nav-item sidebar-control">
+                                <a href="" class="nav-link active"> <i class="fas fa-edit nav-icon text-primary"></i><p><b>Update MainCat..</b></p></a>
+                            </li>
+                            {% endif %}
+                            {% if updateSubCat %}
+                            <li class="nav-item sidebar-control">
+                                <a href="" class="nav-link active"> <i class="fas fa-edit nav-icon text-primary"></i><p><b>Update SubCat..</b></p></a>
+                            </li>
+                            {% endif %}
+                            {% if updateSubSubCat %}
+                            <li class="nav-item sidebar-control">
+                                <a href="" class="nav-link active"> <i class="fas fa-edit nav-icon text-primary"></i><p><b>Update SubSubCat..</b></p></a>
+                            </li>
+                            {% endif %}
+
+                            <li class="nav-item " id="" link="Main-Category">
+                                {% if MainCategory %}
+                                <a href="{%url 'createMainCategory' %}" class="nav-link active"><i class="fas fa-edit nav-icon text-primary"></i><p><b>MainCategory</b></p></a>
+                                {% else %}
+                                <a href="{%url 'createMainCategory' %}" class="nav-link"><i class="fas fa-th-large nav-icon"></i><p>MainCategory</p></a>
+                                {% endif %}
+                            </li>
+                            <li class="nav-item " id="" link="Sub-Category">
+                                {% if SubCategory %}
+                                <a href="{% url 'createSubCategory' %}" class="nav-link active">
+                                    <i class="fas fa-edit nav-icon text-primary"></i>
+                                    <p><b>SubCategory</b></p>
+                                </a>
+                                {% else %}
+                                <a href="{% url 'createSubCategory' %}" class="nav-link">
+                                    <i class="fas fa-th nav-icon"></i>
+                                    <p>SubCategory</p>
+                                </a>
+                                {% endif %}
+                            </li>
+                            <li class="nav-item " id="" link="Sub-Category">
+                                {% if SubSubCategory %}
+                                <a href="{% url 'createSubSubCategory' %}" class="nav-link active">
+                                    <i class="fas fa-edit nav-icon text-primary"></i>
+                                    <p><b>SubSubCategory</b></p>
+                                </a>
+                                {% else %}
+                                <a href="{% url 'createSubSubCategory' %}" class="nav-link">
+                                    <i class="fas fa-th nav-icon"></i>
+                                    <p>SubSubCategory</p>
+                                </a>
+                                {% endif %}
+                            </li>
+                        </ul>
+                    </li>
+
+
+
+                    {% if PRODUCTManager %}
+                    <li class="nav-item menu-open">
+                        {% else %}
+                    <li class="nav-item">
+                        {% endif %}
+                        {% if PRODUCTManager %}
+                        <a href="#" class="nav-link active"><i class="fas fa-laptop-code nav-icon"></i>
+                            <p><b>PRODUCT Manager</b><i class="fas fa-angle-left right"></i></p>
+                        </a>
+                        {% else %}
+                        <a href="#" class="nav-link"><i class="fas fa-laptop-code nav-icon"></i>
+                            <p>PRODUCT Manager<i class="fas fa-angle-left right"></i></p>
+                        </a>
+                        {% endif %}
+                        <ul class="nav nav-treeview">
+                            <li class="nav-item sidebar-control">
+                                
+                            
+                            <li class="nav-item sidebar-control">
+                            {% if updatePRODUCT %}
+                                <a href="" class="nav-link active">
+                                <i class="fas fa-edit nav-icon text-primary"></i><p><b>Update Product</b></p></a>
+                            {% endif %}
+                            </li>
+                            
+                            {% if request.GET.is_draft and PRODUCTManager and allPRODUCTS %}
+                            <li class="nav-item sidebar-control">
+                                <a href="{% url 'ALLPRODUCTList' %}?is_draft=True" class="nav-link active"><i
+                                        class="fas fa-drafting-compass nav-icon text-info"></i>
+                                    <p><b> Draft Products</b></p>
+                                </a>
+                            </li>
+                            {% elif request.GET.is_verified and PRODUCTManager and allPRODUCTS %}
+                            <li class="nav-item sidebar-control">
+                                <a href="{% url 'ALLPRODUCTList' %}?is_verified=True" class="nav-link active"><i
+                                        class="fas fa-check-circle nav-icon text-success"></i>
+                                    <p><b> Active Products</b></p>
+                                </a>
+                            </li>
+                            {% elif request.GET.is_out_of_stock and PRODUCTManager and allPRODUCTS %}
+                            <li class="nav-item sidebar-control">
+                                <a href="{% url 'ALLPRODUCTList' %}?is_out_of_stock=True" class="nav-link active"><i
+                                        class="fas fa-exclamation-triangle nav-icon text-warning"></i>
+                                    <p><b> Deactive Products</b></p>
+                                </a>
+                            </li>
+                            {% elif request.GET.is_deleted and PRODUCTManager and allPRODUCTS %}
+                            <li class="nav-item sidebar-control">
+                                <a href="{% url 'ALLPRODUCTList' %}?is_deleted=True" class="nav-link active"><i
+                                        class="fas fa-trash-alt nav-icon text-danger"></i>
+                                    <p><b> Deleted Products</b></p>
+                                </a>
+                            </li>
+                            {% else %}
+                            <li class="nav-item sidebar-control">
+                                <a href="{% url 'ALLPRODUCTList' %}?is_draft=True" class="nav-link"><i
+                                        class="fas fa-th-list nav-icon"></i>
+                                    <p> All Products</p>
+                                </a>
+                            </li>
+                            {% endif %}
+                        </ul>
+                    </li>
+
+                    {% if RCRManager %}
+                    <li class="nav-item menu-open">
+                        {% else %}
+                    <li class="nav-item">
+                        {% endif %}
+                        {% if RCRManager %}
+                        <a href="#" class="nav-link active"><i class="fas fa-laptop-code nav-icon"></i>
+                            <p><b>RCR Manager</b><i class="fas fa-angle-left right"></i></p>
+                        </a>
+                        {% else %}
+                        <a href="#" class="nav-link"><i class="fas fa-laptop-code nav-icon"></i>
+                            <p>RCR Manager<i class="fas fa-angle-left right"></i></p>
+                        </a>
+                        {% endif %}
+                        <ul class="nav nav-treeview">
+                            <li class="nav-item sidebar-control">
+                            {% if request.GET.is_draft and RCRManager and allRETURNS %}
+                            <li class="nav-item sidebar-control">
+                                <a href="{% url 'RETURNList' %}?is_draft=True" class="nav-link active"><i
+                                        class="fas fa-drafting-compass nav-icon text-info"></i>
+                                    <p><b>Return Request</b></p>
+                                </a>
+                            </li>
+                            {% elif request.GET.is_verified and RCRManager and allRETURNS %}
+                            <li class="nav-item sidebar-control">
+                                <a href="{% url 'RETURNList' %}?is_verified=True" class="nav-link active"><i
+                                        class="fas fa-check-circle nav-icon text-success"></i>
+                                    <p><b>Return Approved</b></p>
+                                </a>
+                            </li>
+                            {% elif request.GET.is_active and RCRManager and allRETURNS %}
+                            <li class="nav-item sidebar-control">
+                                <a href="{% url 'RETURNList' %}?is_active=True" class="nav-link active"><i
+                                        class="fas fa-exclamation-triangle nav-icon text-warning"></i>
+                                    <p><b>Return Rejected </b></p>
+                                </a>
+                            </li>
+                            {% elif request.GET.is_deleted and RCRManager and allRETURNS %}
+                            <li class="nav-item sidebar-control">
+                                <a href="{% url 'RETURNList' %}?is_deleted=True" class="nav-link active"><i
+                                        class="fas fa-trash-alt nav-icon text-danger"></i>
+                                    <p><b>Return Deleted</b></p>
+                                </a>
+                            </li>
+                            {% else %}
+                            <li class="nav-item sidebar-control">
+                                <a href="{% url 'RETURNList' %}?is_draft=True" class="nav-link"><i
+                                        class="fas fa-th-list nav-icon"></i>
+                                    <p>Return Requests</p>
+                                </a>
+                            </li>
+                            {% endif %}
+
+                            {% if request.GET.is_draft and RCRManager and allCANCELS %}
+                            <li class="nav-item sidebar-control">
+                                <a href="{% url 'CANCELList' %}?is_draft=True" class="nav-link active"><i
+                                        class="fas fa-drafting-compass nav-icon text-info"></i>
+                                    <p><b>Cancel Request</b></p>
+                                </a>
+                            </li>
+                            {% elif request.GET.is_verified and RCRManager and allCANCELS %}
+                            <li class="nav-item sidebar-control">
+                                <a href="{% url 'CANCELList' %}?is_verified=True" class="nav-link active"><i
+                                        class="fas fa-check-circle nav-icon text-success"></i>
+                                    <p><b>Cancel Approved</b></p>
+                                </a>
+                            </li>
+                            {% elif request.GET.is_active and RCRManager and allCANCELS %}
+                            <li class="nav-item sidebar-control">
+                                <a href="{% url 'CANCELList' %}?is_active=True" class="nav-link active"><i
+                                        class="fas fa-exclamation-triangle nav-icon text-warning"></i>
+                                    <p><b>Cancel Rejected </b></p>
+                                </a>
+                            </li>
+                            {% elif request.GET.is_deleted and RCRManager and allCANCELS %}
+                            <li class="nav-item sidebar-control">
+                                <a href="{% url 'CANCELList' %}?is_deleted=True" class="nav-link active"><i
+                                        class="fas fa-trash-alt nav-icon text-danger"></i>
+                                    <p><b>Cancel Deleted</b></p>
+                                </a>
+                            </li>
+                            {% else %}
+                            <li class="nav-item sidebar-control">
+                                <a href="{% url 'CANCELList' %}?is_draft=True" class="nav-link"><i
+                                        class="fas fa-th-list nav-icon"></i>
+                                    <p>Cancel Requests</p>
+                                </a>
+                            </li>
+                            {% endif %}
+                            
+                            {% if request.GET.is_draft and RCRManager and allREPLACEMENTS %}
+                            <li class="nav-item sidebar-control">
+                                <a href="{% url 'REPLACEMENTList' %}?is_draft=True" class="nav-link active"><i
+                                        class="fas fa-drafting-compass nav-icon text-info"></i>
+                                    <p><b>Replacement Request</b></p>
+                                </a>
+                            </li>
+                            {% elif request.GET.is_verified and RCRManager and allREPLACEMENTS %}
+                            <li class="nav-item sidebar-control">
+                                <a href="{% url 'REPLACEMENTList' %}?is_verified=True" class="nav-link active"><i
+                                        class="fas fa-check-circle nav-icon text-success"></i>
+                                    <p><b>Replacement Approved</b></p>
+                                </a>
+                            </li>
+                            {% elif request.GET.is_active and RCRManager and allREPLACEMENTS %}
+                            <li class="nav-item sidebar-control">
+                                <a href="{% url 'REPLACEMENTList' %}?is_active=True" class="nav-link active"><i
+                                        class="fas fa-exclamation-triangle nav-icon text-warning"></i>
+                                    <p><b>Replacement Rejected </b></p>
+                                </a>
+                            </li>
+                            {% elif request.GET.is_deleted and RCRManager and allREPLACEMENTS %}
+                            <li class="nav-item sidebar-control">
+                                <a href="{% url 'REPLACEMENTList' %}?is_deleted=True" class="nav-link active"><i
+                                        class="fas fa-trash-alt nav-icon text-danger"></i>
+                                    <p><b>Replacement Deleted</b></p>
+                                </a>
+                            </li>
+                            {% else %}
+                            <li class="nav-item sidebar-control">
+                                <a href="{% url 'REPLACEMENTList' %}?is_draft=True" class="nav-link"><i
+                                        class="fas fa-th-list nav-icon"></i>
+                                    <p> Replacement Requests</p>
+                                </a>
+                            </li>
+                            {% endif %}
+                        </ul>
+                    </li>
+           
+                
+                    {% if SEALSManager %}
+                    <li class="nav-item menu-open">
+                    {% else %}
+                    <li class="nav-item">
+                    {% endif %}
+                    {% if SEALSManager %}
+                    <a href="#" class="nav-link active">
+                    {% else %}
+                    <a href="#" class="nav-link">
+                    {% endif %}
+                        <i class="fab fa-blogger-b fa-10x nav-icon"></i><p>Sales Manager<i class="fas fa-angle-left right"></i></p></a>
+                        <ul class="nav nav-treeview">
+                            <!-- <li class="nav-item sidebar-control">
+                                {% if pendingORDER %}
+                                    <a href="{% url 'ConfirmedORDERS' %}" class="nav-link active">
+                                    <i class="fas fa-check-circle nav-icon text-success"></i><p><b>Pending Orders</b></p></a>
+                                {% else %}
+                                    <a href="{% url 'ConfirmedORDERS' %}" class="nav-link">
+                                    <i class="fas fa-th-list nav-icon"></i><p>Pending Orders</p></a>
+                                {% endif %} 
+                                </li> -->
+
+                            <li class="nav-item sidebar-control">
+                            {% if ConfirmedORDERS %}
+                                <a href="{% url 'ConfirmedORDERS' %}" class="nav-link active">
+                                <i class="fas fa-check-circle nav-icon text-success"></i><p><b>Confirmed Orders</b></p></a>
+                            {% else %}
+                                <a href="{% url 'ConfirmedORDERS' %}" class="nav-link">
+                                <i class="fas fa-th-list nav-icon"></i><p>Confirmed Orders</p></a>
+                            {% endif %} 
+                            </li>
+                            <li class="nav-item sidebar-control">
+                            {% if ShippedORDERS %}
+                                <a href="{% url 'ShippedORDERS' %}" class="nav-link active">
+                                <i class="fas fa-check-circle nav-icon text-success"></i><p><b>Shipped Orders</b></p></a>
+                            {% else %}
+                                <a href="{% url 'ShippedORDERS' %}" class="nav-link">
+                                <i class="fas fa-th-list nav-icon"></i><p>Shipped Orders</p></a>
+                            {% endif %} 
+                            </li>
+                            <li class="nav-item sidebar-control">
+                            {% if OnTheWayORDERS %}
+                                <a href="{% url 'OnTheWayORDERS' %}" class="nav-link active">
+                                <i class="fas fa-check-circle nav-icon text-success"></i><p><b>On The Way</b></p></a>
+                            {% else %}
+                                <a href="{% url 'OnTheWayORDERS' %}" class="nav-link">
+                                <i class="fas fa-th-list nav-icon"></i><p>On The Way</p></a>
+                            {% endif %}
+                            </li>
+                            <li class="nav-item sidebar-control">
+                            {% if DeliveredORDERS %}
+                                <a href="{% url 'DeliveredORDERS' %}" class="nav-link active">
+                                <i class="fas fa-check-circle nav-icon text-success"></i><p><b>Delivered Orders</b></p></a>
+                            {% else %}
+                                <a href="{% url 'DeliveredORDERS' %}" class="nav-link">
+                                <i class="fas fa-th-list nav-icon"></i><p>Delivered Orders</p></a>
+                            {% endif %}
+                            </li>
+                        </ul>
+                    </li>
+
+                   
+                    {% if REFUNDManager %}
+                    <li class="nav-item menu-open">
+                    {% else %}
+                    <li class="nav-item">
+                    {% endif %}
+                    {% if REFUNDManager %}
+                    <a href="#" class="nav-link active">
+                    {% else %}
+                    <a href="#" class="nav-link">
+                    {% endif %}
+                        <i class="fa fa-undo fa-10x nav-icon"></i><p>Refund Manager<i class="fas fa-angle-left right"></i></p></a>
+                        <ul class="nav nav-treeview">
+                            {% if request.GET.is_draft and REFUNDManager and allREFUNDS %}
+                            <li class="nav-item sidebar-control">
+                                <a href="{% url 'REFUNDList' %}?is_draft=True" class="nav-link active"><i
+                                        class="fas fa-drafting-compass nav-icon text-info"></i>
+                                    <p><b>Refund Requests</b></p>
+                                </a>
+                            </li>
+                            {% elif request.GET.is_verified and REFUNDManager and allREFUNDS %}
+                            <li class="nav-item sidebar-control">
+                                <a href="{% url 'REFUNDList' %}?is_verified=True" class="nav-link active"><i
+                                        class="fas fa-check-circle nav-icon text-success"></i>
+                                    <p><b>Refund Approved</b></p>
+                                </a>
+                            </li>
+                            {% elif request.GET.is_active and REFUNDManager and allREFUNDS %}
+                            <li class="nav-item sidebar-control">
+                                <a href="{% url 'REFUNDList' %}?is_active=True" class="nav-link active"><i
+                                        class="fas fa-exclamation-triangle nav-icon text-warning"></i>
+                                    <p><b>Refund Rejected </b></p>
+                                </a>
+                            </li>
+                            {% elif request.GET.is_deleted and REFUNDManager and allREFUNDS %}
+                            <li class="nav-item sidebar-control">
+                                <a href="{% url 'REFUNDList' %}?is_deleted=True" class="nav-link active"><i
+                                        class="fas fa-trash-alt nav-icon text-danger"></i>
+                                    <p><b>Refund Deleteds</b></p>
+                                </a>
+                            </li>
+                            {% else %}
+                            <li class="nav-item sidebar-control">
+                                <a href="{% url 'REFUNDList' %}?is_draft=True" class="nav-link"><i
+                                        class="fas fa-th-list nav-icon"></i>
+                                    <p> All Refunds</p>
+                                </a>
+                            </li>
+                            {% endif %}
+                           
+                        </ul>
+                    </li>
+                  
+
+
+
+
+
+
+
+
+
+
+
+
+
+                   
+                    {% if request.user.is_accountant %}
+                    <li class="nav-header text-light"><b>APPOINTMENT MANAGER</b></li>
+                    {% if APPOINTMENTManager %}
+                    <li class="nav-item menu-open">
+                        {% else %}
+                    <li class="nav-item">
+                        {% endif %}
+                        {% if APPOINTMENTManager %}
+                        <a href="#" class="nav-link active"><i class="fas fa-laptop-code nav-icon"></i>
+                            <p><b>APPOINTMENT</b><i class="fas fa-angle-left right"></i></p>
+                        </a>
+                        {% else %}
+                        <a href="#" class="nav-link"><i class="fas fa-laptop-code nav-icon"></i>
+                            <p>APPOINTMENT <i class="fas fa-angle-left right"></i></p>
+                        </a>
+                        {% endif %}
+                        <ul class="nav nav-treeview">
+                            <li class="nav-item sidebar-control">
+                          
+                                <li class="nav-item sidebar-control">
+                                    {% if CreateAPPOINTMENTs %}
+                                    <a href="{% url 'createAPPOINTMENT' %}" class="nav-link active">
+                                        <i class="fas fa-edit nav-icon text-primary"></i>
+                                        <p><b>Create Appt.</b></p>
+                                    </a>
+                                    {% else %}
+                                    <a href="{% url 'createAPPOINTMENT' %}" class="nav-link">
+                                        <i class="fas fa-edit nav-icon"></i>
+                                        <p>Create Appt.</p>
+                                    </a>
+                                    {% endif %}
+                                </li>
+                                
+                                {% if request.GET.is_draft and APPOINTMENTManager and allAPPOINTMENTS %}
+                                <li class="nav-item sidebar-control">
+                                    <a href="{% url 'APPOINTMENTList' %}?is_draft=True" class="nav-link active"><i
+                                            class="fas fa-drafting-compass nav-icon text-info"></i>
+                                        <p><b> Draft Appt.</b></p>
+                                    </a>
+                                </li>
+                                {% elif request.GET.is_verified and APPOINTMENTManager and allAPPOINTMENTS %}
+                                <li class="nav-item sidebar-control">
+                                    <a href="{% url 'APPOINTMENTList' %}?is_verified=True" class="nav-link active"><i
+                                            class="fas fa-check-circle nav-icon text-success"></i>
+                                        <p><b> Active Appt.</b></p>
+                                    </a>
+                                </li>
+                                {% elif request.GET.is_active and APPOINTMENTManager and allAPPOINTMENTS %}
+                                <li class="nav-item sidebar-control">
+                                    <a href="{% url 'APPOINTMENTList' %}?is_active=True" class="nav-link active"><i
+                                            class="fas fa-exclamation-triangle nav-icon text-warning"></i>
+                                        <p><b> Deactive Appt.</b></p>
+                                    </a>
+                                </li>
+                                {% elif request.GET.is_deleted and APPOINTMENTManager and allAPPOINTMENTS %}
+                                <li class="nav-item sidebar-control">
+                                    <a href="{% url 'APPOINTMENTList' %}?is_deleted=True" class="nav-link active"><i
+                                            class="fas fa-trash-alt nav-icon text-danger"></i>
+                                        <p><b> Deleted Appt.</b></p>
+                                    </a>
+                                </li>
+                                {% else %}
+                                <li class="nav-item sidebar-control">
+                                    <a href="{% url 'APPOINTMENTList' %}?is_draft=True" class="nav-link"><i
+                                            class="fas fa-th-list nav-icon"></i>
+                                        <p> All Appt.</p>
+                                    </a>
+                                </li>
+                                {% endif %}
+
+
+                                {% if request.GET.is_draft and APPOINTMENTManager and allBOOKINGRequest %}
+                                <li class="nav-item sidebar-control">
+                                    <a href="{% url 'BOOKINGRequestList' %}?is_draft=True" class="nav-link active"><i
+                                            class="fas fa-drafting-compass nav-icon text-info"></i>
+                                        <p><b>BOOKINGRequest </b></p>
+                                    </a>
+                                </li>
+                                {% elif request.GET.is_verified and APPOINTMENTManager and allBOOKINGRequest %}
+                                <li class="nav-item sidebar-control">
+                                    <a href="{% url 'BOOKINGRequestList' %}?is_verified=True" class="nav-link active"><i
+                                            class="fas fa-check-circle nav-icon text-success"></i>
+                                        <p><b> BOOKINGRequest</b></p>
+                                    </a>
+                                </li>
+                                {% elif request.GET.is_active and APPOINTMENTManager and allBOOKINGRequest %}
+                                <li class="nav-item sidebar-control">
+                                    <a href="{% url 'BOOKINGRequestList' %}?is_active=True" class="nav-link active"><i
+                                            class="fas fa-exclamation-triangle nav-icon text-warning"></i>
+                                        <p><b> BOOKINGRequest</b></p>
+                                    </a>
+                                </li>
+                                {% elif request.GET.is_deleted and APPOINTMENTManager and allBOOKINGRequest %}
+                                <li class="nav-item sidebar-control">
+                                    <a href="{% url 'BOOKINGRequestList' %}?is_deleted=True" class="nav-link active"><i
+                                            class="fas fa-trash-alt nav-icon text-danger"></i>
+                                        <p><b> BOOKINGRequest</b></p>
+                                    </a>
+                                </li>
+                                {% else %}
+                                <li class="nav-item sidebar-control">
+                                    <a href="{% url 'BOOKINGRequestList' %}?is_draft=True" class="nav-link"><i
+                                            class="fas fa-th-list nav-icon"></i>
+                                        <p> BOOKINGRequest</p>
+                                    </a>
+                                </li>
+                                {% endif %}
+
+
+                            </ul>
+                        </li>
+                        {% endif %}
+                            
+
+                    {% if AREAManager %}
+                    <li class="nav-item menu-open">
+                    {% else %}
+                        <li class="nav-item">
+                    {% endif %}
+                        {% if AREAManager %}
+                            <a href="#" class="nav-link active"><i class="fas fa-laptop nav-icon"></i><p>AREA Manager<i class="fas fa-angle-left right"></i></p>
+                        {% else %}
+                            <a href="#" class="nav-link"><i class="fas fa-laptop nav-icon"></i><p>AREA Manager<i class="fas fa-angle-left right"></i></p>{% endif %}</a>
+                            <ul class="nav nav-treeview drop-menu category-view">
+                                <li class="nav-item " id="" link="Main-Category">
+                                    {% if Country %}
+                                    <a href="{%url 'createCountry' %}" class="nav-link active"><i class="fas fa-edit nav-icon text-primary"></i><p><b>Countries</b></p></a>
+                                    {% else %}
+                                    <a href="{%url 'createCountry' %}" class="nav-link"><i class="fas fa-th-large nav-icon"></i><p>Countries</p></a>
+                                    {% endif %}
+                                </li>
+                                <li class="nav-item " id="" link="Sub-Category">
+                                    {% if State %}
+                                    <a href="{% url 'createState' %}" class="nav-link active">
+                                        <i class="fas fa-edit nav-icon text-primary"></i>
+                                        <p><b>States</b></p>
+                                    </a>
+                                    {% else %}
+                                    <a href="{% url 'createState' %}" class="nav-link">
+                                        <i class="fas fa-th nav-icon"></i>
+                                        <p>States</p>
+                                    </a>
+                                    {% endif %}
+                                </li>
+                                <li class="nav-item " id="" link="Sub-Category">
+                                    {% if City %}
+                                    <a href="{% url 'createCity' %}" class="nav-link active">
+                                        <i class="fas fa-edit nav-icon text-primary"></i>
+                                        <p><b>Cities</b></p>
+                                    </a>
+                                    {% else %}
+                                    <a href="{% url 'createCity' %}" class="nav-link">
+                                        <i class="fas fa-th nav-icon"></i>
+                                        <p>Cities</p>
+                                    </a>
+                                    {% endif %}
+                                </li>
+                            </ul>
+                        </li>
+                                  
+                        <li class="nav-header text-light"><b>MESURMENTS MANAGER</b></li>
+                        {% if MESURMENTManager and MESURMENT %}
+                        <li class="nav-item active">
+                            <a href="{% url 'MESURMENTList' %}" class="nav-link active"><i
+                                    class="fas fa-drafting-compass nav-icon"></i>
+                                <p><b>Manage Mesurment</b></p>
+                            </a>
+                        </li>
+                        {% else %}
+                        <li class="nav-item">
+                            <a href="{% url 'MESURMENTList' %}" class="nav-link">
+                                <i class="fas fa-drafting-compass nav-icon"></i>
+                                <p>Manage Mesurment</p>
+                            </a>
+                        </li>
+                        {% endif %}
+
+                        {% if DESIGNManager %}
+                        <li class="nav-item menu-open">
+                        {% else %}
+                            <li class="nav-item">
+                        {% endif %}
+                            {% if DESIGNManager %}
+                                <a href="#" class="nav-link active"><i class="fas fa-laptop nav-icon"></i><p>DESIGN Manager<i class="fas fa-angle-left right"></i></p>
+                            {% else %}
+                                <a href="#" class="nav-link"><i class="fas fa-laptop nav-icon"></i><p>DESIGN Manager<i class="fas fa-angle-left right"></i></p>{% endif %}</a>
+                                <ul class="nav nav-treeview drop-menu category-view">
+                                    
+                                    {% if updateDESIGNMainCat %}
+                                    <li class="nav-item sidebar-control">
+                                        <a href="" class="nav-link active"> <i class="fas fa-edit nav-icon text-primary"></i><p><b>Update MainCat..</b></p></a>
+                                    </li>
+                                    {% endif %}
+                                    {% if updateDESIGNSubCat %}
+                                    <li class="nav-item sidebar-control">
+                                        <a href="" class="nav-link active"> <i class="fas fa-edit nav-icon text-primary"></i><p><b>Update SubCat..</b></p></a>
+                                    </li>
+                                    {% endif %}
+                                    {% if updateDESIGNSubSubCat %}
+                                    <li class="nav-item sidebar-control">
+                                        <a href="" class="nav-link active"> <i class="fas fa-edit nav-icon text-primary"></i><p><b>Update SubSubCat..</b></p></a>
+                                    </li>
+                                    {% endif %}
+        
+                                    <li class="nav-item " id="" link="Main-Category">
+                                        {% if DESIGNMainCategory %}
+                                        <a href="{%url 'createDESIGNMainCategory' %}" class="nav-link active"><i class="fas fa-edit nav-icon text-primary"></i><p><b>MainCategory</b></p></a>
+                                        {% else %}
+                                        <a href="{%url 'createDESIGNMainCategory' %}" class="nav-link"><i class="fas fa-th-large nav-icon"></i><p>MainCategory</p></a>
+                                        {% endif %}
+                                    </li>
+                                    <li class="nav-item " id="" link="Sub-Category">
+                                        {% if DESIGNSubCategory %}
+                                        <a href="{% url 'createDESIGNSubCategory' %}" class="nav-link active">
+                                            <i class="fas fa-edit nav-icon text-primary"></i>
+                                            <p><b>SubCategory</b></p>
+                                        </a>
+                                        {% else %}
+                                        <a href="{% url 'createDESIGNSubCategory' %}" class="nav-link">
+                                            <i class="fas fa-th nav-icon"></i>
+                                            <p>SubCategory</p>
+                                        </a>
+                                        {% endif %}
+                                    </li>
+                                    <li class="nav-item " id="" link="Sub-Category">
+                                        {% if DESIGNSubSubCategory %}
+                                        <a href="{% url 'createDESIGNSubSubCategory' %}" class="nav-link active">
+                                            <i class="fas fa-edit nav-icon text-primary"></i>
+                                            <p><b>SubSubCategory</b></p>
+                                        </a>
+                                        {% else %}
+                                        <a href="{% url 'createDESIGNSubSubCategory' %}" class="nav-link">
+                                            <i class="fas fa-th nav-icon"></i>
+                                            <p>SubSubCategory</p>
+                                        </a>
+                                        {% endif %}
+                                    </li>
+                                </ul>
+                            </li>
+
+
+                        {% if GARMENTManager %}
+                            <li class="nav-item menu-open">
+                        {% else %}
+                            <li class="nav-item">
+                        {% endif %}
+                            {% if GARMENTManager %}
+                                <a href="#" class="nav-link active"><i class="fas fa-laptop nav-icon"></i><p>GARMENT Manager<i class="fas fa-angle-left right"></i></p>
+                            {% else %}
+                                <a href="#" class="nav-link"><i class="fas fa-laptop nav-icon"></i><p>GARMENT Manager<i class="fas fa-angle-left right"></i></p>{% endif %}</a>
+                                <ul class="nav nav-treeview drop-menu category-view">
+                                    {% if GARMENTManager and updateGARMENTMainCat %}
+                                    <li class="nav-item sidebar-control">
+                                        <a href="" class="nav-link active"> <i class="fas fa-edit nav-icon text-primary"></i><p><b>Update GARMENTMainCat..</b></p></a>
+                                    </li>
+                                    {% endif %}
+                                    {% if GARMENTManager and updateGARMENTSubCat %}
+                                    <li class="nav-item sidebar-control">
+                                        <a href="" class="nav-link active"> <i class="fas fa-edit nav-icon text-primary"></i><p><b>Update GARMENTSubCat..</b></p></a>
+                                    </li>
+                                    {% endif %}
+        
+                                    <li class="nav-item " id="" link="Main-Category">
+                                        {% if GARMENTMainCat %}
+                                        <a href="{%url 'GARMENTMainCat' %}" class="nav-link active"><i class="fas fa-edit nav-icon text-primary"></i><p><b>GARMENTMainCat</b></p></a>
+                                        {% else %}
+                                        <a href="{%url 'GARMENTMainCat' %}" class="nav-link"><i class="fas fa-th-large nav-icon"></i><p>GARMENTMainCat</p></a>
+                                        {% endif %}
+                                    </li>
+                                    <li class="nav-item " id="" link="Sub-Category">
+                                        {% if GARMENTSubCat %}
+                                        <a href="{% url 'GARMENTSubCat' %}" class="nav-link active">
+                                            <i class="fas fa-edit nav-icon text-primary"></i>
+                                            <p><b>GARMENTSubCat</b></p>
+                                        </a>
+                                        {% else %}
+                                        <a href="{% url 'GARMENTSubCat' %}" class="nav-link">
+                                            <i class="fas fa-th nav-icon"></i>
+                                            <p>GARMENTSubCat</p>
+                                        </a>
+                                        {% endif %}
+                                    </li>
+                                </ul>
+                            </li>
+    
+                        
+                        {% if FABRICManager %}
+                            <li class="nav-item menu-open">
+                        {% else %}
+                            <li class="nav-item">
+                        {% endif %}
+                            {% if FABRICManager %}
+                                <a href="#" class="nav-link active"><i class="fas fa-laptop nav-icon"></i><p>FABRIC Manager<i class="fas fa-angle-left right"></i></p>
+                            {% else %}
+                                <a href="#" class="nav-link"><i class="fas fa-laptop nav-icon"></i><p>FABRIC Manager<i class="fas fa-angle-left right"></i></p>{% endif %}</a>
+                                <ul class="nav nav-treeview drop-menu category-view">
+                                    {% if FABRICManager and updateFABRICMainCat %}
+                                    <li class="nav-item sidebar-control">
+                                        <a href="" class="nav-link active"> <i class="fas fa-edit nav-icon text-primary"></i><p><b>Update FABRICMainCat..</b></p></a>
+                                    </li>
+                                    {% endif %}
+                                    {% if FABRICManager and updateFABRICSubCat %}
+                                    <li class="nav-item sidebar-control">
+                                        <a href="" class="nav-link active"> <i class="fas fa-edit nav-icon text-primary"></i><p><b>Update FABRICSubCat..</b></p></a>
+                                    </li>
+                                    {% endif %}
+                                    <li class="nav-item " id="" link="Main-Category">
+                                        {% if FABRICMainCat %}
+                                        <a href="{%url 'FABRICMainCat' %}" class="nav-link active"><i class="fas fa-edit nav-icon text-primary"></i><p><b>FABRICMainCat</b></p></a>
+                                        {% else %}
+                                        <a href="{%url 'FABRICMainCat' %}" class="nav-link"><i class="fas fa-th-large nav-icon"></i><p>FABRICMainCat</p></a>
+                                        {% endif %}
+                                    </li>
+                                    <li class="nav-item " id="" link="Sub-Category">
+                                        {% if FABRICSubCat %}
+                                        <a href="{% url 'FABRICSubCat' %}" class="nav-link active">
+                                            <i class="fas fa-edit nav-icon text-primary"></i>
+                                            <p><b>FABRICSubCat</b></p>
+                                        </a>
+                                        {% else %}
+                                        <a href="{% url 'FABRICSubCat' %}" class="nav-link">
+                                            <i class="fas fa-th nav-icon"></i>
+                                            <p>FABRICSubCat</p>
+                                        </a>
+                                        {% endif %}
+                                    </li>
+                                </ul>
+                            </li>
+
+
+                        {% if LININGManager %}
+                            <li class="nav-item menu-open">
+                        {% else %}
+                            <li class="nav-item">
+                        {% endif %}
+                            {% if LININGManager %}
+                                <a href="#" class="nav-link active"><i class="fas fa-laptop nav-icon"></i><p>LINING Manager<i class="fas fa-angle-left right"></i></p>
+                            {% else %}
+                                <a href="#" class="nav-link"><i class="fas fa-laptop nav-icon"></i><p>LINING Manager<i class="fas fa-angle-left right"></i></p>{% endif %}</a>
+                                <ul class="nav nav-treeview drop-menu category-view">
+                                    {% if LININGManager and updateLININGMainCat %}
+                                    <li class="nav-item sidebar-control">
+                                        <a href="" class="nav-link active"> <i class="fas fa-edit nav-icon text-primary"></i><p><b>Update LININGMainCat..</b></p></a>
+                                    </li>
+                                    {% endif %}
+                                    {% if LININGManager and updateLININGSubCat %}
+                                    <li class="nav-item sidebar-control">
+                                        <a href="" class="nav-link active"> <i class="fas fa-edit nav-icon text-primary"></i><p><b>Update LININGSubCat..</b></p></a>
+                                    </li>
+                                    {% endif %}
+                                    <li class="nav-item " id="" link="Main-Category">
+                                        {% if LININGMainCat %}
+                                        <a href="{%url 'LININGMainCat' %}" class="nav-link active"><i class="fas fa-edit nav-icon text-primary"></i><p><b>LININGMainCat</b></p></a>
+                                        {% else %}
+                                        <a href="{%url 'LININGMainCat' %}" class="nav-link"><i class="fas fa-th-large nav-icon"></i><p>LININGMainCat</p></a>
+                                        {% endif %}
+                                    </li>
+                                    <li class="nav-item " id="" link="Sub-Category">
+                                        {% if LININGSubCat %}
+                                        <a href="{% url 'LININGSubCat' %}" class="nav-link active">
+                                            <i class="fas fa-edit nav-icon text-primary"></i>
+                                            <p><b>LININGSubCat</b></p>
+                                        </a>
+                                        {% else %}
+                                        <a href="{% url 'LININGSubCat' %}" class="nav-link">
+                                            <i class="fas fa-th nav-icon"></i>
+                                            <p>LININGSubCat</p>
+                                        </a>
+                                        {% endif %}
+                                    </li>
+                                </ul>
+                            </li>
+
+
+
+
+                {% if BODYSHAPEManager %}
+                <li class="nav-item menu-open">
+                {% else %}
+                    <li class="nav-item">
+                {% endif %}
+                    {% if BODYSHAPEManager %}
+                        <a href="#" class="nav-link active"><i class="fas fa-laptop nav-icon"></i><p>BODY Manager<i class="fas fa-angle-left right"></i></p>
+                    {% else %}
+                        <a href="#" class="nav-link"><i class="fas fa-laptop nav-icon"></i><p>BODY Manager<i class="fas fa-angle-left right"></i></p>{% endif %}</a>
+                        <ul class="nav nav-treeview drop-menu category-view">
+                            {% if BODYSHAPEManager and updateBODYSHAPEMainCat %}
+                            <li class="nav-item sidebar-control">
+                                <a href="" class="nav-link active"> <i class="fas fa-edit nav-icon text-primary"></i><p><b>Update Body..</b></p></a>
+                            </li>
+                            {% endif %}
+                            {% if BODYSHAPEManager and updateBODYSHAPESubCat %}
+                            <li class="nav-item sidebar-control">
+                                <a href="" class="nav-link active"> <i class="fas fa-edit nav-icon text-primary"></i><p><b>Update Shape..</b></p></a>
+                            </li>
+                            {% endif %}
+                            <li class="nav-item " id="" link="Main-Category">
+                                {% if BODYSHAPEMainCat %}
+                                <a href="{%url 'BODYSHAPEMainCat' %}" class="nav-link active"><i class="fas fa-edit nav-icon text-primary"></i><p><b>BODYSHAPEMainCat</b></p></a>
+                                {% else %}
+                                <a href="{%url 'BODYSHAPEMainCat' %}" class="nav-link"><i class="fas fa-th-large nav-icon"></i><p>BODYSHAPEMainCat</p></a>
+                                {% endif %}
+                            </li>
+                            <li class="nav-item " id="" link="Sub-Category">
+                                {% if BODYSHAPESubCat %}
+                                <a href="{% url 'BODYSHAPESubCat' %}" class="nav-link active">
+                                    <i class="fas fa-edit nav-icon text-primary"></i>
+                                    <p><b>BODYSHAPESubCat</b></p>
+                                </a>
+                                {% else %}
+                                <a href="{% url 'BODYSHAPESubCat' %}" class="nav-link">
+                                    <i class="fas fa-th nav-icon"></i>
+                                    <p>BODYSHAPESubCat</p>
+                                </a>
+                                {% endif %}
+                            </li>
+                        </ul>
+                    </li>
+        
+
+
+
+ 

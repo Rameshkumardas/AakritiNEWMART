@@ -1,0 +1,66 @@
+{% load static %}
+{% load CANCELTAGS %}
+
+<section class="content">
+    <div class="container-fluid">
+      <!-- Small boxes (Stat box) -->
+      <div class="row">
+        <div class="col-lg-3 col-6">
+          <!-- small box -->
+          <div class="small-box bg-info">
+            <div class="inner">
+              <h3>{% draftCANCEL %}</h3>
+              <p><b>Cancel Requests</b></p>
+            </div>
+            <div class="icon">
+              <i class="fas fa-shopping-basket	"></i>
+            </div>
+            <a href="{% url 'CANCELList' %}?is_draft=True" class="small-box-footer">More info <i class="fas fa-arrow-circle-right"></i></a>
+          </div>
+        </div>
+        <div class="col-lg-3 col-6">
+          <!-- small box -->
+          <div class="small-box bg-success">
+            <div class="inner">
+              <h3>{{CANCELList.draftBLOG}}{% activeCANCEL %}</h3>
+              <p><b>Approved Cancel Requests</b></p>
+            </div>
+            <div class="icon">
+              <i class="fas fa-check-circle	"></i>
+            </div>
+            <a href="{% url 'CANCELList' %}?is_verified=True" class="small-box-footer">More info <i class="fas fa-arrow-circle-right"></i></a>
+          </div>
+        </div>
+
+        <div class="col-lg-3 col-6">
+          <!-- small box -->
+          <div class="small-box bg-warning">
+            <div class="inner">
+              <h3>{% deactivateCANCEL %}</h3>
+              <p><b>Rejected Cancel Requests</b></p>
+            </div>
+            <div class="icon">
+              <i class="fa fa-ban	 nav-icon"></i>
+            </div>
+            <a href="{% url 'CANCELList' %}?is_active=False" class="small-box-footer">More info <i class="fas fa-arrow-circle-right"></i></a>
+          </div>
+        </div>
+        <div class="col-lg-3 col-6">
+          <!-- small box -->
+          <div class="small-box bg-danger">
+            <div class="inner">
+              <h3>{% deletedCANCEL %}</h3>
+              <p><b>Deleted Cancel Requests</b></p>
+            </div>
+            <div class="icon">
+              <i class="fa fa-trash-alt	 nav-icon"></i>
+            </div>
+            <a href="{% url 'CANCELList' %}?is_deleted=True" class="small-box-footer">More info <i class="fas fa-arrow-circle-right"></i></a>
+          </div>
+        </div>           
+        <!-- ./col -->
+    </div>
+    <!-- /.row -->
+  </div>
+  </section>
+ 

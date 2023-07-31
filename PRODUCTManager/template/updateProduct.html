@@ -1,0 +1,1306 @@
+<!DOCTYPE html>
+<html lang="en">
+  {% load static%}
+  <head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>Update :- {{product.name}}  | {{project.title | safe | title }} || {{project.name}} </title>
+  <link rel="icon" type="image/png" href="{% if project.favicon %}{{project.favicon.url}}{% else %}{% static 'adminAAKRITICMS/img/default/mrdas.jpg' %}{% endif %}">
+  <!-- Select2 -->
+  <link rel="stylesheet" href="{% static 'adminAAKRITICMS/plugins/select2/css/select2.min.css'%}">
+  <link rel="stylesheet" href="{% static 'adminAAKRITICMS/plugins/select2-bootstrap4-theme/select2-bootstrap4.min.css'%}">
+  <!-- Font Awesome -->
+  <link rel="stylesheet" href="{% static 'adminAAKRITICMS/plugins/fontawesome-free/css/all.min.css'%}">
+  <!-- SweetAlert2 -->
+  <link rel="stylesheet" href="{% static 'adminAAKRITICMS/plugins/sweetalert2-theme-bootstrap-4/bootstrap-4.min.css' %}">
+  <!-- adminAAKRITICMS Theme style -->
+  <link rel="stylesheet" href="{% static 'adminAAKRITICMS/css/aakriticms.min.css'%}">
+  <link rel="stylesheet" href="{% static 'adminAAKRITICMS/css/aakriti.ui.css'%}">
+  <!-- iCheck for checkboxes and radio inputs -->
+  <link rel="stylesheet" href="{% static 'adminAAKRITICMS/plugins/icheck-bootstrap/icheck-bootstrap.min.css'%}">
+  <!-- summernote -->
+  <link rel="stylesheet" href="{% static 'adminAAKRITICMS/plugins/summernote/summernote-bs4.min.css' %}">
+  <link rel="stylesheet" href="{% static 'adminAAKRITICMS/plugins/bootstrap/bootstrap-tagsinput.css' %}"/>
+  <link rel="stylesheet" href="{% static 'adminAAKRITICMS/plugins/tags/tagsinput.css' %}"/>
+  <link rel="stylesheet" href="{% static 'adminAAKRITICMS/plugins/overlayScrollbars/css/OverlayScrollbars.min.css' %}">
+</head>
+<body class="hold-transition sidebar-mini layout-fixed">
+<div class="wrapper">
+{% include 'includes/adminNavBar.html' %} <!--Add this-->
+{% include 'includes/adminSideBar.html' %} <!--Add this-->
+  <!-- Content Wrapper. Contains page content -->
+  <div class="content-wrapper">
+    <!-- Content Header (Page header) -->
+    <section class="content-header">
+      <div class="container-fluid">
+        <div class="row mb-2">
+          <div class="col-sm-6">
+            <h1>Update Product</h1>
+          </div>
+          <!-- <div class="col-sm-6 d-flex " style="justify-content: right;">
+            <a href="javascript:void(0)" data-toggle="modal" data-target="#VIEWRelatedProduct" class="AddProduct btn btn-primary " data-toggle="tooltip" title="View Related Product" ><i class="fas fa-eye"></i>&nbsp;&nbsp; View Related Product</a>
+            &emsp;
+            <a href="javascript:void(0)" data-toggle="modal" data-target="#addProductAttribute" class="addProductAttribute btn btn-success " data-toggle="tooltip" title="Import Products" ><i class="fas fa-plus"></i>&nbsp;&nbsp;Add Attribute Product</a>
+          </div> -->
+        </div>
+      </div><!-- /.container-fluid -->
+    </section>
+    <!-- Main content -->
+
+    <section class="content-header">
+      <div class="container-fluid">          
+          <!-- <hr> -->
+          <div class="row">
+            <div class="col-md-2 mb-3">
+                <ul class="nav nav-pills flex-column" id="myTab" role="tablist">
+                  <li class="nav-item">
+                    <a href="?tab=General-Information" class="nav-link {% if request.GET.tab == 'General-Information' %} show active {% endif %}" id="General-Information-tab" data-toggle="tab1" role="tab" aria-controls="General-Information" aria-selected="true">General Information</a>
+                  </li>
+                  <li class="nav-item">
+                    <a href="?tab=PriceStock" class="nav-link {% if request.GET.tab == 'PriceStock' %} show active {% endif %}" id="Price-Information-tab" data-toggle="tab1" role="tab" aria-controls="Price-Information" aria-selected="false">Product Price + Stock</a>
+                  </li>
+                  <li class="nav-item">
+                    <a href="?tab=ProductIMG" class="nav-link {% if request.GET.tab == 'ProductIMG' %} show active {% endif %}" id="ProductIMG-tab" data-toggle="tab1" role="tab" aria-controls="ProductIMG" aria-selected="false">Product Image</a>
+                  </li>
+                  <li class="nav-item">
+                    <a href="?tab=MataTag" class="nav-link {% if request.GET.tab == 'MataTag' %} show active {% endif %}"  id="MataTagTab" data-toggle="tab1" role="tab" aria-controls="MataTag" aria-selected="false">Meta Tag </a>
+                  </li>
+                </ul>
+            </div>
+            <!-- /.col-md-4 -->
+            <div class="col-md-10">
+              <div class="tab-content" id="myTabContent">
+                <div class="tab-pane fade {% if request.GET.tab == 'General-Information' %} show active {% endif %}" id="General-Information" role="tabpanel" aria-labelledby="General-Information-tab">
+                    <!-- <h2>General Information </h2>  -->
+                    <div class="container-fluid">
+                      <div class="row">
+                        <div class="col-lg-4">
+                          <div class="form-group">
+                              <label>Main Category</label>
+                              <select class="mainCat form-control select2" style="width: 100%;" name="mainCat" id="mainCat" required>
+                                  <option value="{{product.mainCat.pk}}">{{product.mainCat.name}}</option>
+                                  {% for mainCat in mainCatList %}
+                                    <option value="{{mainCat.pk}}">{{mainCat.name}}</option>
+                                  {% endfor %}
+                              </select>
+                          </div>
+                          <div class="form-group SubCategoryList">
+                              <label>Sub Category</label>
+                              <select class="subCat form-control select2" style="width: 100%;" name="subCat" id="SubCategory" required>
+                                <option value="{{product.subCat.pk}}">{{product.subCat.name}}</option>
+                              </select>
+                          </div>
+                          <div class="form-group SubSubCategoryList">
+                              <label>Sub SubCategory</label>
+                              <select class="SubSubCat form-control select2" style="width: 100%;" name="SubSubCat" id="SubSubCategory" required>
+                                <option value="{{product.SubSubCat.pk}}">{{product.SubSubCat.name}}</option>
+                              </select>
+                          </div>
+                          <div class="form-group">
+                              <label for="main-category">Product Name</label>
+                              <div class="input-group">
+                                  <div class="input-group-prepend">
+                                  <span class="input-group-text"><i class="fas fa-laptop"></i></span>
+                                  </div>
+                                  <input type="text" value="{{product.name}}" class="name form-control" id="input-field" onkeyup="NameStringCount()" placeholder="Create Product" name="name">
+                                  <div class="input-group-prepend">
+                                    <span class="input-group-text" for="input-field" id="NameStringCount"></span>
+                                  </div>
+                              </div>
+                          </div>
+                          <div class="form-group">
+                            <label> Brand Name </label>
+                            <select class="brandname form-control select2" style="width: 100%;" name="brandname" id="BrandName" required>
+                                <option value="{{product.brand.pk}}">   {% if product.brand %} Selected [ {{product.brand.name}} ] {% else %}Select  {% endif %} Brand</option>
+                                {% if BRANDList %}
+                                  {% for brand in BRANDList %}
+                                    <option value="{{brand.pk}}">{{brand.name}} </option>
+                                  {% endfor %}
+                                {% else %}
+                                <option value="">No More Brand</option>
+                                {% endif %}
+                            </select>
+                          </div>      
+                          <!-- <div class="form-group">
+                            <label>Select Default Color</label>
+                            <select class="color form-control select2" style="width: 100%;" name="color" id="color" required>
+                                <option value="selected">Select Color</option>
+                                {% for color in activeCOLORList %}
+                                <option value="{{color.pk}}">{{color.name}}</option>
+                                {% endfor %}
+                            </select>
+                          </div> -->
+                                     
+                          <div class="form-group">
+                            <label>Product Colors</label>
+                            <select class="color form-control select2" style="width: 100%;" name="color" id="color" required>
+                                <option value="{{product.color.pk}}">   {% if product.color %} Selected [ {{product.color.name}} ] {% else %}Select  {% endif %} Color</option>
+                                {% if activeCOLORList %}
+                                  {% for color in activeCOLORList %}
+                                    <option value="{{color.pk}}">{{color.name}} </option>
+                                  {% endfor %}
+                                {% else %}
+                                <option value="">No More Colors</option>
+                                {% endif %}
+                            </select>
+                          </div>    
+                          
+                          <!-- <div class="form-group">
+                            <label>Attributes ( <b>{{product.attribute}}</b> )</label>
+                            <select value="ramesg, devel" class="attribute select2 select2-hidden-accessible" name="attribute" multiple="" data-placeholder="Add Attribute Name" style="width: 100%;" data-select2-id="7" tabindex="-1" aria-hidden="true">
+                              {% if activeATTRIBUTEList %}
+                                {% for attribute in activeATTRIBUTEList %}
+                                  <option value="{{attribute.pk}}">{{attribute.name}}</option>
+                                {% endfor %}
+                              {% else %}
+                                <option value="">No More Attribute</option>
+                              {% endif %}
+                            </select>
+                          </div>  -->
+                          <div class="form-group">
+                            <label>Cash On Delivery <span class="text-success"><b></b></span></label>
+                            <select class="CashOnDelivery form-control select2" style="width: 100%;" name="CashOnDelivery" id="CashOnDelivery" required>
+                              {% if product.is_cash_on_delivery == True %}
+                                <option value="True">Yes</option>
+                              {% elif product.is_cash_on_delivery == False %}
+                                <option value="False">No</option>
+                              {% endif %}
+                              <option value="True">Yes</option>
+                              <option value="False">No</option>
+                            </select>
+                          </div>
+                          <div class="form-group">
+                            <label>Refundable <span class="text-success"><b></b></span></label>
+                            <select class="Refundable form-control select2" style="width: 100%;" name="Refundable" id="Refundable" required>
+                            {% if product.is_refundable == True %}
+                              <option value="True">Yes</option>
+                            {% elif product.is_refundable == False %}
+                              <option value="False">No</option>
+                            {% endif %}
+
+                              <option value="True">Yes</option>
+                              <option value="False">No</option>
+                            </select>
+                          </div>
+                        </div>
+                        <div class="col-lg-8">
+                          <div class="card card-outline card-info">
+                            <div class="card-header">
+                              <h3 class="card-title">Product Description</h3>
+                            </div>
+                            <div class="card-body p-0">
+                              <textarea class="ProductDescription" id="ProductDescription"  width="100%" height="100 px" name="description">{{product.description}}</textarea>
+                            </div> 
+                            <div class="card-footer bg-info ">
+                              <a href="?tab=PriceStock" onclick="updatePRODUCTBASICINFORMATION()" class="btn btn-primary float-right" data-toggle="tooltip" data-placement="top" title="" data-original-title="Hit For Save and Continue">Save &amp; Continue <i class="fas fa-arrow-alt-circle-right"></i></a>
+                            </div>
+                          </div>
+                        </div>
+                      </div>
+                    </div>
+                </div>
+
+                <div class="tab-pane fade  {% if request.GET.tab == 'PriceStock' %} show active {% endif %}" id="Price-Information" role="tabpanel" aria-labelledby="Price-Information-tab">
+                  <!-- <h2>Price-Information</h2> -->
+                  <div class="container-fluid">
+                    <div class="row">
+                      <div class="col-lg-12">
+                        <div class="card card-outline card-info">
+                          <div class="card-header">
+                            <div class="row">
+                              <div class="col-lg-4">
+                                <h4 class="card-title">Price and Goods and Services Tax</h4>
+                              </div>
+                              <div class="col-lg-4">
+                                <div class="form-group">
+                                  <select class="ProductType form-control select2" style="width: 100%;" name="ProductType" id="ProductType" required>
+                                  {% if product.is_arrivals %}
+                                  <option value="Arrivals">New Arrivals</option>
+                                  {% elif product.is_deal %}
+                                  <option value="Deal">Deal of The Day </option>
+                                  {% elif product.is_trending %}
+                                  <option value="Top Sales">Trending Top Sale</option>
+                                  {% elif product.is_discount %}
+                                  <option value="Discount">Discount Product</option>
+                                  {% elif product.is_featured %}
+                                  <option value="Featured">Featured Products</option>
+                                  {% elif product.is_selling %}
+                                  <option value="Selling">Selling Products</option>
+                                  {% endif %}
+                                    <option value="">Product Type</option>
+                                    <option value="Arrivals">New Arrivals</option>
+                                    <option value="Trending">Trending Product</option>
+                                    <option value="Deal">Deal of The Day </option>
+                                    <option value="Discount">Discount Product</option>
+                                    <option value="Featured">Featured Products</option>
+                                    <option value="Selling">Selling Products</option>
+
+                                  </select>
+                                </div>                                
+                              </div>
+                              <div class="col-lg-4">
+                                <div class="form-group">
+                                  <select class="TrendingType form-control select2" style="width: 100%;" name="TrendingType" id="TrendingType" required title="Please Select Trending Then Select Trending Type">
+                                    {% if product.is_trending_new %}
+                                      <option value="New">Trending New</option>
+                                    {% elif product.is_trending_featured %}
+                                      <option value="Featured">Trending Featured</option>
+                                    {% elif product.is_trending_top_sale %}
+                                      <option value="Top Sales">Trending Top Sale</option>
+                                    {% endif %}
+
+                                    <option value="">Select Trending Type</option>
+                                    <option value="New">New</option>
+                                    <option value="Featured">Featured</option>
+                                    <option value="Top Sales">Top Sales</option>
+                                  </select>
+                                </div>                                
+                              </div>
+                            </div>
+                           
+                          </div>
+                          <div class="card-body p-2"> 
+                            <div class="row">
+                                
+                              <div class="col-lg-4">
+                              
+
+                                <div class="form-group">
+                                  <div class="input-group">
+                                      <div class="input-group-prepend">
+                                      <span class="input-group-text"> MRP: </span>
+                                      </div>
+                                      <input type="text" class="mrp form-control" id="input-field"  placeholder="Maximum Retail Price" name="mrp" value="{{product.mrp}}">
+                                      <div class="input-group-prepend">
+                                        <span class="input-group-text"></span>
+                                      </div>
+                                  </div>
+                                </div>
+                                <div class="form-group">
+                                  <div class="input-group">
+                                    <div class="input-group-prepend">
+                                      <span class="input-group-text">Selling Price</span>
+                                    </div>
+                                    <input type="text" class="sp form-control" id="input-field"  placeholder="Selling Price" name="sp" value="{{product.sp}}">
+                                    <div class="input-group-prepend">
+                                      <span class="input-group-text"></span>
+                                    </div>
+                                  </div>
+                                </div>
+                                <div class="form-group">
+                                  <div class="input-group">
+                                    <div class="input-group-prepend">
+                                      <span class="input-group-text">Quantity</span>
+                                    </div>
+                                    <input type="text" class="totalSTOCKS form-control" id="input-field"  placeholder="Total Stock Quantity" name="totalSTOCKS" value="{{product.total_qty}}">
+                                    <div class="input-group-prepend">
+                                      <span class="input-group-text"></span>
+                                    </div>
+                                  </div>
+                                </div>
+                                <div class="form-group">
+                                  <div class="input-group">
+                                    <div class="input-group-prepend">
+                                      <span class="input-group-text">LSW</span>
+                                    </div>
+                                    <input type="text" class="lsw form-control" id="input-field"  placeholder="Low Stock Warning" name="lsw" value="{{product.low_stock_warning}}">
+                                    <div class="input-group-prepend">
+                                      <span class="input-group-text"></span>
+                                    </div>
+                                  </div>
+                                </div>
+                              </div>
+
+                              <div class="col-lg-4">
+                                    <div class="form-group">
+                                      <div class="input-group">
+                                          <div class="input-group-prepend">
+                                          <span class="input-group-text"> HSN Code: </span>
+                                          </div>
+                                          <input type="text" class="hsncode form-control" id="input-field"  placeholder="HSM Code" name="HSMCode" value="{{product.HSNCode}}">
+                                      </div>
+                                    </div>
+                                    <div class="form-group">
+                                      <div class="input-group">
+                                        <div class="input-group-prepend">
+                                          <span class="input-group-text">IGST</span>
+                                        </div>
+                                        <input type="text" class="igst form-control" id="input-field"  placeholder="Integrated GST" name="gst" value="{{product.igst}}">
+                                        <div class="input-group-prepend">
+                                          <span class="input-group-text">%</span>
+                                        </div>
+                                      </div>
+                                    </div>
+
+                                    <div class="form-group">
+                                      <div class="input-group">
+                                        <div class="input-group-prepend">
+                                          <span class="input-group-text">CGST</span>
+                                        </div>
+                                        <input type="text" class="cgst form-control" id="input-field"  placeholder="Central GST" name="gst" value="{{product.cgst}}">
+                                        <div class="input-group-prepend">
+                                          <span class="input-group-text">%</span>
+                                        </div>
+                                      </div>
+                                    </div>
+                                    <div class="form-group">
+                                      <div class="input-group">
+                                        <div class="input-group-prepend">
+                                          <span class="input-group-text">SGST</span>
+                                        </div>
+                                        <input type="text" class="sgst form-control" id="input-field"  placeholder="State GST" name="gst" value="{{product.sgst}}">
+                                        <div class="input-group-prepend">
+                                          <span class="input-group-text">%</span>
+                                        </div>
+                                      </div>
+                                    </div>
+                                 
+                              </div>
+                          
+                              <div class="col-lg-4">
+
+                                  <div class="form-group">
+                                    <label> Shipping Type</label>
+                                    <select class="type form-control select2" style="width: 100%;" name="type" id="type" required>
+                                      <option value="{{product.dimension}}">Selected {{product.dimension}}</option>
+                                      <option value="Dimensions">Dimensions</option>
+                                        <option value="Weight">Weight</option>
+                                    </select>
+                                  </div>
+
+                                      <section class="WeightSection" style="display: none;">
+                                        <div class="form-group">
+                                          <div class="input-group">
+                                            <div class="input-group-prepend">
+                                              <span class="input-group-text">Weight:</span>
+                                            </div>
+                                            <input type="text" value="{{product.weight}}" class="weightGM form-control" id="input-field"  placeholder="Regional Shipping Charge" name="weightGM" >
+                                            <div class="input-group-prepend">
+                                              <span class="input-group-text"> GM </span>
+                                            </div>
+                                          </div>
+                                        </div>
+                                      </section>
+                                      <section class="DimensionsSection" style="display: none;">
+                                        <div class="form-group">
+                                          <div class="input-group">
+                                            <div class="input-group-prepend">
+                                              <span class="input-group-text"> Length:</span>                                  
+                                            </div>
+                                              <input type="text" value="{{product.length}}" class="length form-control" id="input-field" placeholder="Product Length" name="length">
+                                              <div class="input-group-prepend">
+                                                <span class="input-group-text"> CM </span>
+                                              </div>
+                                            </div>
+                                        </div>
+                                        <div class="form-group">
+                                          <div class="input-group">
+                                            <div class="input-group-prepend">
+                                              <span class="input-group-text">Width:</span>
+                                            </div>
+                                              <input type="text" value="{{product.width}}" class="width form-control" id="input-field" placeholder="Product Width" name="width" >
+                                              <div class="input-group-prepend">
+                                                <span class="input-group-text"> CM </span>
+                                              </div>
+                                            </div>
+                                        </div>
+                                        <div class="form-group">
+                                          <div class="input-group">
+                                            <div class="input-group-prepend">
+                                              <span class="input-group-text"> Hight: </span>
+                                            </div>
+                                            <input type="text" value="{{product.hight}}" class="hight form-control" id="input-field" placeholder="Product Hight" name="hight" >
+                                            <div class="input-group-prepend">
+                                              <span class="input-group-text"> CM </span>
+                                            </div>
+                                          </div>
+                                        </div>
+                                      </section>
+                                      
+                              </div>
+                            </div>
+                          </div>
+                          <div class="card-footer bg-info ">
+                            <a href="?tab=General-Information" class="btn btn-dark float-left" data-toggle="tooltip" data-placement="top" title="" data-original-title="Hit For Save and Continue"><i class=" 	fas fa-arrow-alt-circle-left"></i> Prevoius</a>
+                            <!-- ?tab=ProductIMG -->
+                            <a href="?tab=ProductIMG" onclick="updatePRICESTOCKSHIPPINGGST()" class="btn btn-primary float-right" data-toggle="tooltip" data-placement="top" title="" data-original-title="Hit For Save and Continue">Save &amp; Continue <i class="fas fa-arrow-alt-circle-right"></i></a>
+                          </div>
+                        </div>
+                      </div>
+                    </div>
+                  </div>
+                </div>
+                {% comment %}
+                <div class="tab-pane fade  {% if request.GET.tab == 'PriceStock' %} show active {% endif %}" id="Price-Information" role="tabpanel" aria-labelledby="Price-Information-tab">
+                  <!-- <h2>Price-Information</h2> -->
+                  <div class="container-fluid">
+                    <div class="row">
+                      <div class="col-lg-12">
+                        <div class="card card-outline card-info">
+                          <div class="card-header">
+                            <h4 class="card-title">Price and Goods and Services Tax </h4>
+                          </div>
+                          <div class="card-body p-2"> 
+                            <div class="row">
+                              <div class="col-lg-6">
+                                <div class="form-group">
+                                  <div class="input-group">
+                                      <div class="input-group-prepend">
+                                      <span class="input-group-text"> Maximum Retail Price: </span>
+                                      </div>
+                                      <input type="text" class="mrp form-control" id="input-field"  placeholder="Maximum Retail Price" name="mrp" value="{{product.mrp}}">
+                                      <div class="input-group-prepend">
+                                        <span class="input-group-text"></span>
+                                      </div>
+                                  </div>
+                                </div>
+                                <div class="form-group">
+                                  <div class="input-group">
+                                    <div class="input-group-prepend">
+                                      <span class="input-group-text">Selling Price</span>
+                                    </div>
+                                    <input type="text" class="sp form-control" id="input-field"  placeholder="Selling Price" name="sp" value="{{product.sp}}">
+                                    <div class="input-group-prepend">
+                                      <span class="input-group-text"></span>
+                                    </div>
+                                  </div>
+                                </div>
+                                <div class="form-group">
+                                  <div class="input-group">
+                                    <div class="input-group-prepend">
+                                      <span class="input-group-text">Quantity</span>
+                                    </div>
+                                    <input type="text" class="totalSTOCKS form-control" id="input-field"  placeholder="Total Stock Quantity" name="totalSTOCKS" value="{{product.total_qty}}">
+                                    <div class="input-group-prepend">
+                                      <span class="input-group-text"></span>
+                                    </div>
+                                  </div>
+                                </div>
+                                <div class="form-group">
+                                  <div class="input-group">
+                                    <div class="input-group-prepend">
+                                      <span class="input-group-text">LSW</span>
+                                    </div>
+                                    <input type="text" class="lsw form-control" id="input-field"  placeholder="Low Stock Warning" name="lsw" value="{{product.low_stock_warning}}">
+                                    <div class="input-group-prepend">
+                                      <span class="input-group-text"></span>
+                                    </div>
+                                  </div>
+                                </div>
+                              </div>
+            
+                              <div class="col-lg-6">
+                                  <div class="form-group">
+                                    <label> Shipping Type</label>
+                                    <select class="type form-control select2" style="width: 100%;" name="type" id="type" required>
+                                      <option value="{{product.dimension}}">Selected {{product.dimension}}</option>
+                                      <option value="Dimensions">Dimensions</option>
+                                        <option value="Weight">Weight</option>
+                                    </select>
+                                  </div>
+                                      <section class="WeightSection" style="display: none;">
+                                        <div class="form-group">
+                                          <div class="input-group">
+                                            <div class="input-group-prepend">
+                                              <span class="input-group-text">Weight:</span>
+                                            </div>
+                                            <input type="text" value="{{product.weight}}" onchange="updatePRICESTOCKSHIPPINGGST()" class="weightGM form-control" id="input-field"  placeholder="Regional Shipping Charge" name="weightGM" >
+                                            <div class="input-group-prepend">
+                                              <span class="input-group-text"> GM </span>
+                                            </div>
+                                          </div>
+                                        </div>
+                                      </section>
+                                      <section class="DimensionsSection" style="display: none;">
+                                        <div class="form-group">
+                                          <div class="input-group">
+                                            <div class="input-group-prepend">
+                                              <span class="input-group-text"> Length:</span>                                  
+                                            </div>
+                                              <input type="text" value="{{product.length}}" onchange="updatePRICESTOCKSHIPPINGGST()" class="length form-control" id="input-field" placeholder="Product Length" name="length">
+                                              <div class="input-group-prepend">
+                                                <span class="input-group-text"> CM </span>
+                                              </div>
+                                            </div>
+                                        </div>
+                                        <div class="form-group">
+                                          <div class="input-group">
+                                            <div class="input-group-prepend">
+                                              <span class="input-group-text">Width:</span>
+                                            </div>
+                                              <input type="text" value="{{product.width}}" onchange="updatePRICESTOCKSHIPPINGGST()" class="width form-control" id="input-field" placeholder="Product Width" name="width" >
+                                              <div class="input-group-prepend">
+                                                <span class="input-group-text"> CM </span>
+                                              </div>
+                                            </div>
+                                        </div>
+                                        <div class="form-group">
+                                          <div class="input-group">
+                                            <div class="input-group-prepend">
+                                              <span class="input-group-text"> Hight: </span>
+                                            </div>
+                                            <input type="text" value="{{product.hight}}" onchange="updatePRICESTOCKSHIPPINGGST()" class="hight form-control" id="input-field" placeholder="Product Hight" name="hight" >
+                                            <div class="input-group-prepend">
+                                              <span class="input-group-text"> CM </span>
+                                            </div>
+                                          </div>
+                                        </div>
+                                      </section>
+                              </div>
+                            </div>
+                          </div>
+                          <div class="card-footer bg-info ">
+                            <a href="?tab=General-Information" class="btn btn-dark float-left" data-toggle="tooltip" data-placement="top" title="" data-original-title="Hit For Save and Continue"><i class=" 	fas fa-arrow-alt-circle-left"></i> Prevoius</a>
+                            <!-- ?tab=ProductIMG -->
+                            <a href="?tab=ProductIMG" onclick="updatePRICESTOCKSHIPPINGGST()" class="btn btn-primary float-right" data-toggle="tooltip" data-placement="top" title="" data-original-title="Hit For Save and Continue">Save &amp; Continue <i class="fas fa-arrow-alt-circle-right"></i></a>
+                          </div>
+                        </div>
+                      </div>
+                    </div>
+                  </div>
+                </div>
+                {% endcomment %}
+
+                <div class="tab-pane fade {% if request.GET.tab == 'ProductIMG' %} show active {% endif %}" id="ProductIMG" role="tabpanel" aria-labelledby="ProductIMG-tab">
+                  <div class="container-fluid">
+                    <div class="row d-flex justify-content-center">
+                      <div class="col-lg-10">
+                        <div class="card card-outline card-primary">
+                          <div class="card-header">
+                            <h3 class="card-title">Product Image ( <b>3 Minimum Image Required</b> )</h3>
+                          </div>
+                          <!-- /.card-header -->
+                          <div class="card-body">
+                            <div class="row">
+                              <div class="col-lg-12">
+                                <div class="card card-outline card-info">
+                                  <div class="card-body"> 
+                                    <div id="display_image" style="height:150px; width:100% !important; border-radius: 10px; border: 2px solid rgb(9, 135, 238); display: none; visibility: hidden; background-size:contain; background-repeat:no-repeat;"></div>
+                                    <img src="{% if product.img %}{{product.img.url}}{% else %}{% static 'adminAAKRITICMS/img/default/AakritiLiteWebDeveloper.jpg'%}{% endif %}" class="img_display img-thumbnail" id="NoObject" style="height:250px; width:100% !important; border-radius: 10px; border: 2px solid rgb(9, 135, 238);" data-toggle="tooltip" data-placement="top" title="Sellect Product Thumbnail"/>
+                                  </div>
+                                  <div class="card-footer">
+                                      <span class="btn btn-primary col fileinput-button " data-toggle="tooltip" data-placement="top" title="Hit For Sellect Image">
+                                          <input type="file" accept="image/png, image/jpg , image/jpeg, image/*" name="img" id="image_input"  style="display: none;" class="img" required/>
+                                          <label for="image_input" style="cursor: pointer;" > <i class="fas fa-plus"></i> <span> Add Thumbnail IMG </span></label>
+                                      </span>
+                                  </div>
+                                </div>
+                              </div>
+                              <div class="col-lg-6">
+                                <div class="card card-outline card-info">
+                                  <div class="card-body"> 
+                                    <div id="display_imageIMG1" style="height:150px; width:100% !important; border-radius: 10px; border: 2px solid rgb(9, 135, 238); display: none; visibility: hidden; background-size:contain; background-repeat:no-repeat;"></div>
+                                    <img src="{% if product.img1 %}{{product.img1.url}}{% else %}{% static 'adminAAKRITICMS/img/default/AakritiLiteWebDeveloper.jpg'%}{% endif %}" class="img_display img-thumbnail" id="NoObjectIMG1" style="height:150px; width:100% !important; border-radius: 10px; border: 2px solid rgb(9, 135, 238);" data-toggle="tooltip" data-placement="top" title="Sellect Product IMG 1"/>
+                                  </div>
+                                  <div class="card-footer">
+                                      <span class="btn btn-primary col fileinput-button " data-toggle="tooltip" data-placement="top" title="Hit For Sellect Product IMG 1">
+                                          <input type="file" accept="image/png, image/jpg , image/jpeg, image/*" name="img1" id="IMG1"  style="display: none;" class="IMG1" required/>
+                                          <label for="IMG1" style="cursor: pointer;" ><i class="fas fa-plus"></i><span> Add IMG 1 </span></label>
+                                      </span>
+                                  </div>
+                                </div>   
+                              </div>
+                              <div class="col-lg-6">
+                                <div class="card card-outline card-info">
+                                  <div class="card-body"> 
+                                    <div id="display_imageIMG2" style="height:150px; width:100% !important; border-radius: 10px; border: 2px solid rgb(9, 135, 238); display: none; visibility: hidden; background-size:contain; background-repeat:no-repeat;"></div>
+                                    <img src="{% if product.img2 %}{{product.img2.url}}{% else %}{% static 'adminAAKRITICMS/img/default/AakritiLiteWebDeveloper.jpg'%}{% endif %}" class="img_display img-thumbnail" id="NoObjectIMG2" style="height:150px; width:100% !important; border-radius: 10px; border: 2px solid rgb(9, 135, 238);" data-toggle="tooltip" data-placement="top" title="Sellect Product  IMG 2"/>
+                                  </div>
+                                  <div class="card-footer">
+                                      <span class="btn btn-primary col fileinput-button " data-toggle="tooltip" data-placement="top" title="Hit For Sellect Product IMG 2">
+                                          <input type="file" accept="image/png, image/jpg , image/jpeg, image/*" name="img2" id="IMG2"  style="display: none;" class="IMG2" required/>
+                                          <label for="IMG2" style="cursor: pointer;" ><i class="fas fa-plus"></i><span> Add IMG 2 </span></label>
+                                      </span>
+                                  </div>
+                                </div>   
+                              </div>
+                              <div class="col-lg-6">
+                                <div class="card card-outline card-info">
+                                  <div class="card-body"> 
+                                    <div id="display_imageIMG3" style="height:150px; width:100% !important; border-radius: 10px; border: 2px solid rgb(9, 135, 238); display: none; visibility: hidden; background-size:contain; background-repeat:no-repeat;"></div>
+                                    <img src="{% if product.img3 %}{{product.img3.url}}{% else %}{% static 'adminAAKRITICMS/img/default/AakritiLiteWebDeveloper.jpg'%}{% endif %}" class="img_display img-thumbnail" id="NoObjectIMG3" style="height:150px; width:100% !important; border-radius: 10px; border: 2px solid rgb(9, 135, 238);" data-toggle="tooltip" data-placement="top" title="Sellect Product  IMG 3"/>
+                                  </div>
+                                  <div class="card-footer">
+                                      <span class="btn btn-primary col fileinput-button " data-toggle="tooltip" data-placement="top" title="Hit For Sellect Product IMG 3">
+                                          <input type="file" accept="image/png, image/jpg , image/jpeg, image/*" name="img3" id="IMG3"  style="display: none;" class="IMG3" required />
+                                          <label for="IMG3" style="cursor: pointer;" ><i class="fas fa-plus"></i><span> Add IMG 3 </span></label>
+                                      </span>
+                                  </div>
+                                </div>   
+                              </div>
+                              <div class="col-lg-6">
+                                <div class="card card-outline card-info">
+                                  <div class="card-body"> 
+                                    <div id="display_imageIMG4" style="height:150px; width:100% !important; border-radius: 10px; border: 2px solid rgb(9, 135, 238); display: none; visibility: hidden; background-size:contain; background-repeat:no-repeat;"></div>
+                                    <img src="{% if product.img4 %}{{product.img4.url}}{% else %}{% static 'adminAAKRITICMS/img/default/AakritiLiteWebDeveloper.jpg'%}{% endif %}" class="img_display img-thumbnail" id="NoObjectIMG4" style="height:150px; width:100% !important; border-radius: 10px; border: 2px solid rgb(9, 135, 238);" data-toggle="tooltip" data-placement="top" title="Sellect Product  IMG 4"/>
+                                  </div>
+                                  <div class="card-footer">
+                                      <span class="btn btn-primary col fileinput-button " data-toggle="tooltip" data-placement="top" title="Hit For Sellect Product IMG 4">
+                                          <input type="file" accept="image/png, image/jpg , image/jpeg, image/*" name="img4" id="IMG4"  style="display: none;" class="IMG4"/>
+                                          <label for="IMG4" style="cursor: pointer;" ><i class="fas fa-plus"></i><span> Add IMG 4 </span></label>
+                                      </span>
+                                  </div>
+                                </div>   
+                              </div>
+                            </div>
+                          </div>
+                          <div class="card-footer bg-info">
+                            <a href="?tab=PriceStock" class="btn btn-dark float-left" data-toggle="tooltip" data-placement="top" title="" data-original-title="Hit For Save and Continue"><i class=" 	fas fa-arrow-alt-circle-left"></i> Prevoius</a>
+                            <a href="?tab=MataTag" onclick="updateIMGS()" class="btn btn-primary float-right" data-toggle="tooltip" data-placement="top" title="" data-original-title="Hit For Save and Continue">Save IMG &amp; Continue <i class="fas fa-arrow-alt-circle-right"></i></a>
+                          </div>
+                        </div>
+                      </div>
+                      <div class="col-lg-6">
+
+                      </div>
+                    </div>
+                  </div>
+                </div>
+                <div class="tab-pane fade {% if request.GET.tab == 'MataTag' %} show active {% endif %}" id="MataTag" role="tabpanel" aria-labelledby="MataTag-Tab">
+                  <div class="container-fluid">
+                    <div class="row">
+                      <div class="col-lg-6">
+                        <div class="card card-outline card-primary">
+                          <div class="card-header">
+                            <h3 class="card-title">SEO Meta Tags</h3>
+                          </div>
+                          <!-- /.card-header -->
+                          <div class="card-body">
+                            <div class="form-group">
+                              <label for="main-category">Meta Title</label>
+                              <div class="input-group">
+                                <div class="input-group-prepend">
+                                  <span class="input-group-text"><i class="fas fa-laptop"></i></span>
+                                </div>
+                                  <input type="text" class="meta_title form-control" id="input-field" onkeyup="NameStringCount()" placeholder="Meta Title" name="meta_title" value="{{product.meta_title}}">
+                              </div>
+                            </div>
+                            <div class="form-group">
+                              <label for="main-category">Meta Description</label>
+                              
+                              <div class="input-group">
+                                <textarea class="meta_description form-control" name="meta_description" style="width:100%; height:200px !important;" name="meta_description" placeholder="Meta Description">{{product.meta_description}}</textarea>
+                              </div>
+                            </div>
+                            <div class="form-group">
+                              <label>Meta Tags</label>
+                              <input type="text" data-role="tagsinput" value="{{product.meta_tags}}" placeholder="Add Meta Tags" data-role="tagsinput" name="meta_tags" class="meta_tags form-control"> 
+                            </div>
+                          </div>
+                          <div class="card-footer bg-primary ">
+                            <span class="btn btn-primary col fileinput-button " data-toggle="tooltip" data-placement="top" title="Hit For Sellect Image">
+                              <input type="file" accept="image/png, image/jpg , image/jpeg, image/*" name="meta_img" id="META_IMG"  style="display: none;" class="META_IMG" required/>
+                              <label for="META_IMG" style="cursor: pointer;" ><i class="fas fa-plus"></i><span>Add Thumbnail </span></label>
+                          </span>
+                          </div>
+                        </div>
+                      </div>
+                      <div class="col-lg-6">
+                        <div class="card card-outline card-primary" >
+                          <div class="card-header">
+                            <h3 class="card-title">SEO Meta Image</h3>
+                            <a href="{% url 'OPENProduct' product.slug %}" target="_blank" class="btn btn-success float-right" data-toggle="tooltip" data-placement="top" title="" data-original-title="Hit For Live Preview">Live Preview <i class="fas fa-eye"></i></a>
+                          </div>
+                          <!-- /.card-header -->
+                            <div class="card-body">                          
+                              <label for="exampleInputFile">Sellect Image Meta Image </label>
+                              <div id="display_imageMETA_IMG" style="height:150px; width:100% !important; border-radius: 10px; border: 2px solid rgb(9, 135, 238); display: none; visibility: hidden; background-size:contain; background-repeat:no-repeat;"></div>
+                              <img src="{% if product.meta_img %}{{product.meta_img.url}}{% else %}{% static 'adminAAKRITICMS/img/default/AakritiLiteWebDeveloper.jpg'%}{% endif %}" class="img_display img-thumbnail" id="NoObjectMETA_IMG" style="height:376px; width:100% !important; border-radius: 10px; border: 2px solid rgb(9, 135, 238);" data-toggle="tooltip" data-placement="top" title="Sellect  SEO Meta Image"/>
+                            </div>
+                            <div class="card-footer bg-info ">
+                              <div class="card-footer bg-">
+                                <a href="?tab=ProductIMG" class="btn btn-dark float-left" data-toggle="tooltip" data-placement="top" title="" data-original-title="Hit For Save and Continue"><i class=" 	fas fa-arrow-alt-circle-left"></i> Prevoius</a>
+                                <a href="javascript:void(0);" onclick="updateMETA()" class="btn btn-primary float-right" data-toggle="tooltip" data-placement="top" title="" data-original-title="Hit For Save and Continue">Save &amp; Continue <i class="fas fa-arrow-alt-circle-right"></i></a>
+                              </div>
+                            </div>
+                        </div>
+                      </div>
+                    </div>
+                  </div>
+                </div>
+              </div>
+            </div>
+            <!-- /.col-md-8 -->
+          </div>
+        </div>
+      </div><!-- /.container-fluid -->
+    </section>
+    <!-- /.content -->
+  </div>
+  <!-- /.content-wrapper -->
+  {% include 'includes/adminFooter.html' %} <!--Add this-->
+</div>
+
+<div class="modal fade" id="VIEWRelatedProduct">
+  <div class="modal-dialog modal-md">
+      <div class="modal-content">
+      <div class="modal-header">
+          <h4 class="modal-title"><b>View Related ProductList</b></h4>
+          <button type="button" class="close" data-dismiss="modal" aria-label="Close"><span aria-hidden="true">&times;</span></button>
+      </div>
+      <div class="modal-body">
+      </div>
+      <div class="modal-footer justify-content-center">
+      </div>
+      </div>
+  </div>
+</div>
+<!-- ./wrapper -->
+<div class="modal fade" id="addProductAttribute">
+  <div class="modal-dialog modal-md">
+      <div class="modal-content">
+      <div class="modal-header">
+          <h4 class="modal-title"><b>Add Attribute Product</b></h4>
+          <button type="button" class="close" data-dismiss="modal" aria-label="Close"><span aria-hidden="true">&times;</span></button>
+      </div>
+      <div class="modal-body">
+          <div class="form-group">
+              <label>Select Color</label>
+              <select class="attrcolor form-control select2" style="width: 100%;" name="attrcolor" id="attrcolor" required>
+                  <option value="selected">Select Color</option>
+                  {% for color in activeCOLORList %}
+                  <option value="{{color.pk}}">{{color.name}}</option>
+                  {% endfor %}
+              </select>
+          </div>
+          <div class="form-group">
+            <label for="main-category">Add Size</label>
+            <div class="input-group">
+                <div class="input-group-prepend">
+                <span class="input-group-text"><i class="fas fa-laptop"></i></span>
+                </div>
+                <input type="text" class="attrsize form-control" id="input-field" placeholder="Enter Product Size like Ex. 1L" name="attrsize">
+                <div class="input-group-prepend">
+                  <span class="input-group-text" for="input-field" id="NameStringCount"></span>
+                </div>
+            </div>
+          </div>
+          <div class="form-group">
+            <label for="main-category">MRP</label>
+            <div class="input-group">
+                <div class="input-group-prepend">
+                <span class="input-group-text"><i class="fas fa-laptop"></i>MRP</span>
+                </div>
+                <input type="text" class="attrmrp form-control" id="input-field" placeholder="Enter Product MRP Like Ex. Rs. 1000 " name="attrmrp">
+                <div class="input-group-prepend">
+                  <span class="input-group-text" for="input-field" id="NameStringCount"></span>
+                </div>
+            </div>
+          </div>
+          <div class="form-group">
+            <label for="main-category">Sealing Price</label>
+            <div class="input-group">
+                <div class="input-group-prepend">
+                <span class="input-group-text"><i class="fas fa-laptop"></i>SP</span>
+                </div>
+                <input type="text" class="attrsp form-control" id="input-field" placeholder="Enter Product Sealling Price Like Ex. Rs. 800 " name="attrsp">
+                <div class="input-group-prepend">
+                  <span class="input-group-text" for="input-field" id="NameStringCount"></span>
+                </div>
+            </div>
+          </div>
+          <div class="form-group">
+            <label for="main-category">Add New Product Name</label>
+            <div class="input-group">
+                <div class="input-group-prepend">
+                <span class="input-group-text"><i class="fas fa-laptop"></i></span>
+                </div>
+                <input type="text" class="attrname form-control" id="input-field" placeholder="Add New Product" name="attrname">
+                <div class="input-group-prepend">
+                  <span class="input-group-text" for="input-field" id="NameStringCount"></span>
+                </div>
+            </div>
+          </div>
+
+          <div class="row">
+            <div class="col-lg-12">
+              <div class="card card-outline card-info">
+                <div class="card-body"> 
+                  <img src="" class="" id="display_image" style="height:250px; width:100% !important; border-radius: 10px; border: 2px solid rgb(9, 135, 238); display: none; visibility: hidden;" />
+                  <img src="{% if product.img %}{{product.img.url}}{% else %}{% static 'adminAAKRITICMS/img/default/AakritiLiteWebDeveloper.jpg'%}{% endif %}" class="img_display img-thumbnail" id="NoObject" style="height:250px; width:100% !important; border-radius: 10px; border: 2px solid rgb(9, 135, 238);" data-toggle="tooltip" data-placement="top" title="Sellect Product Thumbnail"/>
+                </div>
+                <div class="card-footer">
+                    <span class="btn btn-primary col fileinput-button " data-toggle="tooltip" data-placement="top" title="Hit For Sellect Image">
+                        <input type="file" accept="image/png, image/jpg , image/jpeg, image/*" name="attrimg" id="image_input"  style="display: none;" class="attrimg" Required/>
+                        <label for="image_input" style="cursor: pointer;" > <i class="fas fa-plus"></i> <span> Add Thumbnail IMG </span></label>
+                    </span>
+                </div>
+              </div>
+            </div>
+            <div class="col-lg-6">
+              <div class="card card-outline card-info">
+                <div class="card-body"> 
+                  <img src="" class="" id="display_imageIMG1" style="height:150px; width:100% !important; border-radius: 10px; border: 2px solid rgb(9, 135, 238); display: none; visibility: hidden;" />
+                  <img src="{% if product.img1 %}{{product.img1.url}}{% else %}{% static 'adminAAKRITICMS/img/default/AakritiLiteWebDeveloper.jpg'%}{% endif %}" class="img_display img-thumbnail" id="NoObjectIMG1" style="height:150px; width:100% !important; border-radius: 10px; border: 2px solid rgb(9, 135, 238);" data-toggle="tooltip" data-placement="top" title="Sellect Product IMG 1"/>
+                </div>
+                <div class="card-footer">
+                    <span class="btn btn-primary col fileinput-button " data-toggle="tooltip" data-placement="top" title="Hit For Sellect Product IMG 1">
+                        <input type="file" accept="image/png, image/jpg , image/jpeg, image/*" name="img1" id="attrIMG1"  style="display: none;" class="attrIMG1" />
+                        <label for="IMG1" style="cursor: pointer;" ><i class="fas fa-plus"></i><span> Add IMG 1 </span></label>
+                    </span>
+                </div>
+              </div>   
+            </div>
+            <div class="col-lg-6">
+              <div class="card card-outline card-info">
+                <div class="card-body"> 
+                  <img src="" class="" id="display_imageIMG2" style="height:150px; width:100% !important; border-radius: 10px; border: 2px solid rgb(9, 135, 238); display: none; visibility: hidden;" />
+                  <img src="{% if product.img2 %}{{product.img2.url}}{% else %}{% static 'adminAAKRITICMS/img/default/AakritiLiteWebDeveloper.jpg'%}{% endif %}" class="img_display img-thumbnail" id="NoObjectIMG2" style="height:150px; width:100% !important; border-radius: 10px; border: 2px solid rgb(9, 135, 238);" data-toggle="tooltip" data-placement="top" title="Sellect Product  IMG 2"/>
+                </div>
+                <div class="card-footer">
+                    <span class="btn btn-primary col fileinput-button " data-toggle="tooltip" data-placement="top" title="Hit For Sellect Product IMG 2">
+                        <input type="file" accept="image/png, image/jpg , image/jpeg, image/*" name="img2" id="attrIMG2"  style="display: none;" class="attrIMG2" Required/>
+                        <label for="IMG2" style="cursor: pointer;" ><i class="fas fa-plus"></i><span> Add IMG 2 </span></label>
+                    </span>
+                </div>
+              </div>   
+            </div>
+            <div class="col-lg-6">
+              <div class="card card-outline card-info">
+                <div class="card-body"> 
+                  <img src="" class="" id="display_imageIMG3" style="height:150px; width:100% !important; border-radius: 10px; border: 2px solid rgb(9, 135, 238); display: none; visibility: hidden;" />
+                  <img src="{% if product.img3 %}{{product.img3.url}}{% else %}{% static 'adminAAKRITICMS/img/default/AakritiLiteWebDeveloper.jpg'%}{% endif %}" class="img_display img-thumbnail" id="NoObjectIMG3" style="height:150px; width:100% !important; border-radius: 10px; border: 2px solid rgb(9, 135, 238);" data-toggle="tooltip" data-placement="top" title="Sellect Product  IMG 3"/>
+                </div>
+                <div class="card-footer">
+                    <span class="btn btn-primary col fileinput-button " data-toggle="tooltip" data-placement="top" title="Hit For Sellect Product IMG 3">
+                        <input type="file" accept="image/png, image/jpg , image/jpeg, image/*" name="img3" id="attrIMG3"  style="display: none;" class="attrIMG3" Required />
+                        <label for="IMG3" style="cursor: pointer;" ><i class="fas fa-plus"></i><span> Add IMG 3 </span></label>
+                    </span>
+                </div>
+              </div>   
+            </div>
+            <div class="col-lg-6">
+              <div class="card card-outline card-info">
+                <div class="card-body"> 
+                  <img src="" class="" id="display_imageIMG4" style="height:150px; width:100% !important; border-radius: 10px; border: 2px solid rgb(9, 135, 238); display: none; visibility: hidden;" />
+                  <img src="{% if product.img4 %}{{product.img4.url}}{% else %}{% static 'adminAAKRITICMS/img/default/AakritiLiteWebDeveloper.jpg'%}{% endif %}" class="img_display img-thumbnail" id="NoObjectIMG4" style="height:150px; width:100% !important; border-radius: 10px; border: 2px solid rgb(9, 135, 238);" data-toggle="tooltip" data-placement="top" title="Sellect Product  IMG 4"/>
+                </div>
+                <div class="card-footer">
+                    <span class="btn btn-primary col fileinput-button " data-toggle="tooltip" data-placement="top" title="Hit For Sellect Product IMG 4">
+                        <input type="file" accept="image/png, image/jpg , image/jpeg, image/*" name="img4" id="attrIMG4"  style="display: none;" class="attrIMG4"/>
+                        <label for="IMG4" style="cursor: pointer;" ><i class="fas fa-plus"></i><span> Add IMG 4 </span></label>
+                    </span>
+                </div>
+              </div>   
+            </div>
+          </div>
+
+      </div>
+      <div class="modal-footer justify-content-center">
+        <button type="button" id="createPRODUCTATTR" onclick="createATTRIBUTEPRODUCT();" class="createPRODUCTATTR btn btn-primary">Create Attribute Product</button>
+      </div>
+      </div>
+  </div>
+</div>
+<!-- jQuery -->
+<script src="{% static 'adminAAKRITICMS/plugins/aakritiCMS/4IMGDisplay.js' %}"></script>
+<script src="{% static 'adminAAKRITICMS/plugins/jquery/jquery.min.js'%}"></script>
+<!-- Bootstrap 4 -->
+<script src="{% static 'adminAAKRITICMS/plugins/bootstrap/js/bootstrap.bundle.min.js'%}"></script>
+<!-- Select2 -->
+<script src="{% static 'adminAAKRITICMS/plugins/select2/js/select2.full.min.js'%}"></script>
+<!-- SweetAlert2 -->
+<script src="{% static 'adminAAKRITICMS/plugins/sweetalert2/sweetalert2.min.js'%}"></script>
+<!-- Toastr -->
+<script src="{% static 'adminAAKRITICMS/plugins/toastr/toastr.min.js'%}"></script>
+<script src="{% static 'adminAAKRITICMS/js/aakritiCMS.min.js'%}"></script>
+<!-- Summernote -->
+<script src="{% static 'adminAAKRITICMS/plugins/summernote/summernote-bs4.min.js' %}"></script>
+<!-- AakritiCMS Prism JS -->
+<script src="{% static 'adminAAKRITICMS/plugins/overlayScrollbars/js/jquery.overlayScrollbars.min.js' %}"></script>
+<script src="{% static 'adminAAKRITICMS/plugins/moment/moment.min.js'%}"></script>
+<script src="{% static 'adminAAKRITICMS/plugins/aakritiCMS/js/additional-operations.js'%}"></script>
+
+{% if product.dimension == 'Dimensions' %}
+<script>
+  $('.WeightSection').hide()
+  $('.DimensionsSection').show()
+</script>
+{% elif product.dimension == 'Weight' %}
+<script>
+    $('.DimensionsSection').hide()
+    $('.WeightSection').show()
+</script>
+{% else %}
+<script>
+  $(".type").on('change', function() {
+    const Stype = $(this).val()
+    if(Stype == 'Dimensions'){
+      $('.WeightSection').hide()
+      $('.DimensionsSection').show()
+    }else if(Stype == 'Weight'){
+      $('.DimensionsSection').hide()
+      $('.WeightSection').show()
+    }
+  });
+</script>
+{% endif %}
+<script>
+  $(".type").on('change', function() {
+    const Stype = $(this).val()
+    if(Stype == 'Dimensions'){
+      $('.WeightSection').hide()
+      $('.DimensionsSection').show()
+    }else if(Stype == 'Weight'){
+      $('.DimensionsSection').hide()
+      $('.WeightSection').show()
+    }
+  });
+</script>
+
+<script type="text/javascript">
+
+  $(function () {
+    // Summernote
+    $('#ProductDescription').summernote({
+    placeholder: 'type starting with : Product Description',
+    tabsize: 2,
+    height:580,
+    toolbar: [
+          ['style', ['style']],
+          ['highlight', ['highlight']],
+          ['font', ['bold', 'underline', 'clear']],
+          ['color', ['color']],
+          ['para', ['ul', 'ol', 'paragraph']],
+          ['table', ['table']],
+          ['insert', ['link', 'picture', 'video']],
+          ['view', ['fullscreen', 'codeview', 'help']]
+        ],
+    lang:'tr-TR'
+    });
+  })
+
+
+  $(function () {
+    //Initialize Select2 Elements
+    $('.select2').select2()
+    //Initialize Select2 Elements
+    $('.select2bs4').select2({
+      theme: 'bootstrap4'
+    })
+    //Date and time picker
+  })
+
+
+  //$(function () {
+    $('#reservation').daterangepicker()
+    //Date and time picker
+    $('#reservationdatetime').datetimepicker({ icons: { time: 'far fa-clock' } });
+    $('#reservationdatetime1').datetimepicker({ icons: { time: 'far fa-clock' } });
+    $('#reservationdatetime2').datetimepicker({ icons: { time: 'far fa-clock' } });
+    //Date range picker
+    $('#reservation').daterangepicker()
+    //Date range picker with time picker
+    $('#reservationtime').daterangepicker({
+      timePicker: true,
+      timePickerIncrement: 30,
+      locale: {
+        format: 'MM/DD/YYYY hh:mm A'
+      }
+    })
+    //Timepicker
+    $('#timepicker').datetimepicker({
+      format: 'LT'
+    })
+  //})
+</script>
+
+<script>
+$(".mainCat").on('change', function() {
+  $.ajax({                     
+      type: "POST",                   
+      url: "{% url 'LoadSubCatList' %}",                  
+      data: {
+        csrfmiddlewaretoken: "{{ csrf_token }}",
+        'mainCat':  this.value      
+      },
+      success: function (data) {  
+        $('.SubCategoryList').show() 
+
+          $("#SubCategory").html(data);
+      }
+  });
+});
+$(".subCat").on('change', function() {
+    $.ajax({                     
+        type: "POST",                   
+        url: "{% url 'LoadSubSubCatList' %}",                  
+        data: {
+          csrfmiddlewaretoken: "{{ csrf_token }}",
+          'subCat':  this.value      
+        },
+        success: function (data) {   
+            $('.SubSubCategoryList').show() 
+            $("#SubSubCategory").html(data);
+        }
+    });
+  });
+</script>
+
+<script>
+  function createATTRIBUTEPRODUCT(){
+    if ("{{product.pk}}" == ""){
+      Toast.fire({
+          icon: 'error',
+          title: '<p id="messages" style="margin-top:12px !important; margin-left:8px !important;"><b> Target Required* </b></p>'
+        }) 
+    }else{
+        const data = new FormData();
+        data.append('target', "{{product.pk}}");
+        data.append('attrname', $('.attrname').val());
+        data.append('attrcolor', $('.attrcolor').val());
+        data.append('attrsize', $('.attrsize').val());
+        data.append('attrmrp', $('.attrmrp').val());
+        data.append('attrsp', $('.attrsp').val());        
+        data.append('attrimg', $('.attrimg')[0].files[0]);
+        data.append('attrimg1', $('.attrIMG1')[0].files[0]);
+        data.append('attrimg2', $('.attrIMG2')[0].files[0]);
+        data.append('attrimg3', $('.attrIMG3')[0].files[0]);
+        data.append('attrimg4', $('.attrIMG4')[0].files[0]);
+        $.ajax({                      
+            type: "POST",                   
+            url: "{% url 'createATTRIBUTEPRODUCT' %}",                    
+            data: data,
+            cache: false,
+            processData: false,
+            contentType: false,
+            enctype: 'multipart/form-data',
+            headers: {'X-CSRFToken': "{{ csrf_token }}"},
+            success: function(data) {   
+                if (data.status == 1){
+                    Toast.fire({
+                      icon: 'success',
+                      title: '<p id="messages" style="margin-top: 12px !important; margin-left:8px !important;"><b>'+ data.message +'</b></p>'
+                    }) 
+                    // var url = new URL(window.location.href);
+                    // var search_params = url.searchParams;
+                    // search_params.set('tab', 'PriceStock');
+                    // url.search = search_params.toString();
+                    // var new_url = url.toString();
+                    // window.open(new_url)
+                }else if (data.status == 0){
+                    Toast.fire({
+                    icon: 'error',
+                    title: '<p id="messages" style="margin-top: 12px !important; margin-left:8px !important;"><b>'+ data.message +'</b></p>'
+                    }) 
+                }       
+            },
+        });
+    }
+}
+</script>
+<script>
+  function updatePRODUCTBASICINFORMATION(){
+    if ("{{product.pk}}" == ""){
+      Toast.fire({
+          icon: 'error',
+          title: '<p id="messages" style="margin-top:12px !important; margin-left:8px !important;"><b> Target Required* </b></p>'
+        }) 
+    }else{
+        const data = new FormData();
+        data.append('target', "{{product.pk}}");
+        
+        data.append('mainCat', $('.mainCat').val());
+        data.append('subCat', $('.subCat').val());
+        
+        data.append('SubSubCat', $('.SubSubCat').val());
+        data.append('name', $('.name').val());
+        data.append('brandname', $('.brandname').val());
+        data.append('color', $('.color').val());
+        data.append('attribute', $('.attribute').val());
+        data.append('CashOnDelivery', $('.CashOnDelivery').val());
+        data.append('Refundable', $('.Refundable').val());
+        data.append('description', $('.ProductDescription').val());
+        $.ajax({                      
+            type: "POST",                   
+            url: "{% url 'UPDATEGeneralInformation' %}",                    
+            data: data,
+            cache: false,
+            processData: false,
+            contentType: false,
+            enctype: 'multipart/form-data',
+            headers: {'X-CSRFToken': "{{ csrf_token }}"},
+            success: function(data) {   
+                if (data.status == 1){
+
+                    Toast.fire({
+                      icon: 'success',
+                      title: '<p id="messages" style="margin-top: 12px !important; margin-left:8px !important;"><b>'+ data.message +'</b></p>'
+                    }) 
+                    var url = new URL(window.location.href);
+                    var search_params = url.searchParams;
+                    search_params.set('tab', 'PriceStock');
+                    url.search = search_params.toString();
+                    var new_url = url.toString();
+                    window.open(new_url)
+
+                }else if (data.status == 0){
+                    Toast.fire({
+                    icon: 'error',
+                    title: '<p id="messages" style="margin-top: 12px !important; margin-left:8px !important;"><b>'+ data.message +'</b></p>'
+                    }) 
+                }       
+            },
+        });
+    }
+}
+</script>
+
+
+<script>
+  function updatePRICESTOCKSHIPPINGGST(){
+    if ("{{product.pk}}" == ""){
+      Toast.fire({
+          icon: 'error',
+          title: '<p id="messages" style="margin-top:12px !important; margin-left:8px !important;"><b> Target Required* </b></p>'
+        }) 
+    }else{
+        const data = new FormData();
+        data.append('target', "{{product.pk}}");
+        
+        data.append('TrendingType', $('.TrendingType').val());
+
+        data.append('ProductType', $('.ProductType').val());
+        data.append('hsncode', $('.hsncode').val());
+        data.append('cgst', $('.cgst').val());
+        data.append('sgst', $('.sgst').val());
+        data.append('igst', $('.igst').val());
+
+        data.append('mrp', $('.mrp').val());
+        data.append('sp', $('.sp').val());
+        data.append('totalSTOCKS', $('.totalSTOCKS').val());
+        data.append('lsw', $('.lsw').val());
+
+        data.append('type', $('.type').val());
+
+        data.append('weightGM', $('.weightGM').val());
+
+        data.append('length', $('.length').val());
+        data.append('width', $('.width').val());
+        data.append('hight', $('.hight').val());
+
+        $.ajax({                      
+            type: "POST",                   
+            url: "{% url 'UPDATEPriceStockGSTSHIPPING' %}",                    
+            data: data,
+            cache: false,
+            processData: false,
+            contentType: false,
+            enctype: 'multipart/form-data',
+            headers: {'X-CSRFToken': "{{ csrf_token }}"},
+            success: function(data) {   
+                if (data.status == 1){
+
+                    Toast.fire({
+                      icon: 'success',
+                      title: '<p id="messages" style="margin-top: 12px !important; margin-left:8px !important;"><b>'+ data.message +'</b></p>'
+                    }) 
+     
+
+                }else if (data.status == 0){
+                    Toast.fire({
+                    icon: 'error',
+                    title: '<p id="messages" style="margin-top: 12px !important; margin-left:8px !important;"><b>'+ data.message +'</b></p>'
+                    }) 
+                }       
+            },
+        });
+    }
+}
+</script>
+<script>
+  function updateIMGS(){
+    const Thumbnail = $('.img')[0].files[0]
+    if ("{{product.pk}}" == ""){
+      Toast.fire({
+          icon: 'error',
+          title: '<p id="messages" style="margin-top:12px !important; margin-left:8px !important;"><b> Target Required* </b></p>'
+        }) 
+    }else if(Thumbnail == ""){
+        Toast.fire({
+          icon: 'error',
+          title: '<p id="messages" style="margin-top:12px !important; margin-left:8px !important;"><b> Thumbnail Required* </b></p>'
+        }) 
+    }else{
+        const data = new FormData();
+        data.append('target', "{{product.pk}}");
+        data.append('img', $('.img')[0].files[0]);
+        data.append('img1', $('.IMG1')[0].files[0]);
+        data.append('img2', $('.IMG2')[0].files[0]);
+        data.append('img3', $('.IMG3')[0].files[0]);
+        data.append('img4', $('.IMG4')[0].files[0]);
+        $.ajax({                      
+            type: "POST",                   
+            url: "{% url 'UPDATEImage' %}",                    
+            data: data,
+            cache: false,
+            processData: false,
+            contentType: false,
+            enctype: 'multipart/form-data',
+            headers: {'X-CSRFToken': "{{ csrf_token }}"},
+            success: function(data) {   
+                if (data.status == 1){
+                    Toast.fire({
+                      icon: 'success',
+                      title: '<p id="messages" style="margin-top: 12px !important; margin-left:8px !important;"><b>'+ data.message +'</b></p>'
+                    }) 
+                }else if (data.status == 0){
+                    Toast.fire({
+                    icon: 'error',
+                    title: '<p id="messages" style="margin-top: 12px !important; margin-left:8px !important;"><b>'+ data.message +'</b></p>'
+                    }) 
+                }       
+            },
+        });
+    }
+}
+</script>
+<script>
+  function updateMETA(){
+    if ("{{product.pk}}" == ""){
+      Toast.fire({
+          icon: 'error',
+          title: '<p id="messages" style="margin-top:12px !important; margin-left:8px !important;"><b> Target Required* </b></p>'
+        }) 
+    }else{
+
+        const data = new FormData();
+        data.append('target', "{{product.pk}}");
+        data.append('meta_title', $('.meta_title').val());
+        data.append('meta_description', $('.meta_description').val());
+        data.append('meta_tags', $('.meta_tags').val());
+
+        data.append('meta_img', $('.META_IMG')[0].files[0]);
+        
+        $.ajax({  
+
+            type: "POST",                   
+            url: "{% url 'UPDATEMetaTag' %}",                    
+            data: data,
+            cache: false,
+            processData: false,
+            contentType: false,
+            enctype: 'multipart/form-data',
+            headers: {'X-CSRFToken': "{{ csrf_token }}"},
+            success: function(data) {   
+                if (data.status == 1){
+                    Toast.fire({
+                      icon: 'success',
+                      title: '<p id="messages" style="margin-top: 12px !important; margin-left:8px !important;"><b>'+ data.message +'</b></p>'
+                    }) 
+                }else if (data.status == 0){
+                    Toast.fire({
+                    icon: 'error',
+                    title: '<p id="messages" style="margin-top: 12px !important; margin-left:8px !important;"><b>'+ data.message +'</b></p>'
+                    }) 
+                }       
+            },
+        });
+    }
+}
+</script>
+<!-- ======================END========================== -->
+{% include 'includes/adminToster.html' %} <!--Add this-->
+</body>
+</html>
+

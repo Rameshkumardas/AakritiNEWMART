@@ -1,0 +1,5 @@
+{% load static %}
+
+<div class="preloader flex-column justify-content-center align-items-center" style="height: 0px;">
+    <img class="animation__shake" src="{% if project.favicon %}{{project.favicon.url}}{% else %}{% static 'adminAAKRITICMS/img/default/mrdas.jpg' %}{% endif %}" alt="{{project.title}}" height="60" width="60" style="display: none;">
+</div> 

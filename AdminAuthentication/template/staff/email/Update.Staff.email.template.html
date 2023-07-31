@@ -1,0 +1,51 @@
+<!DOCTYPE html>
+{% load static %}
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Congratulations Staff Updated  | {{project.title | safe | title }} || {{project.name}} </title>
+    <link rel="icon" type="image/png" href="{% if project.favicon %}{{project.favicon.url}}{% else %}{% static 'admineMARTSHOT/img/default/mrdas.jpg' %}{% endif %}">    
+  
+    <!-- Font Awesome -->
+    <link rel="stylesheet" href="{% static 'adminAAKRITICMS/plugins/fontawesome-free/css/all.min.css'%}">
+    <!-- SweetAlert2 -->
+    <link rel="stylesheet" href="{% static 'adminAAKRITICMS/plugins/sweetalert2-theme-bootstrap-4/bootstrap-4.min.css' %}">
+    <!-- adminAAKRITICMS Theme style -->
+    <link rel="stylesheet" href="{% static 'adminAAKRITICMS/css/aakriticms.min.css'%}">
+    <link rel="stylesheet" href="{% static 'adminAAKRITICMS/css/aakriti.ui.css'%}">
+
+
+</head>
+<body>
+    
+
+    <div class="row">
+        <div class="container">
+            <div class="col">
+                <div class="card card-primary">
+                    <div class="card-header ">
+                        <h1 class="card-title text-center text-bold text-uppercase">Congratulations Account is Updated!</h1>
+                    </div>
+                    <div class="card-body" >
+                        {{password}}
+                    </div>
+                    <div class="card-footer">
+                        login with this link <a href="http://127.0.0.1:8000/{{AdminEmail}}" target="_blank" class="">login here</a>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    
+    <!-- jQuery -->
+    <script src="{% static 'adminAAKRITICMS/plugins/jquery/jquery.min.js'%}"></script>
+    <!-- Bootstrap 4 -->
+    <script src="{% static 'adminAAKRITICMS/plugins/bootstrap/js/bootstrap.bundle.min.js'%}"></script>
+    <!-- AakritiCMS JavaScript -->
+    <script src="{% static 'adminAAKRITICMS/js/aakritiCMS.min.js'%}"></script>
+
+</body>
+</html>

@@ -1,0 +1,167 @@
+{% load static %}
+
+<!doctype html>
+<html class="no-js" lang="en">
+
+<head>
+    <meta charset="utf-8">
+    <meta http-equiv="x-ua-compatible" content="ie=edge">
+    <title>Login to eMARTSHOP || Sign In eMARTSHOP || Sign In</title>
+    <meta name="robots" content="noindex, follow" />
+    <meta name="description" content="">
+    <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
+    <!-- Favicon -->
+    <link rel="icon" type="image/png" href="{% if project.favicon %}{{project.favicon.url}}{% else %}{% static 'admineMARTSHOT/img/default/mrdas.jpg' %}{% endif %}">
+    <!-- ============================================ -->
+    <!-- Bootstrap CSS -->
+    <link rel="stylesheet" href="{% static 'eMARTSHOPWEB/css/vendor/bootstrap.min.css' %}">
+    <link rel="stylesheet" href="{% static 'eMARTSHOPWEB/css/vendor/font-awesome.css' %}">
+    <link rel="stylesheet" href="{% static 'eMARTSHOPWEB/css/vendor/flaticon/flaticon.css' %}">
+    <link rel="stylesheet" href="{% static 'eMARTSHOPWEB/css/vendor/slick.css' %}">
+    <link rel="stylesheet" href="{% static 'eMARTSHOPWEB/css/vendor/slick-theme.css' %}">
+    <link rel="stylesheet" href="{% static 'eMARTSHOPWEB/css/vendor/jquery-ui.min.css' %}">
+    <link rel="stylesheet" href="{% static 'eMARTSHOPWEB/css/vendor/sal.css' %}">
+    <link rel="stylesheet" href="{% static 'eMARTSHOPWEB/css/vendor/magnific-popup.css' %}">
+    <link rel="stylesheet" href="{% static 'eMARTSHOPWEB/css/vendor/base.css' %}">
+    <link rel="stylesheet" href="{% static 'eMARTSHOPWEB/css/style.min.css' %}">
+    <!-- SweetAlert2 -->
+    <link rel="stylesheet" href="{% static 'admineMARTSHOT/plugins/sweetalert2-theme-bootstrap-4/bootstrap-4.min.css' %}">
+ 
+</head>
+
+
+<body>
+    <div class="onlinemangao-signin-area">
+
+        <!-- Start Header -->
+        <div class="signin-header">
+            <div class="row align-items-center">
+                <div class="col-sm-4">
+                    <a href="{% url 'eMARTSHOPWEB' %}" class="{{project.title}}">
+                        <img style="width: 250px;" src="{% if project.headerLogo %}{{project.headerLogo.url}}{% else %}{% static 'admineMARTSHOT/img/default/mrdas.jpg' %}{% endif %}" alt="{{project.title}}">
+                    </a>
+                </div>
+                <div class="col-sm-8">
+                    <div class="singin-header-btn">
+                        <p>Not a member?</p>
+                        <a href="{% url 'SIGNUP' %}{% if request.GET.next %}?next={{request.GET.next}}{% endif %}" class="onlinemangao-btn btn-bg-secondary sign-up-btn">Sign Up Now</a>
+                    </div>
+                </div>
+            </div>
+        </div>
+        <!-- End Header -->
+
+        <div class="row">
+            <div class="col-xl-4 col-lg-6">
+                <div class="onlinemangao-signin-banner bg_image bg_image--9">
+                    <h3 class="title">We Offer the Best Products</h3>
+                </div>
+            </div>
+            <div class="col-lg-6 offset-xl-2">
+                <div class="onlinemangao-signin-form-wrap">
+                    <div class="onlinemangao-signin-form">
+                        <h3 class="title">SIGN IN TO eMARTSHOP.</h3>
+                        <p class="b2 mb--55">Enter your Email Id or Username, or Mobile No and password</p>
+                        <div class="form-group">
+                            <label>Email or Mobile No</label>
+                            <input type="text" class="userid form-control" name="userid" value="" placeholder="Email Id, Username or Mobile No">
+                        </div>
+                        <div class="form-group">
+                            <label>Password</label>
+                            <input type="password" class="password form-control" name="password" value="" password="Password">
+                        </div>
+                        <div class="form-group d-flex align-items-center justify-content-between">
+                            <button type="submit" onclick="USERLOGINRequest()" class="onlinemangao-btn btn-bg-primary submit-btn">LOGIN</button>
+                            <a href="{% url 'FORGOTPASSWORD' %}{% if request.GET.next %}?next={{request.GET.next}}{% endif %}" class="forgot-btn">Forget password?</a>
+                        </div> 
+                    </div>
+                    <div class="form-group d-flex align-items-center justify-content-between">
+                        <a href="{% url 'OTPLOGINVERFIFICATION' %}{% if request.GET.next %}?next={{request.GET.next}}{% endif %}" class="onlinemangao-btn btn-bg-primary submit-btn">LOGIN WITH OTP</a>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <!-- ============================================ -->
+    <!-- Modernizer JS -->
+    <script src="{% static 'eMARTSHOPWEB/js/vendor/modernizr.min.js' %}"></script>
+    <!-- jQuery JS -->
+    <script src="{% static 'eMARTSHOPWEB/js/vendor/jquery.js' %}"></script>
+    <!-- Bootstrap JS -->
+    <script src="{% static 'eMARTSHOPWEB/js/vendor/popper.min.js' %}"></script>
+    <script src="{% static 'eMARTSHOPWEB/js/vendor/bootstrap.min.js' %}"></script>
+    <script src="{% static 'eMARTSHOPWEB/js/vendor/slick.min.js' %}"></script>
+    <script src="{% static 'eMARTSHOPWEB/js/vendor/js.cookie.js' %}"></script>
+    <!-- <script src="{% static 'eMARTSHOPWEB/js/vendor/jquery.style.switcher.js' %}"></script> -->
+    <script src="{% static 'eMARTSHOPWEB/js/vendor/jquery-ui.min.js' %}"></script>
+    <script src="{% static 'eMARTSHOPWEB/js/vendor/jquery.countdown.min.js' %}"></script>
+    <script src="{% static 'eMARTSHOPWEB/js/vendor/sal.js' %}"></script>
+    <script src="{% static 'eMARTSHOPWEB/js/vendor/jquery.magnific-popup.min.js' %}"></script>
+    <script src="{% static 'eMARTSHOPWEB/js/vendor/imagesloaded.pkgd.min.js' %}"></script>
+    <script src="{% static 'eMARTSHOPWEB/js/vendor/isotope.pkgd.min.js' %}"></script>
+    <script src="{% static 'eMARTSHOPWEB/js/vendor/counterup.js' %}"></script>
+    <script src="{% static 'eMARTSHOPWEB/js/vendor/waypoints.min.js' %}"></script>
+
+    <!-- Main JS -->
+    <script src="{% static 'eMARTSHOPWEB/js/main.js' %}"></script>
+
+    <script>
+        function USERLOGINRequest(){
+            const userid = $('.userid').val();
+            const password = $('.password').val();
+            if (userid == ""){
+                Toast.fire({
+                    icon: 'error',
+                    title: '<p id="messages" style="margin-top:0px !important; margin-left:8px !important;"><b> USER Id Required* </b></p>'
+                }) 
+            }else if(password == " "){
+                Toast.fire({
+                    icon: 'error',
+                    title: '<p id="messages" style="margin-top:0px !important; margin-left:8px !important;"><b> Password Required* </b></p>'
+                }) 
+            }
+            else{
+                const data = new FormData();
+                data.append('userid', $('.userid').val());
+                data.append('password', $('.password').val());
+                $.ajax({                      
+                    type: "POST",                   
+                    url: "{% url 'USERLOGINRequest' %}",                    
+                    data: data,
+                    cache: false,
+                    processData: false,
+                    contentType: false,
+                    enctype: 'multipart/form-data',
+                    headers: {'X-CSRFToken': "{{ csrf_token }}"},
+                    success: function(data) {   
+                        if (data.status == 1){
+                            Toast.fire({
+                                icon: 'success',
+                                title: '<p id="messages" style="margin-top: 0px !important; margin-left:8px !important;"><b>'+ data.message +'</b></p>'
+                            })     
+                            setTimeout(function () {
+                                const queryString = window.location.search;
+                                const urlParams = new URLSearchParams(queryString);
+                                const targetURL = urlParams.get('next')
+                                window.location.href =data.home+targetURL;
+                            }, 3000); 
+                        }else if (data.status == 0){
+                            Toast.fire({
+                            icon: 'error',
+                            title: '<p id="messages" style="margin-top: 0px !important; margin-left:8px !important;"><b>'+ data.message +'</b></p>'
+                            }) 
+                        }       
+                    },
+                });
+            }
+        }
+    </script>
+    <!-- SweetAlert2 -->
+    <script src="{% static 'admineMARTSHOT/plugins/sweetalert2/sweetalert2.min.js'%}"></script>
+    <!-- Toastr -->
+    <script src="{% static 'admineMARTSHOT/plugins/toastr/toastr.min.js'%}"></script>
+    <!-- ======================END========================== -->
+    {% include 'includes/Toster.html' %}
+    </body>
+    </html>

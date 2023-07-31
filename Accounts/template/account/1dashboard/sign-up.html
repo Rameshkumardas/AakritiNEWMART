@@ -1,0 +1,522 @@
+
+
+
+
+<!DOCTYPE html>
+{% load static %}
+<html lang="zxx">
+
+<head>
+    <!-- meta tag -->
+    <meta charset="utf-8">
+    <title>Home | {{project.name | title }} | {{project.title | title }} | Dreamz Digital Solutions</title>
+    <meta name="description" content="">
+    <meta http-equiv="x-ua-compatible" content="ie=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    {% include 'includes/CSS.html' %}
+    <style>
+        .khantailor-breadcrumb-area .inner .title {
+            font-size: 40px;
+            margin-bottom: 0
+        }
+
+        @media only screen and (min-width: 768px)and (max-width: 991px) {
+            .khantailor-breadcrumb-area .inner .title {
+                font-size: 34px
+            }
+        }
+
+        @media only screen and (max-width: 767px) {
+            .khantailor-breadcrumb-area .inner .title {
+                font-size: 28px
+            }
+        }
+
+        @media only screen and (max-width: 575px) {
+            .khantailor-breadcrumb-area .inner .title {
+                font-size: 24px
+            }
+        }
+
+        .khantailor-breadcrumb-area .inner .bradcrumb-thumb {
+            text-align: right;
+            position: relative;
+            z-index: 1
+        }
+
+        @media only screen and (max-width: 767px) {
+            .khantailor-breadcrumb-area .inner .bradcrumb-thumb {
+                display: none
+            }
+        }
+        
+        .khantailor-breadcrumb-area .inner .bradcrumb-thumb::after {
+            content: "";
+            height: 110px;
+            width: 110px;
+            background-color: var(--color-white);
+            border-radius: 50%;
+            position: absolute;
+            top: -10px;
+            right: 60px;
+            z-index: -1
+        }
+
+        .khantailor-breadcrumb {
+            display: flex;
+            padding: 0;
+            margin: 0 0 15px;
+            list-style: none;
+            align-items: center
+        }
+
+        .khantailor-breadcrumb li {
+            margin-top: 0;
+            margin-bottom: 0;
+            font-size: var(--font-size-b1);
+            line-height: var(--line-height-b1);
+            font-weight: 500
+        }
+
+        .khantailor-breadcrumb li a {
+            color: #999;
+            display: block
+        }
+
+        .khantailor-breadcrumb li.khantailor-breadcrumb-item.active {
+            color: var(--color-primary)
+        }
+
+        .khantailor-breadcrumb li.separator {
+            height: 11px;
+            width: 2px;
+            background-color: #e5e5e5;
+            margin: 0 8px
+        }
+
+        a.khantailor-btn,
+        button.khantailor-btn {
+            border-radius: 6px;
+            font-size: var(--font-size-b1);
+            line-height: var(--line-height-b1);
+            font-weight: 700;
+            display: inline-block;
+            padding: 16px 38px;
+            position: relative;
+            transition: all .3s ease-in-out;
+            z-index: 1
+        }
+        .khantailor-breadcrumb-area{
+            position:relative;background-color:#f8f8f8;
+            padding:20px 0 25px;
+            margin-top:10px;
+        }
+    </style>
+
+     <style>
+        h1{
+           margin: 15px 0 25px;
+           text-align: center;
+           font-size: 30px;
+        }
+        input{
+           color:#022255 !important;
+        }
+        input[type=email]:focus,
+        input[type=password]:focus,
+        input[type=text]:focus{
+           box-shadow: 0 0 5px #7AD2F6;
+           border: 1px solid #7AD2F6;
+        }
+
+        .control-label {
+           text-align: left !important;
+           padding-bottom: 4px;
+        }
+        .progress {
+           height: 3px !important;
+        }
+        .form-group {
+           margin-bottom: 10px;
+        }
+        .show-pass{
+           position: absolute;
+           top:5%;
+           right: 8%;
+        }
+        .progress-bar-danger {
+           background-color: #e90f10;
+        }
+        .progress-bar-warning{
+           background-color: #ffad00;
+        }
+        .progress-bar-success{
+           background-color: #02b502;
+        }
+        .login-btn{
+           width: 180px !important;
+           background-image: linear-gradient(to right, #f6086e , #ff133a) !important;
+           font-size: 18px;
+           color: #fff;
+           margin: 0 auto 5px;
+           padding: 8px 0; 
+        }
+        .login-btn:hover{
+           background-image: linear-gradient(to right, rgba(255, 0, 111, 0.8) , rgba(247, 2, 43, 0.8)) !important;
+           color: #fff !important;
+        }
+        .fa-eye{
+           color: #022255;
+           cursor: pointer;
+        }
+        .ex-account p a{
+           color: #7AD2F6;
+           text-decoration: underline;
+        }
+        .fa-circle{
+           font-size: 6px;  
+        }
+        .fa-check{
+           color: #02b502;
+        }
+     </style>
+
+ 
+
+    <style>
+        .khantailor-breadcrumb-area .inner .title {
+            font-size: 40px;
+            margin-bottom: 0
+        }
+
+        @media only screen and (min-width: 768px)and (max-width: 991px) {
+            .khantailor-breadcrumb-area .inner .title {
+                font-size: 34px
+            }
+        }
+
+        @media only screen and (max-width: 767px) {
+            .khantailor-breadcrumb-area .inner .title {
+                font-size: 28px
+            }
+        }
+
+        @media only screen and (max-width: 575px) {
+            .khantailor-breadcrumb-area .inner .title {
+                font-size: 24px
+            }
+        }
+
+        .khantailor-breadcrumb-area .inner .bradcrumb-thumb {
+            text-align: right;
+            position: relative;
+            z-index: 1
+        }
+
+        @media only screen and (max-width: 767px) {
+            .khantailor-breadcrumb-area .inner .bradcrumb-thumb {
+                display: none
+            }
+        }
+        
+        .khantailor-breadcrumb-area .inner .bradcrumb-thumb::after {
+            content: "";
+            height: 110px;
+            width: 110px;
+            background-color: var(--color-white);
+            border-radius: 50%;
+            position: absolute;
+            top: -10px;
+            right: 60px;
+            z-index: -1
+        }
+
+        .khantailor-breadcrumb {
+            display: flex;
+            padding: 0;
+            margin: 0 0 15px;
+            list-style: none;
+            align-items: center
+        }
+
+        .khantailor-breadcrumb li {
+            margin-top: 0;
+            margin-bottom: 0;
+            font-size: var(--font-size-b1);
+            line-height: var(--line-height-b1);
+            font-weight: 500
+        }
+
+        .khantailor-breadcrumb li a {
+            color: #999;
+            display: block
+        }
+
+        .khantailor-breadcrumb li.khantailor-breadcrumb-item.active {
+            color: var(--color-primary)
+        }
+
+        .khantailor-breadcrumb li.separator {
+            height: 11px;
+            width: 2px;
+            background-color: #e5e5e5;
+            margin: 0 8px
+        }
+
+        a.khantailor-btn,
+        button.khantailor-btn {
+            border-radius: 6px;
+            font-size: var(--font-size-b1);
+            line-height: var(--line-height-b1);
+            font-weight: 700;
+            display: inline-block;
+            padding: 16px 38px;
+            position: relative;
+            transition: all .3s ease-in-out;
+            z-index: 1
+        }
+        .khantailor-breadcrumb-area{
+            position:relative;background-color:#f8f8f8;
+            padding:20px 0 25px;
+            margin-top:10px;
+        }
+        
+    </style>
+
+</head>
+
+<body>
+    <!--Preloader start here-->
+    <div id="pre-load">
+        <div id="loader" class="loader">
+            <div class="loader-container">
+                <div class='loader-icon'><img src="{% static 'kahntailors/assets/images/fav.png' %}" alt="Dreamz Digital Solutions"></div>
+            </div>
+        </div>
+    </div>
+    <!--Preloader area end here-->
+    <!-- Main content Start -->
+    <div class="main-content">
+        {% include 'includes/mainHeader.html' %}
+        {% if HOMEBANNERList %}
+        {% include 'includes/BANNERList.html' %}
+        {% else %}
+        <div class="khantailor-breadcrumb-area">
+            <div class="container">
+                <div class="row align-items-center">
+                    <div class="col-lg-6 col-md-8">
+                        <div class="inner">
+                            <ul class="khantailor-breadcrumb">
+                                <li class="khantailor-breadcrumb-item"><a href="{{project.baseURL}}">Home</a></li>
+                                <li class="separator"></li>
+                                <li class="khantailor-breadcrumb-item active" aria-current="page">account</li>
+                            </ul>
+                            <h1 class="title float-left">Create a New Account</h1>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+        <!-- Start About Area  -->
+        {% endif %}
+        <div class="khantailor-about-area about-style-1 khantailor-section-gap ">
+            <div class="container">
+                <div class="row align-items-center">
+                    <div class="row">
+                        <div class="col-xl-2 col-lg-3">
+                        </div>
+                        <div class="col-lg-6 col-xl-10">
+                            <div class="modal-body p-3 p-sm-4">
+                                <div class="row">
+                                   <div class="form-group mb-20 col-6">
+                                      <label class="text-secondary h6 mb-2" for="fname">First Name*</label>
+                                      <input class="fname form-control shadow-none rounded-sm" type="text" placeholder="First Name" id="fname" required>
+                                   </div>
+                                   <div class="form-group mb-20 col-6">
+                                      <label class="text-secondary h6 mb-2" for="lname">Last Name*</label>
+                                      <input class="lname form-control shadow-none rounded-sm" type="text" placeholder="Last Name" id="lname" required>
+                                   </div>
+                                
+                                   <div class="form-group mb-20 col-12">
+                                      <label class="text-secondary h6 mb-2" for="pnumber">Phone Number*</label>
+                                      <input class="contact form-control shadow-none rounded-sm" type="text" placeholder="Phone Number" id="pnumber" required>
+                                   </div>
+                                   <div class="form-group mb-20 col-12">
+                                      <label class="text-secondary h6 mb-2" for="email2">Email Address*</label>
+                                      <input class="email form-control shadow-none rounded-sm" type="email" placeholder="Enter Email Id" id="email2" required>
+                                   </div>
+                                   <div class="form-group mb-20 col-12">
+                                      <label class="text-secondary h6 mb-2 d-block">Gender*</label>
+                                      <div class="d-flex custom-radio-group rounded-sm">
+                                         <div class="custom-control custom-radio">
+                                            <input type="radio" id="customRadio1" name="customRadio" class="radioBtnClass custom-control-input" value="Male">
+                                            <label class="custom-control-label" for="customRadio1">Male</label>
+                                         </div>
+                                         <div class="custom-control custom-radio">
+                                            <input type="radio" id="customRadio2" name="customRadio" class="radioBtnClass custom-control-input" value="Female">
+                                            <label class="custom-control-label" for="customRadio2">Female</label>
+                                         </div>
+                                      </div>
+                                   </div>
+                                   {% comment %}
+                                   <div class="form-group mb-20 col-12">
+                                      <label class="text-secondary h6 mb-2" for="email2">Qualifcation*</label>
+                                      <input class="Qualifcation form-control shadow-none rounded-sm" type="text" placeholder="Enter Qualifcation" id="Qualifcation" required>
+                                   </div>
+                                   {% endcomment %}
+                                   <div class="form-group mb-20 col-12">
+                                      <label class="text-secondary h6 mb-2" for="email2">Country From*</label>
+                                      <input class="Country form-control shadow-none rounded-sm" type="text" placeholder="Enter Country" id="Country" required>
+                                   </div>
+                
+                
+                                   <div class="form-group mb-20 col-12">
+                                      <label class="text-secondary h6 mb-2" for="password">Password*</label>
+                                      <input class="password form-control shadow-none rounded-sm" placeholder="Enter Password" type="password" id="password" required>
+                                      
+                                   </div>
+                                   <div class="form-group mb-20 col-12">
+                                      <label class="text-secondary h6 mb-2" for="repassword">Retype Password*</label>
+                                      <input class="confirmpassword form-control shadow-none rounded-sm" placeholder="Confirm Password" type="password" id="repassword" required>
+                                      <hr>                                 
+                                      <div class="form-group">
+                                         <div id="popover-password">
+                                            <p><span id="result"></span></p>
+                                            <div class="progress">
+                                               <div id="password-strength" class="progress-bar" role="progressbar" aria-valuenow="40"  aria-valuemin="0" aria-valuemax="100" style="width:0%">
+                                               </div>
+                                            </div>
+                                         </div>
+                                      </div>
+                                    </div>
+                                   <ul class="list-unstyled">
+                                    <li class="">
+                                       <span class="low-upper-case">
+                                          <i class="fas fa-circle" aria-hidden="true"></i>
+                                          &nbsp;Lowercase &amp; Uppercase
+                                       </span>
+                                    </li>
+                                    <li class="">
+                                       <span class="one-number">
+                                          <i class="fas fa-circle" aria-hidden="true"></i>
+                                          &nbsp;Number (0-9)
+                                       </span> 
+                                    </li>
+                                    <li class="">
+                                       <span class="one-special-char">
+                                          <i class="fas fa-circle" aria-hidden="true"></i>
+                                          &nbsp;Special Character (!@#$%^&*)
+                                       </span>
+                                    </li>
+                                    <li class="">
+                                       <span class="eight-character">
+                                          <i class="fas fa-circle" aria-hidden="true"></i>
+                                          &nbsp;Atleast 8 Character
+                                       </span>
+                                    </li>
+                              </ul>
+                                   <div class="form-group mb-20 col-12">
+                                         <div class="checkbox">
+                                         <label>  
+                                            <input type="checkbox" name="" class="TermCondition" id="" value="agree" required> I'm Agree. <a href="{{project.baseURL}}/terms-and-conditions/" target="_blank">Terms & Condition </a> <br>
+                                            <!-- <a href="javascript:void();" class="" data-dismiss="modal" onclick="getRegistrationModel()" data-toggle="modal" data-target="#signin-modal" >Already Registered User Login to Continue.</a> -->
+                                            <!-- <a href="javascript:void();" class="getPrice btn btn-lg btn-primary clearfix" SubscriptionPrice="{{subscription.srp}}" Subscription_Id="{{subscription.pk}}"  {% if request.user.is_user %} data-target="#ReadTermCondition" {% else %}   {% endif %} >Subscribe Now</a> -->
+                                         </label>
+                                         </div>
+                                   </div>
+                                   <div class="form-group col-12">
+                                      <button onclick="USERRegstrationRequest();" class="btn btn-primary w-100 rounded-sm" type="submit">CREATE ACCOUNT</button>
+                                   </div>
+                                   <hr style="width:100%; height:5px" class="bg-dark">
+                                    <div class="text-center py-2">
+                                        <a href="javascript:void(0);"  data-toggle="modal" data-target="#signin-modal"> ALREADY HAVE AN ACCOUNT? </a>
+                                    </div>
+                                    <br>              
+                                    <div class="form-group col-12">
+                                        <a href="javascripti:void(0);" class="btn btn-outline-light w-100 rounded-sm" style="background:#82793c; color:black;" data-toggle="modal" data-target="#signin-modal">LOG IN </a>
+                                    </div>
+                                </div>
+                          </div>
+                        </div>
+            
+                        
+                        <div class="col-lg-4 offset-xl-2">
+                         
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+        <!-- End About Area  -->
+
+
+
+    </div>
+    <!-- Footer Start -->
+    <!-- Footer Start -->
+    {% include 'templates/includes/mainFooter.html' %}
+    <!-- Footer End -->
+    {% include 'includes/JS.html' %}
+    {% include 'includes/JSOPERATIONS.html' %}
+    {% include 'includes/COMBOOperation.html' %}
+    <script>
+        function USERRegstrationRequestOLD(){
+            const email = $('.email').val();
+            const password = $('.password').val();
+            const confirmpassword = $('.confirmpassword').val();
+            if (email == ""){
+                Toast.fire({
+                    icon: 'error',
+                    title: '<p id="messages" style="margin-top:0px !important; margin-left:8px !important;"><b> Email Required* </b></p>'
+                }) 
+            }else if(password == " " || confirmpassword == ""){
+                Toast.fire({
+                    icon: 'error',
+                    title: '<p id="messages" style="margin-top:0px !important; margin-left:8px !important;"><b> Password Required* </b></p>'
+                }) 
+            }else if(password != confirmpassword){
+                Toast.fire({
+                    icon: 'error',
+                    title: '<p id="messages" style="margin-top:0px !important; margin-left:8px !important;"><b>  Password Not Match* </b></p>'
+                }) 
+            }
+            else{
+                const data = new FormData();
+                data.append('email', $('.email').val());
+                data.append('password', $('.password').val());
+                data.append('confirmpassword', $('.confirmpassword').val());
+                $.ajax({                      
+                    type: "POST",                   
+                    url: "{% url 'USERRegstrationRequest' %}",                    
+                    data: data,
+                    cache: false,
+                    processData: false,
+                    contentType: false,
+                    enctype: 'multipart/form-data',
+                    headers: {'X-CSRFToken': "{{ csrf_token }}"},
+                    success: function(data) {   
+                        if (data.status == 1){
+                            Toast.fire({
+                            icon: 'success',
+                            title: '<p id="messages" style="margin-top: 0px !important; margin-left:8px !important;"><b>'+ data.message +'</b></p>'
+                            })                    
+                        }else if (data.status == 0){
+                            Toast.fire({
+                            icon: 'error',
+                            title: '<p id="messages" style="margin-top: 0px !important; margin-left:8px !important;"><b>'+ data.message +'</b></p>'
+                            }) 
+                        }       
+                    },
+                });
+            }
+        }
+    </script>
+    <!-- SweetAlert2 -->
+    <script src="{% static 'adminKHANTAILOR/plugins/sweetalert2/sweetalert2.min.js'%}"></script>
+    <!-- Toastr -->
+    <script src="{% static 'adminKHANTAILOR/plugins/toastr/toastr.min.js'%}"></script>
+    <!-- ======================END========================== -->
+    {% include 'includes/Toster.html' %}
+    </body>
+    </html>
+

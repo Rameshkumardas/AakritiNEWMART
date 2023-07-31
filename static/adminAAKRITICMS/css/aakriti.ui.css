@@ -1,0 +1,133 @@
+.aakriti-wrapper{background:#e8eaf6 !important;}
+body{
+  background:#e8eaf6 !important;
+}
+.aakriti-container{
+  margin-left:6% !important;
+  margin-right:6% !important;
+}  
+@media only screen and (min-width: 360px) {
+ .aakriti-container {
+   margin-left: 1% !important;
+   margin-right: 1% !important;      
+ }
+}
+@media only screen and (min-width: 720px) {
+ .aakriti-container {
+   margin-left:6% !important;
+   margin-right:6% !important;      
+ }
+}
+
+
+
+   
+pre {
+  display: block;
+  padding: 9.5px;
+  margin: 0 0 10px;
+  font-size: 13px;
+  line-height: 1.42857143;
+  color: #333;
+  word-break: break-all;
+  word-wrap: break-word;
+  background-color: #eaecf0;
+  border: 1px solid #ccc;
+  border-radius: 4px;
+  }
+  code, kbd, pre, samp {
+font-family: Menlo,Monaco,Consolas,"Courier New",monospace;
+}
+pre {
+overflow: auto;
+}
+
+
+.breadcrumb-custom li a {
+	color: #ffffff;
+	background-color: #247BE5;
+	border: 1px solid #247BE5;
+}
+
+.breadcrumb-custom li a:before {
+	border-left-color: #247BE5;
+}
+.breadcrumb-custom li span {
+	color: #247BE5;
+}
+
+
+.breadcrumb-custom {
+    height: 36px;
+    padding: 0;
+    line-height: 36px;
+    list-style: none;
+    margin-bottom: 0px;
+    background-color: #eaeaea;
+}
+.breadcrumb-custom li:first-child a {
+    border-radius: 4px;
+    -webkit-border-radius: 4px;
+    -moz-border-radius: 4px 0 0 4px
+}
+.breadcrumb-custom li, .breadcrumb-custom li a, .breadcrumb-custom li span {
+    display: inline-block;
+}
+.breadcrumb-custom li:not(:first-child) {
+    margin-left: -5px
+}
+.breadcrumb-custom li+li:before {
+    padding: 0;
+    content: ""
+}
+.breadcrumb-custom li span {
+    padding: 0 10px
+}
+.breadcrumb-custom li a, .breadcrumb-custom li:not(:first-child) span {
+    height: 36px;
+    padding: 0 10px 0 25px;
+    line-height: 36px
+}
+.breadcrumb-custom li:first-child a {
+    padding: 0 10px
+}
+.breadcrumb-custom li a {
+    position: relative;
+    text-decoration: none;
+    cursor:pointer;
+}
+.breadcrumb-custom li:first-child a {
+    padding-left: 10px
+}
+.breadcrumb-custom li a:after, .breadcrumb-custom li a:before {
+    position: absolute;
+    top: -1px;
+    width: 0;
+    height: 0;
+    content: '';
+    border-top: 18px solid transparent;
+    border-bottom: 18px solid transparent
+}
+.breadcrumb-custom li a:before {
+    right: -10px;
+    z-index: 3;
+    border-left-style: solid;
+    border-left-width: 10px
+}
+.breadcrumb-custom li a:after {
+    right: -11px;
+    z-index: 2;
+    border-left: 11px solid rgba(0, 0, 0, 0.1);
+}
+
+
+.ace_editor {
+  /* border: 1px solid lightgray; */
+  margin: auto;
+  height: 100%;
+  width: 100%;
+}
+.scrollmargin {
+  height: 80px;
+  text-align: center;
+}

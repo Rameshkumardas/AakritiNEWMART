@@ -1,0 +1,820 @@
+{% load static %}
+{% load AakritiMARTTAGS %}
+<!doctype html>
+<html lang="eng">
+   <head>
+    <meta charset="utf-8">
+    <meta htaakriticm-equiv="x-ua-compatible" content="ie=edge">
+    <title>Checkout | {{project.title | safe | title }} || AakritiMART</title>
+    <link rel="icon" type="image/png" href="{% if project.favicon %}{{project.favicon.url}}{% else %}{% static 'adminAAKRITICMS/img/default/mrdas.jpg' %}{% endif %}">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <meta name="keywords" content="{{project.meta_keywords | safe }}">
+    <meta name="description" content="{{project.meta_description | safe }}">
+    <meta property="og:locale" content="en_US">
+    <meta property="og:type" content="website">
+    <meta property="og:title" content="{{ project.meta_title | safe }}">
+    <meta property="og:description" content="{{project.meta_description | safe }}">
+    <meta property="og:url" content="{{project.baseURL}}">
+    <meta property="og:site_name" content="{{project.name}}">
+    <link rel="canonical" href="{{project.baseURL}}">
+
+    <!-- CSS here -->
+    <link rel="stylesheet" href="{% static 'aakritimart/css/bootstrap.css' %}">
+    <link rel="stylesheet" href="{% static 'aakritimart/css/animate.css' %}">
+    <link rel="stylesheet" href="{% static 'aakritimart/css/swiper-bundle.css' %}">
+    <link rel="stylesheet" href="{% static 'aakritimart/css/slick.css' %}">
+    <link rel="stylesheet" href="{% static 'aakritimart/css/magnific-popup.css' %}">
+    <link rel="stylesheet" href="{% static 'aakritimart/css/font-awesome-pro.css' %}">
+    <link rel="stylesheet" href="{% static 'aakritimart/css/flaticon_shofy.css' %}">
+    <link rel="stylesheet" href="{% static 'aakritimart/css/spacing.css' %}">
+    <link rel="stylesheet" href="{% static 'aakritimart/css/main.css' %}">
+
+    <!-- SweetAlert2 -->
+    <link rel="stylesheet" href="{% static 'adminAAKRITICMS/plugins/sweetalert2-theme-bootstrap-4/bootstrap-4.min.css' %}">
+    <link rel="stylesheet" href="{% static 'adminAAKRITICMS/plugins/toastr/toastr.min.css' %}">
+        <!-- Select2 -->
+  <link rel="stylesheet" href="{% static 'adminAAKRITICMS/plugins/select2/css/select2.min.css'%}">
+  <link rel="stylesheet" href="{% static 'adminAAKRITICMS/plugins/select2-bootstrap4-theme/select2-bootstrap4.min.css'%}">
+  {% include "template/includes/COMMONHEADERTags.html" %}
+
+
+   </head>
+<body>
+   
+    {% include "template/includes/MAINHeader.html" %}
+
+   {% comment %}
+   {% include "template/includes/MAINHeader.html" %}
+   {% endcomment%}
+   {% if not request.user.is_user %}
+    {% include "template/includes/LOGINSIGNUP.html" %}
+    {% endif %}  
+   <main>
+
+    <!-- breadcrumb area start -->
+    <section class="breadcrumb__area include-bg pt-50 pb-50" data-bg-color="#EFF1F5">
+       <div class="container">
+          <div class="row">
+             <div class="col-xxl-12">
+                <div class="breadcrumb__content p-relative z-index-1">
+                   <h3 class="breadcrumb__title">Checkout</h3>
+                   <div class="breadcrumb__list">
+                      <span><a href="{{project.baseURL}}">Home</a></span>
+                      <span>Checkout</span>
+                   </div>
+                </div>
+             </div>
+          </div>
+       </div>
+    </section>
+    <!-- breadcrumb area end -->
+
+    <!-- checkout area start -->
+    <section class="aakriticm-checkout-area pb-120" data-bg-color="#EFF1F5">
+       <div class="container">
+          <div class="row">
+            {% if not request.user.is_user %}
+             <div class="col-xl-7 col-lg-7">
+                <div class="aakriticm-checkout-verify">
+                   <div class="aakriticm-checkout-verify-item">
+                      <p class="aakriticm-checkout-verify-reveal">Returning customer? <button type="button" class="aakriticm-checkout-login-form-reveal-btn" data-bs-toggle="modal" data-bs-target="#signin-modal">Click here to login</button></p>
+                    </div>                      
+                </div>
+             </div>
+             {% endif %}
+
+             <div class="col-lg-7">
+                {% if not request.user.is_user %}
+                    <div class="aakriticm-checkout-bill-area">
+                        <h3 class="aakriticm-checkout-bill-title">Billing Details</h3>
+                        <div class="aakriticm-checkout-bill-form">
+                        <form action="#">
+                            <div class="aakriticm-checkout-bill-inner">
+                                <div class="row">
+                                    <div class="col-md-6">
+                                        <div class="aakriticm-checkout-input">
+                                            <label>First Name <span>*</span></label>
+                                            <input id="first_status_border" type="text" class="get_first_name" placeholder="Enter Your First Name" name="fname" value="Ramesh">
+                                        </div>
+                                    </div>
+                                    <div class="col-md-6">
+                                        <div class="aakriticm-checkout-input">
+                                            <label>Last Name <span>*</span></label>
+                                            <input id="last_status_border" type="text" class="get_last_name" placeholder="Enter Your Last Name" name="lname" value="Das">
+                                        </div>
+                                    </div>
+                                    <div class="col-md-12">
+                                        <div class="aakriticm-checkout-input">
+                                            <label>Company name (optional)</label>
+                                            <input type="text" class="get_compnay" placeholder="Example LTD." name="company" value="SARAJ SYSTEMS PVT LTD">
+                                        </div>
+                                    </div>
+                                    <div class="col-md-6">
+                                        <div class="aakriticm-checkout-input">
+                                            <label>Pin Code</label>
+                                            <input id="pincode_status_border" type="text" class="get_pinCode" placeholder="Enter Your Pin Code" name="pincode" value="110085">
+                                        </div>
+                                    </div>
+                                    <div class="col-md-6">
+                                        <div class="aakriticm-checkout-input">
+                                            <label>House No</label>
+                                            <input id="house_no_status_border" type="text" class="get_house_no" placeholder="Enter Your House No." name="house_no" value="179">
+                                        </div>
+                                    </div>
+                                    <div class="col-md-6">
+                                        <div class="aakriticm-checkout-input">
+                                            <label>Land Mark </label>
+                                            <input id="land_mark_status_border" type="text" class="get_land_mark" placeholder="Enter Your Land Mark" name="land_mark" value="Avantika Redlight">
+                                        </div>
+                                    </div>
+                                    <div class="col-md-6">
+                                        <div class="aakriticm-checkout-input">
+                                            <label>City </label>
+                                            <input id="city_status_border" type="text" class="get_city" placeholder="Enter Your City" name="city" value="Avantika">
+                                        </div>
+                                    </div>
+                                    <div class="col-md-6">
+                                        <div class="aakriticm-checkout-input">
+                                            <label>State </label>
+                                            <input id="state_status_border" type="text" class="get_state" placeholder="Enter Your States" name="state" value="Delhi">
+                                        </div>
+                                    </div>
+                                    <div class="col-md-6">
+                                        <div class="aakriticm-checkout-input">
+                                            <label>Country </label>
+                                            <input id="country_status_border" type="text" class="get_country" placeholder="Enter Your Country" name="country" value="India">
+                                        </div>
+                                    </div>
+                                    
+                                    <div class="col-md-6">
+                                        <div class="aakriticm-checkout-input">
+                                            <label>Email address <span>*</span></label>
+                                            <input id="email_status_border" type="email" class="get_email" placeholder="Enter Your Email Id" name="email" value="das82916@gmail.com">
+                                        </div>
+                                    </div>
+                                    <div class="col-md-6">
+                                        <div class="aakriticm-checkout-input">
+                                            <label>Contact No <span>*</span></label>
+                                            <input id="contact_status_border" type="text" class="get_contact" placeholder="Enter Your Contact No." name="contact" value="7322057677">
+                                        </div>
+                                    </div>
+                                    <div class="col-md-12">
+                                        <div class="aakriticm-checkout-option-wrapper">
+                                            <div class="aakriticm-checkout-option">
+                                                <input id="create_free_account" class="create_account" type="checkbox" name="CreateAccount">
+                                                <label for="create_free_account">Create an account?</label>
+                                            </div>
+                                        </div>
+                                    </div>
+                                    <div class="col-md-12">
+                                        <div class="aakriticm-checkout-input">
+                                            <label>Order notes (optional)</label>
+                                            <textarea class="get_optional" placeholder="Notes about your order, e.g. special notes for delivery." name="optional">No Thanks</textarea>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                        </form>
+                        </div>
+                    </div>
+                {% else %}
+
+                <div class="row">
+                    <div class="col-lg-6">
+                        <a href="javascript:void(0)" data-bs-toggle="modal" data-bs-target="#BillingAddress" class="AddProduct btn btn-primary float-right" data-bs-toggle="tooltip" title="Create New Billing Address" ><i class="fas fa-edit"></i>&nbsp;&nbsp; Create New Billing Address</a>
+                        <h3 class="aakriticm-checkout-bill-title">Select Billing Address </h3>
+                        <select name="get_billing_address" class="form-control get_billing_address " style="width:100% !important;">    
+                            {% if allBILLINGS %}
+                                {% for address in allBILLINGS %}
+                                    <option value="{{address.pk}}">{{address.bhouse_no}} {{address.blandmark}} {{address.bcity}} {{address.bcode}}, {{address.bstate}} ( {{address.bcountry}} )</option>
+                                {% endfor %}
+                            {% else %}
+                                <option value="">Select Billing Address</option>                                    
+                            {% endif %}                        
+                        </select>
+                    </div>
+                    <div class="col-lg-6">
+                        <a href="javascript:void(0)" data-bs-toggle="modal"  data-bs-target="#ShippingAddress" class="AddProduct btn btn-primary float-right" data-bs-toggle="tooltip" title="Create New Shipping Address" ><i class="fas fa-edit"></i>&nbsp;&nbsp; Create New Shipping Address</a>
+                        <h3 class="aakriticm-checkout-bill-title">Select Shipping Address </h3>
+                        <select id="get_shipping_address" name="get_shipping_address" class="form-control get_shipping_address " style="width:100% !important;">    
+                            {% if allSHIPPINGS %}
+                                {% for address in allSHIPPINGS %}
+                                    <option value="{{address.pk}}">{{address.shouse_no}} {{address.slandmark}} {{address.scity}} {{address.scode}}, {{address.sstate}} ( {{address.scountry}} )</option>
+                                {% endfor %}
+                            {% else %}
+                                <option value="">Select Shipping Address</option>                                    
+                            {% endif %}
+                        </select>                                 
+                    </div>
+                </div>
+
+                {% endif %}
+             </div>
+
+
+             
+
+             <div class="col-lg-5">
+                <!-- checkout place order -->
+                <div class="aakriticm-checkout-place white-bg">
+                   <h3 class="aakriticm-checkout-place-title">Your Order</h3>
+
+                   <div class="aakriticm-order-info-list">
+                      <ul>
+
+                         <!-- header -->
+                         <li class="aakriticm-order-info-list-header">
+                            <h4>Product</h4>
+                            <h4>Total</h4>
+                         </li>
+
+                        <!-- ============================================ -->                        
+                        {% if request.GET.checkoutFor == 'myCartList' %}
+                            {% for cart in CartList %}
+                            <li class="aakriticm-order-info-list-desc">
+                                <p>{{cart.product.name}}. <span> x {{cart.qty}}</span></p>
+                                {% comment %}
+                                <span>$ {% multiply cart.sp cart.qty %}</span>
+                                {% endcomment %}
+                             </li>
+                       
+                            {% endfor %}
+                        {% else %}
+                         <!-- item list -->
+                         <li class="aakriticm-order-info-list-desc">
+                            <p>{{request.GET.product}}. <span> x {{request.GET.qty}}</span></p>
+                            <span>$ {% multiply product.sp request.GET.qty %}</span>
+                         </li>
+                         {% endif %}
+
+                        <!-- ============================================ -->
+
+                        <!-- subtotal -->
+                         <li class="aakriticm-order-info-list-subtotal">
+                            <span>Subtotal</span>
+                            <span>$ {{subTotal}}</span>
+                         </li>
+
+                          <!-- Discount -->
+                          <li class="aakriticm-order-info-list-shipping">
+                            <span>GST</span>
+                            <div class="aakriticm-order-info-list-shipping-item d-flex flex-column align-items-end">
+                                <span>$ {{GSTTotal}}</span>
+                            </div>
+                         </li>
+
+                         <!-- shipping -->
+                         <li class="aakriticm-order-info-list-shipping">
+                            <span>Shipping</span>
+                            <div class="aakriticm-order-info-list-shipping-item d-flex flex-column align-items-end">
+                                <span>$ {{ShippingTotal}}</span>
+                            </div>
+                         </li>
+
+                         <!-- Discount -->
+                         <li class="aakriticm-order-info-list-shipping">
+                            <span>Discount</span>
+                            <div class="aakriticm-order-info-list-shipping-item d-flex flex-column align-items-end">
+                                <span>$ {{discount}}</span>
+                            </div>
+                         </li>
+                         <!-- total -->
+                         <li class="aakriticm-order-info-list-total">
+                            <span>Total</span>
+                            <span>$ {{total}}</span>
+                         </li>
+                      </ul>
+                   </div>
+
+                   <div class="aakriticm-checkout-payment">
+                        <div class="aakriticm-checkout-payment-item paypal-payment">
+                            <input type="radio" id="paypal" name="get_payment" value="PayPal">
+                            <label for="paypal">PayPal <img src="{% static 'aakritimart/assets/img/icon/payment-option.png' %}" alt=""> <a href="#">What is PayPal?</a></label>
+                        </div>
+                        <div class="aakriticm-checkout-payment-item razorpay-payment">
+                            <input type="radio" id="razorpay" name="get_payment" value="Razorpay" checked>
+                            <label for="razorpay">Razorpay <img src="{% static 'aakritimart/assets/img/icon/payment-option.png' %}" alt=""> <a href="#">What is Razorpay?</a></label>
+                        </div>
+                        <div class="aakriticm-checkout-payment-item">
+                            <input type="radio" id="cod" name="get_payment" value="COD" >
+                            <label for="cod">Cash on Delivery</label>
+                            <div class="aakriticm-checkout-payment-desc cash-on-delivery">
+                                <p>Make your payment directly into our bank account. Please use your Order ID as the payment reference. Your order will not be shipped until the funds have cleared in our account.</p>
+                            </div>
+                        </div>
+                   </div>
+
+                   <div class="aakriticm-checkout-agree">
+                      <div class="aakriticm-checkout-option">
+                         <input class="iagree" id="read_all" type="checkbox" name="get_iagree" value="agree" required>
+                         <label for="read_all">I have read and agree to the Term & Condition.</label>
+                      </div>
+                   </div>
+
+                   <div class="aakriticm-checkout-btn-wrapper">
+                      <a href="javascript:void();" class="aakriticm-checkout-btn w-100" onclick="ORDERThis();">Place Order</a>
+                   </div>
+
+                    <hr>                   
+                   <div class="aakriticm-checkout-verify-item">
+                    <p class="aakriticm-checkout-verify-reveal">Have a coupon? <button type="button" class="aakriticm-checkout-coupon-form-reveal-btn">Click here to enter your code</button></p>
+                    <div id="tpCheckoutCouponForm" class="aakriticm-return-customer">
+                        <div class="aakriticm-return-customer-input">
+                            <label>Coupon Code :</label>
+                            <input type="text" placeholder="Coupon">
+                        </div>
+                        <button type="submit" class="aakriticm-return-customer-btn aakriticm-checkout-btn">Apply</button>
+                    </div>
+                </div>
+                </div>
+             </div>
+
+          </div>
+       </div>
+    </section>
+    <!-- checkout area end -->
+
+
+ </main>
+ 
+   
+   {% include "template/includes/MAINFooter.html" %}
+   <!-- JS here -->
+   <script src="{% static 'aakritimart/js/vendor/jquery.js' %}"></script>
+   <script src="{% static 'aakritimart/js/vendor/waypoints.js' %}"></script>
+   <script src="{% static 'aakritimart/js/bootstrap-bundle.js' %}"></script>
+   <script src="{% static 'aakritimart/js/meanmenu.js' %}"></script>
+   <script src="{% static 'aakritimart/js/swiper-bundle.js' %}"></script>
+   <script src="{% static 'aakritimart/js/slick.js' %}"></script>
+   <script src="{% static 'aakritimart/js/range-slider.js' %}"></script>
+   <script src="{% static 'aakritimart/js/magnific-popup.js' %}"></script>
+   <script src="{% static 'aakritimart/js/nice-select.js' %}"></script>
+   <script src="{% static 'aakritimart/js/purecounter.js' %}"></script>
+   <script src="{% static 'aakritimart/js/countdown.js' %}"></script>
+   <script src="{% static 'aakritimart/js/wow.js' %}"></script>
+   <script src="{% static 'aakritimart/js/isotope-pkgd.js' %}"></script>
+   <script src="{% static 'aakritimart/js/imagesloaded-pkgd.js' %}"></script>
+   <script src="{% static 'aakritimart/js/ajax-form.js' %}"></script>
+   <script src="{% static 'aakritimart/js/main.js' %}"></script>
+    <!-- Select2 -->
+    <script src="{% static 'adminAAKRITICMS/plugins/select2/js/select2.full.min.js'%}"></script>
+
+   {% include "template/includes/JSCOMMON.html" %}
+   <script src="https://checkout.razorpay.com/v1/checkout.js"></script>
+   {% include 'template/addressJAVASCRIPT.html' %} 
+ <script>
+    
+    $(function () {
+        //Initialize Select2 Elements
+        $('.select2').select2()
+        //Initialize Select2 Elements
+        $('.select2bs4').select2({
+          theme: 'bootstrap4'
+        })
+        //Date and time picker
+      })
+
+      
+    function OrderDetailValidate(){
+
+        jsonOBJ = {}
+        const qty = "{{request.GET.qty}}";
+        const color = "{{request.GET.color}}";
+        const subtotal = "{{subTotal}}";
+        const gst = "{{GSTTotal}}";
+        const shipping = "{{ShippingTotal}}";
+        const discount = "{{discount}}";
+        const total = "{{total}}";
+        const product_slug = "{{request.GET.product}}"
+        const product = "{{product.pk}}"
+        const checkout_for = "{{request.GET.checkoutFor}}";
+        jsonOBJ['qty'] = qty;
+        jsonOBJ['color'] = color;
+        jsonOBJ['subtotal'] = subtotal;
+        jsonOBJ['gst'] = gst;
+        jsonOBJ['shipping'] = shipping;
+        jsonOBJ['discount'] = discount;
+        jsonOBJ['total'] = total;
+        jsonOBJ['slug'] = product_slug;
+        jsonOBJ['product'] = product;
+        jsonOBJ['checkout_for'] = checkout_for;
+
+        if ("{{request.session.AakritiMARTusername}}" !="" && "{{request.user.pk}}" !="" || "{{request.session.SUPERADMIN}}" !="" ){
+            const billing_address = $('.get_billing_address').val();
+            if (!billing_address){
+                toastr.error("Billing Address Required*");
+            }else{
+                jsonOBJ['billing_address'] = billing_address;
+            }
+
+            const shipping_address = $('select[name="get_shipping_address"]').val();
+            if (!shipping_address){
+                toastr.error("Shipping Address Required*");                   
+            }else{ 
+                jsonOBJ['shipping_address'] = shipping_address;
+            }
+            const iagree = $('input[name="get_iagree"]:checked');
+            if (!iagree){
+                toastr.error("Read - Term & Condition Check Agree")                
+            }else{
+                jsonOBJ['iagree'] = iagree;
+            }  
+
+            const payMethod = $('input[name="get_payment"]:checked').val();
+            if (!payMethod){
+                toastr.error("Select Payment Method")                
+            }else{
+                jsonOBJ['payMethod'] = payMethod;
+                jsonOBJ['fname'] = "{{request.user.fname}}";
+                jsonOBJ['lname'] = "{{request.user.lname}}";
+                jsonOBJ['email'] = "{{request.user.email}}";
+                jsonOBJ['contact'] = "{{request.user.phone}}";
+            }  
+            if (billing_address && shipping_address && iagree && payMethod){
+                return jsonOBJ
+            }else{
+                return false
+            }
+        }else{
+            const fname =$('.get_first_name').val(); 
+            if (!fname){
+                error = document.getElementById('first_status_border');
+                error.style.border = "1px solid red";
+                toastr.error("First Name Require")
+            }else{
+                jsonOBJ['fname'] = fname;
+            }
+
+            const lname =$('.get_last_name').val();
+            if (!lname){
+                error = document.getElementById('last_status_border');
+                error.style.border = "1px solid red";
+                toastr.error("Last Name Require")
+            }else{
+                jsonOBJ['lname'] = lname;
+            }
+
+            const email =$('.get_email').val();
+            if (!email){
+                error = document.getElementById('email_status_border');
+                error.style.border = "1px solid red";
+                toastr.error("Email Require") 
+            }else{
+                jsonOBJ['email'] = email;
+            }
+            const contact =$('.get_contact').val();
+            if (!contact){
+                error = document.getElementById('contact_status_border');
+                error.style.border = "1px solid red";
+                toastr.error("Contact Require")
+            }else{
+                jsonOBJ['contact'] = contact;
+            }
+            const pinCode =$('.get_pinCode').val();
+            if (!pinCode){
+                error = document.getElementById('pincode_status_border');
+                error.style.border = "1px solid red";
+                toastr.error("PinCode Require")
+            }else{
+                jsonOBJ['pinCode'] = pinCode;
+            }
+
+            const house_no =$('.get_house_no').val();
+            if (!house_no){
+                error = document.getElementById('house_no_status_border');
+                error.style.border = "1px solid red";
+                toastr.error("Flat/House No Require")
+            }else{
+                jsonOBJ['house_no'] = house_no;
+            }
+
+            const land_mark = $('.get_land_mark').val();
+            if (!land_mark){
+                error = document.getElementById('land_mark_status_border');
+                error.style.border = "1px solid red";
+                toastr.error("Land Mark Require")   
+            }else{
+                jsonOBJ['land_mark'] = land_mark;
+            }
+
+            const city = $('.get_city').val();
+            if (!city){
+                error = document.getElementById('city_status_border');
+                error.style.border = "1px solid red";
+                toastr.error("City Require") 
+            }else{
+                jsonOBJ['city'] = city;
+            }
+
+            const state =$('.get_state').val();
+            if (!state){
+                error = document.getElementById('state_status_border');
+                error.style.border = "1px solid red";
+                toastr.error("State Require")  
+            }else{
+                jsonOBJ['state'] = state;
+            }
+
+            const country = $('.get_country').val();
+            if (!country){
+                error = document.getElementById('country_status_border');
+                error.style.border = "1px solid red";
+                toastr.error("Country Require") 
+            }else{
+                jsonOBJ['country'] = country;
+            }
+                        
+            const iagree = $('input[name="get_iagree"]:checked');
+            if (!iagree){
+                toastr.error("Read - Term & Condition Check Agree")                
+            }else{
+                jsonOBJ['iagree'] = iagree;
+            }  
+
+            const payMethod = $('input[name="get_payment"]:checked').val();
+            if (!payMethod){
+                toastr.error("Select Payment Method")                
+            }else{
+                jsonOBJ['payMethod'] = payMethod;                
+            }  
+            if (lname && fname && email && contact && pinCode && house_no && land_mark && city && state && country && iagree && payMethod){
+                const create_account =$('.create_account').val();
+                const optional =$('.get_optional').val();
+                jsonOBJ['create_account'] = create_account;
+                jsonOBJ['optional'] = optional;
+                return jsonOBJ
+            }else{
+                return false
+            }
+    }
+}
+
+</script>
+
+
+
+
+<script>
+    function COD_ORDER_CONFIRM_AND_VERIFY(){
+        const onetime_verification_code =$('.onetime_verification_code').val();
+        const data = new FormData();
+        data.append('onetime_verification_code', onetime_verification_code);
+        data.append('jsonOBJ', JSON.stringify(jsonOBJ));
+        $.ajax({                      
+            type: "POST",                   
+            url: "{% url 'COD_ORDER_CONFIRM_AND_VERIFY' %}",                    
+            data: data,
+            cache: false,
+            processData: false,
+            contentType: false,
+            enctype: 'multipart/form-data',
+            headers: {'X-CSRFToken': "{{ csrf_token }}"},
+            success: function(data) {   
+                if (data.status == 1){
+                    $('#CODVerification').modal('hide');
+                    toastr.success( data.message )
+                    setTimeout(function () {
+                        window.location.href = "{{project.baseURL}}"+"/auth/order/"+date.AFTERTask+"/";
+                    }, 2000); 
+              
+                }else if (data.status == 0){
+                    toastr.error( data.message ) 
+                }       
+            },
+            error: function(data) {   
+                toastr.error("Server Issue")
+            },
+        });
+    }
+
+</script>
+
+<script>
+    
+    function ORDERThis(){
+        jsonOBJ = OrderDetailValidate();
+        
+        if (jsonOBJ != false){
+
+            console.log(jsonOBJ);
+            if (jsonOBJ['payMethod'] == 'COD' ){
+                const data = new FormData();
+                data.append('jsonOBJ', JSON.stringify(jsonOBJ));
+                $.ajax({                      
+                    type: "POST",                   
+                    url: "{% url 'CODVerificationCode' %}",                    
+                    data: data,
+                    cache: false,
+                    processData: false,
+                    contentType: false,
+                    enctype: 'multipart/form-data',
+                    headers: {'X-CSRFToken': "{{ csrf_token }}"},
+                    success: function(data) {   
+                        if (data.status == 1){
+                            $('#CODVerification').modal('show');
+                            toastr.success( data.message )
+                        }else if (data.status == 0){
+                            toastr.error( data.message ) 
+                        }       
+                    },
+                    error: function(data) {   
+                        toastr.error("Server Issue")
+                    },
+                }); 
+            }
+            else if (jsonOBJ['payMethod'] == 'Razorpay'){
+                const data = new FormData();
+                data.append('amount', jsonOBJ['total']);
+                data.append('currency', "INR");
+                $.ajax({                      
+                    type: "POST",                   
+                    url: "{% url 'ORDER_GENERATE_WITH_RAZORPAY' %}",                    
+                    data: data,
+                    cache: false,
+                    processData: false,
+                    contentType: false,
+                    enctype: 'multipart/form-data',
+                    headers: {'X-CSRFToken': "{{ csrf_token }}"},
+                    success: function(data) {   
+                        if (data.status == 1){
+                            var options = {
+                                "key": "{{project.RAZORPAY_API_KEY}}",
+                                "amount": data.amount, 
+                                "currency": data.currency,
+                                "name": jsonOBJ['fname'],
+                                "description": "Thanks For Purchase",
+                                "image": "",
+                                "order_id": data.order_id, 
+                                "handler": function (response){
+                                    jsonOBJ['razorpay_order_id']=response.razorpay_order_id;
+                                    jsonOBJ['razorpay_payment_id']=response.razorpay_payment_id;
+                                    jsonOBJ['razorpay_signature']=response.razorpay_signature;
+                                    $.ajax({                      
+                                        type: "POST",                   
+                                        url: "{% url 'PAYMENT_VERIFICATION_WITH_RAZORPAY' %}",                    
+                                        data: {
+                                            csrfmiddlewaretoken: "{{ csrf_token }}",
+                                            'jsonOBJ': JSON.stringify(jsonOBJ),
+                                        },
+                                        success: function(date) {   
+                                            if (date.status == 1){
+                                                toastr.success(date.message) 
+                                                setTimeout(function () {
+                                                    console.log("date.AFTERTask", date.AFTERTask)
+                                                    window.location.href = "{{project.baseURL}}"+"/auth/order/"+date.AFTERTask+"/";
+                                                }, 2000); 
+                                            }else if (date.status == 0){
+                                                toastr.error(date.message) 
+                                            } 
+                                        },
+                                    });
+                                },
+                                "prefill": {
+                                    "name": jsonOBJ['name'],
+                                    "email": jsonOBJ['email'],
+                                    "contact": jsonOBJ['contact'],
+                                },
+                                "notes": {
+                                    "address": "No Thanks"
+                                },
+                            };
+                            var rzp1 = new Razorpay(options);
+                            rzp1.on('payment.failed', function (response){
+                                toastr.error(response.message)
+                                alert(response.message);
+                            });
+
+                            rzp1.open();
+                            e.preventDefault();
+                            toastr.error( data.message )
+                        }else if (data.status == 0){
+                            toastr.error( data.message )
+                        }     
+                    },
+                    error:function(data){
+                        toastr.error( data.message ) 
+                    },
+                });
+            }
+        }
+    }
+
+</script>
+
+
+{% if project.PAYPAL_PAY_ACTIVE %}
+<script src="https://www.paypal.com/sdk/js?client-id={{project.PAYPAL_API_KEY}}"></script>
+<script>
+  
+    const fundingSources = [
+        paypal.FUNDING.PAYPAL,
+        paypal.FUNDING.VENMO,
+        paypal.FUNDING.PAYLATER,
+        paypal.FUNDING.CARD,
+    ]
+            
+    for (const fundingSource of fundingSources) {
+        const paypalButtonsComponent = paypal.Buttons({
+        fundingSource: fundingSource,
+        // optional styling for buttons
+        // https://developer.paypal.com/docs/checkout/standard/customize/buttons-style-guide/
+        style: {
+            shape: 'rect',
+            height: 40,
+        },
+        // set up the transaction
+        createOrder: (data, actions) => {
+            // pass in any options from the v2 orders create call:
+            const createOrderPayload = {
+            purchase_units: [
+                {
+                amount: {
+                    value: "{{total}}",
+                },
+                },
+            ],
+        }
+            return actions.order.create(createOrderPayload)
+        },
+
+        // finalize the transaction
+        onApprove: (data, actions) => {
+            const captureOrderHandler = (details) => {
+            const payerName = details.payer.name.given_name
+            // ==================================================
+            console.log('Transaction completed!')
+            alert("Transaction completed!")
+            // ================================================== 
+            var billing = $('.selectedbillingAddressFORORDER').val()           
+            var shippingVal = $('.selectedshippingAddressFORORDER').val()           
+            $.ajax({       
+                type: "POST",                   
+                url: "{% url 'PAYMENT_SUCCESS_WITH_PAYPAL' %}", 
+                //headers: {'X-CSRFToken': "{{ csrf_token }}"},
+                data:{
+
+                csrfmiddlewaretoken: "{{ csrf_token }}",
+                'product': "{{request.GET.product}}",
+                'checkoutFor': "{{request.GET.checkoutFor}}",
+                'billing': billing,
+                'shipping': shippingVal,
+                'qty': "{{request.GET.qty}}",
+                'color': "{{request.GET.color}}",
+                'properties': 'shipping',
+                'subtotal': "{{subTotal}}",
+                //'gst': "{{GSTTotal}}",
+                'shipping': "{{ShippingTotal}}",
+                'discount': "{{discount}}",
+                'total': "{{total}}",
+                'razorpay_order_id': 'response.razorpay_order_id', 
+                'razorpay_payment_id': 'response.razorpay_payment_id', 
+                'razorpay_signature': 'response.razorpay_signature', 
+                },
+
+                success: function(data) {   
+                    if (data.status == 1){
+                        toastr.error( data.message )
+
+                        setTimeout(function () {
+                            window.location.href = "{{project.baseURL}}"+"/auth/OrderConfirm/"+date.OrderId+"/";
+                        }, 2000); 
+
+                    }else if (data.status == 0){
+                        Toast.fire({
+                        icon: 'error',
+                        title:  data.message 
+                        }) 
+                    }       
+                },
+                
+            });
+        }        
+            return actions.order.capture().then(captureOrderHandler)
+        },
+        // handle unrecoverable errors
+        onError: (err) => {
+            console.error('An error prevented the buyer from checking out with PayPal',)
+        },
+        })
+            
+        if (paypalButtonsComponent.isEligible()) {
+            paypalButtonsComponent
+            .render('#paypal-button-container')
+            .catch((err) => {
+            console.error('PayPal Buttons failed to render')
+            })
+        } else {
+            console.log('The funding source is ineligible')
+        }
+                
+    }            
+</script>
+{% endif %}
+
+<!-- Toastr -->
+<script src="{% static 'adminAAKRITICMS/plugins/sweetalert2/sweetalert2.min.js'%}"></script>
+ <!-- <script src="{% static 'adminAAKRITICMS/plugins/toastr/toastr.min.js'%}"></script> -->
+<script src="{% static 'adminAAKRITICMS/plugins/toastr/toastr.min.js'%}"></script>
+{% include "template/includes/USERToster.html" %}
+</body>
+</html>
