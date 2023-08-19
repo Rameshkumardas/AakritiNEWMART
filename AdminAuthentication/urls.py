@@ -3,7 +3,6 @@ from . import NSGPost, views, AdminRegistration, AdminLogin, AdminLogOut, AdminF
 from django.urls import path
 
 urlpatterns = [  
-               
             path('@AdminProfile/', AdminProfile.AdminProfile, name='AdminProfile'),  
             path('@deleteLOG/<int:pk>/', AdminProfile.deleteLOG, name='deleteLOG'),  
             path('@deleteALLLOGS/', AdminProfile.deleteALLLOGS, name='deleteALLLOGS'),  

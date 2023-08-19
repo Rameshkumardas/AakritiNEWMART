@@ -1,5 +1,8 @@
 {% if not request.user.is_accountant %}
     {{project.google_analytics | safe }}
     {{project.google_console | safe }}
+    {% comment %}
     {{project.tawk | safe }}
+    {% endcomment %}
 {% endif %}
+

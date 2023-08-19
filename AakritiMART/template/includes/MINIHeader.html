@@ -97,26 +97,27 @@
                                 </li>
                             </ul> -->
                             </div>
+                            
                             {% if request.user.is_user %}
                             <div class="aakriticm-header-top-menu-item aakriticm-header-setting">
-                            <span class="aakriticm-header-setting-toggle" id="aakriticm-header-setting-toggle">Setting</span>
-                            <ul>
-                                <li>
-                                    <a href="{% url 'Dashboard' %}">My Profile</a>
-                                </li>
-                                <li>
-                                    <a href="{% url 'WishlistMART' %}">Wishlist</a>
-                                </li>
-                                <li>
-                                <a href="{% url 'CompareMART' %}">Compare</a>
-                                </li>
-                                <li>
-                                    <a href="{% url 'WishlistMART' %}">Cart</a>
-                                </li>
-                                <li>
-                                    <a href="{% url 'LOGOUTUSER' %}">Logout</a>
-                                </li>
-                            </ul>
+                                <span class="aakriticm-header-setting-toggle" id="aakriticm-header-setting-toggle">Setting</span>
+                                <ul>
+                                    <li>
+                                        <a href="{% url 'Dashboard' %}">My Profile</a>
+                                    </li>
+                                    <li>
+                                        <a href="{% url 'WishlistMART' %}">Wishlist</a>
+                                    </li>
+                                    <li>
+                                    <a href="{% url 'CompareMART' %}">Compare</a>
+                                    </li>
+                                    <li>
+                                        <a href="{% url 'WishlistMART' %}">Cart</a>
+                                    </li>
+                                    <li>
+                                        <a href="{% url 'LOGOUTUSER' %}">Logout</a>
+                                    </li>
+                                </ul>
                             </div>
                             {% endif %}
                         </div>

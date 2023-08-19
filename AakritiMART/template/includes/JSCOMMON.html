@@ -101,92 +101,138 @@
 
 
  <script>
-    $(".addToCart").click(function () {
-       const targetVAL = $(this).attr('getProduct'); 
-       $.ajax({                      
-           type: "POST",                   
-           url: "{% url 'addToCart' %}",                    
-           data: {
-             csrfmiddlewaretoken: "{{ csrf_token }}",
-             'targetVAL': targetVAL,  
-            },
-           success: function (data) {  
-            if (data.status == 1){
-                toastr.success(data.message)
-                //setTimeout(function () {
-                //    window.location.href =data.AFTERLogin;
-                //}, 2000); 
-            }else if (data.status == 0){
-                toastr.info(data.message)
 
-            } 
-          }
-       });
-     });
+    function updatePRICE(pk, event) {
+        var SelectUnit = document.querySelector("#SelectUnit");
+        var mrp = event.options[event.selectedIndex].getAttribute("mrp");
+        var sp = event.options[event.selectedIndex].getAttribute("sp");
+        var val = $('.SelectUnit').val();
+        $('span.productSP'+pk).html(sp);
+        $('span.productMRP'+pk).html(mrp);
+    }
+
+
+    //$(".addToCart").click(function () {
+    function AddToCart(pk) {
+
+        const count = $('span.aakriticm-cartcount').text();
+       
+
+        //const thisUNIT_id = $('.thisUNIT'+pk); 
+        //const attribute = $(thisUNIT_id).val();
+        //const SelectUnit = document.getElementsByClassName(thisUNIT_id);
+        //const mrp = thisUNIT_id[0].options[thisUNIT_id[0].selectedIndex].getAttribute("mrp");
+        //const sp = thisUNIT_id[0].options[thisUNIT_id[0].selectedIndex].getAttribute("sp");
+        const qty = $('.thisQTY'+pk).val(); 
+
+        const form_data = new FormData();
+
+        form_data.append('targetVAL', pk);
+        //form_data.append('attribute_name', attribute);
+        form_data.append('qty', qty);
+        //form_data.append('total_mrp', mrp);
+        //form_data.append('total_sp', sp);
+
+        $.ajax({  
+            type: "POST",                   
+            url: "{% url 'addToCart' %}",                    
+            data: form_data,
+            cache: false,
+            processData: false,
+            contentType: false,
+            enctype: 'multipart/form-data',
+            headers: {'X-CSRFToken': "{{ csrf_token }}"},
+            success: function (data) {  
+                if (data.status == 1){
+                    $('span.aakriticm-cartcount').html(parseInt(count)+1)
+                    toastr.success(data.message)
+                    setTimeout(function () {
+                        window.location.href =data.AFTERTask;
+                    }, 1000); 
+                }else if (data.status == 0){
+                    toastr.info(data.message)
+                } 
+            }
+        });
+    }
  </script>
 
+ <script>
+    function ProductSummary(){
+       var selling_price = [];
+       var mrp = [];
+       $('.selling_price').each(function(i){
+          selling_price[i] = parseInt($(this).attr('getSPPRICE'))*parseInt($(this).attr('getQTY'))
+          mrp[i] = parseInt($(this).attr('getMRPPRICE'))
+       })
 
-
+       let sum = 0;
+       for (let i = 0; i < selling_price.length; i++ ) {
+          sum += selling_price[i];
+       }
+       $('.aakriticm-cart-checkout-top-price').html("<i class='fas fa-rupee-sign'></i>  "+sum+" /-");
+    }
+    ProductSummary()
+ </script>
 
 
 <script>
     function USERLOGINRequest(){
-            
-            const email = $('.LoginEmail').val();
-            const password = $('.LoginPssword').val();
+        const email = $('#LoginEmail').val();
+        const password = $('.LoginPssword').val();
 
-            if (email == ""){
-                Toast.fire({
-                    icon: 'error',
-                    title: '<p id="messages" style="margin-top:0px !important; margin-left:8px !important;"><b> Email Required* </b></p>'
-                })
-            }else if (password == ""){
-                Toast.fire({
-                    icon: 'error',
-                    title: '<p id="messages" style="margin-top:0px !important; margin-left:8px !important;"><b> Password Required* </b></p>'
-                })
-            }
-            else{
-                const data = new FormData();
-                data.append('userid', email );
-                data.append('password', password );
-                $.ajax({                      
-                    type: "POST",                   
-                    url: "{% url 'USERLOGINRequest' %}",                    
-                    data: data,
-                    cache: false,
-                    processData: false,
-                    contentType: false,
-                    enctype: 'multipart/form-data',
-                    headers: {'X-CSRFToken': "{{ csrf_token }}"},
-                    success: function(data) {                         
-                        if (data.status == 1){
-                            $('#signin-modal').modal('hide');
-                            $('#signin-modal').hide();
-                            Toast.fire({
-                                icon: 'success',
-                                title: '<p id="messages" style="margin-top: 0px !important; margin-left:8px !important;"><b>'+ data.message +'</b></p>'
-                            }) 
-                            setTimeout(function () {
-                                window.location.href =data.AFTERLogin;
-                            }, 2000); 
-
-                        }else if (data.status == 0){
-                            Toast.fire({
-                            icon: 'error',
-                            title: '<p id="messages" style="margin-top: 0px !important; margin-left:8px !important;"><b>'+ data.message +'</b></p>'
-                            }) 
-                        }       
-                    },
-                    error: function(data) {   
-                        Toast.fire({
-                            icon: 'error',
-                            title: '<p id="messages" style="margin-top: 0px !important; margin-left:8px !important;"><b> Server Issue</b></p>'
-                        }) 
-                    },
-                });
-            }
+        if (email == ""){
+            Toast.fire({
+                icon: 'error',
+                title: '<p id="messages" style="margin-top:0px !important; margin-left:8px !important;"><b> Email Required* </b></p>'
+            })
+        }else if (password == ""){
+            Toast.fire({
+                icon: 'error',
+                title: '<p id="messages" style="margin-top:0px !important; margin-left:8px !important;"><b> Password Required* </b></p>'
+            })
         }
+        else{
+            const data = new FormData();
+            data.append('userid', email );
+            data.append('password', password );
+            $.ajax({                      
+                type: "POST",                   
+                url: "{% url 'USERLOGINRequest' %}",                    
+                data: data,
+                cache: false,
+                processData: false,
+                contentType: false,
+                enctype: 'multipart/form-data',
+                headers: {'X-CSRFToken': "{{ csrf_token }}"},
+                success: function(data) {                         
+                    if (data.status == 1){
+                        $('#signin-modal').modal('hide');
+                        $('#signin-modal').hide();
+                        Toast.fire({
+                            icon: 'success',
+                            title: '<p id="messages" style="margin-top: 0px !important; margin-left:8px !important;"><b>'+ data.message +'</b></p>'
+                        }) 
+                        setTimeout(function () {
+                            window.location.href =data.AFTERLogin;
+                        }, 2000); 
+
+                    }else if (data.status == 0){
+                        Toast.fire({
+                        icon: 'error',
+                        title: '<p id="messages" style="margin-top: 0px !important; margin-left:8px !important;"><b>'+ data.message +'</b></p>'
+                        }) 
+                    }       
+                },
+                error: function(data) {   
+                    Toast.fire({
+                        icon: 'error',
+                        title: '<p id="messages" style="margin-top: 0px !important; margin-left:8px !important;"><b> Server Issue</b></p>'
+                    }) 
+                },
+            });
+        }
+    }
 </script>
 
 
@@ -245,14 +291,13 @@
             }
         }
 
-
-    const getCode = document.getElementsByClassName("getVCodeMail");
-    getCode.addEventListener("keypress", (event)=> {
-        if (event.keyCode === 13) { 
-        event.preventDefault();
-        GetVerificationCode();
-        }
-    });
+    //const getCode = document.getElementsByClassName("getVCodeMail");
+    //getCode.addEventListener("keypress", (event)=> {
+    //    if (event.keyCode === 13) { 
+    //    event.preventDefault();
+    //    GetVerificationCode();
+    //    }
+    //});
 </script>
 
 <script>
@@ -306,12 +351,12 @@
             }
         }
     const verify = document.getElementsByClassName("VerifyOneTimeVerificationCode");
-    verify.addEventListener("keypress", (event)=> {
-        if (event.keyCode === 13) { 
-        event.preventDefault();
-        VerifyOneTimeVerificationCode();
-        }
-    });
+    //verify.addEventListener("keypress", (event)=> {
+    //    if (event.keyCode === 13) { 
+    //    event.preventDefault();
+    //    VerifyOneTimeVerificationCode();
+    //    }
+    //});
 </script>
 
 

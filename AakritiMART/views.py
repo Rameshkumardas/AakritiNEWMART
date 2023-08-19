@@ -5,7 +5,7 @@ from django.shortcuts import render, redirect
 from django.contrib import messages
 from django.db.models import Q
 from AakritiMART.shippingGST import getGST, getSHIPPING
-from Accounts.models import billingADDRESS, shippingADDRESS
+from Accounts.models import shippingADDRESS
 from BLOGManager.models import BLOGList, allBLOGCOMMENTS
 from CommonModules.models import COLORList
 from PRODUCTManager.models import COMPAREProducts, PRODUCTQList, ProductList, ProductMyCart, ProductMyWishlist, ProductRatting
@@ -16,7 +16,9 @@ from django.db.models import Q
 # ==============================================================================
 # CREATE MAIN Country  
 # ==============================================================================
-def AakritiMART(request):    
+
+def AakritiMART(request):  
+    
     try:
         context = {
             'new_arrivals_20_rows':ProductList.new_arrivals_20_rows(),
@@ -37,54 +39,51 @@ def AakritiMART(request):
     
     
 def allProducts(request):
-    try:
-        q = request.GET.get('q')
-        mainCat = request.GET.get('mainCat')
-        if q and mainCat:
-            posts_list = ProductList.all_product_rows().filter(Q(name__icontains=q)).filter(mainCat_id=mainCat)
-        elif q:
-            posts_list = ProductList.all_product_rows().filter(Q(name__icontains=q))
-        else:
-            posts_list = ProductList.all_product_rows()
-            
-        try:
-            page = request.GET.get('page', 1)
-            filter = request.GET.get('filter')
-            if filter:
-                paginator = Paginator(posts_list, filter)
-            else:
-                paginator = Paginator(posts_list, 5)
-            allPRODUCTS = paginator.page(page)
-        except PageNotAnInteger:
-            allPRODUCTS = paginator.page(1)
-        except EmptyPage:
-            allPRODUCTS = paginator.page(paginator.num_pages)
+    q = request.GET.get('q')
+    mainCat = request.GET.get('mainCat')
+    if q and mainCat:
+        posts_list = ProductList.all_product_rows().filter(Q(name__icontains=q)).filter(mainCat_id=mainCat).order_by('-last_update')
+    elif q:
+        posts_list = ProductList.all_product_rows().filter(Q(name__icontains=q)).order_by('-last_update')
+    else:
+        posts_list = ProductList.all_product_rows().order_by('-last_update')
 
-        context = {
-            'ProductList':allPRODUCTS,
-        }
-        return render(request,"./template/home/productlist.html", context)
-    except Exception:
-        messages.success(request, "Error occured")
-        return redirect('/')
+    try:
+        page = request.GET.get('page', 1)
+        filter = request.GET.get('filter')
+        if filter:
+            paginator = Paginator(posts_list, filter)
+        else:
+            paginator = Paginator(posts_list, 10)
+        allPRODUCTS = paginator.page(page)
+    except PageNotAnInteger:
+        allPRODUCTS = paginator.page(1)
+    except EmptyPage:
+        allPRODUCTS = paginator.page(paginator.num_pages)
+
+    context = {
+        'ProductList':allPRODUCTS,
+    }
+    return render(request,"./template/home/productlist.html", context)
+
 
 def mainCatProductList(request, slug):
     try:
         posts_list = ProductList.objects.select_related('mainCat', 'subCat', 'SubSubCat', 'author', 'brand', 'color').filter(mainCat__slug=slug).filter(is_active=True, is_verified=True)
-                
+        
         try:
             page = request.GET.get('page', 1)
             filter = request.GET.get('filter')
             if filter:
                 paginator = Paginator(posts_list, filter)
             else:
-                paginator = Paginator(posts_list, 5)
+                paginator = Paginator(posts_list, 10)
             allPRODUCTS = paginator.page(page)
         except PageNotAnInteger:
             allPRODUCTS = paginator.page(1)
         except EmptyPage:
             allPRODUCTS = paginator.page(paginator.num_pages)
-            
+
         context = {
             'ProductList':allPRODUCTS,
         }
@@ -93,17 +92,17 @@ def mainCatProductList(request, slug):
         messages.success(request, "Error occured")
         return redirect('/')
 
+
 def subCatProductList(request, main_slug=None, slug=None):
     try:
         posts_list = ProductList.objects.select_related('mainCat', 'subCat', 'SubSubCat', 'author', 'brand', 'color').filter(subCat__slug=slug).filter(is_active=True, is_verified=True)
-        
         try:
             page = request.GET.get('page', 1)
             filter = request.GET.get('filter')
             if filter:
                 paginator = Paginator(posts_list, filter)
             else:
-                paginator = Paginator(posts_list, 5)
+                paginator = Paginator(posts_list, 10)
             allPRODUCTS = paginator.page(page)
         except PageNotAnInteger:
             allPRODUCTS = paginator.page(1)
@@ -127,7 +126,7 @@ def SubSubCatProductList(request, main_slug=None, sub_slug=None, slug=None):
             if filter:
                 paginator = Paginator(posts_list, filter)
             else:
-                paginator = Paginator(posts_list, 5)
+                paginator = Paginator(posts_list, 10)
             allPRODUCTS = paginator.page(page)
         except PageNotAnInteger:
             allPRODUCTS = paginator.page(1)
@@ -270,7 +269,6 @@ def WishlistMART(request):
         return render(request,"./template/home/wishlist.html", context)
     except Exception:
         pass
-    
 
 # ==============================================================================
 # MY Cart AakritiMART 
@@ -348,8 +346,7 @@ def CheckOut(request):
                     grandDISCOUNT.append(((cart.product.mrp)*int(cart.qty))-((cart.product.sp)*int(cart.qty)))
                 
                 context = {                                
-                    'allSHIPPINGS':shippingADDRESS.objects.filter(user_id=request.user.pk),
-                    'allBILLINGS':billingADDRESS.objects.filter(user_id=request.user.pk),
+                    'allSHIPPINGS':shippingADDRESS.objects.filter(user_id=request.user.pk).order_by('-date'),
                     'CartList': CartList,
                     'subTotal': sum(SubTotal),
                     'GSTTotal': sum(grandGST),

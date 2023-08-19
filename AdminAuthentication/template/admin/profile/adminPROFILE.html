@@ -190,6 +190,7 @@
                                                         <span class="page-link" aria-hidden="true">&laquo;</span>
                                                     </li>
                                                 {% endif %}
+
                                                 {% for p in activityList.paginator.page_range %}
                                                     {% if activityList.number == p %}
                                                     <li class="page-item"><a class="page-link" style="color: red;" href="#">{{ p }}</a></li>
@@ -198,7 +199,6 @@
                                                     <li class="page-item"><a class="page-link" href="?page={{ p }}">{{ p }}</a></li>
                                                     {% endif %}
 
-                                                    
                                                     {% endfor %}
 
                                                 {% if activityList.has_next %}

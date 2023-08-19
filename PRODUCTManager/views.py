@@ -2,7 +2,6 @@ from AdminAuthentication.models import AdminRegistration
 from django.views.generic.list import ListView
 from django.shortcuts import render, redirect
 from django.http import Http404
-from Blogs.models import Blog
 
 class draftPRODUCT(ListView):
     model = Blog

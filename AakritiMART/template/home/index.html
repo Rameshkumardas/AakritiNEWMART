@@ -16,7 +16,6 @@
       <meta property="og:url" content="{{project.baseURL}}">
       <meta property="og:site_name" content="{{project.name}}">
       <link rel="canonical" href="{{project.baseURL}}">
-
       <!-- CSS here -->
       <link rel="stylesheet" href="{% static 'aakritimart/css/bootstrap.css' %}">
       <link rel="stylesheet" href="{% static 'aakritimart/css/animate.css' %}">
@@ -36,6 +35,8 @@
 <body>
    
    {% include "template/includes/MAINHeader.html" %}
+   {% include "template/includes/HTMLMAINCOMMON.html" %}
+
    
    {% comment %}
    {% include "template/includes/MINIHeader.html" %}

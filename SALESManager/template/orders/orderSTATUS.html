@@ -109,7 +109,7 @@
                     <thead>
                       <tr>
                         <th>Name</th>
-                        <th>Color</th>
+                        <th>Units</th>
                         <th>Qty</th>
                         <th>Total</th>
                         <th>Date</th>
@@ -124,7 +124,7 @@
                           {{order.product.name | title}}
                         </td>
                         <td class="text-center">
-                          {{order.color}}
+                          {{order.product.attributes}}
                         </td>  
 
                         <td class="text-center">
@@ -132,7 +132,7 @@
                         </td>
 
                         <td class="text-left">
-                          <a href="JavaScript:void(0);" class="" data-toggle="tooltip" title="100% Safe & Secured" >$ {{order.total}}</a>
+                          <a href="JavaScript:void(0);" class="" data-toggle="tooltip" title="100% Safe & Secured" ><i class="fas fa-rupee-sign"></i> {{order.total}}</a>
                         </td>
                         <td class="text-left">
                           {{order.date | timesince }}
@@ -178,8 +178,7 @@
                     <tfoot>
                       <tr>
                         <th>Name</th>
-                        
-                        <th>Color</th>
+                        <th>Units</th>
                         <th>Qty</th>
                         <th>Total</th>
                         <th>Date</th>

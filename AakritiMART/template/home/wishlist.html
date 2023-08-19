@@ -35,6 +35,8 @@
    </head>
 <body>
    {% include "template/includes/MAINHeader.html" %}
+   {% include "template/includes/HTMLMAINCOMMON.html" %}
+
    {% if not request.user.is_user %}
       {% include "template/includes/LOGINSIGNUP.html" %}
    {% endif %}

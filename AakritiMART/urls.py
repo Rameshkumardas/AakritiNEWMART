@@ -41,7 +41,6 @@ urlpatterns = [
                 path('my/compare/', views.CompareMART, name='CompareMART'), 
                 path('my/wishlist/', views.WishlistMART, name='WishlistMART'), 
                 path('my/cart/', views.MYCart, name='MYCart'), 
- 
 
                 path('all/<main_slug>/<sub_slug>/<slug>/', views.SubSubCatProductList, name='SubSubCatProductList'), 
                 path('all/<main_slug>/<slug>/', views.subCatProductList, name='subCatProductList'), 
@@ -51,7 +50,6 @@ urlpatterns = [
                 path('checkout/', views.CheckOut, name='CheckOut'), 
                 path('product/<slug>/', views.OPENProduct, name='OPENProduct'), 
 
-# 
                 # ================================================================
                 # ================================================================
                 # ================================================================

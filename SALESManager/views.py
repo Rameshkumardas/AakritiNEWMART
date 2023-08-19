@@ -17,7 +17,7 @@ class ALLORDERList(ListView):
         is_confirmed = self.request.GET.get('is_confirmed', 'is_confirmed')
         is_shipped = self.request.GET.get('is_shipped', 'is_shipped')
         is_delivered = self.request.GET.get('is_delivered', 'is_delivered')
-        is_deleted = self.request.GET.get('is_deleted', 'is_deleted')        
+        is_deleted = self.request.GET.get('is_deleted', 'is_deleted')   
         if is_confirmed == 'True':
             return ProductOrderList.objects.select_related('product', 'user').filter(is_confirmed=True).exclude(is_shipped=True).exclude(is_deleted=True).order_by('-date')
         elif is_shipped == 'True':
@@ -65,23 +65,23 @@ def productINVOICE(request, orderId, user, pk):
 def productINVOICEFORUser(request, orderId, user, pk=None):
     try:
         order = ProductOrderList.objects.get(pk=pk)                 
-        orderProducts = ProductOrderList.objects.filter(orderId=orderId, user=user)      
+        orderProducts = ProductOrderList.objects.filter(orderId=orderId, user_id=user)      
         subTotal = sum([item.amount for item in orderProducts])
         GSTTotal = sum([item.gst for item in orderProducts])
         ShippingTotal = sum([item.shipping for item in orderProducts])
         Total = subTotal+GSTTotal+ShippingTotal           
         context = {
-                'AllProducts':'menu-open', 
-                'allProduct': 'active',
-                'subTotal': subTotal,
-                'GSTTotal': GSTTotal,
-                'ShippingTotal': ShippingTotal,
-                'Total': Total,
-                'order': order,
-                'today':datetime.datetime.now().strftime("%d, %b - %Y  (%I:%M %p) "),
-                'orderId':orderId,
-                'orders': orderProducts,
+            'AllProducts':'menu-open', 
+            'allProduct': 'active',
+            'subTotal': subTotal,
+            'GSTTotal': GSTTotal,
+            'ShippingTotal': ShippingTotal,
+            'Total': Total,
+            'order': order,
+            'today':datetime.datetime.now().strftime("%d, %b - %Y  (%I:%M %p) "),
+            'orderId':orderId,
+            'orders': orderProducts,
         }
         return render(request,"./template/invoice/productINVOICEFORUSER.html", context)
     except ProductOrderList.DoesNotExist:
-        raise Http404                               
+        raise Http404

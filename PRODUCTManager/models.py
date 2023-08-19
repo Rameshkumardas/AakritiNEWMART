@@ -11,13 +11,11 @@ import datetime
 from django.db.models import Avg
 
 
-
-
 class ProductList(models.Model):
     author = models.ForeignKey(AdminRegistration, null=True, blank=True, on_delete=models.SET_NULL)
     mainCat = models.ForeignKey(MainCategory, null=False, blank=False, on_delete=models.CASCADE)
     subCat = models.ForeignKey(SubCategory, null=False, blank=False, on_delete=models.CASCADE)
-    SubSubCat = models.ForeignKey(SubSubCategory, null=False, blank=False, on_delete=models.CASCADE)
+    SubSubCat = models.ForeignKey(SubSubCategory, null=True, blank=True, on_delete=models.SET_NULL)
     brand = models.ForeignKey(BRANDList, null=True, blank=True, on_delete=models.SET_NULL)
     color = models.ForeignKey(COLORList, null=True, blank=True, on_delete=models.SET_NULL)
 
@@ -48,10 +46,13 @@ class ProductList(models.Model):
     igst = models.FloatField(blank=True, null=True, default=18.0)
     cgst = models.FloatField(blank=True, null=True, default=9.0)
     sgst = models.FloatField(blank=True, null=True, default=9.0)
- 
+    
+    product_type = models.CharField(max_length=100, blank=True, null=True, default='')
+    attributes = models.CharField(max_length=255, blank=True, null=True, default='')
+
+    # Kg, gm, pack and litre
 
     is_cash_on_delivery = models.BooleanField(default=True)
-
     is_refundable = models.BooleanField(default=True)
     description = models.TextField(max_length=500, blank=False, null=False, default="This Product will refundable within 7 Days")  
 
@@ -151,6 +152,13 @@ class ProductList(models.Model):
         return ProductList.objects.select_related('author', 'mainCat', 'subCat', 'SubSubCat', 'brand', 'color').filter(is_active=True, is_verified=True, is_selling=True).exclude(is_deleted=True)[:20]
 
 
+class SIMILARPRODUCTSList(models.Model):
+    product = models.ForeignKey(ProductList, null=True, blank=True, on_delete=models.CASCADE, db_constraint=True)
+    mrp = models.FloatField(blank=False, null=False, default=0.0)
+    sp = models.FloatField(blank=False, null=False, default=0.0)
+    attributes = models.CharField(max_length=255, blank=True, null=True, default='')
+
+
 class ATTRIBUTEProductList(models.Model):
     product = models.ForeignKey(ProductList, null=True, blank=True, on_delete=models.CASCADE, db_constraint=True)
     color = models.ForeignKey(COLORList, null=True, blank=True, on_delete=models.SET_NULL)
@@ -225,7 +233,11 @@ class PRODUCTAList(models.Model):
 class ProductMyCart(models.Model):
     product = models.ForeignKey(ProductList, on_delete=models.CASCADE, related_name="MyCartProduct")
     user = models.ForeignKey(AdminRegistration, on_delete=models.CASCADE, related_name="MyCartUser")
+    attribute = models.CharField(max_length=120, blank=True, null=True, default=1)
     qty = models.IntegerField(default=1)
+    mrp = models.FloatField(blank=False, null=False, default=0.0)
+    sp = models.FloatField(blank=False, null=False, default=0.0)
+
     date = models.DateTimeField(auto_now_add=True)
 
 class ProductMyWishlist(models.Model):

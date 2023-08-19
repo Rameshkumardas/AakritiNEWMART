@@ -38,6 +38,7 @@ urlpatterns = (
             path('AJAXService/createBILLINGAddress/', AJAX.BILLINGAddress, name='BILLINGAddress'), 
             path('AJAXService/updateBILLINGAddress/', AJAX.updateBILLINGAddress, name='updateBILLINGAddress'), 
             path('AJAXService/deleteBILLINGAddress/<int:pk>/', AJAX.deleteBILLINGAddress, name='deleteBILLINGAddress'), 
+           
             path('AJAXService/createSHIPPINGAddress/', AJAX.SHIPPINGAddress, name='SHIPPINGAddress'), 
             path('AJAXService/updateSHIPPINGAddress/', AJAX.updateSHIPPINGAddress, name='updateSHIPPINGAddress'), 
             path('AJAXService/deleteSHIPPINGAddress/<int:pk>/', AJAX.deleteSHIPPINGAddress, name='deleteSHIPPINGAddress'), 

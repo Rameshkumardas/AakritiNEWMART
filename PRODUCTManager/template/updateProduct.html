@@ -54,16 +54,16 @@
             <div class="col-md-2 mb-3">
                 <ul class="nav nav-pills flex-column" id="myTab" role="tablist">
                   <li class="nav-item">
-                    <a href="?tab=General-Information" class="nav-link {% if request.GET.tab == 'General-Information' %} show active {% endif %}" id="General-Information-tab" data-toggle="tab1" role="tab" aria-controls="General-Information" aria-selected="true">General Information</a>
+                    <a href="?tab=General-Information&{% if request.GET.is_draft %}is_draft=True{% elif request.GET.is_out_of_stock %}is_out_of_stock=True{% endif %}" class="nav-link {% if request.GET.tab == 'General-Information' %} show active {% endif %}" id="General-Information-tab" data-toggle="tab1" role="tab" aria-controls="General-Information" aria-selected="true">General Information</a>
                   </li>
                   <li class="nav-item">
-                    <a href="?tab=PriceStock" class="nav-link {% if request.GET.tab == 'PriceStock' %} show active {% endif %}" id="Price-Information-tab" data-toggle="tab1" role="tab" aria-controls="Price-Information" aria-selected="false">Product Price + Stock</a>
+                    <a href="?tab=PriceStock&{% if request.GET.is_draft %}is_draft=True{% elif request.GET.is_out_of_stock %}is_out_of_stock=True{% endif %}" class="nav-link {% if request.GET.tab == 'PriceStock' %} show active {% endif %}" id="Price-Information-tab" data-toggle="tab1" role="tab" aria-controls="Price-Information" aria-selected="false">Product Price + Stock</a>
                   </li>
                   <li class="nav-item">
-                    <a href="?tab=ProductIMG" class="nav-link {% if request.GET.tab == 'ProductIMG' %} show active {% endif %}" id="ProductIMG-tab" data-toggle="tab1" role="tab" aria-controls="ProductIMG" aria-selected="false">Product Image</a>
+                    <a href="?tab=ProductIMG&{% if request.GET.is_draft %}is_draft=True{% elif request.GET.is_out_of_stock %}is_out_of_stock=True{% endif %}" class="nav-link {% if request.GET.tab == 'ProductIMG' %} show active {% endif %}" id="ProductIMG-tab" data-toggle="tab1" role="tab" aria-controls="ProductIMG" aria-selected="false">Product Image</a>
                   </li>
                   <li class="nav-item">
-                    <a href="?tab=MataTag" class="nav-link {% if request.GET.tab == 'MataTag' %} show active {% endif %}"  id="MataTagTab" data-toggle="tab1" role="tab" aria-controls="MataTag" aria-selected="false">Meta Tag </a>
+                    <a href="?tab=MataTag&{% if request.GET.is_draft %}is_draft=True{% elif request.GET.is_out_of_stock %}is_out_of_stock=True{% endif %}" class="nav-link {% if request.GET.tab == 'MataTag' %} show active {% endif %}"  id="MataTagTab" data-toggle="tab1" role="tab" aria-controls="MataTag" aria-selected="false">Meta Tag </a>
                   </li>
                 </ul>
             </div>
@@ -90,12 +90,14 @@
                                 <option value="{{product.subCat.pk}}">{{product.subCat.name}}</option>
                               </select>
                           </div>
+                          {% comment %}
                           <div class="form-group SubSubCategoryList">
                               <label>Sub SubCategory</label>
                               <select class="SubSubCat form-control select2" style="width: 100%;" name="SubSubCat" id="SubSubCategory" required>
                                 <option value="{{product.SubSubCat.pk}}">{{product.SubSubCat.name}}</option>
                               </select>
                           </div>
+                          {% endcomment %}
                           <div class="form-group">
                               <label for="main-category">Product Name</label>
                               <div class="input-group">
@@ -120,7 +122,23 @@
                                 <option value="">No More Brand</option>
                                 {% endif %}
                             </select>
-                          </div>      
+                          </div>   
+                          
+                          <div class="form-group">
+                            <label> Product Type </label>
+                            <select class="product_type form-control select2" style="width: 100%;" name="product_type" id="product_type" required>
+                                <option value="{{product.product_type}}">   {% if product.product_type %} Selected [ {{product.product_type}} ] {% else %}Select  {% endif %} Attribute</option>
+                                <option value="kg"> Killogram </option>
+                                <option value="liter"> Liters</option>
+                                <option value="pack">Packs</option>
+                            </select>
+                          </div>   
+                          
+                          <div class="form-group">
+                            <label>Attributes</label>
+                            <input type="text" data-role="tagsinput" value="{{product.attributes}}" placeholder="Add Attributes" data-role="tagsinput" name="attribute" class="attribute form-control"> 
+                          </div>
+                          
                           <!-- <div class="form-group">
                             <label>Select Default Color</label>
                             <select class="color form-control select2" style="width: 100%;" name="color" id="color" required>
@@ -177,7 +195,6 @@
                             {% elif product.is_refundable == False %}
                               <option value="False">No</option>
                             {% endif %}
-
                               <option value="True">Yes</option>
                               <option value="False">No</option>
                             </select>
@@ -192,7 +209,7 @@
                               <textarea class="ProductDescription" id="ProductDescription"  width="100%" height="100 px" name="description">{{product.description}}</textarea>
                             </div> 
                             <div class="card-footer bg-info ">
-                              <a href="?tab=PriceStock" onclick="updatePRODUCTBASICINFORMATION()" class="btn btn-primary float-right" data-toggle="tooltip" data-placement="top" title="" data-original-title="Hit For Save and Continue">Save &amp; Continue <i class="fas fa-arrow-alt-circle-right"></i></a>
+                              <a href="?tab=PriceStock&{% if request.GET.is_draft %}is_draft=True{% elif request.GET.is_out_of_stock %}is_out_of_stock=True{% endif %}" onclick="updatePRODUCTBASICINFORMATION()" class="btn btn-primary float-right" data-toggle="tooltip" data-placement="top" title="" data-original-title="Hit For Save and Continue">Save &amp; Continue <i class="fas fa-arrow-alt-circle-right"></i></a>
                             </div>
                           </div>
                         </div>
@@ -421,11 +438,12 @@
                             </div>
                           </div>
                           <div class="card-footer bg-info ">
-                            <a href="?tab=General-Information" class="btn btn-dark float-left" data-toggle="tooltip" data-placement="top" title="" data-original-title="Hit For Save and Continue"><i class=" 	fas fa-arrow-alt-circle-left"></i> Prevoius</a>
+                            <a href="?tab=General-Information&{% if request.GET.is_draft %}is_draft=True{% elif request.GET.is_out_of_stock %}is_out_of_stock=True{% endif %}" class="btn btn-dark float-left" data-toggle="tooltip" data-placement="top" title="" data-original-title="Hit For Save and Continue"><i class=" 	fas fa-arrow-alt-circle-left"></i> Prevoius</a>
                             <!-- ?tab=ProductIMG -->
-                            <a href="?tab=ProductIMG" onclick="updatePRICESTOCKSHIPPINGGST()" class="btn btn-primary float-right" data-toggle="tooltip" data-placement="top" title="" data-original-title="Hit For Save and Continue">Save &amp; Continue <i class="fas fa-arrow-alt-circle-right"></i></a>
+                            <a href="?tab=ProductIMG&{% if request.GET.is_draft %}is_draft=True{% elif request.GET.is_out_of_stock %}is_out_of_stock=True{% endif %}" onclick="updatePRICESTOCKSHIPPINGGST()" class="btn btn-primary float-right" data-toggle="tooltip" data-placement="top" title="" data-original-title="Hit For Save and Continue">Save &amp; Continue <i class="fas fa-arrow-alt-circle-right"></i></a>
                           </div>
                         </div>
+                        
                       </div>
                     </div>
                   </div>
@@ -550,9 +568,9 @@
                             </div>
                           </div>
                           <div class="card-footer bg-info ">
-                            <a href="?tab=General-Information" class="btn btn-dark float-left" data-toggle="tooltip" data-placement="top" title="" data-original-title="Hit For Save and Continue"><i class=" 	fas fa-arrow-alt-circle-left"></i> Prevoius</a>
+                            <a href="?tab=General-Information&{% if request.GET.is_draft %}is_draft=True{% elif request.GET.is_out_of_stock %}is_out_of_stock=True{% endif %}" class="btn btn-dark float-left" data-toggle="tooltip" data-placement="top" title="" data-original-title="Hit For Save and Continue"><i class=" 	fas fa-arrow-alt-circle-left"></i> Prevoius</a>
                             <!-- ?tab=ProductIMG -->
-                            <a href="?tab=ProductIMG" onclick="updatePRICESTOCKSHIPPINGGST()" class="btn btn-primary float-right" data-toggle="tooltip" data-placement="top" title="" data-original-title="Hit For Save and Continue">Save &amp; Continue <i class="fas fa-arrow-alt-circle-right"></i></a>
+                            <a href="?tab=ProductIMG&{% if request.GET.is_draft %}is_draft=True{% elif request.GET.is_out_of_stock %}is_out_of_stock=True{% endif %}" onclick="updatePRICESTOCKSHIPPINGGST()" class="btn btn-primary float-right" data-toggle="tooltip" data-placement="top" title="" data-original-title="Hit For Save and Continue">Save &amp; Continue <i class="fas fa-arrow-alt-circle-right"></i></a>
                           </div>
                         </div>
                       </div>
@@ -567,7 +585,7 @@
                       <div class="col-lg-10">
                         <div class="card card-outline card-primary">
                           <div class="card-header">
-                            <h3 class="card-title">Product Image ( <b>3 Minimum Image Required</b> )</h3>
+                            <h3 class="card-title">Product Image ( <b>1 Minimum Image Required</b> )</h3>
                           </div>
                           <!-- /.card-header -->
                           <div class="card-body">
@@ -586,7 +604,8 @@
                                   </div>
                                 </div>
                               </div>
-                              <div class="col-lg-6">
+                              
+                              <!-- <div class="col-lg-6">
                                 <div class="card card-outline card-info">
                                   <div class="card-body"> 
                                     <div id="display_imageIMG1" style="height:150px; width:100% !important; border-radius: 10px; border: 2px solid rgb(9, 135, 238); display: none; visibility: hidden; background-size:contain; background-repeat:no-repeat;"></div>
@@ -641,17 +660,16 @@
                                       </span>
                                   </div>
                                 </div>   
-                              </div>
+                              </div>  -->
                             </div>
                           </div>
                           <div class="card-footer bg-info">
-                            <a href="?tab=PriceStock" class="btn btn-dark float-left" data-toggle="tooltip" data-placement="top" title="" data-original-title="Hit For Save and Continue"><i class=" 	fas fa-arrow-alt-circle-left"></i> Prevoius</a>
-                            <a href="?tab=MataTag" onclick="updateIMGS()" class="btn btn-primary float-right" data-toggle="tooltip" data-placement="top" title="" data-original-title="Hit For Save and Continue">Save IMG &amp; Continue <i class="fas fa-arrow-alt-circle-right"></i></a>
+                            <a href="?tab=PriceStock&{% if request.GET.is_draft %}is_draft=True{% elif request.GET.is_out_of_stock %}is_out_of_stock=True{% endif %}" class="btn btn-dark float-left" data-toggle="tooltip" data-placement="top" title="" data-original-title="Hit For Save and Continue"><i class=" 	fas fa-arrow-alt-circle-left"></i> Prevoius</a>
+                            <a href="?tab=MataTag&{% if request.GET.is_draft %}is_draft=True{% elif request.GET.is_out_of_stock %}is_out_of_stock=True{% endif %}" onclick="updateIMGS()" class="btn btn-primary float-right" data-toggle="tooltip" data-placement="top" title="" data-original-title="Hit For Save and Continue">Save IMG &amp; Continue <i class="fas fa-arrow-alt-circle-right"></i></a>
                           </div>
                         </div>
                       </div>
                       <div class="col-lg-6">
-
                       </div>
                     </div>
                   </div>
@@ -699,7 +717,7 @@
                         <div class="card card-outline card-primary" >
                           <div class="card-header">
                             <h3 class="card-title">SEO Meta Image</h3>
-                            <a href="{% url 'OPENProduct' product.slug %}" target="_blank" class="btn btn-success float-right" data-toggle="tooltip" data-placement="top" title="" data-original-title="Hit For Live Preview">Live Preview <i class="fas fa-eye"></i></a>
+                            <!-- <a href="{% url 'OPENProduct' product.slug %}" target="_blank" class="btn btn-success float-right" data-toggle="tooltip" data-placement="top" title="" data-original-title="Hit For Live Preview">Live Preview <i class="fas fa-eye"></i></a> -->
                           </div>
                           <!-- /.card-header -->
                             <div class="card-body">                          
@@ -754,7 +772,18 @@
           <button type="button" class="close" data-dismiss="modal" aria-label="Close"><span aria-hidden="true">&times;</span></button>
       </div>
       <div class="modal-body">
-          <div class="form-group">
+
+        <div class="form-group">
+          <label> Product Type </label>
+          <select class="product_type form-control select2" style="width: 100%;" name="product_type" id="product_type" required>
+              <option value="{{product.product_type}}">   {% if product.product_type %} Selected [ {{product.product_type}} ] {% else %}Select  {% endif %} Attribute</option>
+              <option value="kg"> Killogram </option>
+              <option value="liter"> Liters</option>
+              <option value="pack">Packs</option>
+          </select>
+        </div>  
+          
+          <!-- <div class="form-group">
               <label>Select Color</label>
               <select class="attrcolor form-control select2" style="width: 100%;" name="attrcolor" id="attrcolor" required>
                   <option value="selected">Select Color</option>
@@ -762,8 +791,9 @@
                   <option value="{{color.pk}}">{{color.name}}</option>
                   {% endfor %}
               </select>
-          </div>
-          <div class="form-group">
+          </div> -->
+
+          <!-- <div class="form-group">
             <label for="main-category">Add Size</label>
             <div class="input-group">
                 <div class="input-group-prepend">
@@ -774,7 +804,8 @@
                   <span class="input-group-text" for="input-field" id="NameStringCount"></span>
                 </div>
             </div>
-          </div>
+          </div> -->
+
           <div class="form-group">
             <label for="main-category">MRP</label>
             <div class="input-group">
@@ -799,7 +830,21 @@
                 </div>
             </div>
           </div>
+
           <div class="form-group">
+            <label for="main-category">Units</label>
+            <div class="input-group">
+                <div class="input-group-prepend">
+                <span class="input-group-text"><i class="fas fa-laptop"></i>Unit</span>
+                </div>
+                <input type="text" class="units form-control" id="input-field" placeholder="Enter Units" name="units">
+                <div class="input-group-prepend">
+                  <span class="input-group-text" for="input-field" id="NameStringCount"></span>
+                </div>
+            </div>
+          </div>
+
+          <!-- <div class="form-group">
             <label for="main-category">Add New Product Name</label>
             <div class="input-group">
                 <div class="input-group-prepend">
@@ -810,8 +855,9 @@
                   <span class="input-group-text" for="input-field" id="NameStringCount"></span>
                 </div>
             </div>
-          </div>
-
+          </div> -->
+          
+          {% comment %}
           <div class="row">
             <div class="col-lg-12">
               <div class="card card-outline card-info">
@@ -884,6 +930,7 @@
               </div>   
             </div>
           </div>
+          {% endcomment %}
 
       </div>
       <div class="modal-footer justify-content-center">
@@ -1047,19 +1094,14 @@ $(".subCat").on('change', function() {
     }else{
         const data = new FormData();
         data.append('target', "{{product.pk}}");
-        data.append('attrname', $('.attrname').val());
-        data.append('attrcolor', $('.attrcolor').val());
-        data.append('attrsize', $('.attrsize').val());
         data.append('attrmrp', $('.attrmrp').val());
-        data.append('attrsp', $('.attrsp').val());        
-        data.append('attrimg', $('.attrimg')[0].files[0]);
-        data.append('attrimg1', $('.attrIMG1')[0].files[0]);
-        data.append('attrimg2', $('.attrIMG2')[0].files[0]);
-        data.append('attrimg3', $('.attrIMG3')[0].files[0]);
-        data.append('attrimg4', $('.attrIMG4')[0].files[0]);
-        $.ajax({                      
+        data.append('attrsp', $('.attrsp').val());  
+        data.append('attributes', $('.units').val());
+
+        $.ajax({   
+
             type: "POST",                   
-            url: "{% url 'createATTRIBUTEPRODUCT' %}",                    
+            url: "{% url 'createSIMILARRODUCT' %}",                    
             data: data,
             cache: false,
             processData: false,
@@ -1072,12 +1114,7 @@ $(".subCat").on('change', function() {
                       icon: 'success',
                       title: '<p id="messages" style="margin-top: 12px !important; margin-left:8px !important;"><b>'+ data.message +'</b></p>'
                     }) 
-                    // var url = new URL(window.location.href);
-                    // var search_params = url.searchParams;
-                    // search_params.set('tab', 'PriceStock');
-                    // url.search = search_params.toString();
-                    // var new_url = url.toString();
-                    // window.open(new_url)
+                   
                 }else if (data.status == 0){
                     Toast.fire({
                     icon: 'error',
@@ -1107,6 +1144,7 @@ $(".subCat").on('change', function() {
         data.append('name', $('.name').val());
         data.append('brandname', $('.brandname').val());
         data.append('color', $('.color').val());
+        data.append('product_type', $('.product_type').val());
         data.append('attribute', $('.attribute').val());
         data.append('CashOnDelivery', $('.CashOnDelivery').val());
         data.append('Refundable', $('.Refundable').val());
@@ -1225,10 +1263,10 @@ $(".subCat").on('change', function() {
         const data = new FormData();
         data.append('target', "{{product.pk}}");
         data.append('img', $('.img')[0].files[0]);
-        data.append('img1', $('.IMG1')[0].files[0]);
-        data.append('img2', $('.IMG2')[0].files[0]);
-        data.append('img3', $('.IMG3')[0].files[0]);
-        data.append('img4', $('.IMG4')[0].files[0]);
+        //data.append('img1', $('.IMG1')[0].files[0]);
+        //data.append('img2', $('.IMG2')[0].files[0]);
+        //data.append('img3', $('.IMG3')[0].files[0]);
+        //data.append('img4', $('.IMG4')[0].files[0]);
         $.ajax({                      
             type: "POST",                   
             url: "{% url 'UPDATEImage' %}",                    
@@ -1288,6 +1326,10 @@ $(".subCat").on('change', function() {
                       icon: 'success',
                       title: '<p id="messages" style="margin-top: 12px !important; margin-left:8px !important;"><b>'+ data.message +'</b></p>'
                     }) 
+                  setTimeout(function () {
+                      window.location.href ="{% url 'ALLPRODUCTList' %}?&{% if request.GET.is_draft %}is_draft=True{% elif request.GET.is_out_of_stock %}is_out_of_stock=True{% endif %}";
+                  }, 2000); 
+
                 }else if (data.status == 0){
                     Toast.fire({
                     icon: 'error',

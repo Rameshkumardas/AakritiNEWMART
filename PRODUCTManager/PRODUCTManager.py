@@ -44,9 +44,9 @@ class ALLPRODUCTList(ListView):
             
         elif(is_verified=='True'):
             if search or SubSubCat:
-                return ProductList.objects.filter(is_active=True, is_verified=True).filter(SubSubCat=SubSubCat).filter(Q(name__icontains=search)).exclude(is_draft=True).exclude(is_deleted=True)
+                return ProductList.objects.filter(is_active=True, is_verified=True).filter(SubSubCat=SubSubCat).filter(Q(name__icontains=search)).exclude(is_draft=True).exclude(is_deleted=True).order_by('-last_update')
             else:
-                return ProductList.objects.filter(is_active=True, is_verified=True).exclude(is_draft=True).exclude(is_deleted=True)
+                return ProductList.objects.filter(is_active=True, is_verified=True).exclude(is_draft=True).exclude(is_deleted=True).order_by('-last_update')
         elif(is_out_of_stock=='True'):
             if search or SubSubCat:
                 return ProductList.objects.filter(is_out_of_stock=False, is_verified=True).filter(SubSubCat=SubSubCat).filter(Q(name__icontains=search)).exclude(is_draft=True).exclude(is_active=True).exclude(is_deleted=True)

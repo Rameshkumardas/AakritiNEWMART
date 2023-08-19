@@ -6,7 +6,6 @@ import datetime
 from django.conf import settings
 from django.http import JsonResponse
 from django.shortcuts import redirect
-from Accounts.models import billingADDRESS, shippingADDRESS
 from AdminAuthentication.HELPER import CONFIG_SMTP_NO_REPLY
 from AdminAuthentication.Thread import EmailThread
 from AdminAuthentication.models import AdminRegistration
@@ -85,11 +84,9 @@ def GENERATE_ONE_TIME_VERIFICATION_CODE(request, userid):
     if(re.search(compiled_email, userid)):
         try:                
             user = AdminRegistration.objects.get(email=userid)  
- 
         except Exception:
-            user = AdminRegistration.objects.create(fname="Gust", lname="User", email=request.session['OneTimeVerificationEmail'], login_block=False)
+            user = AdminRegistration.objects.create(fname="Guest", lname="User", email=request.session['OneTimeVerificationEmail'], login_block=False)
             EMAILList.objects.create(author_id=user.pk, email=request.session['OneTimeVerificationEmail'])   
-
 
         context = {
                 'user':user,

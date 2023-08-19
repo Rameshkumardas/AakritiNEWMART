@@ -63,8 +63,8 @@
                                             <!-- <i class="fas fa-globe"></i>                                              -->
                                             <img src="{% if project.headerLogo %}{{project.headerLogo.url}}{% endif %}" alt="Online Mangao" class="brand-image  elevation-3" style="opacity: .8; width:auto; height:100px;" >                                       
                                         </h4>
-                                            {{orders.shipping}}
-                                            {{orders.shipping.state}}
+                                            {{orders.hipping}}
+                                            {{orders.hipping.tate}}
                                         <address>
                                             {{project.address | title}}
                                             <br>
@@ -76,20 +76,20 @@
                                     <div class="col-sm-4 invoice-col">
                                         To
                                         <address>
-    
-                                            <strong>{{order.user.fullname}}</strong><br>
                                             <strong>Billing Address</strong><br>
-                                            {{order.bhouse_no}}, <br>
-                                            {{order.blandmark}} {{order.bcolony}} <br>
-                                            <b> {{order.bcity}} - {{order.bstate}}, {{order.bpCode}}</b>    <br>
+                                            <strong>{{order.user.fname}} {{order.user.lname}}</strong><br>
+                                            {{order.house_no}},  {{order.landmark}} <br>
+                                            <b> {{order.city}} - {{order.state}}, {{order.code}} [ {{order.country}} ]</b>    <br>
+                                            Phone: {{order.user.email}}<br>
+                                            Email: {{order.user.phone}}
+                                            <hr class="p-0">
                                             <strong>Shipping Address</strong><br>
-
-                                            {{order.shouse_no}}, <br>
-                                            {{order.slandmark}} {{order.scolony}} <br> 
-                                            <b> {{order.scity}} - {{order.sstate}}, {{order.scode}} ( {{order.scountry}} ) </b><br>
+                                            <strong>{{order.fname}} {{order.lname}}</strong><br>
+                                            {{order.house_no}},  {{order.landmark}} <br>
+                                            <b> {{order.city}} - {{order.state}}, {{order.code}} [ {{order.country}} ]</b>    <br>
                                                     
-                                            Phone: {{order.user.mobileN}}<br>
-                                            Email: {{order.user.email}}
+                                            Phone: {{order.email}}<br>
+                                            Email: {{order.contact}}
                                         </address>
                                     </div>
 
@@ -111,8 +111,6 @@
                                                     <th>Name</th>
                                                     <th>Qty</th>
                                                     <th>Price</th>
-                                                    <th>Discount</th>
-                                                    <th>PayStatus</th>
                                                 </tr>
                                             </thead>
                                             <tbody>
@@ -120,13 +118,7 @@
                                                     <tr>
                                                         <td>{{order.product.name}}</td>
                                                         <td>{{order.qty}}</td>
-                                                        <td>$ {{order.amount}}</td>
-                                                        <td>$ {{order.discount}}</td>
-                                                        {% if order.is_payment %}
-                                                        <td><i class="fas fa-check-circle text-success"></i>&nbsp;&nbsp;Paid <br></td>
-                                                        {% else %}
-                                                        <td><i class="fas fa-check-circle text-danger"></i>&nbsp;&nbsp;Not Paid <br></td>
-                                                        {% endif %}
+                                                        <td>Rs. {{order.amount}} /-</td>
                                                     </tr>
                                                 {% endfor %}
                                             </tbody>
@@ -140,58 +132,43 @@
                                                 <tr>
                                                     <th>Name</th>
                                                     <th>Qty</th>
-                                                    <th>Color</th>
                                                     <th>Price</th>
-                                                    <th>Discount</th>
-                                                    <th>PayStatus</th>
                                                 </tr>
                                             </thead>
                                             <tbody>
                                                     <tr>
                                                         <td>0</td>
                                                         <td>0</td>
-                                                        <td>$ 0</td>
+                                                        <td>Rs. 0</td>
                                                         <td>0</td>
                                                         <td>0</td>
                                                     </tr>
                                             </tbody>
                                         </table>
                                 {% endif %}
+                                <br>
                                 <div class="row">
                                     <div class="col-6">
-                                        <p class="lead">Payment Methods:</p>
-                                        <img src="{% static 'adminAAKRITICMS/img/credit/visa.png' %}" alt="Visa">
-                                        <img src="{% static 'adminAAKRITICMS/img/credit/mastercard.png' %}"
-                                            alt="Mastercard">
-                                        <img src="{% static 'adminAAKRITICMS/img/credit/american-express.png' %}"
-                                            alt="American Express">
-                                        <img src="{% static 'adminAAKRITICMS/img/credit/paypal2.png' %}"
-                                            alt="Paypal">
-                                        <p class="text-muted well well-sm shadow-none" style="margin-top: 10px;">
-                                            We have multiple payment gateway to make payments 100% <b>More</b> Safe and
-                                            Sucured
-                                        </p>
                                     </div>
                                     <div class="col-6">
-                                        <p class="lead">{{today}}</p>
                                         <div class="table-responsive">
                                             <table class="table">
                                                 <tbody>
                                                     <tr>
                                                         <th style="width:50%">Subtotal: </th>
-                                                        <td>$ {{subTotal}} </td>
+                                                        <td>Rs. {{subTotal}} /-</td>
                                                     </tr>
                                                     <!-- <tr>
                                                         <th>Total GST:</th>
-                                                        <td>$ {{GSTTotal}} </td>
+                                                        <td>Rs. {{GSTTotal}} /-</td>
                                                     </tr> -->
                                                     <tr>
                                                         <th>Total Shipping:</th>
-                                                        <td>$ {{ShippingTotal}} </td>
+                                                        <td>Rs. {{ShippingTotal}} /-</td>
                                                     </tr>
                                                     <tr>
                                                         <th>Net Payable Amount:</th>
-                                                        <td>$ {{Total}} </td>
+                                                        <td>Rs. {{Total}} /-</td>
                                                     </tr>
                                                 </tbody>
                                                 
@@ -206,10 +183,7 @@
                                     <div class="col-12">
                                         <a href="JavaScript:void(0);" rel="noopener"
                                             class="btn btn-default MakePrint"><i class="fas fa-print"></i> Print</a>
-                                        <button type="button" class="btn btn-success float-right"><i
-                                                class="far fa-credit-card"></i> Submit
-                                            Payment
-                                        </button>
+                                    
                                         <button type="button" class="btn btn-primary float-right MakePrint"
                                             style="margin-right: 5px;">
                                             <i class="fas fa-download"></i> Generate PDF

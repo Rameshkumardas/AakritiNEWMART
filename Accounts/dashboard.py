@@ -1,4 +1,4 @@
-from Accounts.models import billingADDRESS, shippingADDRESS
+from Accounts.models import shippingADDRESS
 from SALESManager.models import ProductOrderList
 from Accounts.access import user_login_required
 from django.shortcuts import render, redirect
@@ -11,11 +11,14 @@ from django.contrib import messages
 def Dashboard(request):
     try:
         if request.user.token == request.session['token']:
-            all_my_orders = ProductOrderList.objects.select_related('user', 'product').filter(user=request.user).order_by('date')
-            print("all_my_orders", all_my_orders)
+            all_my_orders = ProductOrderList.objects.select_related('user', 'product').filter(user=request.user).order_by('-id')
+            allSHIPPING = shippingADDRESS.objects.filter(user=request.user)
+
             context = {
                 'dashboard':'menu-open', 
                 'all_my_orders':all_my_orders,
+                'allSHIPPINGS': allSHIPPING,
+
             }
             return render(request,"./template/USERDashboard.html", context )
         else:
@@ -32,11 +35,9 @@ def Address(request):
     try:
         if request.user.token == request.session['token']:
             
-            allBILLING = billingADDRESS.objects.filter(user=request.user)
             allSHIPPING = shippingADDRESS.objects.filter(user=request.user)
             context = {
-                'BILLINGList': allBILLING,
-                'SHIPPINGList': allSHIPPING,
+                'allSHIPPINGS': allSHIPPING,
                 'address': 'active'
             }
             return render(request,"./template/account/dashboard/address.html", context )

@@ -23,6 +23,9 @@ urlpatterns = [
         path('AJAXService/PRODUCTOPERATION/UPDATEMetaTag/', AJAXService.UPDATEMetaTag, name='UPDATEMetaTag'),  
 
         path('AJAXService/PRODUCTOPERATION/createATTRIBUTEPRODUCT/', AJAXService.createATTRIBUTEPRODUCT, name='createATTRIBUTEPRODUCT'),  
+        path('AJAXService/PRODUCTOPERATION/createSIMILARRODUCT/', AJAXService.createSIMILARRODUCT, name='createSIMILARRODUCT'),  
+
+# 
 
         path('AJAXService/PRODUCTOPERATION/ACTIVATEProduct/', AJAXService.ACTIVATEProduct, name='ACTIVATEProduct'),  
         path('AJAXService/PRODUCTOPERATION/DEACTIVATEProduct/', AJAXService.DEACTIVATEProduct, name='DEACTIVATEProduct'),  

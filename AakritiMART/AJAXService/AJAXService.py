@@ -16,15 +16,20 @@ def addToCart(request):
     if(target == ""):
         return JsonResponse({'status':0, 'message':'Target Required*'})
     else:
-        try:
+        try:            
+            qty = request.POST.get('qty')
+            mrp = request.POST.get('total_mrp')
+            sp = request.POST.get('total_sp')
+            attribute_name = request.POST.get('attribute_name')
             if ProductMyCart.objects.filter(user_id=request.user.pk, product_id=target).exists():
                 return JsonResponse({'status':0, 'message':'This Product Already Exists'})
             else:
-                ProductMyCart.objects.create(user_id=request.user.pk, product_id=target) 
-                return JsonResponse({'status':1, 'message':'Added To Cart '})
-        except Exception:
-            return JsonResponse({'status':0, 'message':f'Error Occured'})
-
+                AFTERTask = f"{request.META.get('HTTP_REFERER')}"
+                ProductMyCart.objects.create(user_id=request.user.pk, product_id=target, qty=qty) 
+                return JsonResponse({'status':1, 'message':'Added To Cart ',  "AFTERTask":AFTERTask })
+        except Exception as e:
+            print(e)
+            return JsonResponse({'status':0, 'message':f'{e} Error Occured'})
 
 @login_required
 def deleteCart(request):
@@ -49,7 +54,8 @@ def updateCART(request):
     else:
         try:
             ProductMyCart.objects.filter(user_id=request.user.pk, product_id=target).update(qty=qty)
-            return JsonResponse({"status":1, "message":"Cart Update Successfully"})
+            AFTERTask = f"{request.META.get('HTTP_REFERER')}"
+            return JsonResponse({"status":1, "message":"Cart Update Successfully", 'AFTERTask':AFTERTask})
         except Exception:
             return JsonResponse({'status':0, 'message':f'Error Occured'})
 # ==============================================================================

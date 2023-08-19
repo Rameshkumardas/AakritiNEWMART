@@ -14056,7 +14056,7 @@ div.aakriticm-author-info-avater img {
   font-weight: 600;
 }
 .cartmini__widget {
-  height: calc(100vh - 380px);
+  /* height: calc(100vh - 380px); */
   overflow-y: scroll;
   overscroll-behavior-y: contain;
   scrollbar-width: none;

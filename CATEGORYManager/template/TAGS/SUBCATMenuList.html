@@ -5,9 +5,11 @@
     {% for subcat in SubCatMenuList %}
         <li class="has-dropdown">
             <a href="{% url 'subCatProductList' subcat.mainCat.slug subcat.slug %}" class="mega-menu-title">{{subcat.name}}</a>
+            {% comment %}
             <ul class="aakriticm-submenu">
                 {% SubSubCatMenuList subcat.pk 5 %}
             </ul>
+            {% endcomment %}
         </li>
     {% endfor %}
 {% endif %}

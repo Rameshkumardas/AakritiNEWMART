@@ -1,0 +1,37 @@
+{% load static %}
+<!-- search-modal -->
+ <div class="modal fade rounded" id="search-modal" tabindex="-1" aria-hidden="true">
+    <div class="modal-dialog mx-auto" style="max-width:400px">
+       <div class="modal-content">
+          <div class="modal-header">
+                <h4 class="modal-title text-secondary font-weight-600">Search Products</h4>
+                <button type="button" class="close" data-bs-dismiss="modal" aria-label="Close">
+                   <span aria-hidden="true">&times;</span>
+                </button>
+          </div>
+          <div class="modal-body p-3 p-sm-4">
+             <div class="tab-content" id="myTabContent">
+                <div class="tab-pane fade show active" id="user" role="tabpanel" aria-labelledby="guardian-tab">
+                      <form action="{% url 'allProducts' %}">
+                         <div class="form-group mb-20 col-12">
+                            <input class="LoginEmail form-control shadow-none rounded-sm" type="text" id="search" placeholder="Search Products" name="q" required>
+                         </div>
+                         <hr>
+                         <div class="aakriticm-search-category">
+                            <span>Search by : </span>
+                            {% for mainCat in mainCatList %}
+                             <a href="{% url 'mainCatProductList' mainCat.slug  %}">{{mainCat.name}}, </a>
+                             {% endfor %}
+                         </div>
+                         <div class="form-group col-12">
+                            <button class="btn btn-primary w-100 rounded-sm" onclick="" type="submit">Search</button>
+                         </div>
+                      </form>
+                </div>
+             </div>
+          </div>
+       </div>
+    </div>
+ </div>
+ 
+ 

@@ -212,6 +212,40 @@ PAYPAL_API_KEY = ''
 PAYPAL_API_SECRET = ''
 PAYPAL_TEST = ''
 # ==============================================================================
+# PAYTM SETTINGS
+# ==============================================================================
+# PAYTM_COMPANY_NAME = "Company Name"   # For representation purposes 
+# PAYTM_INDUSTRY_TYPE_ID = "Retail"     # For staging environment
+# PAYTM_CHANNEL_ID = "WEB"
+# PAYTM_MERCHANT_KEY = "your_merchant_key"
+# PAYTM_MERCHANT_ID = "your_merchant_id"
+# PAYTM_CALLBACK_URL = "http://localhost:8000/response/" # Hardcode
+# PAYTM_WEBSITE = "WEBSTAGING"
+# PAYTM_PAYMENT_GATEWAY_URL = "https://securegw-stage.paytm.in/order/process"
+# PAYTM_TRANSACTION_STATUS_URL = "https://securegw-stage.paytm.in/order/status"
+# ------------------------------------------------------------------------------
+PAYTM_MERCHANT_COMPANY_NAME = "RAMESH KUMAR DAS"
+PAYTM_CHANNEL_ID = "WEB"
+PAYTM_EMAIL  = "das82916@gmail.com"
+PAYTM_MOBILE = "7322057677"
+PAYTM_STAGING = True
+if PAYTM_STAGING:
+    PAYTM_MERCHANT_KEY = "<YOUR-STAGING-MERCHANT-KEY>"
+    PAYTM_INDUSTRY_TYPE_ID = "Retail"
+    PAYTM_MERCHANT_ID = "ucliRd55339186982337"
+    PAYTM_CALLBACK_URL = "http://localhost:8000/wallet/response/" if DEBUG else "http://www.yourwebsite.com/wallet/response/"
+    PAYTM_WEBSITE = "WEB_STAGING"
+    PAYTM_TRANSACTION_STATUS_URL = "https://pguat.paytm.com/oltp/HANDLER_INTERNAL/TXNSTATUS"
+    PAYTM_PAYMENT_GATEWAY_URL = "https://pguat.paytm.com/oltp-web/processTransaction"
+else:
+    PAYTM_MERCHANT_KEY = "<YOUR-LIVE-MERCHANT-KEY>"
+    PAYTM_MERCHANT_ID = "ucliRd55339186982337"
+    PAYTM_CALLBACK_URL = "<YOUR-LIVE-CALLBACK-URL>"
+    PAYTM_INDUSTRY_TYPE_ID = "Retail92"
+    PAYTM_WEBSITE = "<PAYTM-WEBSITE-ID>"
+    PAYTM_TRANSACTION_STATUS_URL = "https://secure.paytm.in/oltp/HANDLER_INTERNAL/TXNSTATUS"
+    PAYTM_PAYMENT_GATEWAY_URL = "https://secure.paytm.in/oltp-web/processTransaction"
+# ==============================================================================
 # RAZORPAY SETTINGS
 # ==============================================================================
 RAZORPAY_API_KEY = ''

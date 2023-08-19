@@ -17,26 +17,14 @@
   <li class="nav-item d-none d-sm-inline-block">
     <a href="{% url 'allProducts' %}" target="_blank" class="nav-link">Shop</a>
   </li>
-  <li class="nav-item d-none d-sm-inline-block">
-    <a href="{% url 'ALLBLOGS' %}" target="_blank"  class="nav-link">Blogs</a>
-  </li>
-  <li class="nav-item ">
-    <div class="form-inline">
-      <form action="" method="GET">
-        {% csrf_token %} 
-          <div class="input-group" >
-              <input class="form-control form-control-sidebar" type="search" placeholder="Search Backend & Frontend" aria-label="Search" name="query" value="{{request.GET.query1}}">
-          </div>
-      </form>
-    </div>
-  </li>
+
+
 </ul>
 <!-- Right navbar links -->
 <ul class="navbar-nav ml-auto">
   <!-- Navbar Search -->
 
 
-  </li>
 
   <li class="nav-item ">
     <a href="{{project.baseURL}}" target="_blank" title="User Interface Home | Website Home Page " target="_blank" class="nav-link"><i class="fab fa-chrome"></i></a>

@@ -61,80 +61,81 @@
       <hr>
       {% endif %}
 
+      {% comment %}
       {% if request.user.is_accountant %}
         {% include 'template/BLOGDashboard/GridBox.html' %} 
       {% endif %}
       <hr>
-
+      {% endcomment %}
      
 
 
 
 
-
-
-      {% if request.user.is_superadmin %}
-      <section class="content">
-        <div class="container-fluid">
-          <!-- Small boxes (Stat box) -->
-          <div class="row">
-            <div class="col-lg-3 col-6">
-              <!-- small box -->
-              <div class="small-box bg-info">
-                <div class="inner">
-                  <h3>{% TotalAdmins %}</h3>
-                  <p><b>Total Superadmin</b></p>
+    {% comment %}
+        {% if request.user.is_superadmin %}
+        <section class="content">
+          <div class="container-fluid">
+            <!-- Small boxes (Stat box) -->
+            <div class="row">
+              <div class="col-lg-3 col-6">
+                <!-- small box -->
+                <div class="small-box bg-info">
+                  <div class="inner">
+                    <h3>{% TotalAdmins %}</h3>
+                    <p><b>Total Superadmin</b></p>
+                  </div>
+                  <div class="icon">
+                    <i class="fas fa-users"></i>
+                  </div>
+                  <a href="{% url 'AllStaffs' %}" class="small-box-footer">More info <i class="fas fa-arrow-circle-right"></i></a>
                 </div>
-                <div class="icon">
-                  <i class="fas fa-users"></i>
-                </div>
-                <a href="{% url 'AllStaffs' %}" class="small-box-footer">More info <i class="fas fa-arrow-circle-right"></i></a>
               </div>
+              <div class="col-lg-3 col-6">
+                <!-- small box -->
+                <div class="small-box bg-primary">
+                  <div class="inner">
+                    <h3>{% TotalActiveAdmins %}</h3>
+                    <p><b>Active Superadmin</b></p>
+                  </div>
+                  <div class="icon">
+                    <i class="fas fa-users"></i>
+                  </div>
+                  <a href="{% url 'AllStaffs' %}" class="small-box-footer">More info <i class="fas fa-arrow-circle-right"></i></a>
+                </div>
+              </div>
+              <div class="col-lg-3 col-6">
+                <!-- small box -->
+                <div class="small-box bg-danger">
+                  <div class="inner">
+                    <h3>{% TotalDeactiveAdmins %}</h3>
+                    <p><b>Deactive Superadmin</b></p>
+                  </div>
+                  <div class="icon">
+                    <i class="fas fa-users"></i>
+                  </div>
+                  <a href="{% url 'AllStaffs' %}" class="small-box-footer">More info <i class="fas fa-arrow-circle-right"></i></a>
+                </div>
+              </div>
+              <div class="col-lg-3 col-6">
+                <!-- small box -->
+                <div class="small-box bg-success">
+                  <div class="inner">
+                    <h3>1</h3>
+                    <p><b>Online Superadmin</b></p>
+                  </div>
+                  <div class="icon">
+                    <i class="fas fa-users"></i>
+                  </div>
+                  <a href="" class="small-box-footer">More info <i class="fas fa-arrow-circle-right"></i></a>
+                </div>
+              </div>      
             </div>
-            <div class="col-lg-3 col-6">
-              <!-- small box -->
-              <div class="small-box bg-primary">
-                <div class="inner">
-                  <h3>{% TotalActiveAdmins %}</h3>
-                  <p><b>Active Superadmin</b></p>
-                </div>
-                <div class="icon">
-                  <i class="fas fa-users"></i>
-                </div>
-                <a href="{% url 'AllStaffs' %}" class="small-box-footer">More info <i class="fas fa-arrow-circle-right"></i></a>
-              </div>
-            </div>
-            <div class="col-lg-3 col-6">
-              <!-- small box -->
-              <div class="small-box bg-danger">
-                <div class="inner">
-                  <h3>{% TotalDeactiveAdmins %}</h3>
-                  <p><b>Deactive Superadmin</b></p>
-                </div>
-                <div class="icon">
-                  <i class="fas fa-users"></i>
-                </div>
-                <a href="{% url 'AllStaffs' %}" class="small-box-footer">More info <i class="fas fa-arrow-circle-right"></i></a>
-              </div>
-            </div>
-            <div class="col-lg-3 col-6">
-              <!-- small box -->
-              <div class="small-box bg-success">
-                <div class="inner">
-                  <h3>1</h3>
-                  <p><b>Online Superadmin</b></p>
-                </div>
-                <div class="icon">
-                  <i class="fas fa-users"></i>
-                </div>
-                <a href="" class="small-box-footer">More info <i class="fas fa-arrow-circle-right"></i></a>
-              </div>
-            </div>      
+            <!-- /.row -->
           </div>
-          <!-- /.row -->
-        </div>
-      </section>
-      {% endif %}
+        </section>
+        {% endif %}
+    {% endcomment %}
     </div>
     {% include 'includes/adminFooter.html' %} 
   </div>

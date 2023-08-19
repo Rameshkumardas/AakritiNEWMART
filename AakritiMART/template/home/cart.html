@@ -1,4 +1,6 @@
 {% load static %}
+{% load AakritiMARTTAGS %}
+
 <!doctype html>
 <html lang="eng">
    <head>
@@ -31,6 +33,8 @@
    </head>
 <body>
    {% include "template/includes/MAINHeader.html" %}
+   {% include "template/includes/HTMLMAINCOMMON.html" %}
+
    {% if not request.user.is_user %}
       {% include "template/includes/LOGINSIGNUP.html" %}
    {% endif %}
@@ -52,16 +56,14 @@
        </div>
     </section>
     <!-- breadcrumb area end -->
-
     <!-- cart area start -->
     <section class="aakriticm-cart-area pb-50">
        <div class="container">
           <div class="row">
-
             {% if not allCART %}
             <div class="col-xxl-12">
                <div class="breadcrumb__content p-relative z-index-1">
-                  <h3 class="breadcrumb__title">Your Cart Is Empty <a href="" class="" style="color: #0989FF;"><u>Continue to Shopping</u></a></h3>
+                  <h3 class="breadcrumb__title">Your Cart Is Empty <a href="{{project.baseURL}}" class="" style="color: #0989FF;"><u>Continue to Shopping</u></a></h3>
                </div>
             </div>
             {% elif allCART %}
@@ -70,22 +72,55 @@
                    <table class="table">
                       <thead>
                         <tr>
-                          <th colspan="2" class="aakriticm-cart-header-product">Product</th>
-                          <th class="aakriticm-cart-header-price">Price</th>
-                          <th class="aakriticm-cart-header-quantity">Quantity</th>
-                          <th class="aakriticm-cart-header-quantity">Single Buy</th>
+                           <th class="aakriticm-cart-header-product">Img</th>
+                           <th class="aakriticm-cart-header-product" style="width: 300px;">Name</th>
+                          <th class="aakriticm-cart-header-price">Unit Price</th>
+                          <th class="aakriticm-cart-header-quantity" style="width: 100px;">Quantity</th>
                           <th></th>
                         </tr>
                       </thead>
-                      <tbody>
+                      <tbody class="text-left">
                         {% for cart in allCART %}
                          <tr>
-                            <!-- img -->
-                            <td class="aakriticm-cart-img"><a href="{% url 'OPENProduct' cart.product.slug %}"> <img src="{% if cart.product.img %}{{cart.product.img.url}}{% else %}assets/img/product/cart/product-cart-1.jpg{% endif %}" alt=""></a></td>
+                           <!-- img -->
+                           <td class="aakriticm-cart-img">
+                              <a href="{% url 'OPENProduct' cart.product.slug %}"> 
+                                 <img style="width: 40px; height: 40px;" src="{% if cart.product.img %}{{cart.product.img.url}}{% endif %}" alt="">
+                              </a>
+                              <span>
+                                 <div class="">
+                                    <span><b>{{cart.product.attributes}}</b></span>
+                                </div>
+                              </span>
+                           </td>
                             <!-- title -->
-                            <td class="aakriticm-cart-title"><a href="{% url 'OPENProduct' cart.product.slug %}">{{cart.product.name}}</a></td>
+                            <td class="aakriticm-cart-title">
+                              <a href="{% url 'OPENProduct' cart.product.slug %}">{{cart.product.name}}</a>                             
+                           </td>
                             <!-- price -->
-                            <td class="aakriticm-cart-price"><strike><span getMRPPRICE="{{cart.product.mrp}}">${{cart.product.mrp}}</span></strike> <br> <span>$ <span class="selling_price" getSPPRICE="{{cart.product.sp}}">{{cart.product.sp}}</span></span></td>
+                            <td class="aakriticm-cart-price">
+                              <span class="selling_price productSP{{cart.product.pk}} aakriticm-product-price-2 new-price" getSPPRICE="{{cart.product.sp}}" getQTY="{{cart.qty}}"><i class="fas fa-rupee-sign"></i> {{cart.product.sp}} /-</span>
+                              <span class="productMRP{{cart.product.pk}} aakriticm-product-price-2 old-price" getMRPPRICE="{{cart.product.mrp}}"> {{cart.product.mrp}} </span>
+                           </td>
+                           
+                            {% comment %}
+                            <td class="aakriticm-cart-price">
+                              {% if cart.product.product_type %}
+                              <div class="form-group">
+                                 <label for="SelectUnit">Select Units:</label>
+                                 <select class="SelectUnit{{cart.product.pk}} SelectUnit form-control" id="SelectUnit" style="width: 100% !important;" onchange="updatePRICE('{{cart.product.pk}}', this)">
+                                       <option value="{{cart.attribute}}" mrp="{{cart.product.mrp}}" sp="{{cart.product.sp}}" pk="{{cart.product.pk}}"> {{cart.attribute}}
+                                          <div class="aakriticm-product-price-wrapper-2">
+                                             <span class="aakriticm-product-price-2 new-price"> -- Rs.{{cart.sp}}/{{cart.mrp}} </span>
+                                             <span class="aakriticm-product-price-2 old-price"><small><p><strike>{{product.mrp}}</strike></p></small></span>
+                                          </div>
+                                       </option>
+                                       {% ATTRIBUTEList cart.product.pk %}
+                                 </select>
+                              </div>
+                              {% endif %}
+                            </td>
+                            {% endcomment %}
                             <!-- quantity -->
                             <td class="aakriticm-cart-quantity">
                                <div class="aakriticm-product-quantity mt-10 mb-10">
@@ -103,21 +138,7 @@
                                   </span>
                                </div>
                             </td>
-                            <td class="">
-                              <div class="aakriticm-compare-add-to-cart">
-
-                                 
-
-                                 <form action="{% url 'CheckOut' %}" method="get">
-                                    {% csrf_token %}
-                                    <input style="display: none;" type="text" name="product" value="{{cart.product.slug}}">
-                                    <input style="display: none;" type="text" name="color" class="{{cart.product.color.name}}">
-                                    <input style="display: none;" type="text" name="checkoutFor" value="singleProduct">
-                                    <input style="display: none;" class="addQTY aakriticm-cart-input" type="text" value="{{cart.qty}}" name="qty">
-                                    <button class="aakriticm-product-details-buy-now-btn w-100">Buy Now</button>
-                                 </form>
-                              </div>
-                           </td>
+                     
                             <!-- action -->
                             <td class="aakriticm-cart-action">
                                <button class="aakriticm-cart-action-btn" getOBJ="{{cart.pk}}">
@@ -129,8 +150,6 @@
                             </td>
                          </tr>
                          {% endfor %}
-
-                        
                       </tbody>
                     </table>
                 </div>
@@ -140,7 +159,7 @@
                 <div class="aakriticm-cart-checkout-wrapper">
                    <div class="aakriticm-cart-checkout-top d-flex align-items-center justify-content-between">
                       <span class="aakriticm-cart-checkout-top-title">Subtotal</span>
-                      <span class="aakriticm-cart-checkout-top-price">$0</span>
+                      <span class="aakriticm-cart-checkout-top-price"> 0.0</span>
                    </div>
                    <div class="aakriticm-cart-checkout-proceed">
                       <a href="{% url 'CheckOut' %}?checkoutFor=myCartList" class="aakriticm-cart-checkout-btn w-100">Proceed to Checkout</a>
@@ -173,26 +192,10 @@
    <script src="{% static 'aakritimart/js/ajax-form.js' %}"></script>
    <script src="{% static 'aakritimart/js/main.js' %}"></script>
    {% include "template/includes/JSCOMMON.html" %}
-
    <script>
-      function ProductSummary(){
-         var selling_price = [];
-         var mrp = [];
-         $('.selling_price').each(function(i){
-            selling_price[i] = parseInt($(this).attr('getSPPRICE'))
-            mrp[i] = parseInt($(this).attr('getMRPPRICE'))
-         })
+      var subtotal = $('.aakriticm-cart-checkout-top-price').text()
+      $('.aakriticm-cart-checkout-top-price').html("Rs."+parseInt(subtotal)/2+" /-")
 
-         let sum = 0;
-         for (let i = 0; i < selling_price.length; i++ ) {
-            sum += selling_price[i];
-         }
-
-         $('.aakriticm-cart-checkout-top-price').html("$ "+sum);
-      }
-      ProductSummary()
-   </script>
-   <script>
       $(".getQTY").on("change",function() {
          var qty = $(this).val()
          $('.addQTY').val(qty)   
@@ -207,11 +210,10 @@
               },
              success: function (data) {  
               if (data.status == 1){
-                  ProductSummary();
                   toastr.success(data.message)
-                  //setTimeout(function () {
-                  //    window.location.href =data.AFTERLogin;
-                  //}, 2000); 
+                  setTimeout(function () {
+                      window.location.href =data.AFTERTask;
+                  }, 2000); 
               }else if (data.status == 0){
                   toastr.info(data.message)
               } 
@@ -222,8 +224,6 @@
          });
        });
    </script>
-  
-
 
    <script>
       $(".aakriticm-cart-action-btn").click(function() {
@@ -238,6 +238,7 @@
              success: function (data) {  
               if (data.status == 1){
                   toastr.success(data.message)
+                  
                   setTimeout(function () {
                       window.location.href =data.AFTERTask;
                   }, 2000); 

@@ -34,7 +34,7 @@
 
    </head>
 <body>
-   {% include "template/includes/MINIHeader.html" %}
+   {% include "template/includes/MAINHeader.html" %}
    <main>
         <!-- breadcrumb area start -->
         <section class="breadcrumb__area include-bg pt-20 pb-50">
@@ -83,25 +83,25 @@
                                 <div class="col-sm-6">
                                 <div class="aakriticm-order-details-item">
                                     <h4>Order Date:</h4>
-                                    <p>{{obj.date}}</p>
+                                    <p>{{obj.date}} {{date}}</p>
                                 </div>
                                 </div>
                                 <div class="col-sm-6">
                                 <div class="aakriticm-order-details-item">
                                     <h4>Expected Delivery: </h4>
-                                    <p>April 16, 2023</p>
+                                    <p>Aug 10, 2023</p>
                                 </div>
                                 </div>
                                 <div class="col-sm-6">
                                 <div class="aakriticm-order-details-item">
                                     <h4>Order Number:</h4>
-                                    <p>#{{obj.orderId}}</p>
+                                    <p>#{{obj.orderId}}{{orderId}}</p>
                                 </div>
                                 </div>
                                 <div class="col-sm-6">
                                 <div class="aakriticm-order-details-item">
                                     <h4>Payment Method:</h4>
-                                    <p>Credit Card</p>
+                                    <p>Online</p>
                                 </div>
                                 </div>
                             </div>
@@ -116,73 +116,70 @@
                                 <!-- header -->
                                 <li class="aakriticm-order-info-list-header">
                                     <h4>Product</h4>
-                                    <h4>Total</h4>
+                                    <h4>Unit Price</h4>
                                 </li>
-                                
                                 {% if status == "single" %}
                                 <li class="aakriticm-order-info-list-desc">
                                     <p>{{obj.product.name}} <span> x {{obj.qty}}</span></p>
-                                    <span>${{obj.product.sp}}</span>
+                                    <span><i class="fas fa-rupee-sign"></i> {{obj.product.sp}} /-</span>
                                 </li>
-
-                                  
                                 <!-- subtotal -->
                                 <li class="aakriticm-order-info-list-subtotal">
                                     <span>Subtotal</span>
-                                    <span>${{obj.subtotal}}</span>
+                                    <span><i class="fas fa-rupee-sign"></i> {{obj.subtotal}} /-</span>
                                 </li>
                                 <!-- shipping -->
                                 <!-- shipping -->
                                 <li class="aakriticm-order-info-list-shipping">
                                     <span>Shipping</span>
-                                    <span>${{obj.shipping}}</span>
+                                    <span><i class="fas fa-rupee-sign"></i> {{obj.shipping}} /-</span>
                                 </li>
                                 <li class="aakriticm-order-info-list-shipping">
                                     <span>GST</span>
-                                    <span>${{obj.gst}}</span>
+                                    <span><i class="fas fa-rupee-sign"></i> {{obj.gst}} /-</span>
                                 </li>
                                 {% if obj.discount %}
                                 <li class="aakriticm-order-info-list-shipping">
                                     <span>Discount</span>
-                                    <span><strike>${{obj.discount}}</strike></span>
+                                    <span><strike><i class="fas fa-rupee-sign"></i> {{obj.discount}} /-</strike></span>
                                 </li>
                                 {% endif %}
                                 <!-- total -->
                                 <li class="aakriticm-order-info-list-total">
                                     <span>Total</span>
-                                    <span>${{obj.total}}</span>
+                                    <span><i class="fas fa-rupee-sign"></i> {{obj.total}} /-</span>
                                 </li>
 
 
                                 {% elif status == "miltiple" %}
                                     {% for order in all_orders %}
                                     <li class="aakriticm-order-info-list-desc">
-                                        <p>{{order.product.name}} <span> x {{order.qty}}</span></p>
-                                        <span>${{order.product.sp}}</span>
+                                        <p>{{order.product.name}} <span> x {{order.qty}} </span></p>
+                                        <span><i class="fas fa-rupee-sign"></i> {{order.product.sp}} /-</span>
                                     </li>                                      
                                     <!-- subtotal -->
                                     <li class="aakriticm-order-info-list-subtotal">
                                         <span>Subtotal</span>
-                                        <span>${{subtotal}}</span>
+                                        <span><i class="fas fa-rupee-sign"></i> {{subtotal}} /-</span>
                                     </li>
                                     <!-- shipping -->
                                     <!-- shipping -->
                                     <li class="aakriticm-order-info-list-shipping">
                                         <span>Shipping</span>
-                                        <span>${{ShippingTotal}}</span>
+                                        <span><i class="fas fa-rupee-sign"></i> {{ShippingTotal}} /-</span>
                                     </li>
                                     <li class="aakriticm-order-info-list-shipping">
                                         <span>GST</span>
-                                        <span>${{discount}}</span>
+                                        <span><i class="fas fa-rupee-sign"></i> {{discount}} /-</span>
                                     </li>
                                     <li class="aakriticm-order-info-list-shipping">
                                         <span>Discount</span>
-                                        <span>${{discount}}</span>
+                                        <span><i class="fas fa-rupee-sign"></i> {{discount}} /-</span>
                                     </li>
                                     <!-- total -->
                                     <li class="aakriticm-order-info-list-total">
                                         <span>Total</span>
-                                        <span>${{total}}</span>
+                                        <span><i class="fas fa-rupee-sign"></i> {{total}} /-</span>
                                     </li>
                                     {% endfor %}
                                 {% endif %}

@@ -1,4 +1,4 @@
-from PRODUCTManager.models import ATTRIBUTEProductList, ProductList, ProductMyCart, ProductMyWishlist, ProductRatting
+from PRODUCTManager.models import ATTRIBUTEProductList, ProductList, ProductMyCart, ProductMyWishlist, ProductRatting, SIMILARPRODUCTSList
 from AdminAuthentication.decorators import accountant_required
 from AdminAuthentication.models import AdminActivity
 from CommonModules.models import COLORList
@@ -30,7 +30,8 @@ def AddProduct(request):
             if SubSubCat:
                 SubSubCat = SubSubCat
             else:
-                return JsonResponse({'status':0, 'message':f'Sub Sub Category Required'})
+                SubSubCat = ''
+                # return JsonResponse({'status':0, 'message':f'Sub Sub Category Required'})
 
             try:
                 ProductList.objects.create(author_id=request.user.pk, mainCat_id=mainCat, subCat_id=subCat, SubSubCat_id=SubSubCat, name=name, is_draft=True) 
@@ -68,10 +69,22 @@ def UPDATEGeneralInformation(request):
                     product.subCat_id = subCat
                     product.save()
 
-                if(request.POST.get('SubSubCat')):
-                    product.SubSubCat_id = request.POST.get('SubSubCat')
+                # SubSubCat = request.POST.get('SubSubCat')
+                # if SubSubCat:
+                #     product.SubSubCat_id = SubSubCat
+                #     product.save()
+
+                product_type = request.POST.get('product_type')
+                if product_type:
+                    product.product_type = product_type
+                    product.save()
+                
+                attribute = request.POST.get('attribute')
+                if attribute:
+                    product.attributes = attribute
                     product.save()
 
+                    
                 brand = request.POST.get('brandname')
                 if brand:
                     product.brand_id = brand
@@ -259,18 +272,22 @@ def UPDATEImage(request):
                 try:
                     product = ProductList.objects.get(pk=target)
                     img = request.FILES.get('img')
-                    img1 = request.FILES.get('img1')
-                    img2 = request.FILES.get('img2')
-                    img3 = request.FILES.get('img3')
-                    img4 = request.FILES.get('img4')
                     if (img != None and img !='undefined'):
-                        product.img =img                 
+                        product.img =img  
+                    
+                    img1 = request.FILES.get('img1')
                     if (img1 != None and img1 !='undefined'):
                         product.img1 =img1
+                    
+                    img2 = request.FILES.get('img2')
                     if (img2 != None and img2 !='undefined'):
                         product.img2 =img2
+                    
+                    img3 = request.FILES.get('img3')
                     if (img3 != None and img3 !='undefined'):
                         product.img3 =img3
+                    
+                    img4 = request.FILES.get('img4')
                     if (img4 != None and img4 !='undefined'):
                         product.img4 =img4
                     product.save()
@@ -556,21 +573,21 @@ from django.http import Http404
 def addTOCart(request):
     if request.session.has_key('KHANTAILORusername'):
         target = request.POST.get('target')
-        order_qty = request.POST.get('qty')
-        color = request.GET.get('color')
-        if color:
-            color = color
+        qty = request.POST.get('qty')
+        attribute = request.GET.get('attribute')
+        if attribute:
+            attribute = attribute
         else:
-            color = 'MainColor'
+            attribute = ''
             
         if(target == ""):
             return JsonResponse({'status':0, 'message':'Target Required*'})
         else:
             try:
-                if ProductMyCart.objects.filter(user_id=request.user.pk, product_id=target).exists():
+                if ProductMyCart.objects.filter(user_id=request.user.pk, product_id=target, attribute=attribute).exists():
                     return JsonResponse({'status':0, 'message':'Already Exists'})
                 else:
-                    ProductMyCart.objects.create(user_id=request.user.pk, product_id=target, color=color,) 
+                    ProductMyCart.objects.create(user_id=request.user.pk, product_id=target, attribute=attribute, qty=qty) 
                     return JsonResponse({'status':1, 'message':'Added To Cart '})
             except Exception as e:
                 print(e)
@@ -688,3 +705,37 @@ def createATTRIBUTEPRODUCT(request):
     else:
         return JsonResponse({'status':0, 'message':' Register Account & Login First'})
 # ==============================================================================
+# SIMILARPRODUCTSList
+# ==============================================================================
+# CREATE SIMILAR PRODUCT
+# ==============================================================================
+@accountant_required
+def createSIMILARRODUCT(request):
+    if request.session.has_key('SUPERADMIN') and request.session.has_key('ADMIN-PASS') and request.session.has_key('ADMIN-ROLE'):
+        if request.user.token == request.session['token']:   
+            target = request.POST['target']     
+            if target == '' or target == None:
+                return JsonResponse({'status':0, 'message':'Target is Not Define'})
+            else:
+                try:
+
+                    attrmrp = request.POST.get('attrmrp')
+                    if attrmrp:
+                        attrmrp = attrmrp
+                        
+                    attrsp = request.POST.get('attrsp')
+                    if attrsp:
+                        attrsp = attrsp
+                        
+                    attributes = request.POST.get('attributes')
+                    if attributes:
+                        attributes = attributes
+                        
+                    SIMILARPRODUCTSList.objects.create(product_id=target, mrp=attrmrp, sp=attrsp, attributes=attributes)
+                    return JsonResponse({'status':1, 'message': 'Successfully Attr Created'})
+                except Exception as e:
+                    return JsonResponse({'status':0, 'message':f'{e} - Error Occured'})
+        else:
+            return JsonResponse({'status':0, 'message':'You dont Have Permission'})
+    else:
+        return JsonResponse({'status':0, 'message':' Register Account & Login First'})

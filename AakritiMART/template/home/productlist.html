@@ -1,6 +1,7 @@
 {% load static %}
 {% load PRODUCTCOUNT %}
 {% load PAGETAG %}
+{% load AakritiMARTTAGS %}
 
 <!doctype html>
 <html lang="eng">
@@ -34,131 +35,317 @@
     <link rel="stylesheet" href="{% static 'adminAAKRITICMS/plugins/sweetalert2-theme-bootstrap-4/bootstrap-4.min.css' %}">
     <link rel="stylesheet" href="{% static 'adminAAKRITICMS/plugins/toastr/toastr.min.css' %}">
     {% include "template/includes/COMMONHEADERTags.html" %}
+    <style>
+        .aakriticm-product-list-content{
+            border-top-style: solid ;
+            border-top-color: darkgray ;
+            border-top-width: 5px ;
 
+        }
+        img.productIMG{
+            width: 140px; 
+            height: 140px;
+        }
+
+        
+        @media only screen and (max-width: 600px) {
+            img.productIMG{
+                width: 80px; 
+                height: 80px;
+            }
+            .aakriticm-product-title-2{
+                font-size: 18px;
+            }
+           .aakriticm-product-details-add-to-cart-btn{
+            text-align: center;
+            font-size: small;
+            margin-top: 5px;
+            color: white;
+            }
+
+        }
+
+    </style>
    </head>
 <body>
 {% include "template/includes/MAINHeader.html" %}
+{% include "template/includes/HTMLMAINCOMMON.html" %}
     {% if not request.user.is_user %}
         {% include "template/includes/LOGINSIGNUP.html" %}
     {% endif %}
 
 
-    <main>
-        
-        <!-- shop area start -->
-        <section class="aakriticm-shop-area pt-50 pb-50">
+         <!-- search area start -->
+         <section class="aakriticm-search-area">
             <div class="container">
-                <div class="row">
-                    
-
-                    <div class="col-xl-12 col-lg-12">
-                   
-                        <div class="aakriticm-shop-items-wrapper aakriticm-shop-item-primary">
-                            <div class="tab-content" id="productTabContent">
-
-                                <div class="tab-pane fade show active" id="grid-tab-pane" role="tabpanel" aria-labelledby="grid-tab" tabindex="0">
-                                    <div class="row infinite-container">
-
-                                        {% for product in ProductList %}
-
-                                       <div class="col-xl-3 col-md-6 col-sm-6 infinite-item">
-                                          <div class="aakriticm-product-item-2 mb-40">
-                                             <div class="aakriticm-product-thumb-2 p-relative z-index-1 fix w-img">
-                                                <a href="{% url 'OPENProduct' product.slug %}">
-                                                    <img style="width:250px; height:100%; background-image: url('{% if product.img %}{{product.img.url}}{% endif %}'); background-size:contain;background-repeat:no-repeat; " src="{% if product.img %}{{product.img.url}}{% endif %}" alt="">
-                                                </a>
-
-                                                <!-- product action -->
-                                                <div class="aakriticm-product-action-2 aakriticm-product-action-blackStyle">
-                                                   <div class="aakriticm-product-action-item-2 d-flex flex-column">
-                                                      <button type="button" class="{% if request.user.is_user %}addToCart{% endif %} aakriticm-product-action-btn-2 aakriticm-product-add-cart-btn" getProduct="{{product.pk}}" {% if not request.user.is_user %}  data-bs-toggle="modal" data-bs-target="#signin-modal" {% endif %}>
-                                                         <svg width="17" height="17" viewBox="0 0 17 17" fill="none" xmlns="http://www.w3.org/2000/svg">
-                                                            <path fill-rule="evenodd" clip-rule="evenodd" d="M3.34706 4.53799L3.85961 10.6239C3.89701 11.0923 4.28036 11.4436 4.74871 11.4436H4.75212H14.0265H14.0282C14.4711 11.4436 14.8493 11.1144 14.9122 10.6774L15.7197 5.11162C15.7384 4.97924 15.7053 4.84687 15.6245 4.73995C15.5446 4.63218 15.4273 4.5626 15.2947 4.54393C15.1171 4.55072 7.74498 4.54054 3.34706 4.53799ZM4.74722 12.7162C3.62777 12.7162 2.68001 11.8438 2.58906 10.728L1.81046 1.4837L0.529505 1.26308C0.181854 1.20198 -0.0501969 0.873587 0.00930333 0.526523C0.0705036 0.17946 0.406255 -0.0462578 0.746256 0.00805037L2.51426 0.313534C2.79901 0.363599 3.01576 0.5995 3.04042 0.888012L3.24017 3.26484C15.3748 3.26993 15.4139 3.27587 15.4726 3.28266C15.946 3.3514 16.3625 3.59833 16.6464 3.97849C16.9303 4.35779 17.0493 4.82535 16.9813 5.29376L16.1747 10.8586C16.0225 11.9177 15.1011 12.7162 14.0301 12.7162H14.0259H4.75402H4.74722Z" fill="currentColor"></path>
-                                                            <path fill-rule="evenodd" clip-rule="evenodd" d="M12.6629 7.67446H10.3067C9.95394 7.67446 9.66919 7.38934 9.66919 7.03804C9.66919 6.68673 9.95394 6.40161 10.3067 6.40161H12.6629C13.0148 6.40161 13.3004 6.68673 13.3004 7.03804C13.3004 7.38934 13.0148 7.67446 12.6629 7.67446Z" fill="currentColor"></path>
-                                                            <path fill-rule="evenodd" clip-rule="evenodd" d="M4.38171 15.0212C4.63756 15.0212 4.84411 15.2278 4.84411 15.4836C4.84411 15.7395 4.63756 15.9469 4.38171 15.9469C4.12501 15.9469 3.91846 15.7395 3.91846 15.4836C3.91846 15.2278 4.12501 15.0212 4.38171 15.0212Z" fill="currentColor"></path>
-                                                            <path fill-rule="evenodd" clip-rule="evenodd" d="M4.38082 15.3091C4.28477 15.3091 4.20657 15.3873 4.20657 15.4833C4.20657 15.6763 4.55592 15.6763 4.55592 15.4833C4.55592 15.3873 4.47687 15.3091 4.38082 15.3091ZM4.38067 16.5815C3.77376 16.5815 3.28076 16.0884 3.28076 15.4826C3.28076 14.8767 3.77376 14.3845 4.38067 14.3845C4.98757 14.3845 5.48142 14.8767 5.48142 15.4826C5.48142 16.0884 4.98757 16.5815 4.38067 16.5815Z" fill="currentColor"></path>
-                                                            <path fill-rule="evenodd" clip-rule="evenodd" d="M13.9701 15.0212C14.2259 15.0212 14.4333 15.2278 14.4333 15.4836C14.4333 15.7395 14.2259 15.9469 13.9701 15.9469C13.7134 15.9469 13.5068 15.7395 13.5068 15.4836C13.5068 15.2278 13.7134 15.0212 13.9701 15.0212Z" fill="currentColor"></path>
-                                                            <path fill-rule="evenodd" clip-rule="evenodd" d="M13.9692 15.3092C13.874 15.3092 13.7958 15.3874 13.7958 15.4835C13.7966 15.6781 14.1451 15.6764 14.1443 15.4835C14.1443 15.3874 14.0652 15.3092 13.9692 15.3092ZM13.969 16.5815C13.3621 16.5815 12.8691 16.0884 12.8691 15.4826C12.8691 14.8767 13.3621 14.3845 13.969 14.3845C14.5768 14.3845 15.0706 14.8767 15.0706 15.4826C15.0706 16.0884 14.5768 16.5815 13.969 16.5815Z" fill="currentColor"></path>
-                                                         </svg>                                          
-                                                         <span class="aakriticm-product-tooltip aakriticm-product-tooltip-right">Add to Cart</span>
-                                                      </button>
-                                                      <button type="button" class="QUICKView aakriticm-product-action-btn-2 aakriticm-product-quick-view-btn" getProduct="{{product.pk}}" data-bs-toggle="modal" data-bs-target="#producQuickViewModal">
-                                                        <svg width="18" height="15" viewBox="0 0 18 15" fill="none" xmlns="http://www.w3.org/2000/svg">
-                                                            <path fill-rule="evenodd" clip-rule="evenodd" d="M8.99948 5.06828C7.80247 5.06828 6.82956 6.04044 6.82956 7.23542C6.82956 8.42951 7.80247 9.40077 8.99948 9.40077C10.1965 9.40077 11.1703 8.42951 11.1703 7.23542C11.1703 6.04044 10.1965 5.06828 8.99948 5.06828ZM8.99942 10.7482C7.0581 10.7482 5.47949 9.17221 5.47949 7.23508C5.47949 5.29705 7.0581 3.72021 8.99942 3.72021C10.9407 3.72021 12.5202 5.29705 12.5202 7.23508C12.5202 9.17221 10.9407 10.7482 8.99942 10.7482Z" fill="currentColor"></path>
-                                                            <path fill-rule="evenodd" clip-rule="evenodd" d="M1.41273 7.2346C3.08674 10.9265 5.90646 13.1215 8.99978 13.1224C12.0931 13.1215 14.9128 10.9265 16.5868 7.2346C14.9128 3.54363 12.0931 1.34863 8.99978 1.34773C5.90736 1.34863 3.08674 3.54363 1.41273 7.2346ZM9.00164 14.4703H8.99804H8.99714C5.27471 14.4676 1.93209 11.8629 0.0546754 7.50073C-0.0182251 7.33091 -0.0182251 7.13864 0.0546754 6.96883C1.93209 2.60759 5.27561 0.00288103 8.99714 0.000185582C8.99894 -0.000712902 8.99894 -0.000712902 8.99984 0.000185582C9.00164 -0.000712902 9.00164 -0.000712902 9.00254 0.000185582C12.725 0.00288103 16.0676 2.60759 17.945 6.96883C18.0188 7.13864 18.0188 7.33091 17.945 7.50073C16.0685 11.8629 12.725 14.4676 9.00254 14.4703H9.00164Z" fill="currentColor"></path>
-                                                         </svg>                                                                       
-                                                         <span class="aakriticm-product-tooltip aakriticm-product-tooltip-right">Quick View</span>
-                                                      </button>
-                                                      <button type="button" class="{% if request.user.is_user %}addWishlist{% endif %} aakriticm-product-action-btn-2 aakriticm-product-add-to-wishlist-btn" getProduct="{{product.pk}}" {% if not request.user.is_user %}  data-bs-toggle="modal" data-bs-target="#signin-modal" {% endif %}>
-                                                         <svg width="18" height="18" viewBox="0 0 18 18" fill="none" xmlns="http://www.w3.org/2000/svg">
-                                                            <path fill-rule="evenodd" clip-rule="evenodd" d="M1.60355 7.98635C2.83622 11.8048 7.7062 14.8923 9.0004 15.6565C10.299 14.8844 15.2042 11.7628 16.3973 7.98985C17.1806 5.55102 16.4535 2.46177 13.5644 1.53473C12.1647 1.08741 10.532 1.35966 9.40484 2.22804C9.16921 2.40837 8.84214 2.41187 8.60476 2.23329C7.41078 1.33952 5.85105 1.07778 4.42936 1.53473C1.54465 2.4609 0.820172 5.55014 1.60355 7.98635ZM9.00138 17.0711C8.89236 17.0711 8.78421 17.0448 8.68574 16.9914C8.41055 16.8417 1.92808 13.2841 0.348132 8.3872C0.347252 8.3872 0.347252 8.38633 0.347252 8.38633C-0.644504 5.30321 0.459792 1.42874 4.02502 0.284605C5.69904 -0.254635 7.52342 -0.0174044 8.99874 0.909632C10.4283 0.00973263 12.3275 -0.238878 13.9681 0.284605C17.5368 1.43049 18.6446 5.30408 17.6538 8.38633C16.1248 13.2272 9.59485 16.8382 9.3179 16.9896C9.21943 17.0439 9.1104 17.0711 9.00138 17.0711Z" fill="currentColor"></path>
-                                                            <path fill-rule="evenodd" clip-rule="evenodd" d="M14.203 6.67473C13.8627 6.67473 13.5743 6.41474 13.5462 6.07159C13.4882 5.35202 13.0046 4.7445 12.3162 4.52302C11.9689 4.41097 11.779 4.04068 11.8906 3.69666C12.0041 3.35175 12.3724 3.16442 12.7206 3.27297C13.919 3.65901 14.7586 4.71561 14.8615 5.96479C14.8905 6.32632 14.6206 6.64322 14.2575 6.6721C14.239 6.67385 14.2214 6.67473 14.203 6.67473Z" fill="currentColor"></path>
-                                                         </svg>                                                                               
-                                                         <span class="aakriticm-product-tooltip aakriticm-product-tooltip-right">Add To Wishlist</span>
-                                                      </button>
-                                                      <button type="button" class="{% if request.user.is_user %}addForCompare{% endif %} aakriticm-product-action-btn-2 aakriticm-product-add-to-compare-btn" getProduct="{{product.pk}}" {% if not request.user.is_user %}  data-bs-toggle="modal" data-bs-target="#signin-modal" {% endif %}>
-                                                         <svg width="15" height="15" viewBox="0 0 15 15" fill="none" xmlns="http://www.w3.org/2000/svg">
-                                                            <path d="M11.4144 6.16828L14 3.58412L11.4144 1" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"></path>
-                                                            <path d="M1.48883 3.58374L14 3.58374" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"></path>
-                                                            <path d="M4.07446 8.32153L1.48884 10.9057L4.07446 13.4898" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"></path>
-                                                            <path d="M14 10.9058H1.48883" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"></path>
-                                                         </svg>                                                                            
-                                                         <span class="aakriticm-product-tooltip aakriticm-product-tooltip-right">Add To Compare</span>
-                                                      </button>
-                                                   </div>
-                                                </div>
-                                             </div>
-                                             <div class="aakriticm-product-content-2 pt-15">
-                                                <div class="aakriticm-product-tag-2">
-                                                    <a href="{% url 'mainCatProductList' product.SubSubCat.subCat.mainCat.slug  %}">{{product.SubSubCat.subCat.mainCat.name}}, </a>
-                                                    <a href="{% url 'subCatProductList' product.SubSubCat.subCat.mainCat.slug product.SubSubCat.subCat.slug %}">{{product.SubSubCat.subCat.name}} ,</a>
-                                                    <a href="{% url 'SubSubCatProductList' product.SubSubCat.subCat.mainCat.slug product.SubSubCat.subCat.slug product.SubSubCat.slug %}">{{product.SubSubCat.name}}</a>
-                                                </div>
-                                                <h3 class="aakriticm-product-title-2">
-                                                    {% if request.GET.q %}
-                                                    <a href="{% url 'OPENProduct' product.slug %}">{{product.name | safe | title | highlight:request.GET.q}}</a>
-                                                    {% else %}
-                                                    <a href="{% url 'OPENProduct' product.slug %}">{{product.name | safe | title}}</a>
-                                                    {% endif %}
-                                                </h3>
-                                                <div class="aakriticm-product-rating-icon aakriticm-product-rating-icon-2">
-                                                   <span><i class="fa-solid fa-star"></i></span>
-                                                   <span><i class="fa-solid fa-star"></i></span>
-                                                   <span><i class="fa-solid fa-star"></i></span>
-                                                   <span><i class="fa-solid fa-star"></i></span>
-                                                   <span><i class="fa-solid fa-star"></i></span>
-                                                </div>
-                                                <div class="aakriticm-product-price-wrapper-2">
-                                                    <span class="aakriticm-product-price-2 new-price">${{product.sp}}</span>
-                                                    <span class="aakriticm-product-price-2 old-price">${{product.mrp}}</span>
-                                                </div>
-                                             </div>
-                                          </div>
-                                       </div>
-                                    {% endfor %}
-                                    </div>
-                                    {% if ProductList.has_next %}
-                                        <a class="infinite-more-link" href="?&page={{ ProductList.next_page_number }}"></a>
-                                    {% else %}
-                                        <div class="d-flex justify-content-center" >
-                                        <div class="spinner-border" role="status" style="display:none;">
-                                            <span class="sr-only">Loading...</span>
-                                        </div>
-                                        </div>
-                                    {% endif %}
-                                 </div>
-
-                             
-                            </div>                            
+               <div class="row">
+                  <div class="col-xl-12">
+                     <div class="aakriticm-search-form">
+                        <div class="aakriticm-search-close text-center mb-20">
+                           <button class="aakriticm-search-close-btn aakriticm-search-close-btn"></button>
                         </div>
-
+                        <form action="{% url 'allProducts' %}">
+                           <div class="aakriticm-search-input mb-10">
+                              <input type="text" placeholder="Search for product..." name="q" value="{{request.GET.q}}">
+                              <button type="submit"><i class="flaticon-search-1"></i></button>
+                           </div>
+                           <div class="aakriticm-search-category">
+                              <span>Search by : </span>
+                              {% for mainCat in mainCatList %}
+                               <a href="{% url 'mainCatProductList' mainCat.slug  %}">{{mainCat.name}}, </a>
+                               {% endfor %}
+                           </div>
+                        </form>
+                     </div>
+                  </div>
+               </div>
+            </div>
+         </section>
+         <!-- search area end -->
+         
+    <!-- filter offcanvas area start -->
+    <div class="aakriticm-filter-offcanvas-area">
+        <div class="aakriticm-filter-offcanvas-wrapper">
+            <div class="aakriticm-filter-offcanvas-close">
+                <button type="button" class="aakriticm-filter-offcanvas-close-btn filter-close-btn">
+                    <i class="fa-solid fa-xmark"></i>
+                    Close
+                </button>
+            </div>
+            <div class="aakriticm-shop-sidebar">
+                <!-- categories -->
+                <div class="aakriticm-shop-widget mb-50">
+                    <h3 class="aakriticm-shop-widget-title">Categories</h3>
+                    <div class="aakriticm-shop-widget-content">
+                        <div class="aakriticm-shop-widget-categories">
+                        <ul>
+                            {% for mainCat in mainCatList %}
+                            <li><a href="{% url 'mainCatProductList' mainCat.slug  %}">{{mainCat.name}} <span>{% mainCATPRODUCT mainCat.pk %}</span></a></li>
+                            {% endfor %}
+                        </ul>
+                        </div>
                     </div>
                 </div>
             </div>
         </div>
-    </section>
-    <!-- shop area end -->    
-</main>
+    </div>
+    <!-- filter offcanvas area end -->
+    <main>
+        <!-- shop area start -->
+        <section class="aakriticm-shop-area pt-20 pb-50">
+            <div class="container">
+                <div class="row">
+                        <div class="aakriticm-shop-main-wrapper">
+                            <div class="aakriticm-shop-top mb-45 d-none d-md-none d-lg-none d-sm-block">
+                                <div class="row">
+                                    <div class="col-lg-6 d-none d-md-none d-lg-block d-sm-none d-md-block">
+                                        <div class="aakriticm-shop-top-left d-flex align-items-center ">
+                                            <div class="aakriticm-shop-top-result">
+                                                <p>Showing 1–14 of {{ProductList.count}} results</p>
+                                            </div>
+                                        </div>
+                                    </div>
+                                    <div class="col-lg-6" >
+                                        <div class="aakriticm-shop-top-right d-lg-flex justify-content-xl-end ">
+                                            <div class="aakriticm-shop-top-filter ">
+                                                <button type="button" class="aakriticm-filter-btn filter-open-btn">
+                                                    <span>
+                                                        <svg width="16" height="15" viewBox="0 0 16 15" fill="none" xmlns="http://www.w3.org/2000/svg">
+                                                        <path d="M14.9998 3.45001H10.7998" stroke="currentColor" stroke-width="1.5" stroke-miterlimit="10" stroke-linecap="round" stroke-linejoin="round"/>
+                                                        <path d="M3.8 3.45001H1" stroke="currentColor" stroke-width="1.5" stroke-miterlimit="10" stroke-linecap="round" stroke-linejoin="round"/>
+                                                        <path d="M6.5999 5.9C7.953 5.9 9.0499 4.8031 9.0499 3.45C9.0499 2.0969 7.953 1 6.5999 1C5.2468 1 4.1499 2.0969 4.1499 3.45C4.1499 4.8031 5.2468 5.9 6.5999 5.9Z" stroke="currentColor" stroke-width="1.5" stroke-miterlimit="10" stroke-linecap="round" stroke-linejoin="round"/>
+                                                        <path d="M15.0002 11.15H12.2002" stroke="currentColor" stroke-width="1.5" stroke-miterlimit="10" stroke-linecap="round" stroke-linejoin="round"/>
+                                                        <path d="M5.2 11.15H1" stroke="currentColor" stroke-width="1.5" stroke-miterlimit="10" stroke-linecap="round" stroke-linejoin="round"/>
+                                                        <path d="M9.4002 13.6C10.7533 13.6 11.8502 12.5031 11.8502 11.15C11.8502 9.79691 10.7533 8.70001 9.4002 8.70001C8.0471 8.70001 6.9502 9.79691 6.9502 11.15C6.9502 12.5031 8.0471 13.6 9.4002 13.6Z" stroke="currentColor" stroke-width="1.5" stroke-miterlimit="10" stroke-linecap="round" stroke-linejoin="round"/>
+                                                        </svg>
+                                                    </span>
+                                                    Filter
+                                                </button>
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                            <div class="aakriticm-shop-items-wrapper aakriticm-shop-item-primary">
+                                <div class="tab-content" id="productTabContent">
+                                    <div class="tab-pane fade show active" id="list-tab-pane" role="tabpanel" aria-labelledby="list-tab" tabindex="0">
+                                        <div class="aakriticm-shop-list-wrapper aakriticm-shop-item-primary mb-70">
+                                        <div class="row">
+                                            <div class="infinite-container">
+                                                {% for product in ProductList %}
+                                                <div class="aakriticm-product-list-item d-md-flex infinite-item">
+                                                    <!-- <div class="aakriticm-product-list-thumb p-relative fix">
+                                                       
+                                                    </div> -->
+                                                    
+                                                    <div class="aakriticm-product-list-content">
+                                                        <div class="aakriticm-product-content-1 pt-25">
+                                                            <div class="aakriticm-product-tag-2">
+                                                                {% comment %}
+                                                                <a href="{% url 'mainCatProductList' product.mainCat.slug  %}">{{product.mainCat.name}}, </a>
+                                                                <a href="{% url 'subCatProductList' product.mainCat.slug product.subCat.slug %}">{{product.subCat.name}} </a>
+                                                                <!-- <a href="{% url 'SubSubCatProductList' product.SubSubCat.subCat.mainCat.slug product.SubSubCat.subCat.slug product.SubSubCat.slug %}">{{product.SubSubCat.name}}</a> -->
+                                                                {% endcomment %}
+                                                            </div>
+                                                            <div class="row">
+                                                                <div class="col-lg-7">
+                                                                    <div class="row">
+                                                                        <div class="col-4">
+                                                                            <a href="javascript:void(0);">
+                                                                                <img class="productIMG" style=" background-image: url('{% if product.img %}{{product.img.url}}{% endif %}'); background-size:contain;background-repeat:no-repeat; " src="{% if product.img %}{{product.img.url}}{% endif %}" alt="">
+                                                                            </a>
+                                                                        </div>
+                                                                        <div class="col-8">
+                                                                            <h3 class="aakriticm-product-title-2">
+                                                                                {% if request.GET.q %}
+                                                                                <a href="javascript:void(0);">{{product.name | safe | title | highlight:request.GET.q}}</a>
+                                                                                {% else %}
+                                                                                <a href="javascript:void(0);">{{product.name | safe | title}}</a>
+                                                                                {% endif %}
+                                                                            </h3>
+                                                                            <div class="">
+                                                                                <span><b>{{product.attributes}}</b></span>
+                                                                            </div>
+                                                                            {% comment %}
+                                                                            <div class="aakriticm-product-rating-icon aakriticm-product-rating-icon-2">
+                                                                                <span><i class="fa-solid fa-star"></i></span>
+                                                                                <span><i class="fa-solid fa-star"></i></span>
+                                                                                <span><i class="fa-solid fa-star"></i></span>
+                                                                                <span><i class="fa-solid fa-star"></i></span>
+                                                                                <span><i class="fa-solid fa-star"></i></span>
+                                                                            </div>
+                                                                            {% endcomment %}
+                                                                            <div class="aakriticm-product-price-wrapper-2">
+                                                                                <span class="aakriticm-product-price-2 new-price"><i class="fas fa-rupee-sign"></i> <span class="productSP{{product.pk}}">{{product.sp}} /</span></span>
+                                                                                <span class="aakriticm-product-price-2 old-price"><span class="productMRP{{product.pk}}">{{product.mrp}}</span></span>
+                                                                            </div>
+                                                                        </div>
+                                                                    </div>
+
+                                                                </div>
+                                                                {% comment %}
+                                                                <div class="col-lg-3">
+                                                                    {% if product.product_type %}
+                                                                    <div class="form-group">
+                                                                        <label for="SelectUnit">Select Units:</label>
+                                                                        <select class=" SelectUnit form-control thisUNIT{{product.pk}}" id="SelectUnit" style="width: 100% !important;" onchange="updatePRICE('{{product.pk}}', this)">
+                                                                            <option value="{{product.attributes}}" mrp="{{product.mrp}}" sp="{{product.sp}}" pk="{{product.pk}}"> {{product.attributes}}
+                                                                                <div class="aakriticm-product-price-wrapper-2">
+                                                                                    <span class="aakriticm-product-price-2 new-price"> -- Rs.{{product.sp}} | </span>
+                                                                                    <span class="aakriticm-product-price-2 old-price"><small><p><strike>{{product.mrp}}</strike></p></small></span>
+                                                                                </div>
+                                                                            </option>
+                                                                            {% ATTRIBUTEList product.pk %}
+                                                                        </select>
+                                                                    </div>
+                                                                    {% endif %}
+                                                                </div>
+                                                                {% endcomment %}
+                                                                <div class="col-lg-5 ">
+                                                                    <div class="aakriticm-product-list-add-to-cart">
+                                                                        <!-- actions -->
+                                                                        <div class="aakriticm-product-details-action-wrapper">
+                                                                            <div class="row">
+                                                                                <div class="col-6">
+                                                                                    <h3 class="aakriticm-product-details-action-title">Quantity</h3>
+                                                                                    <div class="aakriticm-product-details-action-item-wrapper d-sm-flex align-items-center">
+                                                                                        <div class="aakriticm-product-details-quantity">
+                                                                                            <div class="aakriticm-product-quantity mb-15 mr-15">
+                                                                                                <span class="aakriticm-cart-minus">
+                                                                                                    <svg width="11" height="2" viewBox="0 0 11 2" fill="none" xmlns="http://www.w3.org/2000/svg">
+                                                                                                        <path d="M1 1H10" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"/>
+                                                                                                    </svg>                                                            
+                                                                                                </span>
+                                                                                                <input  class="thisQTY{{product.pk}} aakriticm-cart-input" type="text" value="1"/>
+                                                                                                <span class="aakriticm-cart-plus">
+                                                                                                    <svg width="11" height="12" viewBox="0 0 11 12" fill="none" xmlns="http://www.w3.org/2000/svg">
+                                                                                                        <path d="M1 6H10" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"/>
+                                                                                                        <path d="M5.5 10.5V1.5" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"/>
+                                                                                                    </svg>
+                                                                                                </span>
+                                                                                            </div>
+                                                                                        </div>
+                                                                                    </div>
+                                                                                </div>
+                                                                                <div class="col-6">
+                                                                                    <br>
+                                                                                    <div class="aakriticm-product-details-add-to-cart mb-15 w-100">
+                                                                                        <button class="aakriticm-product-details-add-to-cart-btn w-100 bg-primary" {% if request.user.is_user %} onclick="AddToCart('{{product.pk}}')" {% else %} data-bs-toggle="modal" data-bs-target="#signin-modal" {% endif %}>Add To Cart</button>
+                                                                                    </div>                                                                                            
+                                                                                </div>
+                                                                            </div>
+                                                                        </div>
+                                                                    </div>
+                                                                </div>
+                                                            </div>                                                            
+                                                        </div>
+                                                    </div>
+                                                </div>
+                                                {% endfor %}
+                                            </div>
+                                            {% comment %}
+                                            {% if ProductList.has_next %}
+                                                <a class="infinite-more-link" href="?&page={{ ProductList.next_page_number }}{% if request.GET.q %}&q={{request.GET.q}}&mainCat={{request.GET.mainCat}}{% endif %}"></a>
+                                            {% else %}
+                                                <div class="d-flex justify-content-center" >
+                                                <div class="spinner-border" role="status" style="display:none;">
+                                                    <span class="sr-only">Loading...</span>
+                                                </div>
+                                                </div>
+                                            {% endif %}
+                                            {% endcomment %}
+                                        </div>
+                                        </div>
+                                    </div>
+                                </div>                            
+                            </div>
+                        </div>
+                    {% if ProductList.has_other_pages %}
+                    <nav>
+                        <ul class="pagination justify-content-center">
+                        {% if ProductList.has_previous %}
+                            <li class="page-item">
+                            <a class="page-link" href="?page={{ ProductList.previous_page_number }}{% if request.GET.q %}&q={{request.GET.q}}&mainCat={{request.GET.mainCat}}{% endif %}" aria-label="Previous">
+                                <span aria-hidden="true">&laquo;</span>
+                            </a>
+                            </li>
+                        {% else %}
+                            <li class="page-item disabled">
+                                <span class="page-link" aria-hidden="true">&laquo;</span>
+                            </li>
+                        {% endif %}
+
+                        {% for p in ProductList.paginator.page_range %}
+                            {% if ProductList.number == p %}
+                            <li class="page-item"><a class="page-link" style="color: red;" href="#">{{ p }}</a></li>
+
+                            {% elif p > ProductList.number|add:'-5' and p < ProductList.number|add:'5' %}
+                            <li class="page-item"><a class="page-link" href="?page={{ p }}{% if request.GET.q %}&q={{request.GET.q}}&mainCat={{request.GET.mainCat}}{% endif %}">{{ p }}</a></li>
+                            {% endif %}
+
+                            {% endfor %}
+
+                        {% if ProductList.has_next %}
+                            <li class="page-item">
+                            <a class="page-link" href="?page={{ ProductList.next_page_number }}{% if request.GET.q %}&q={{request.GET.q}}&mainCat={{request.GET.mainCat}}{% endif %}" aria-label="Next">
+                                <span aria-hidden="true">&raquo;</span>
+                            </a>
+                            </li>
+                        {% else %}
+                            <li class="page-item disabled">
+                            <span class="page-link" aria-hidden="true">&raquo;</span>
+                            </li>
+                        {% endif %}
+                    </ul>
+                    </nav>
+                    {% endif %} 
+                  
+                </div>
+            </div>
+        </section>
+        <!-- shop area end -->    
+    </main>
+
 {% include "template/includes/MAINFooter.html" %}
 <!-- JS here -->
 <script src="{% static 'aakritimart/js/vendor/jquery.js' %}"></script>
@@ -181,7 +368,82 @@
 <script src="{% static 'adminAAKRITICMS/plugins/infinite-scroll/jquery.waypoints.min.js'%}"></script>
 <script src="{% static 'adminAAKRITICMS/plugins/infinite-scroll/infinite.min.js'%}"></script>
 <script>
-    var infinite = new Waypoint.Infinite({
+    $(".cartmini__del").click(function() {
+       const getOBJ = $(this).attr('getOBJ'); 
+       $.ajax({                      
+           type: "POST",                   
+           url: "{% url 'deleteCart' %}",                    
+           data: {
+             csrfmiddlewaretoken: "{{ csrf_token }}",
+             'getOBJ': getOBJ,  
+            },
+           success: function (data) {  
+            if (data.status == 1){
+                toastr.success(data.message)
+                setTimeout(function () {
+                    window.location.href =data.AFTERTask;
+                }, 2000); 
+            }else if (data.status == 0){
+                toastr.info(data.message)
+            } 
+          },
+          error:function(data){
+             toastr.info("Server Issue")
+          }
+       });
+     });
+ </script>
+
+<script>
+
+    function updatePRICE(pk, event) {
+        var SelectUnit = document.querySelector("#SelectUnit");
+        var mrp = event.options[event.selectedIndex].getAttribute("mrp");
+        var sp = event.options[event.selectedIndex].getAttribute("sp");
+        var val = $('.SelectUnit').val();
+        $('span.productSP'+pk).html(sp);
+        $('span.productMRP'+pk).html(mrp);
+    }
+
+    function setCookie(cname,cvalue,exdays) {
+      const d = new Date();
+      d.setTime(d.getTime() + (exdays*24*60*60*1000));
+      let expires = "expires=" + d.toUTCString();
+      document.cookie = cname + "=" + cvalue + ";" + expires + ";path=/";
+    }
+    
+    function getCookie(cname) {
+      let name = cname + "=";
+      let decodedCookie = decodeURIComponent(document.cookie);
+      let ca = decodedCookie.split(';');
+      for(let i = 0; i < ca.length; i++) {
+        let c = ca[i];
+        while (c.charAt(0) == ' ') {
+          c = c.substring(1);
+        }
+        if (c.indexOf(name) == 0) {
+          return c.substring(name.length, c.length);
+        }
+      }
+      return "";
+    }
+    
+    function checkCookie() {
+      let user = getCookie("username");
+      if (user != "") {
+        alert("Welcome again " + user);
+      } else {
+         user = prompt("Please enter your name:","");
+         if (user != "" && user != null) {
+           setCookie("username", user, 30);
+         }
+      }
+    }
+    </script>
+
+
+<script>
+    {/* var infinite = new Waypoint.Infinite({
         element: $('.infinite-container')[0],
         handler: function(direction) {
     },
@@ -190,11 +452,9 @@
     $('.spinner-border').show();
     },
     onAfterPageLoad: function () {
-    $('.spinner-border').hide();
+     $('.spinner-border').hide();
     }   
-});
-
-
+}); */}
 </script>
 <!-- SweetAlert2 -->
 <script src="{% static 'adminAAKRITICMS/plugins/sweetalert2/sweetalert2.min.js'%}"></script>

@@ -1,5 +1,7 @@
+import datetime
 from Accounts.HELPERS import GENERATEOTP, USER_ACCESS_GRANTED, SYSTEMGENERATEPASSWORD
-from Accounts.models import billingADDRESS, shippingADDRESS
+from django.contrib.auth.decorators import login_required
+from Accounts.models import shippingADDRESS
 from AdminAuthentication.HELPER import CONFIG_SMTP_NO_REPLY
 from django.contrib.auth import authenticate, login, logout
 from PRODUCTManager.models import ProductList, ProductMyCart
@@ -25,6 +27,8 @@ from django.contrib.auth import logout
 import array
 import random
 import uuid
+from datetime import date
+
 # ==============================================================================
 # ==============================================================================
 def SYSTEMGENERATEORDERID(request):
@@ -55,12 +59,15 @@ def SYSTEMGENERATEORDERID(request):
         random.shuffle(temp_ORDER_ID_list)
 
     OrderId = config("PROJECT_NAME")+""
-    for x in temp_ORDER_ID_list:
-            OrderId = OrderId + x
 
-    if ProductOrderList.objects.filter(orderId=OrderId).exists():
-        return SYSTEMGENERATEORDERID()
-    return OrderId
+    for x in temp_ORDER_ID_list:
+        OrderId = OrderId + x
+        
+    try:
+        ProductOrderList.objects.get(orderId=OrderId)
+        return SYSTEMGENERATEORDERID(request)
+    except Exception:
+        return OrderId
 
 def get_orders(request, orderId):
     try:
@@ -77,9 +84,11 @@ def OrderPriceDetails(request, objs):
     grandGST = []
     grandDISCOUNT = []
     for order in objs:
-        SubTotal.append((order.product.sp)*int(order.qty))
-        totalSHIPPING = 120  
-        totalGST = 120
+        # print("ordered", order)
+        # print("SubTotal.append((order.product.sp)*int(order.qty))", SubTotal.append((order.product.sp)*int(order.qty)))
+        SubTotal.append((int(order.product.sp))*int(order.qty))
+        totalSHIPPING = 20
+        totalGST = 20
         grandSHIPING.append(totalSHIPPING)            
         grandGST.append(totalGST)
         grandDISCOUNT.append(((order.product.mrp)*int(order.qty))-((order.product.sp)*int(order.qty)))
@@ -130,40 +139,52 @@ def ORDER_WITHOUT_LOGIN(request, jsonOBJ):
         return False
 # ==============================================================================
 # ==============================================================================
+@login_required
 def ORDER_WITH_LOGIN(request, jsonOBJ):
-    try:
-       
+    try:       
         orderId = SYSTEMGENERATEORDERID(request)
         obj = json.loads(jsonOBJ)
-        print("billing_address",obj['billing_address'])
-        print("shipping_address", obj['shipping_address'])
         if obj['payMethod'] == "COD":
             is_payment = False
+            is_otp = 9999
         else:
+            is_otp = 0000
             is_payment = True
         
+        shipping_address = shippingADDRESS.objects.get(pk=int(obj['shipping_address']))
         
-        billing_address = billingADDRESS.objects.get(pk=obj['billing_address'])
-        shipping_address = shippingADDRESS.objects.get(pk=obj['shipping_address'])
-        
-        if obj['checkout_for'] == "myCartList":
             
+        print("obj", obj)
+
+        if obj['checkout_for'] == "myCartList":
             productList = ProductMyCart.objects.filter(user_id=request.user.pk)
             invoice=str(uuid.uuid4())
-            for cart in productList:           
-                ProductOrderList.objects.create(user_id=request.user.pk, product_id=cart.product.pk, invoice=invoice, orderId=orderId, qty=cart.qty, color="cart.product.color", amount=cart.product.sp, subtotal=float(obj['subtotal']), shipping=float(obj['shipping']), gst=float(obj['gst']), discount=float(obj['discount']), total=float(obj['total']),  bcode=billing_address.bcode, bhouse_no=billing_address.bhouse_no, blandmark=billing_address.blandmark, bcity=billing_address.bcity, bstate=billing_address.bstate, bcountry=billing_address.bcountry, scode=shipping_address.scode, shouse_no=shipping_address.shouse_no, slandmark=shipping_address.slandmark, scity=shipping_address.scity, sstate=shipping_address.sstate, scountry=shipping_address.scountry, more=shipping_address.more, payMethod=obj['payMethod'], is_payment=is_payment, is_otp=123456, jsonOBJ=jsonOBJ)
+            for cart in productList:   
+                try:
+                    ProductOrderList.objects.create(user_id=request.user.pk, product_id=cart.product.pk, invoice=invoice, orderId=orderId, qty=int(cart.qty), amount=cart.product.sp, subtotal=float(obj['subtotal']), shipping=float(obj['shipping']), gst=float(obj['gst']), discount=float(obj['discount']), total=float(obj['total']), code=shipping_address.code, house_no=shipping_address.house_no, landmark=shipping_address.landmark, city=shipping_address.city, state=shipping_address.state, country=shipping_address.country, fname=shipping_address.fname,lname=shipping_address.lname,email=shipping_address.email,contact=shipping_address.contact, payMethod=obj['payMethod'], is_payment=is_payment, is_otp=is_otp, jsonOBJ=jsonOBJ)
+                except Exception:
+                    return False
             ProductMyCart.objects.filter(user_id=request.user.pk).delete()            
         else:
-            ProductOrderList.objects.create(user_id=request.user.pk, product_id=obj['product'], invoice=str(uuid.uuid4()), orderId=orderId, qty=obj['qty'], color=obj['color'], amount=float(obj['subtotal']), subtotal=float(obj['subtotal']), shipping=float(obj['shipping']), gst=float(obj['gst']), discount=float(obj['discount']), total=float(obj['total']),  bcode=billing_address.bcode, bhouse_no=billing_address.bhouse_no, blandmark=billing_address.blandmark, bcity=billing_address.bcity, bstate=billing_address.bstate, bcountry=billing_address.bcountry, scode=shipping_address.scode, shouse_no=shipping_address.shouse_no, slandmark=shipping_address.slandmark, scity=shipping_address.scity, sstate=shipping_address.sstate, scountry=shipping_address.scountry, more=shipping_address.more, payMethod=obj['payMethod'], is_payment=is_payment, is_otp=123456, jsonOBJ=jsonOBJ)
-            context = {
-                "OrderId":orderId,
-                "user":request.user,
-            }
-        # CONFIG_SMTP_NO_REPLY()
-        # requests.get(f"http://www.smsalert.co.in/api/push.json?apikey=62b2af4c1a5d7&route=transactional&sender=VOFREE&mobileno={contact}&text=Thanks%20for%20choosing%20Voicefreedom%20{orderId}%20Click%20Here.")
-        # html_content = render_to_string("./template/account/email/OneTimeVerificationCode.html", context)
-        # recipient_list = [obj['email'], ]
-        # EmailThread(f'Order Confirmation || {config("PROJECT_NAME")}', settings.EMAIL_HOST_USER, html_content, recipient_list).start()                
+            return False
+        
+        context = {
+            "orders": ProductOrderList.objects.filter(orderId=orderId),
+            'address':shipping_address,
+            "OrderId":orderId,
+            'invoice_date': date.today(),
+            "fname":request.user.fname,
+            "discount": obj['discount'],
+            "subtotal": obj['subtotal'],
+            "gst": float(obj['gst']),            
+            "shipping": float(obj['shipping']),
+            "total": float(obj['total']),
+
+        }
+        CONFIG_SMTP_NO_REPLY()
+        html_content = render_to_string("./template/email/orderConfirmation.html", context)
+        recipient_list = [request.user.email, ]
+        EmailThread(f'Order Confirmation | {config("PROJECT_NAME")}', settings.EMAIL_HOST_USER, html_content, recipient_list).start()                
         return orderId, True
     except Exception as e:
         print(e)

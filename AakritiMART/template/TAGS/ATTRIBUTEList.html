@@ -1,0 +1,10 @@
+{% for attr in attributes %}
+    <option value="{{attr.attributes}}" mrp="{{attr.mrp}}" sp="{{attr.sp}}" pk="{{attr.product.pk}}"> {{attr.attributes}}
+        <div class="aakriticm-product-price-wrapper-2">
+            <span class="aakriticm-product-price-2 new-price"> -- Rs.{{attr.sp}} | </span>
+            <span class="aakriticm-product-price-2 old-price"><small><sup><strike>{{attr.mrp}}</strike></sup></small></span>
+        </div>
+    </option>
+{% endfor %}
+ 
+ 

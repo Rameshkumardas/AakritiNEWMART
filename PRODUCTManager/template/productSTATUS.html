@@ -200,8 +200,8 @@
                         <a href="{% url 'OPENProduct' product.slug %}" target="_blank" class="right" data-toggle="tooltip" title="{{product.name}}" >&nbsp;&nbsp; {{product.name}}</a>
                       </td>
                       <td>
-                        <li><strike><b>$ {{product.mrp}}</b></strike> </li>
-                        <li>$ {{product.sp}} </li>
+                        <li><strike><b><i class="fas fa-rupee-sign"></i> {{product.mrp}}</b></strike> </li>
+                        <li><i class="fas fa-rupee-sign"></i> {{product.sp}} </li>
                       </td>
                       <td>{{product.total_qty}}</td>
                       <td>{{product.views}}</td>
@@ -211,7 +211,7 @@
                           {% if request.GET.is_draft %}
                             <a href="javascript:void(0)" class="targetPRODUCT btn btn-success btn-sm" productVAL="{{product.pk}}" data-toggle="modal" data-target="#ACTIVATEProduct" class="btn btn-success btn-sm" data-toggle="tooltip" title="Hit For Approved Now"><i class="fas fa-plus"></i></a>                                
                             <a href="javascript:void(0)" class="targetPRODUCT btn btn-danger btn-sm" productVAL="{{product.pk}}" data-toggle="modal" data-target="#CLOSEProduct"  data-toggle="tooltip" title="Hit For Move To Trash"><i class="fa fa-trash-alt"></i></a> 
-                            <a href="{% url 'updatePRODUCT' product.pk product.slug %}?tab=General-Information" target="_blank" class="btn btn-dark" data-toggle="tooltip" title="Update Product"><i class="fas fa-edit"></i></a>
+                            <a href="{% url 'updatePRODUCT' product.pk product.slug %}?tab=General-Information&{% if request.GET.is_draft %}is_draft=True{% elif request.GET.is_out_of_stock %}is_out_of_stock=True{% endif %}" target="_blank" class="btn btn-dark" data-toggle="tooltip" title="Update Product"><i class="fas fa-edit"></i></a>
                           
                           {% elif request.GET.is_verified %}
                             <a  href="javascript:void(0)" class="targetPRODUCT btn btn-success" productVAL="{{product.pk}}" productBest="{{product.is_Best}}" productNew="{{product.is_Arrivals}}" data-toggle="modal" data-target="#BOOSTProduct"  data-toggle="tooltip" title="Hit For Boost Your Product"><i class="fas fa-rocket"> </i> </a>
@@ -219,11 +219,11 @@
                           {% elif request.GET.is_out_of_stock  %}
                             <a href="javascript:void(0)" class="targetPRODUCT btn btn-success btn-sm" productVAL="{{product.pk}}" data-toggle="modal" data-target="#ACTIVATEProduct" class="btn btn-success btn-sm" data-toggle="tooltip" title="Hit For Approved Now"><i class="fas fa-plus"></i></a>                                
                             <a href="javascript:void(0)" class="targetPRODUCT btn btn-danger btn-sm" productVAL="{{product.pk}}" data-toggle="modal" data-target="#CLOSEProduct"  data-toggle="tooltip" title="Hit For Move To Trash"><i class="fa fa-trash-alt"></i></a> 
-                            <a href="{% url 'updatePRODUCT' product.pk product.slug %}?tab=General-Information" target="_blank" class="btn btn-dark" data-toggle="tooltip" title="Update Product"><i class="fas fa-edit"></i></a>
+                            <a href="{% url 'updatePRODUCT' product.pk product.slug %}?tab=General-Information&{% if request.GET.is_draft %}is_draft=True{% elif request.GET.is_out_of_stock %}is_out_of_stock=True{% endif %}" target="_blank" class="btn btn-dark" data-toggle="tooltip" title="Update Product"><i class="fas fa-edit"></i></a>
                           {% elif request.GET.is_deleted  %}
                             <a href="javascript:void(0)" class="targetPRODUCT btn btn-danger" productVAL="{{product.pk}}" data-toggle="modal" data-target="#DELETEProduct"  data-toggle="tooltip" title="Move To Trash Product" ><i class="fas fa-trash"></i></a>
                             <a href="{% url 'OPENProduct' product.slug %}" target="_blank" class="btn btn-primary btn-sm"  data-toggle="tooltip" title="Hit For View Product"><i class="fas fa-eye"></i> </a>                                
-                            <a href="{% url 'updatePRODUCT' product.pk product.slug %}?tab=General-Information" target="_blank" class="btn btn-dark" data-toggle="tooltip" title="Update Product"><i class="fas fa-edit"></i></a>
+                            <a href="{% url 'updatePRODUCT' product.pk product.slug %}?tab=General-Information&{% if request.GET.is_draft %}is_draft=True{% elif request.GET.is_out_of_stock %}is_out_of_stock=True{% endif %}" target="_blank" class="btn btn-dark" data-toggle="tooltip" title="Update Product"><i class="fas fa-edit"></i></a>
                           {% endif %}
                         </div>
                       </td>
@@ -479,12 +479,10 @@ $(function () {
   $(document).ready(function() {
     $(".targetPRODUCT").click(function(){
 
-
-
         $('.targetVAL').val($(this).attr('productVAL'))
         var productBest = $(this).attr('productBest')
         var productNew = $(this).attr('productNew')
-        
+
      
         if (productBest != "False"){
           $('.Best_Selling')[0].checked = true;

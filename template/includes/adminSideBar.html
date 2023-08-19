@@ -10,6 +10,7 @@
     </a>
     <!-- Sidebar -->
     <div class="sidebar">
+        {% comment %}
         <!-- Sidebar user panel (optional) -->
         <div class="user-panel mt-3 pb-3 mb-3 d-flex">
             <div class="image">
@@ -34,6 +35,7 @@
                 </div>
             </form>
         </div>
+        {% endcomment %}
 
         <!-- Sidebar Menu -->
         <nav class="mt-2">
@@ -104,6 +106,7 @@
                             </a>
                             {% endif %}
                         </li>
+                        
                         <li class="nav-item sidebar-control">
                             {% if CMSManager and allSECTIONList %}
                             <a href="{% url 'SECTIONList' %}" class="nav-link active">
@@ -224,6 +227,7 @@
                                 </a>
                                 {% endif %}
                             </li>
+                            {% comment %}
                             <li class="nav-item " id="" link="Sub-Category">
                                 {% if SubSubCategory %}
                                 <a href="{% url 'createSubSubCategory' %}" class="nav-link active">
@@ -237,6 +241,7 @@
                                 </a>
                                 {% endif %}
                             </li>
+                            {% endcomment %}
                         </ul>
                     </li>
 
@@ -727,17 +732,12 @@
                                     </a>
                                     {% endif %}
                                 </li>
-    
-    
-                               
-    
                         </ul>
                     </li>
-                   
+                {% endif %}
 
-             
     
-
+                {% comment %}
                 <li class="nav-header text-light"><b>CONTENT MANAGER</b></li>
                 {% if BLOGManager %}
                 <li class="nav-item menu-open">
@@ -847,7 +847,6 @@
                 {% endif %}
            
 
-
                 {% if FAQManager %}
                 <li class="nav-item menu-open">
                 {% else %}
@@ -952,7 +951,6 @@
                     </ul>
                 </li>
 
-             
                 {% if BANNERManager %}
                 <li class="nav-item menu-open">
                     {% else %}
@@ -1048,14 +1046,8 @@
                         {% endif %}
                     </ul>
                 </li>
+                {% endcomment %}
 
-
-                
-
-
-
-
-          
 
                 <li class="nav-header text-light text-uppercase"><b>MESSAGE MANAGER</b></li>
                 {% if Message %}
@@ -1076,7 +1068,7 @@
                     </a>
                     {% endif %}
                     <ul class="nav nav-treeview">
-                        
+                        {% comment %}
                         <li class="nav-item " id="" link="Main-Category">
                             {% if Announcements %}
                             <a href="{% url 'Announcements' %}" class="nav-link active">
@@ -1090,6 +1082,7 @@
                             </a>
                             {% endif %}
                         </li>
+                        {% endcomment %}
                        
 
                         <li class="nav-item " id="" link="Main-Category">

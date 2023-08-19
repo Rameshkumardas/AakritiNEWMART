@@ -5,13 +5,11 @@
 
 
 <!-- <div class="widgetplus widgetplus-block slider-0" id="widgetplus-block-2582196409">
-   <a class="row no-gutters promo-top text-center" title="Sale2020" rel="noopener">
-         
-      <span class="col-12 col-lg-12 col-md-12 col-sm-12">
-         <img style="width: 100% !important; height: 100px !important;" class="img-fluid" src="https://img.freepik.com/free-psd/healthy-life-concept-banner-design_23-2148583499.jpg" alt="Promo 2">
-      </span>
-      
-   </a>
+      <a class="row no-gutters promo-top text-center" title="Sale2020" rel="noopener">
+         <span class="col-12 col-lg-12 col-md-12 col-sm-12">
+            <img style="width: 100% !important; height: 100px !important;" class="img-fluid" src="https://img.freepik.com/free-psd/healthy-life-concept-banner-design_23-2148583499.jpg" alt="Promo 2">
+         </span>
+      </a>
 </div> -->
 
    <!-- back to top start -->
@@ -26,33 +24,7 @@
    
       
 
-     <!-- search area start -->
-     <section class="aakriticm-search-area">
-        <div class="container">
-           <div class="row">
-              <div class="col-xl-12">
-                 <div class="aakriticm-search-form">
-                    <div class="aakriticm-search-close text-center mb-20">
-                       <button class="aakriticm-search-close-btn aakriticm-search-close-btn"></button>
-                    </div>
-                    <form action="{% url 'allProducts' %}">
-                       <div class="aakriticm-search-input mb-10">
-                          <input type="text" placeholder="Search for product..." name="q" value="{{request.GET.q}}">
-                          <button type="submit"><i class="flaticon-search-1"></i></button>
-                       </div>
-                       <div class="aakriticm-search-category">
-                          <span>Search by : </span>
-                          {% for mainCat in mainCatList %}
-                           <a href="{% url 'mainCatProductList' mainCat.slug  %}">{{mainCat.name}}, </a>
-                           {% endfor %}
-                       </div>
-                    </form>
-                 </div>
-              </div>
-           </div>
-        </div>
-     </section>
-     <!-- search area end -->
+
 
       <!-- header area start -->
       <header>
@@ -62,6 +34,7 @@
                 <div class="row align-items-center">
                 <div class="col-md-6">
                     <div class="aakriticm-header-info d-flex align-items-center">
+                        {% comment %}
                         <div class="aakriticm-header-info-item">
                             <a href="javascript:void();" data-bs-toggle="modal" data-bs-target="#CheckShipping">
                               <span>
@@ -74,6 +47,8 @@
                               {% endif %}
                             </a>
                         </div>
+                        {% endcomment %}
+
                         <div class="aakriticm-header-info-item">
                             <a href="tel:{{project.contact}}">
                             <span>
@@ -123,29 +98,30 @@
                            <div class="p-2">
                               <a href="{{project.linkedin}}"><i class="fa-brands fa-linkedin-in"></i></a>
                            </div>
-                        
+                           {% comment %}
                             {% if request.user.is_user %}
                             <div class="aakriticm-header-top-menu-item aakriticm-header-setting">
                             <span class="aakriticm-header-setting-toggle" id="aakriticm-header-setting-toggle">Setting</span>
-                            <ul>
-                                <li>
+                              <ul>
+                                 <li>
                                     <a href="{% url 'Dashboard' %}">My Profile</a>
                                  </li>
                                  <li>
                                     <a href="{% url 'WishlistMART' %}">Wishlist</a>
                                  </li>
                                  <li>
-                                  <a href="{% url 'CompareMART' %}">Compare</a>
+                                 <a href="{% url 'CompareMART' %}">Compare</a>
                                  </li>
                                  <li>
-                                    <a href="{% url 'WishlistMART' %}">Cart</a>
+                                    <a href="{% url 'MYCart' %}"> My Cart</a>
                                  </li>
                                  <li>
                                     <a href="{% url 'LOGOUTUSER' %}">Logout</a>
                                  </li>
-                            </ul>
+                              </ul>
                             </div>
                             {% endif %}
+                            {% endcomment %}
                         </div>
                     </div>
                 </div>
@@ -227,12 +203,18 @@
                                 <ul class="dropdown-menu" aria-labelledby="Account">
                                     <li><a class="dropdown-item" href="{% url 'Dashboard' %}"><i class="fa fa-dashboard"> </i> &nbsp;Dashboard</a></li>
                                     <li><hr class="dropdown-divider"></li>
-                                    <li><a class="dropdown-item" href="#"><i class="fas fa-cog"> </i> &nbsp;Settings</a></li>
+                                    <li><a class="dropdown-item" href="{% url 'MYCart' %}">
+                                       <svg width="21" height="22" viewBox="0 0 21 22" fill="none" xmlns="http://www.w3.org/2000/svg">
+                                          <path fill-rule="evenodd" clip-rule="evenodd" d="M6.48626 20.5H14.8341C17.9004 20.5 20.2528 19.3924 19.5847 14.9348L18.8066 8.89359C18.3947 6.66934 16.976 5.81808 15.7311 5.81808H5.55262C4.28946 5.81808 2.95308 6.73341 2.4771 8.89359L1.69907 14.9348C1.13157 18.889 3.4199 20.5 6.48626 20.5Z" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"></path>
+                                          <path d="M6.34902 5.5984C6.34902 3.21232 8.28331 1.27803 10.6694 1.27803V1.27803C11.8184 1.27316 12.922 1.72619 13.7362 2.53695C14.5504 3.3477 15.0081 4.44939 15.0081 5.5984V5.5984" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"></path>
+                                          <path d="M7.70365 10.1018H7.74942" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"></path>
+                                          <path d="M13.5343 10.1018H13.5801" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"></path>
+                                       </svg>
+                                     </i> &nbsp;My Cart</a></li>
                                     <li><hr class="dropdown-divider"></li>
-                                    <li><a class="dropdown-item" href="#"><i class="fas fa-home-alt"> </i> &nbsp;My Address</a></li>
+                                    <li><a class="dropdown-item" href="{% url 'Dashboard' %}"><i class="fas fa-shipping-fast"></i> &nbsp;My Orders</a></li>
                                     <li><hr class="dropdown-divider"></li>
-                                    <li><a class="dropdown-item" href="#"><i class="fas fa-shipping-fast"> </i> &nbsp;My Orders</a></li>
-                                    <li><hr class="dropdown-divider"></li>
+
                                     <li><a class="dropdown-item " href="{% url 'LOGOUTUSER' %}"> <i class="fas fa-sign-out-alt"> </i>  &nbsp;<b class="">Logout</b></a></li>
                                  </ul>
                                  {% endif %}
@@ -240,7 +222,8 @@
                               
                           </div>
                           <div class="aakriticm-header-action d-flex align-items-center ml-50">
-                             <div class="aakriticm-header-action-item d-none d-lg-block">
+                             {% comment %}
+                              <div class="aakriticm-header-action-item d-none d-lg-block">
                                 <a href="{% url 'CompareMART' %}"  class="aakriticm-header-action-btn">
                                    <svg width="20" height="19" viewBox="0 0 20 19" fill="none" xmlns="http://www.w3.org/2000/svg">
                                       <path d="M14.8396 17.3319V3.71411" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"/>
@@ -259,6 +242,7 @@
                                    <span class="aakriticm-header-action-badge bg-primary">{{allWISHCOUNT}}</span>                          
                                 </a>
                              </div>
+                             {% endcomment %}
                              <div class="aakriticm-header-action-item">
                                 <button type="button" class="aakriticm-header-action-btn cartmini-open-btn">
                                    <svg width="21" height="22" viewBox="0 0 21 22" fill="none" xmlns="http://www.w3.org/2000/svg">
@@ -267,7 +251,7 @@
                                       <path d="M7.70365 10.1018H7.74942" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"/>
                                       <path d="M13.5343 10.1018H13.5801" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"/>
                                    </svg>    
-                                   <span class="aakriticm-header-action-badge bg-primary">{{allCARTCOUNT}}</span>                                                                          
+                                   <span class="aakriticm-header-action-badge aakriticm-cartcount bg-primary">{{allCARTCOUNT}}</span>                                                                          
                                 </button>
                              </div>
                              <div class="aakriticm-header-action-item d-lg-none">
@@ -306,6 +290,7 @@
                                        {% endif %}
                                     {% endfor %}
 
+                                    {% comment %}
                                     <li class="has-dropdown has-mega-menu ">
                                        <a href="{% url 'ALLBLOGS' %}">Blogs</a>
                                        <ul class="aakriticm-submenu aakriticm-mega-menu mega-menu-style-2">
@@ -320,7 +305,8 @@
                                              {% endfor%}
                                           {% endif %}
                                        </ul>
-                                    </li>                                    
+                                    </li>   
+                                    {% endcomment %}                                 
                                     <li><a href="{% url 'ContactUs' %}">Contact</a></li>
                                 </ul>
                              </nav>
@@ -377,7 +363,8 @@
                                  </li>
                                  {% endif %}
                               {% endfor %}
-
+                              
+                              {% comment %}
                               <li class="has-dropdown has-mega-menu ">
                                     <a href="{% url 'ALLBLOGS' %}">Blogs</a>
                                     <ul class="aakriticm-submenu aakriticm-mega-menu mega-menu-style-2">
@@ -393,6 +380,7 @@
                                        {% endif %}
                                     </ul>
                               </li>    
+                              {% endcomment %}
                               <!-- <li><a href="{% url 'ContactUs' %}">Contact</a></li> -->
                            </ul>
                            </nav>
@@ -400,6 +388,7 @@
                   </div>
                   <div class="col-xl-5 col-lg-7 col-md-7 col-sm-8 col-6">
                         <div class="aakriticm-header-bottom-right d-flex align-items-center justify-content-end pl-30">
+                           
                            <div class="aakriticm-header-search-2 d-none d-sm-block">
                            <form action="{% url 'allProducts' %}">
                               <input type="text" placeholder="Search for Products..." name="q" value="{{request.GET.q}}">
@@ -412,6 +401,7 @@
                            </form>
                            </div>
                            <div class="aakriticm-header-action d-flex align-items-center ml-30">
+                              {% comment %}
                            <div class="aakriticm-header-action-item d-none d-lg-block">
                               <a href="{% url 'CompareMART' %}"  class="aakriticm-header-action-btn">
                                     <svg width="20" height="19" viewBox="0 0 20 19" fill="none" xmlns="http://www.w3.org/2000/svg">
@@ -431,6 +421,7 @@
                                     <span class="aakriticm-header-action-badge bg-primary">{{allWISHCOUNT}}</span>                          
                               </a>
                            </div>
+                           {% endcomment %}
                            <div class="aakriticm-header-action-item">
                                     <button class="aakriticm-header-action-btn cartmini-open-btn" >
                                     <svg width="21" height="22" viewBox="0 0 21 22" fill="none" xmlns="http://www.w3.org/2000/svg">
@@ -439,7 +430,7 @@
                                        <path d="M7.70365 10.1018H7.74942" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"/>
                                        <path d="M13.5343 10.1018H13.5801" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"/>
                                     </svg>    
-                                    <span class="aakriticm-header-action-badge bg-primary">{{allCARTCOUNT}}</span>                                                                          
+                                    <span class="aakriticm-header-action-badge bg-primary aakriticm-cartcount1"> {{allCARTCOUNT}} </span>                                                                          
                               </button>
                            </div>
                            <div class="aakriticm-header-action-item aakriticm-header-hamburger mr-20 d-xl-none">

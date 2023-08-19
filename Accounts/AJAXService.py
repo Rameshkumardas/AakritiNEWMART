@@ -4,7 +4,7 @@ from Accounts.HELPERS import GENERATE_ONE_TIME_VERIFICATION_CODE
 
 from django.http import JsonResponse
 from django.shortcuts import redirect
-from Accounts.models import billingADDRESS, shippingADDRESS
+from Accounts.models import shippingADDRESS
 from AdminAuthentication.HELPER import CONFIG_SMTP_NO_REPLY
 from AdminAuthentication.Thread import EmailThread
 from AdminAuthentication.models import AdminRegistration
@@ -69,10 +69,12 @@ def updateIMG(request):
     if request.user.token == request.session['token']:
         img = request.FILES.get('img')
         if img == '' or img ==None:
-            return JsonResponse({'status':0, 'message':'SubSub Cat is Empty'})
+            return JsonResponse({'status':0, 'message':'Image Required'})
         else:
             try:
-                AdminRegistration.objects.filter(pk=request.user.pk).update(img=img)
+                user = AdminRegistration.objects.get(pk=request.user.pk)
+                user.img = img
+                user.save()
                 return JsonResponse({"status":1, "message":"IMG Updated", "AFTERTask":f"{request.META.get('HTTP_REFERER')}"})
             except Exception:
                 return JsonResponse({'status':0, 'message':f'Error Occured'})
@@ -642,6 +644,11 @@ def deleteBILLINGAddress(request, pk):
 # ==============================================================================
 def SHIPPINGAddress(request):  
     target = request.POST.get('target')
+    fname = request.POST.get('fname')
+    lname = request.POST.get('lname')
+    emailId = request.POST.get('emailId')
+    contactNo = request.POST.get('contactNo')
+
     pincode = request.POST.get('pincode')
     houseno = request.POST.get('houseno')
     landmark = request.POST.get('landmark')
@@ -660,11 +667,12 @@ def SHIPPINGAddress(request):
         return JsonResponse({'status':0, 'message':'State Required*'})
     else: 
         try:
-            if shippingADDRESS.objects.filter(user_id=request.user.pk, scode = pincode, shouse_no=houseno, slandmark=landmark, scity=city, sstate=state, scountry=country, more=more).exists():
+            if shippingADDRESS.objects.filter(user_id=request.user.pk, fname=fname, lname=lname, email=emailId, contact=contactNo, code = pincode, house_no=houseno, landmark=landmark, city=city, state=state, country=country).exists():
                 return JsonResponse({'status':0, 'message':'Alreday Exists'})
             else:
-                shippingADDRESS.objects.create(user_id=request.user.pk, scode = pincode, shouse_no=houseno, slandmark=landmark, scity=city, sstate=state, scountry=country, more=more)
-                return JsonResponse({"status":1, "message":"Successfully Created", "AFTERTask":f"{request.META.get('HTTP_REFERER')}"})
+                shippingADDRESS.objects.create(user_id=request.user.pk, fname=fname, lname=lname, email=emailId, contact=contactNo, code = pincode, house_no=houseno, landmark=landmark, city=city, state=state, country=country)
+                AFTERTask = request.META.get('HTTP_REFERER')
+                return JsonResponse({'status':1, 'message':'Successfully Created', 'AFTERTask':AFTERTask})
         except Exception:
             return JsonResponse({'status':0, 'message':'Error Occured'})
 # ==============================================================================

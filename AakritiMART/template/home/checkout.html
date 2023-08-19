@@ -42,6 +42,8 @@
 <body>
    
     {% include "template/includes/MAINHeader.html" %}
+    {% include "template/includes/HTMLMAINCOMMON.html" %}
+
 
    {% comment %}
    {% include "template/includes/MAINHeader.html" %}
@@ -83,132 +85,52 @@
              </div>
              {% endif %}
 
+             
              <div class="col-lg-7">
-                {% if not request.user.is_user %}
-                    <div class="aakriticm-checkout-bill-area">
-                        <h3 class="aakriticm-checkout-bill-title">Billing Details</h3>
-                        <div class="aakriticm-checkout-bill-form">
-                        <form action="#">
-                            <div class="aakriticm-checkout-bill-inner">
-                                <div class="row">
-                                    <div class="col-md-6">
-                                        <div class="aakriticm-checkout-input">
-                                            <label>First Name <span>*</span></label>
-                                            <input id="first_status_border" type="text" class="get_first_name" placeholder="Enter Your First Name" name="fname" value="Ramesh">
-                                        </div>
+          
+
+    
+                    <div class="row">
+                        {% for address in allSHIPPINGS %}
+                        <div class="col-lg-6 pt-2">
+                            <label class="targetSHIPPING form-check-label" targetVAL="{{address.pk}}" for="{{address.pk}}" style="cursor:pointer;">
+                                <div class="card">
+                                    <div class="card-header">
+                                        <a href="javascript:void(0);"><input class="selectSHIPPING form-check-input" selectSHIPPINGVAL="{{address.pk}}" type="radio" name="shipping_address" id="{{address.pk}}" value="{{address.pk}}"> <b> &nbsp;  SELECT THIS ADDRESS</a></b>
                                     </div>
-                                    <div class="col-md-6">
-                                        <div class="aakriticm-checkout-input">
-                                            <label>Last Name <span>*</span></label>
-                                            <input id="last_status_border" type="text" class="get_last_name" placeholder="Enter Your Last Name" name="lname" value="Das">
-                                        </div>
-                                    </div>
-                                    <div class="col-md-12">
-                                        <div class="aakriticm-checkout-input">
-                                            <label>Company name (optional)</label>
-                                            <input type="text" class="get_compnay" placeholder="Example LTD." name="company" value="SARAJ SYSTEMS PVT LTD">
-                                        </div>
-                                    </div>
-                                    <div class="col-md-6">
-                                        <div class="aakriticm-checkout-input">
-                                            <label>Pin Code</label>
-                                            <input id="pincode_status_border" type="text" class="get_pinCode" placeholder="Enter Your Pin Code" name="pincode" value="110085">
-                                        </div>
-                                    </div>
-                                    <div class="col-md-6">
-                                        <div class="aakriticm-checkout-input">
-                                            <label>House No</label>
-                                            <input id="house_no_status_border" type="text" class="get_house_no" placeholder="Enter Your House No." name="house_no" value="179">
-                                        </div>
-                                    </div>
-                                    <div class="col-md-6">
-                                        <div class="aakriticm-checkout-input">
-                                            <label>Land Mark </label>
-                                            <input id="land_mark_status_border" type="text" class="get_land_mark" placeholder="Enter Your Land Mark" name="land_mark" value="Avantika Redlight">
-                                        </div>
-                                    </div>
-                                    <div class="col-md-6">
-                                        <div class="aakriticm-checkout-input">
-                                            <label>City </label>
-                                            <input id="city_status_border" type="text" class="get_city" placeholder="Enter Your City" name="city" value="Avantika">
-                                        </div>
-                                    </div>
-                                    <div class="col-md-6">
-                                        <div class="aakriticm-checkout-input">
-                                            <label>State </label>
-                                            <input id="state_status_border" type="text" class="get_state" placeholder="Enter Your States" name="state" value="Delhi">
-                                        </div>
-                                    </div>
-                                    <div class="col-md-6">
-                                        <div class="aakriticm-checkout-input">
-                                            <label>Country </label>
-                                            <input id="country_status_border" type="text" class="get_country" placeholder="Enter Your Country" name="country" value="India">
-                                        </div>
-                                    </div>
-                                    
-                                    <div class="col-md-6">
-                                        <div class="aakriticm-checkout-input">
-                                            <label>Email address <span>*</span></label>
-                                            <input id="email_status_border" type="email" class="get_email" placeholder="Enter Your Email Id" name="email" value="das82916@gmail.com">
-                                        </div>
-                                    </div>
-                                    <div class="col-md-6">
-                                        <div class="aakriticm-checkout-input">
-                                            <label>Contact No <span>*</span></label>
-                                            <input id="contact_status_border" type="text" class="get_contact" placeholder="Enter Your Contact No." name="contact" value="7322057677">
-                                        </div>
-                                    </div>
-                                    <div class="col-md-12">
-                                        <div class="aakriticm-checkout-option-wrapper">
-                                            <div class="aakriticm-checkout-option">
-                                                <input id="create_free_account" class="create_account" type="checkbox" name="CreateAccount">
-                                                <label for="create_free_account">Create an account?</label>
-                                            </div>
-                                        </div>
-                                    </div>
-                                    <div class="col-md-12">
-                                        <div class="aakriticm-checkout-input">
-                                            <label>Order notes (optional)</label>
-                                            <textarea class="get_optional" placeholder="Notes about your order, e.g. special notes for delivery." name="optional">No Thanks</textarea>
-                                        </div>
-                                    </div>
+                                    <div class="card-body ">
+                                        <p><span>Name:</span> {{address.fname}} {{address.lname}}</p>
+                                        <p><span>Email Id:</span> {{address.email}}</p>
+                                        <p><span>Contact No:</span> {{address.contact}}</p>
+                                        <hr>
+                                        <p style="text-align: center;">{{address.house_no}} {{address.landmark}}, {{address.city}} {{address.code}}, {{address.state}} [ {{address.country}} ]</p>
+                                    </div>                                                             
                                 </div>
+                            </label>
+                        </div>
+                        {% endfor %}
+                        <div class="col-lg-6 pt-2">
+                            <div class="card">
+                                <div class="card-header">
+                                    <h5>Create Shipping Address</h5>
+                                </div>
+                                <div class="card-body p-0" style="height: 200px;">
+                                    <div class="row">
+                                        <div class="col text-center" style="margin-top: 70px;">
+                                            <button class="btn btn-primary " data-bs-toggle="modal"  data-bs-target="#ShippingAddress">Create New</button>
+                                        </div>
+                                    </div>
+                             
+                                </div>       
+                                <div class="card-footer">
+                              
+                                </div>                                                      
                             </div>
-                        </form>
                         </div>
                     </div>
-                {% else %}
+   
 
-                <div class="row">
-                    <div class="col-lg-6">
-                        <a href="javascript:void(0)" data-bs-toggle="modal" data-bs-target="#BillingAddress" class="AddProduct btn btn-primary float-right" data-bs-toggle="tooltip" title="Create New Billing Address" ><i class="fas fa-edit"></i>&nbsp;&nbsp; Create New Billing Address</a>
-                        <h3 class="aakriticm-checkout-bill-title">Select Billing Address </h3>
-                        <select name="get_billing_address" class="form-control get_billing_address " style="width:100% !important;">    
-                            {% if allBILLINGS %}
-                                {% for address in allBILLINGS %}
-                                    <option value="{{address.pk}}">{{address.bhouse_no}} {{address.blandmark}} {{address.bcity}} {{address.bcode}}, {{address.bstate}} ( {{address.bcountry}} )</option>
-                                {% endfor %}
-                            {% else %}
-                                <option value="">Select Billing Address</option>                                    
-                            {% endif %}                        
-                        </select>
-                    </div>
-                    <div class="col-lg-6">
-                        <a href="javascript:void(0)" data-bs-toggle="modal"  data-bs-target="#ShippingAddress" class="AddProduct btn btn-primary float-right" data-bs-toggle="tooltip" title="Create New Shipping Address" ><i class="fas fa-edit"></i>&nbsp;&nbsp; Create New Shipping Address</a>
-                        <h3 class="aakriticm-checkout-bill-title">Select Shipping Address </h3>
-                        <select id="get_shipping_address" name="get_shipping_address" class="form-control get_shipping_address " style="width:100% !important;">    
-                            {% if allSHIPPINGS %}
-                                {% for address in allSHIPPINGS %}
-                                    <option value="{{address.pk}}">{{address.shouse_no}} {{address.slandmark}} {{address.scity}} {{address.scode}}, {{address.sstate}} ( {{address.scountry}} )</option>
-                                {% endfor %}
-                            {% else %}
-                                <option value="">Select Shipping Address</option>                                    
-                            {% endif %}
-                        </select>                                 
-                    </div>
-                </div>
 
-                {% endif %}
              </div>
 
 
@@ -218,114 +140,106 @@
                 <!-- checkout place order -->
                 <div class="aakriticm-checkout-place white-bg">
                    <h3 class="aakriticm-checkout-place-title">Your Order</h3>
-
                    <div class="aakriticm-order-info-list">
                       <ul>
-
                          <!-- header -->
                          <li class="aakriticm-order-info-list-header">
                             <h4>Product</h4>
-                            <h4>Total</h4>
+                            <h4>Unit Price</h4>
                          </li>
-
                         <!-- ============================================ -->                        
                         {% if request.GET.checkoutFor == 'myCartList' %}
                             {% for cart in CartList %}
                             <li class="aakriticm-order-info-list-desc">
-                                <p>{{cart.product.name}}. <span> x {{cart.qty}}</span></p>
-                                {% comment %}
-                                <span>$ {% multiply cart.sp cart.qty %}</span>
-                                {% endcomment %}
+                                <p>{{cart.product.name | safe | title }}. <span> x {{cart.qty}}</span></p>
+                                <span><i class="fas fa-rupee-sign"></i> {{cart.product.sp}} /-</span>
                              </li>
-                       
                             {% endfor %}
                         {% else %}
                          <!-- item list -->
                          <li class="aakriticm-order-info-list-desc">
                             <p>{{request.GET.product}}. <span> x {{request.GET.qty}}</span></p>
-                            <span>$ {% multiply product.sp request.GET.qty %}</span>
+                            <span><i class="fas fa-rupee-sign"></i> {% multiply product.sp request.GET.qty %} /-</span>
                          </li>
                          {% endif %}
 
                         <!-- ============================================ -->
-
                         <!-- subtotal -->
                          <li class="aakriticm-order-info-list-subtotal">
                             <span>Subtotal</span>
-                            <span>$ {{subTotal}}</span>
+                            <span><i class="fas fa-rupee-sign"></i> {{subTotal}} /-</span>
                          </li>
-
                           <!-- Discount -->
                           <li class="aakriticm-order-info-list-shipping">
                             <span>GST</span>
                             <div class="aakriticm-order-info-list-shipping-item d-flex flex-column align-items-end">
-                                <span>$ {{GSTTotal}}</span>
+                                <span><i class="fas fa-rupee-sign"></i> {{GSTTotal}} /-</span>
                             </div>
                          </li>
-
                          <!-- shipping -->
                          <li class="aakriticm-order-info-list-shipping">
                             <span>Shipping</span>
                             <div class="aakriticm-order-info-list-shipping-item d-flex flex-column align-items-end">
-                                <span>$ {{ShippingTotal}}</span>
+                                <span><i class="fas fa-rupee-sign"></i> {{ShippingTotal}} /-</span>
                             </div>
                          </li>
-
                          <!-- Discount -->
                          <li class="aakriticm-order-info-list-shipping">
                             <span>Discount</span>
                             <div class="aakriticm-order-info-list-shipping-item d-flex flex-column align-items-end">
-                                <span>$ {{discount}}</span>
+                                <span><i class="fas fa-rupee-sign"></i> <strike>{{discount}} /-</strike></span>
                             </div>
                          </li>
                          <!-- total -->
                          <li class="aakriticm-order-info-list-total">
                             <span>Total</span>
-                            <span>$ {{total}}</span>
+                            <span><i class="fas fa-rupee-sign"></i> {{total}} /-</span>
                          </li>
                       </ul>
                    </div>
 
                    <div class="aakriticm-checkout-payment">
-                        <div class="aakriticm-checkout-payment-item paypal-payment">
+                        <!-- <div class="aakriticm-checkout-payment-item paypal-payment">
                             <input type="radio" id="paypal" name="get_payment" value="PayPal">
                             <label for="paypal">PayPal <img src="{% static 'aakritimart/assets/img/icon/payment-option.png' %}" alt=""> <a href="#">What is PayPal?</a></label>
-                        </div>
+                        </div> -->
                         <div class="aakriticm-checkout-payment-item razorpay-payment">
                             <input type="radio" id="razorpay" name="get_payment" value="Razorpay" checked>
-                            <label for="razorpay">Razorpay <img src="{% static 'aakritimart/assets/img/icon/payment-option.png' %}" alt=""> <a href="#">What is Razorpay?</a></label>
+                            <label for="razorpay">Razorpay <img src="{% static 'aakritimart/assets/img/icon/payment-option.png' %}" alt=""></label>
                         </div>
                         <div class="aakriticm-checkout-payment-item">
                             <input type="radio" id="cod" name="get_payment" value="COD" >
                             <label for="cod">Cash on Delivery</label>
                             <div class="aakriticm-checkout-payment-desc cash-on-delivery">
-                                <p>Make your payment directly into our bank account. Please use your Order ID as the payment reference. Your order will not be shipped until the funds have cleared in our account.</p>
+                                <p>Verifiy your order with onetime verification code. <b>Pay & Get Product</b> while delivery to your shipping address.</p>
                             </div>
                         </div>
                    </div>
-
+                   
                    <div class="aakriticm-checkout-agree">
                       <div class="aakriticm-checkout-option">
-                         <input class="iagree" id="read_all" type="checkbox" name="get_iagree" value="agree" required>
+                         <input class="iagree" id="read_all" type="checkbox" name="get_iagree" value="" required>
                          <label for="read_all">I have read and agree to the Term & Condition.</label>
                       </div>
                    </div>
 
                    <div class="aakriticm-checkout-btn-wrapper">
-                      <a href="javascript:void();" class="aakriticm-checkout-btn w-100" onclick="ORDERThis();">Place Order</a>
+                      <a href="javascript:void(0);" class="aakriticm-checkout-btn w-100" onclick="ORDERThis();">Place Order</a>
                    </div>
 
-                    <hr>                   
+                    <hr>      
+                    {% comment %}             
                    <div class="aakriticm-checkout-verify-item">
-                    <p class="aakriticm-checkout-verify-reveal">Have a coupon? <button type="button" class="aakriticm-checkout-coupon-form-reveal-btn">Click here to enter your code</button></p>
-                    <div id="tpCheckoutCouponForm" class="aakriticm-return-customer">
-                        <div class="aakriticm-return-customer-input">
-                            <label>Coupon Code :</label>
-                            <input type="text" placeholder="Coupon">
+                        <p class="aakriticm-checkout-verify-reveal">Have a coupon? <button type="button" class="aakriticm-checkout-coupon-form-reveal-btn">Click here to enter your code</button></p>
+                        <div id="tpCheckoutCouponForm" class="aakriticm-return-customer">
+                            <div class="aakriticm-return-customer-input">
+                                <label>Coupon Code :</label>
+                                <input type="text" placeholder="Coupon">
+                            </div>
+                            <button type="submit" class="aakriticm-return-customer-btn aakriticm-checkout-btn">Apply</button>
                         </div>
-                        <button type="submit" class="aakriticm-return-customer-btn aakriticm-checkout-btn">Apply</button>
                     </div>
-                </div>
+                    {% endcomment %}
                 </div>
              </div>
 
@@ -376,7 +290,6 @@
 
       
     function OrderDetailValidate(){
-
         jsonOBJ = {}
         const qty = "{{request.GET.qty}}";
         const color = "{{request.GET.color}}";
@@ -389,28 +302,18 @@
         const product = "{{product.pk}}"
         const checkout_for = "{{request.GET.checkoutFor}}";
         jsonOBJ['qty'] = qty;
-        jsonOBJ['color'] = color;
         jsonOBJ['subtotal'] = subtotal;
         jsonOBJ['gst'] = gst;
         jsonOBJ['shipping'] = shipping;
         jsonOBJ['discount'] = discount;
         jsonOBJ['total'] = total;
-        jsonOBJ['slug'] = product_slug;
-        jsonOBJ['product'] = product;
         jsonOBJ['checkout_for'] = checkout_for;
-
+        jsonOBJ['email'] = "{{request.user.email}}";
         if ("{{request.session.AakritiMARTusername}}" !="" && "{{request.user.pk}}" !="" || "{{request.session.SUPERADMIN}}" !="" ){
-            const billing_address = $('.get_billing_address').val();
-            if (!billing_address){
-                toastr.error("Billing Address Required*");
-            }else{
-                jsonOBJ['billing_address'] = billing_address;
-            }
-
-            const shipping_address = $('select[name="get_shipping_address"]').val();
+            const shipping_address = $('input[name="shipping_address"]:checked').val();
             if (!shipping_address){
-                toastr.error("Shipping Address Required*");                   
-            }else{ 
+                toastr.error("Address Required*");
+            }else{
                 jsonOBJ['shipping_address'] = shipping_address;
             }
             const iagree = $('input[name="get_iagree"]:checked');
@@ -419,133 +322,20 @@
             }else{
                 jsonOBJ['iagree'] = iagree;
             }  
-
             const payMethod = $('input[name="get_payment"]:checked').val();
             if (!payMethod){
                 toastr.error("Select Payment Method")                
             }else{
                 jsonOBJ['payMethod'] = payMethod;
-                jsonOBJ['fname'] = "{{request.user.fname}}";
-                jsonOBJ['lname'] = "{{request.user.lname}}";
-                jsonOBJ['email'] = "{{request.user.email}}";
-                jsonOBJ['contact'] = "{{request.user.phone}}";
             }  
-            if (billing_address && shipping_address && iagree && payMethod){
+            if (shipping_address && iagree && payMethod){
+                console.log(jsonOBJ)
                 return jsonOBJ
             }else{
                 return false
             }
         }else{
-            const fname =$('.get_first_name').val(); 
-            if (!fname){
-                error = document.getElementById('first_status_border');
-                error.style.border = "1px solid red";
-                toastr.error("First Name Require")
-            }else{
-                jsonOBJ['fname'] = fname;
-            }
-
-            const lname =$('.get_last_name').val();
-            if (!lname){
-                error = document.getElementById('last_status_border');
-                error.style.border = "1px solid red";
-                toastr.error("Last Name Require")
-            }else{
-                jsonOBJ['lname'] = lname;
-            }
-
-            const email =$('.get_email').val();
-            if (!email){
-                error = document.getElementById('email_status_border');
-                error.style.border = "1px solid red";
-                toastr.error("Email Require") 
-            }else{
-                jsonOBJ['email'] = email;
-            }
-            const contact =$('.get_contact').val();
-            if (!contact){
-                error = document.getElementById('contact_status_border');
-                error.style.border = "1px solid red";
-                toastr.error("Contact Require")
-            }else{
-                jsonOBJ['contact'] = contact;
-            }
-            const pinCode =$('.get_pinCode').val();
-            if (!pinCode){
-                error = document.getElementById('pincode_status_border');
-                error.style.border = "1px solid red";
-                toastr.error("PinCode Require")
-            }else{
-                jsonOBJ['pinCode'] = pinCode;
-            }
-
-            const house_no =$('.get_house_no').val();
-            if (!house_no){
-                error = document.getElementById('house_no_status_border');
-                error.style.border = "1px solid red";
-                toastr.error("Flat/House No Require")
-            }else{
-                jsonOBJ['house_no'] = house_no;
-            }
-
-            const land_mark = $('.get_land_mark').val();
-            if (!land_mark){
-                error = document.getElementById('land_mark_status_border');
-                error.style.border = "1px solid red";
-                toastr.error("Land Mark Require")   
-            }else{
-                jsonOBJ['land_mark'] = land_mark;
-            }
-
-            const city = $('.get_city').val();
-            if (!city){
-                error = document.getElementById('city_status_border');
-                error.style.border = "1px solid red";
-                toastr.error("City Require") 
-            }else{
-                jsonOBJ['city'] = city;
-            }
-
-            const state =$('.get_state').val();
-            if (!state){
-                error = document.getElementById('state_status_border');
-                error.style.border = "1px solid red";
-                toastr.error("State Require")  
-            }else{
-                jsonOBJ['state'] = state;
-            }
-
-            const country = $('.get_country').val();
-            if (!country){
-                error = document.getElementById('country_status_border');
-                error.style.border = "1px solid red";
-                toastr.error("Country Require") 
-            }else{
-                jsonOBJ['country'] = country;
-            }
-                        
-            const iagree = $('input[name="get_iagree"]:checked');
-            if (!iagree){
-                toastr.error("Read - Term & Condition Check Agree")                
-            }else{
-                jsonOBJ['iagree'] = iagree;
-            }  
-
-            const payMethod = $('input[name="get_payment"]:checked').val();
-            if (!payMethod){
-                toastr.error("Select Payment Method")                
-            }else{
-                jsonOBJ['payMethod'] = payMethod;                
-            }  
-            if (lname && fname && email && contact && pinCode && house_no && land_mark && city && state && country && iagree && payMethod){
-                const create_account =$('.create_account').val();
-                const optional =$('.get_optional').val();
-                jsonOBJ['create_account'] = create_account;
-                jsonOBJ['optional'] = optional;
-                return jsonOBJ
-            }else{
-                return false
-            }
+            toastr.error("Login Required*")              
     }
 }
 
@@ -572,9 +362,10 @@
             success: function(data) {   
                 if (data.status == 1){
                     $('#CODVerification').modal('hide');
+                    $('.onetime_verification_code').val('')
                     toastr.success( data.message )
                     setTimeout(function () {
-                        window.location.href = "{{project.baseURL}}"+"/auth/order/"+date.AFTERTask+"/";
+                        window.location.href = "{{project.baseURL}}/auth/order/"+data.AFTERTask+"/";
                     }, 2000); 
               
                 }else if (data.status == 0){
@@ -593,9 +384,7 @@
     
     function ORDERThis(){
         jsonOBJ = OrderDetailValidate();
-        
         if (jsonOBJ != false){
-
             console.log(jsonOBJ);
             if (jsonOBJ['payMethod'] == 'COD' ){
                 const data = new FormData();
@@ -641,7 +430,7 @@
                                 "key": "{{project.RAZORPAY_API_KEY}}",
                                 "amount": data.amount, 
                                 "currency": data.currency,
-                                "name": jsonOBJ['fname'],
+                                "name": "{{request.user.fname}}",
                                 "description": "Thanks For Purchase",
                                 "image": "",
                                 "order_id": data.order_id, 
@@ -670,9 +459,9 @@
                                     });
                                 },
                                 "prefill": {
-                                    "name": jsonOBJ['name'],
-                                    "email": jsonOBJ['email'],
-                                    "contact": jsonOBJ['contact'],
+                                    "name": "{{request.user.fname}} {{request.user.lname}}",
+                                    "email": "{{request.user.email}}",
+                                    "contact": "{{request.user.phone}}",
                                 },
                                 "notes": {
                                     "address": "No Thanks"
@@ -696,7 +485,10 @@
                     },
                 });
             }
+        }else{
+            toastr.error( "Json Object Not Valid!" ) 
         }
+
     }
 
 </script>

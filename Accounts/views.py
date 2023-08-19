@@ -1,4 +1,3 @@
-from Accounts.models import billingADDRESS, shippingADDRESS
 from SALESManager.HELPERS import OrderPriceDetails, get_orders
 from SALESManager.models import ProductOrderList
 from Accounts.access import user_login_required
@@ -20,12 +19,13 @@ def ViewConfirmOrder(request, orderId):
                 subtotal, shipping, discount, total, all_orders= OrderPriceDetails(request, objs)
                 context = {
                     'all_orders':all_orders ,
-                    'orderId':orderId,
+                    'date':all_orders[0].date,
+                    'orderId':all_orders[0].orderId,
                     'subtotal': subtotal,
                     'ShippingTotal': shipping,
                     'discount': discount,
                     'total': total,
-                    'statue':"miltiple" ,
+                    'status':"miltiple" ,
                 }
             return render(request,"./template/ViewConfirmOrder.html", context )
         else:
